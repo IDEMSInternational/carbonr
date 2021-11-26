@@ -15,4 +15,6 @@ Suggests:
 Config/testthat/edition: 2
 Imports: 
     airportr,
+    dplyr,
+    sp,
     tibble
