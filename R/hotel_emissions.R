@@ -1,5 +1,5 @@
 # Hotels
-"Scope 3 (other indirect) emissions":
+# "Scope 3 (other indirect) emissions":
 # are a consequence of your actions that occur at sources you do not own or control and are not classed as Scope 2 emissions.
 # E.g. business travel by means not owned or controlled by your organisation, waste disposal, materials or fuels your organisation purchases.
 # Scope 3 emissions can be from activities that are upstream or downstream of your organisation. 
