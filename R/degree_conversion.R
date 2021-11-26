@@ -1,0 +1,1 @@
+degree_conversion <- function(deg) {(deg * pi) / (180)}
