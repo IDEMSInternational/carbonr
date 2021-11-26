@@ -1,4 +1,18 @@
 rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey = 1, round_trip = FALSE){
+  
+  if (!(from) %in% c(stations_df$Name)){
+    station_names <- agrep(data.frame(from), stations_df$Name, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
+    stop(print(from), " is not a name in the data frame. Did you mean: ",
+         paste0((data.frame(stations_df) %>% dplyr::filter(Name %in% station_names))$Name, sep = ", ")
+         )
+  }
+  if (!(to) %in% c(stations_df$Name)){
+    station_names <- agrep(data.frame(to), stations_df$Name, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
+    stop(print(to), " is not a name in the data frame. Did you mean: ",
+         paste0((data.frame(stations_df) %>% dplyr::filter(Name %in% station_names))$Name, sep = ", ")
+    )
+  }
+  
   stations_df$id <- 1:nrow(stations_df)
   i <- which(stations_df$Name == {{ from }})
   j <- which(stations_df$Name == {{ to }})
