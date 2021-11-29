@@ -5,8 +5,8 @@
 \title{Calculate Airplane Emissions}
 \usage{
 airplane_emissions(
-  departing_airport_code,
-  arriving_airport_code,
+  from,
+  to,
   via = NULL,
   num_people = 1,
   radiative_force = TRUE,
@@ -15,11 +15,11 @@ airplane_emissions(
 )
 }
 \arguments{
-\item{departing_airport_code}{Takes a three-letter IATA code corresponding to an airport. Can check}
+\item{from}{Takes a three-letter IATA code corresponding to an airport. Can check the code by the \code{airportr::airport_lookup} function.}
 
-\item{arriving_airport_code}{Takes a three-letter IATA code corresponding to an airport.}
+\item{to}{Takes a three-letter IATA code corresponding to an airport. Can check the code by the \code{airportr::airport_lookup} function.}
 
-\item{via}{Optional. Takes a vector containing three-letter IATA codes corresponding to airports.}
+\item{via}{Optional. Takes a vector containing three-letter IATA codes corresponding to airports.v}
 
 \item{num_people}{Number of people taking the flight. Takes a single numerical value.}
 
@@ -36,6 +36,8 @@ Returns CO2 emissions in tonnes.
 A function that calculates CO2 emissions between airports. Distances are calculated using the airport_distance function in the airportr package.
 }
 \examples{
+# Emissions for a flight between Vancouver and Toronto
 airplane_emissions("YVR","YYZ")
-airplane_emissions("LHR", "NBO", "AMS")
+# Emissions for a flight between London Heathrow and Kisumu Airport, via Amsterdam and Nairobi
+airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"))
 }

@@ -1,32 +1,46 @@
+#' Calculate Emissions from Land-Travel
+#' 
+#' @description A function that calculates CO2 emissions on a journey on land. Values to calculate emissions is UK DEFRA from 2021 report.
+# see https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/990675/2021-ghg-conversion-factors-methodology.pdf, https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021
+#'
+#' @param distance Distance in km or miles of the journey made (this can be calculated with other tools, such as google maps.). 
+#' @param units Units for the distance travelled. Options are "km" or "miles".
+#' @param vehicle Vehicle used for the journey. Options are "car", "motorbike", "taxi", "van", "bus", "coach", "tram", "tube". Note: bus, coach, tram, tube, are all per passenger 
+#' @param fuel Fuel type used for the journey. For car, "petrol", "diesel", "hybrid", "unknown", "hybrid electric", "battery electric" are options. For van, "petrol", "diesel", and "battery electric" are options.
+#' @param size Size of vehicle for car, motorbike, and van. Options are "small", "medium", "large", or "average". For car (TODO). For motorbike, sizes denote upto 125cc, 125cc-500cc, 500cc+ respectively.
+#' @param type Options are "local_nL", "local_L", "local", or "average". These denote whether the bus is local but outside of London, local in London, local, or average.
+#' @param taxi_type Whether a taxi is regular or black cab. Options are "regular", "black cab".
+#'
+#' @return Tonnes of CO2e burnt per mile travelled
+#' @export
+#'
+#' @examples
 vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel = "petrol", size = "average", type = "average", taxi_type = "regular"){
-  # size only for motorbike: upto 125cc, 125cc-500cc, 500cc+
-  # mpg only for car. But defaults are given based off data.
-  # source: UK DEFRA
-  #https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/990675/2021-ghg-conversion-factors-methodology.pdf
-  # and UK 2021 https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021
-  
-  
+  if (!is.numeric(distance) || distance < 0){
+    stop("`distance` should be a postive integer")
+  }
+  if (!(units) %in% c("miles", "km")){
+    stop("`units` can only take values 'km' or 'miles'")
+  }
+  if (!(vehicle) %in% c("car", "motorbike", "taxi", "van", "bus", "coach", "tram", "tube")){
+    stop("`vehicle` can only take values 'car', 'motorbike', 'taxi', 'van', 'bus', 'coach', 'tram', 'tube'")
+  }
+  if (!(fuel) %in% c("petrol", "diesel", "hybrid", "unknown", "hybrid electric", "battery electric")){
+    stop("`fuel` can only take values 'petrol', 'diesel', 'hybrid', 'unknown', 'hybrid electric', 'battery electric'")
+  }
+  if (!(size) %in% c("small", "medium", "large", "average")){
+    stop("`size` can only take values 'small', 'medium', 'large', or 'average'")
+  }
+  if (!(type) %in% c("local_nL", "local_L", "local", "average")){
+    stop("`type` can only take values 'local_nL', 'local_L', 'local', 'average'")
+  }
+  if (!(taxi_type) %in% c("regular", "black cab")){
+    stop("`taxi_type` can only take values 'regular', 'black cab'")
+  }
   if (units == "km") {
     distance <- distance * 0.621371
   }
-  
-  #if (vehicle == "car"){
-  #  if (fuel == "gas") {
-  #    fuel <- 0.008887
-  #    if (is.null(mpg)){ mpg <- 36.0 }
-  #  } else if (fuel == "diesel") {
-  #    fuel <- 0.01018
-  #    if (is.null(mpg)){ mpg <- 43.0 }
-  #  }
-  #  # according to: https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle
-  #  # similar for carboncalc
-  #  # MPG  source: https://www.nimblefins.co.uk/cheap-car-insurance/average-mpg#:~:text=in%20your%20vehicle.-,Average%20Miles%20per%20Gallon,diesel%20cars%20getting%2043%20mpg.
-  #  emissions <- distance / mpg * fuel
-  #}
-  
-  # Table 15
   if (vehicle == "car"){
-    # T of CO2e burnt per mile
     if (size == "small"){
       if (fuel == "petrol"){
         t_mile <- 0.00024052
@@ -38,7 +52,7 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
         t_mile <- 0.00023414
       } else if (fuel == "hybrid electric"){
         t_mile <- 0.00003607
-      } else if (fuel == "battery"){
+      } else if (fuel == "battery electric"){
         t_mile <- 0
       }
     } else if (size == "medium") {
@@ -52,7 +66,7 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
         t_mile <- 0.00028263
       } else if (fuel == "hybrid electric"){
         t_mile <- 0.00011175
-      } else if (fuel == "battery"){
+      } else if (fuel == "battery electric"){
         t_mile <- 0
       }
     }else if (size == "large") {
@@ -66,7 +80,7 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
         t_mile <- 0.00036366
       } else if (fuel == "hybrid electric"){
         t_mile <- 0.00012350
-      } else if (fuel == "battery"){
+      } else if (fuel == "battery electric"){
         t_mile <- 0
       }
     }else if (size == "average") {
@@ -85,8 +99,6 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
       }
     }
   }
-  
-  # table 25
   if (vehicle == "motorbike"){
     # T of CO2 burnt per mile
     if (size == "small"){
@@ -98,24 +110,15 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
     }else if (size == "average") {
       t_mile <- 0.00018274
     }
-    # https://www.gov.uk/government/statistics/provisional-uk-greenhouse-gas-emissions-national-statistics-2020
-    #https://www.thrustcarbon.com/insights/how-to-calculate-motorbike-co2-emissions
   }
-  
-  # business - travel - land on excel
   if (vehicle == "taxi"){
-    # T of CO2 burnt per mile
     if (taxi_type == "regular"){
       t_mile <- 0.0003351611
     } else if (taxi_type == "black cab"){
       t_mile <- 0.4928443
     }
   }
-  
-  # table 21
-  # note: their small/medium/large values don't make sense, or add up with the average stuff.
   if (vehicle == "van"){
-    # T of CO2e burnt per mile
     if (size == "small"){
       if (fuel == "petrol"){
         t_mile <- 0.00032165
@@ -150,11 +153,7 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
       }
     }
   }
-  
-  # note: bus, coach, tram, tube, are all per passenger 
-  # table 24
   if (vehicle == "bus"){
-    # T of CO2e burnt per mile
     if (type == "local_nL"){
       t_mile <- 0.00018948
     } else if (type == "local_L") {
@@ -165,26 +164,15 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
       t_mile <- 0.0001594267
     }
   }
-  
-  # table 24
   if (vehicle == "coach"){
-    # T of CO2e burnt per mile
     t_mile <- 0.00004319
   }
-  
-  # table 26
   if (vehicle == "tram"){
-    # T of CO2e burnt per mile
     t_mile <- 0.00006557525
   }
-  
-  # table 26
   if (vehicle == "tube"){
-    # T of CO2e burnt per mile
     t_mile <- 0.00004475575
   }
-  
   emissions <- distance * t_mile
-  
   return(emissions)
 }
