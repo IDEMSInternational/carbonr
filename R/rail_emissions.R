@@ -1,5 +1,32 @@
+#' Calculate Train Journey Emissions
+#' @description A function that calculates CO2 emissions between train stations in the UK.
+#' @param from Station departing from.
+#' @param to Station arriving to
+#' @param via Optional. Takes a vector containing the stations the train travels via.
+#' @param num_people Number of people taking the journey. Takes a single numerical value.
+#' @param times_journey Number of times the journey is taken.
+#' @param round_trip Whether the journey is one-way or return.
+# @param class Class travelled in. Options are ... .
+
+#'
+#' @return Returns CO2 emissions in tonnes for the train journey.
+#' @export
+#'
+#' @examples # Emissions for a train journey between Southampton Central and Manchester Piccadilly Station
+#' @examples rail_emissions("Southampton Central", "Manchester Piccadilly")
+#' @examples # Emissions for a train journey between Bristol Temple Meads and London Paddington
+#' @examples # via Bath, Swindon, and Reading
+#' @examples rail_emissions("Bristol Temple Meads", "London Paddington", via = c("Bath Spa", "Swindon", "Reading"))
 rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey = 1, round_trip = FALSE){
-  
+  if (!is.numeric(num_people) | num_people < 1){
+    stop("`num_people` must be a positive integer")
+  }
+  if (!is.numeric(times_journey) | times_journey < 1){
+    stop("`times_journey` must be a positive integer")
+  }
+  if (!is.logical(round_trip)){
+    stop("`round_trip` can only take values TRUE or FALSE")
+  }
   if (!(from) %in% c(stations_df$Name)){
     station_names <- agrep(data.frame(from), stations_df$Name, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
     stop(print(from), " is not a name in the data frame. Did you mean: ",
@@ -11,6 +38,17 @@ rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey =
     stop(print(to), " is not a name in the data frame. Did you mean: ",
          paste0((data.frame(stations_df) %>% dplyr::filter(Name %in% station_names))$Name, sep = ", ")
     )
+  } # mention station_names data set to check station names
+  if (!is.null(via)){
+    for (i in 1:length(via)){
+    via_x <- via[i]
+    if (!(via_x) %in% c(stations_df$Name)){
+      station_names <- agrep(data.frame(via_x), stations_df$Name, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
+      stop(print(via_x), " is not a name in the data frame. Did you mean: ",
+           paste0((data.frame(stations_df) %>% dplyr::filter(Name %in% station_names))$Name, sep = ", ")
+      )
+    }
+    }
   }
   
   stations_df$id <- 1:nrow(stations_df)
