@@ -4,20 +4,27 @@
 # see https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/990675/2021-ghg-conversion-factors-methodology.pdf, https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021
 #'
 #' @param distance Distance in km or miles of the journey made (this can be calculated with other tools, such as google maps.). 
-#' @param units Units for the distance travelled. Options are "km" or "miles".
-#' @param vehicle Vehicle used for the journey. Options are "car", "motorbike", "taxi", "van", "bus", "coach", "tram", "tube". Note: bus, coach, tram, tube, are all per passenger 
-#' @param fuel Fuel type used for the journey. For car, "petrol", "diesel", "hybrid", "unknown", "hybrid electric", "battery electric" are options. For van, "petrol", "diesel", and "battery electric" are options.
-#' @param size Size of vehicle for car, motorbike, and van. Options are "small", "medium", "large", or "average". For car (TODO). For motorbike, sizes denote upto 125cc, 125cc-500cc, 500cc+ respectively.
-#' @param type Options are "local_nL", "local_L", "local", or "average". These denote whether the bus is local but outside of London, local in London, local, or average.
-#' @param taxi_type Whether a taxi is regular or black cab. Options are "regular", "black cab".
+#' @param units Units for the distance travelled. Options are `"km"` or `"miles"`.
+#' @param vehicle Vehicle used for the journey. Options are `"car"`, `"motorbike"`, `"taxi"`, `"van"`, `"bus"`, `"coach"`, `"tram"`, `"tube"`. Note: bus, coach, tram, tube, are all per passenger 
+#' @param fuel Fuel type used for the journey. For car, `"petrol"`, `"diesel"`, `"hybrid"`, `"unknown"`, `"hybrid electric"`, `"battery electric"` are options. For van, `"petrol"`, `"diesel"`, and `"battery electric"` are options.
+#' @param size Size of vehicle for car, motorbike, and van.
+#' Options are `"small"`, `"medium"`, `"large"`, or `"average"`.
+#' For car: small denotes up to a 1.4L engine, unless diesel which is up to 1.7L engine. Medium denotes 1.4-2.0L for petrol cars, 1.7-2.0L for diesel cars. Large denotes 2.0L+ engine.
+#' For motorbike, sizes denote upto 125cc, 125cc-500cc, 500cc+ respectively.
+#' @param type Options are `"local_nL"`, `"local_L"`, `"local"`, or `"average"`. These denote whether the bus is local but outside of London, local in London, local, or average.
+#' @param taxi_type Whether a taxi is regular or black cab. Options are `"regular"`, `"black cab"`.
 #'
-#' @return Tonnes of CO2e burnt per mile travelled
+#' @return Tonnes of CO2e emissions per mile travelled.
 #' @export
 #'
-#' @examples
+#' @examples # Emissions for a 100 mile car journey
+#'  vehicle_emissions(distance = 100)
+#' @examples # Emissions for a 100 mile motorbike journey where the motorbike is 500+cc
+#'  vehicle_emissions(distance = 100, vehicle = "motorbike", size = "large")
+
 vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel = "petrol", size = "average", type = "average", taxi_type = "regular"){
   if (!is.numeric(distance) || distance < 0){
-    stop("`distance` should be a postive integer")
+    stop("`distance` should be a postive number")
   }
   if (!(units) %in% c("miles", "km")){
     stop("`units` can only take values 'km' or 'miles'")

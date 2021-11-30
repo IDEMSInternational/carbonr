@@ -15,27 +15,32 @@ vehicle_emissions(
 )
 }
 \arguments{
-\item{distance}{Distance in Km or miles of the journey made (this can be calculated with other tools, such as google maps.).}
+\item{distance}{Distance in km or miles of the journey made (this can be calculated with other tools, such as google maps.).}
 
-\item{units}{Whether the distance is in KM or miles.}
+\item{units}{Units for the distance travelled. Options are \code{"km"} or \code{"miles"}.}
 
-\item{vehicle}{Vehicle used for the journey. Options are "car", "motorbike", "taxi", "van", "bus", "coach", "tram", "tube". Note: bus, coach, tram, tube, are all per passenger}
+\item{vehicle}{Vehicle used for the journey. Options are \code{"car"}, \code{"motorbike"}, \code{"taxi"}, \code{"van"}, \code{"bus"}, \code{"coach"}, \code{"tram"}, \code{"tube"}. Note: bus, coach, tram, tube, are all per passenger}
 
-\item{fuel}{}
+\item{fuel}{Fuel type used for the journey. For car, \code{"petrol"}, \code{"diesel"}, \code{"hybrid"}, \code{"unknown"}, \code{"hybrid electric"}, \verb{"battery electric}" are options. For van, \code{"petrol"}, \code{"diesel"}, and \code{"battery electric"} are options.}
 
-\item{size}{}
+\item{size}{Size of vehicle for car, motorbike, and van.
+Options are \code{"small"}, \code{"medium"}, \code{"large"}, or \code{"average"}.
+For car: small denotes up to a 1.4L engine, unless diesel which is up to 1.7L engine. Medium denotes 1.4-2.0L for petrol cars, 1.7-2.0L for diesel cars. Large denotes 2.0L+ engine.
+For motorbike, sizes denote upto 125cc, 125cc-500cc, 500cc+ respectively.}
 
-\item{type}{}
+\item{type}{Options are \code{"local_nL"}, \code{"local_L"}, \code{"local"}, or \code{"average"}. These denote whether the bus is local but outside of London, local in London, local, or average.}
 
-\item{taxi_type}{}
+\item{taxi_type}{Whether a taxi is regular or black cab. Options are \code{"regular"}, \code{"black cab"}.}
 }
 \value{
-T of CO2e burnt per mile
+Tonnes of CO2e emissions per mile travelled.
 }
 \description{
-A function that calculates CO2 emissions on a journey on land.
-
-Values to calculate emissions is UK DEFRA - see https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/990675/2021-ghg-conversion-factors-methodology.pdf
-
-https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021
+A function that calculates CO2 emissions on a journey on land. Values to calculate emissions is UK DEFRA from 2021 report.
+}
+\examples{
+# Emissions for a 100 mile car journey
+ vehicle_emissions(distance = 100)
+# Emissions for a 100 mile motorbike journey where the motorbike is 500+cc
+ vehicle_emissions(distance = 100, vehicle = "motorbike", size = "large")
 }
