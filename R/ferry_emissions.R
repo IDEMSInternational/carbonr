@@ -16,6 +16,7 @@
 #' seaport_lookup(city = "New York")
 #' ferry_emissions(from = "BEL", to = "BOY")
 ferry_emissions <- function(from, to, via = NULL, type = "foot", num_people = 1, times_journey = 1, round_trip = FALSE){
+  data("seaports", envir = environment())
   if (!is.numeric(num_people)| num_people %% 1 != 0 | num_people < 1){
     stop("`num_people` must be a positive integer")
   }
@@ -28,44 +29,44 @@ ferry_emissions <- function(from, to, via = NULL, type = "foot", num_people = 1,
   if (!type %in% c("foot", "car", "average")){
     stop("`type` can only take values 'foot', 'car', or 'average'")
   }
-  if (!(from) %in% c(seaport_data$port_code)){
-    port_codes <- agrep(data.frame(from), seaport_data$port_code, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
+  if (!(from) %in% c(seaports$port_code)){
+    port_codes <- agrep(data.frame(from), seaports$port_code, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
     stop(print(from), " is not a port code in the data frame. Did you mean: ",
-         paste0((data.frame(seaport_data) %>% dplyr::filter(port_code %in% port_codes))$port_code, sep = ", "),
+         paste0((data.frame(seaports) %>% dplyr::filter(port_code %in% port_codes))$port_code, sep = ", "),
          "\n Otherwise find port code in `seaport_lookup` function"
     )
   }
-  if (!(to) %in% c(seaport_data$port_code)){
-    port_codes <- agrep(data.frame(to), seaport_data$port_code, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
+  if (!(to) %in% c(seaports$port_code)){
+    port_codes <- agrep(data.frame(to), seaports$port_code, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
     stop(print(to), " is not a port code in the data frame. Did you mean: ",
-         paste0((data.frame(seaport_data) %>% dplyr::filter(port_code %in% port_codes))$port_code, sep = ", "),
+         paste0((data.frame(seaports) %>% dplyr::filter(port_code %in% port_codes))$port_code, sep = ", "),
          "\n Otherwise find port code in `seaport_lookup` function"
     )
   } # mention port_codes data set to check station names
   if (!is.null(via)){
     for (i in 1:length(via)){
       via_x <- via[i]
-      if (!(via_x) %in% c(seaport_data$port_code)){
-        port_codes <- agrep(data.frame(via_x), seaport_data$port_code, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
+      if (!(via_x) %in% c(seaports$port_code)){
+        port_codes <- agrep(data.frame(via_x), seaports$port_code, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
         stop(print(via_x), " is not a port code in the data frame. Did you mean: ",
-             paste0((data.frame(seaport_data) %>% dplyr::filter(port_code %in% port_codes))$port_code, sep = ", "),
+             paste0((data.frame(seaports) %>% dplyr::filter(port_code %in% port_codes))$port_code, sep = ", "),
              "\n Otherwise find port code in `seaport_lookup` function"
         )
       }
     }
   }
   
-  seaport_data$id <- 1:nrow(seaport_data)
-  i <- which(seaport_data$port_code == {{ from }})
-  j <- which(seaport_data$port_code == {{ to }})
-  k <- seaport_data[match({{ via }}, seaport_data$port_code), ]$id # to keep order
+  seaports$id <- 1:nrow(seaports)
+  i <- which(seaports$port_code == {{ from }})
+  j <- which(seaports$port_code == {{ to }})
+  k <- seaports[match({{ via }}, seaports$port_code), ]$id # to keep order
   
-  latitude_from <- seaport_data$latitude[i]
-  longitude_from <- seaport_data$longitude[i]
-  latitude_to <- seaport_data$latitude[j]
-  longitude_to <- seaport_data$longitude[j]
-  latitude_via <- seaport_data$latitude[k]
-  longitude_via <- seaport_data$longitude[k]
+  latitude_from <- seaports$latitude[i]
+  longitude_from <- seaports$longitude[i]
+  latitude_to <- seaports$latitude[j]
+  longitude_to <- seaports$longitude[j]
+  latitude_via <- seaports$latitude[k]
+  longitude_via <- seaports$longitude[k]
   
   lats <- c(latitude_from, latitude_via, latitude_to)
   longs <- c(longitude_from, longitude_via, longitude_to)
