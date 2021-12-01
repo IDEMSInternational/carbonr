@@ -12,9 +12,9 @@
 #' @export 
 #'
 #' @examples # Emissions for a flight between Vancouver and Toronto
-#' @examples airplane_emissions("YVR","YYZ")
+#' airplane_emissions("YVR","YYZ")
 #' @examples # Emissions for a flight between London Heathrow and Kisumu Airport, via Amsterdam and Nairobi
-#' @examples airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"))
+#' airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"))
 airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_force = TRUE, round_trip = FALSE, class = "economy") {
   if (!is.numeric(num_people) || num_people %% 1 != 0 || num_people < 1){
     stop("`num_people` must be a positive integer")
