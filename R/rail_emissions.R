@@ -18,10 +18,10 @@
 #' @examples # via Bath, Swindon, and Reading
 #' @examples rail_emissions("Bristol Temple Meads", "London Paddington", via = c("Bath Spa", "Swindon", "Reading"))
 rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey = 1, round_trip = FALSE){
-  if (!is.numeric(num_people) | num_people < 1){
+  if (!is.numeric(num_people)| num_people %% 1 != 0 | num_people < 1){
     stop("`num_people` must be a positive integer")
   }
-  if (!is.numeric(times_journey) | times_journey < 1){
+  if (!is.numeric(times_journey)| times_journey %% 1 != 0 | times_journey < 1){
     stop("`times_journey` must be a positive integer")
   }
   if (!is.logical(round_trip)){
