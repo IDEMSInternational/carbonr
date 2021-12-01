@@ -21,7 +21,7 @@ vehicle_emissions(
 
 \item{vehicle}{Vehicle used for the journey. Options are \code{"car"}, \code{"motorbike"}, \code{"taxi"}, \code{"van"}, \code{"bus"}, \code{"coach"}, \code{"tram"}, \code{"tube"}. Note: bus, coach, tram, tube, are all per passenger}
 
-\item{fuel}{Fuel type used for the journey. For car, \code{"petrol"}, \code{"diesel"}, \code{"hybrid"}, \code{"unknown"}, \code{"hybrid electric"}, \verb{"battery electric}" are options. For van, \code{"petrol"}, \code{"diesel"}, and \code{"battery electric"} are options.}
+\item{fuel}{Fuel type used for the journey. For car, \code{"petrol"}, \code{"diesel"}, \code{"hybrid"}, \code{"unknown"}, \code{"hybrid electric"}, \code{"battery electric"} are options. For van, \code{"petrol"}, \code{"diesel"}, and \code{"battery electric"} are options.}
 
 \item{size}{Size of vehicle for car, motorbike, and van.
 Options are \code{"small"}, \code{"medium"}, \code{"large"}, or \code{"average"}.
