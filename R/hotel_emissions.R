@@ -2,7 +2,7 @@
 #' 
 #' @description Indirect emissions from a stay at a hotel. Values to calculate emissions are from UK government 2021 report.
 #'
-#' @param location Location of the hotel stay. Current accepted locations are UK, Argentina, Australia, Austria, Belgium, Brazil, Canada, Chile, China, Columbia, Costa Rica, Czechia, Egypt, Fiji, France, Germany, Greece, Hong Kong, India, Indonesia, Ireland, Israel, Italy, Japan, Jordan, Korea, Macau, Malaysia, Maldives, Mexico, Netherlands, New Zealand, Panama, Peru, Philippines, Poland, Portugal, Qatar, Romania, Russia, Saudi Arabia, Singapore, Slovakia, South Africa, Spain, Switzerland, Taiwan, Thailand, Turkey, United Arab Emirates, United States, Vietnam, Average.
+#' @param location Location of the hotel stay. Current accepted locations are `"UK"`, `"Argentina"`, `"Australia"`, `"Austria"`, `"Belgium"`, `"Brazil"`, `"Canada"`, `"Chile"`, `"China"`, `"Columbia"`, `"Costa Rica"`, `"Czechia"`, `"Egypt"`, `"Fiji"`, `"France"`, `"Germany"`, `"Greece"`, `"Hong Kong"`, `"India"`, `"Indonesia"`, `"Ireland"`, `"Israel"`, `"Italy"`, `"Japan"`, `"Jordan"`, `"Korea"`, `"Macau"`, `"Malaysia"`, `"Maldives"`, `"Mexico"`, `"Netherlands"`, `"New Zealand"`, `"Panama"`, `"Peru"`, `"Philippines"`, `"Poland"`, `"Portugal"`, `"Qatar"`, `"Romania"`, `"Russia"`, `"Saudi Arabia"`, `"Singapore"`, `"Slovakia"`, `"South Africa"`, `"Spain"`, `"Switzerland"`, `"Taiwan"`, `"Thailand"`, `"Turkey"`, `"United Arab Emirates"`, `"United States"`, `"Vietnam"`, `"Average"`.
 #' @param nights Number of nights stayed in the hotel.
 #' @param rooms Number of rooms used in the hotel.
 #'
