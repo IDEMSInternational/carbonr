@@ -2,6 +2,7 @@
 #'
 #' A dataset containing the country, country code, city, city code, and coordinates of seaports
 #'
+#' @usage data(seaports)
 #' @format A data frame with 8736 rows and 7 variables:
 #' \describe{
 #'   \item{country}{Name of the country with the port}

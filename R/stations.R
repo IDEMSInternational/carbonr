@@ -2,10 +2,11 @@
 #'
 #' A dataset containing the city, station code, and coordinates of seaports
 #'
+#' @usage data(stations)
 #' @format A data frame with 2608 rows and 4 variables:
 #' \describe{
 #'   \item{station}{Name of the station}
-#'   \item{code}{Code of the station}
+#'   \item{station_code}{Code of the station}
 #'   \item{latitude}{Latitude of the station}
 #'   \item{longitude}{Longitude of the station}
 #' }

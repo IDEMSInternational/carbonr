@@ -5,14 +5,14 @@
 \title{Check the Code or Name of a Seaport}
 \usage{
 seaport_lookup(
-  country_name = NULL,
+  country = NULL,
   city = NULL,
   distance = 0.1,
   ignore.case = FALSE
 )
 }
 \arguments{
-\item{country_name}{Name of the country.}
+\item{country}{Name of the country.}
 
 \item{city}{Name of the city.}
 
@@ -21,7 +21,7 @@ seaport_lookup(
 \item{ignore.case}{If \code{FALSE}, the check for city/country is case-sensitive. If \code{TRUE}, case is ignored.}
 }
 \value{
-Data frame containing the latitude, longitude, country name, country code, port code, and city name.
+Data frame containing the country, city, country code, port code, latitude, and longitude.
 }
 \description{
 Check the Code or Name of a Seaport
@@ -30,5 +30,5 @@ Check the Code or Name of a Seaport
 # Look up the city of Aberdeen to find the port_code for it
 seaport_lookup(city = "Aberdeen")
 # Search for a country and city and it finds matches
-seaport_lookup(country_name = "United", city = "borunemouth", ignore.case = TRUE)
+seaport_lookup(country = "United", city = "borunemouth", ignore.case = TRUE)
 }

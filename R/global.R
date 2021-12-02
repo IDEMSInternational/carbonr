@@ -1,0 +1,1 @@
+utils::globalVariables(c("Name", "City", "IATA", "port_code", "station", "seaports"))

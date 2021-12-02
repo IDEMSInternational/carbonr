@@ -10,7 +10,6 @@
 #'
 #' @return Returns CO2 emissions in tonnes.
 #' @export 
-#'
 #' @examples # Emissions for a flight between Vancouver and Toronto
 #' airplane_emissions("YVR","YYZ")
 #' @examples # Emissions for a flight between London Heathrow and Kisumu Airport, via Amsterdam and Nairobi
@@ -28,7 +27,7 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
   if (!(class) %in% c("economy", "premium economy", "business", "first")){
     stop("`class` can only take values 'economy', 'premium economy', 'business', or 'first'")
   }
-  airport_filter <- airports %>% dplyr::select(c(Name, City, IATA))
+  airport_filter <- airportr::airports %>% dplyr::select(c(Name, City, IATA))
   if (!(from) %in% c(airport_filter$IATA)){
     airport_names <- agrep(data.frame(from), airport_filter$IATA, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
     stop(print(from), " is not a name in the data frame. Try `airport_lookup` function in `airportr`. Did you mean: ",
@@ -65,9 +64,7 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
     }
     miles <- sum(miles1) * 0.621371
   }
-  
-  # times by 0.621371 to give in miles not kms.
-  
+
   co2_emitted <- miles * num_people * 0.24 * 0.000453592
   # 0.24lbs per person on average: https://blueskymodel.org/air-mile
   # note: https://carbonfund.org/how-we-calculate/ - they use 0.2kg per mile, kg in tonnes in 0.001
@@ -82,7 +79,7 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
     co2_emitted <- co2_emitted * 2
   }
   
-  # these are taken from calculating differences in DEFRA/conversation 2021 UK file (https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021)
+  # ratios calculated using differences in 2021 UK conversion file (https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021)
   if (class == "premium economy") {
     co2_emitted <- co2_emitted * 1.6
   } else if (class == "business") {
