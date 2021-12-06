@@ -1,5 +1,5 @@
 #' Calculate Ferry Journey Emissions
-#' @description A function that calculates CO2 emissions between ferry ports.
+#' @description A function that calculates CO2e emissions between ferry ports.
 #' @param from Port code for the port departing from. Use `seaport_lookup` to find port code.
 #' @param to Port code for the port arriving from. Use `seaport_lookup` to find port code.
 #' @param via Optional. Takes a vector containing the port code that the ferry travels through. Use `seaport_lookup` to find port code.
@@ -8,7 +8,7 @@
 #' @param times_journey Number of times the journey is taken.
 #' @param round_trip Whether the journey is one-way or return.
 #'
-#' @return Returns CO2 emissions in tonnes for the ferry journey.
+#' @return Returns CO2e emissions in tonnes for the ferry journey.
 #' @export
 #'
 #' @examples # Emissions for a ferry journey between Belfast and New York City
