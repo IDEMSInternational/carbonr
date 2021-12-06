@@ -8,7 +8,7 @@
 #' @param round_trip Whether the journey is one-way or return.
 # @param class Class travelled in. Options are ... .
 #'
-#' @return Returns CO2 emissions in tonnes for the train journey.
+#' @return Returns CO2e emissions in tonnes for the train journey.
 #' @export
 #' @examples # Emissions for a train journey between Southampton Central and Manchester Piccadilly Station
 #' @examples rail_emissions("Southampton Central", "Manchester Piccadilly")
@@ -76,9 +76,6 @@ rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey =
     distance <- sum(distance1)
   }
   
-  # "The CO2e emissions for long distance trains (i.e., intercity rail) is 0.114 kgs per passenger mile." - from carbonfund.org
-  # 0.000114 tonnes
-  # OR: UK defra doco says for national rail:  0.00005711548 tonnes/mile
   emissions <- 0.00005711548*distance*num_people*times_journey
   # for international rail, they say 0.000007177656tonnes CO2e per mile
   if (round_trip){
