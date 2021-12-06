@@ -107,7 +107,6 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
     }
   }
   if (vehicle == "motorbike"){
-    # T of CO2 burnt per mile
     if (size == "small"){
       t_mile <- 0.00013369
     } else if (size == "medium") {
@@ -165,10 +164,8 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
       t_mile <- 0.00018948
     } else if (type == "local_L") {
       t_mile <- 0.00012421
-    }else if (type == "local") {
-      t_mile <- 0.00016459
     }else if (type == "average") {
-      t_mile <- 0.0001594267
+      t_mile <- 0.00016459
     }
   }
   if (vehicle == "coach"){
