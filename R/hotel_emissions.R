@@ -1,4 +1,4 @@
-#' Calculate Emissions from a hotel stay
+#' Calculate CO2e emissions from a hotel stay
 #' 
 #' @description Indirect emissions from a stay at a hotel. Values to calculate emissions are from UK government 2021 report.
 #'
