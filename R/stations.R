@@ -1,4 +1,4 @@
-#' Table of Train Station Data
+#' Dataset of UK train stations
 #'
 #' A dataset containing the city, station code, and coordinates of seaports
 #'
