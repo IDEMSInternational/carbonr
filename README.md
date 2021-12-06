@@ -1,4 +1,4 @@
-# caRbon
+# carbonr
 Calculating CO2 equivalent (CO2e) emissions in R
 
 The emissions that are calculated (with their respective sources given in square brackets):
