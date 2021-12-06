@@ -11,6 +11,7 @@ The emissions that are calculated (with their respective sources given in square
 * Hotel stays[1]
 
 Sources for the emission values
+
 [1] UK government 2021 report.
 See https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/990675/2021-ghg-conversion-factors-methodology.pdf
 https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021
