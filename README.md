@@ -31,3 +31,7 @@ Under Employee Travel (https://carbonfund.org/calculation-methods/)
 "Short flights are calculated to be under 300 miles one-way with emissions of 0.217kg CO2e per passenger mile
 Medium flights are calculated to be 300-2300 miles one-way, average 1500 miles, with emissions of 0.134 kg CO2e per passenger mile
 Long flights are calculated to be > 2300 miles, average 3,000 miles one-way with emissions of 0.167kg CO2e per passenger mile"
+
+Checking values alongside other calculators:
+https://carbonfund.org/calculation-methods/
+https://www.carbonfootprint.com/calculatorfaqs.html
