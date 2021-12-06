@@ -1,4 +1,4 @@
-#' Calculate Ferry Journey Emissions
+#' Calculate CO2e emissions from ferry journeys
 #' @description A function that calculates CO2e emissions between ferry ports.
 #' @param from Port code for the port departing from. Use `seaport_lookup` to find port code.
 #' @param to Port code for the port arriving from. Use `seaport_lookup` to find port code.
