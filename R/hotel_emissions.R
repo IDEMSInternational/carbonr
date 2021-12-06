@@ -6,7 +6,7 @@
 #' @param nights Number of nights stayed in the hotel.
 #' @param rooms Number of rooms used in the hotel.
 #'
-#' @return Tonnes of CO2 emissions for a stay in a hotel.
+#' @return Tonnes of CO2e emissions for a stay in a hotel.
 #' @export
 #'
 #' @examples # Emissions for a two night stay in Fiji.
