@@ -1,6 +1,7 @@
 # carbonr
 Calculating CO2 equivalent (CO2e) emissions in R
 
+### Emissions calculated
 The emissions that are calculated (with their respective sources given in square brackets):
 
 * Train journeys[1]
@@ -23,7 +24,7 @@ Radiative forcing as 1.891 is from www.carbonfund.org
 [3]
 Secondary sources calculated using https://www.carbonfootprint.com/calculatorfaqs.html
 
-Next Steps:
+### Next Steps:
 * Error messages for office_emissions, bug check, etc
 * Link up with Shiny app calculator?
 * Create simple vignette
@@ -33,7 +34,7 @@ Medium flights are calculated to be 300-2300 miles one-way, average 1500 miles, 
 Long flights are calculated to be > 2300 miles, average 3,000 miles one-way with emissions of 0.167kg CO2e per passenger mile"
 
 
-Checking values alongside other calculators:
+### Checking values alongside other calculators:
 
 https://carbonfund.org/calculation-methods/
 
