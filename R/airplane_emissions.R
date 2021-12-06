@@ -4,7 +4,7 @@
 #' @param to Takes a three-letter IATA code corresponding to an airport. Can check the code by the `airportr::airport_lookup` function.
 #' @param via Optional. Takes a vector containing three-letter IATA codes corresponding to airports.v
 #' @param num_people Number of people taking the flight. Takes a single numerical value.
-#' @param radiative_force Whether radiative force should be taken into account. Emissions from airplanes at higher altitudes impact climate change more than at ground level, radiative forcing accounts for this. Recommended. 
+#' @param radiative_force Whether radiative force should be taken into account. Recommended = TRUE. Emissions from airplanes at higher altitudes impact climate change more than at ground level, radiative forcing accounts for this. 
 #' @param round_trip Whether the flight is one-way or return.
 #' @param class Class flown in. Options are "economy", "premium economy", "business", and "first".
 #'
