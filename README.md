@@ -25,7 +25,7 @@ Radiative forcing as 1.891 is from www.carbonfund.org
 Secondary sources calculated using https://www.carbonfootprint.com/calculatorfaqs.html
 
 ### Next Steps:
-* Error messages for office_emissions, bug check, etc
+* Error messages for `office_emissions`, bug check, etc
 * Link up with Shiny app calculator?
 * Create simple vignette
 * Add in short haul/medium haul for flights - Under "Employee Travel" https://carbonfund.org/calculation-methods/
