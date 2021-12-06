@@ -1,7 +1,6 @@
-#' Calculate Emissions from Land-Travel
+#' Calculate CO2e emissions from land-travel journeys
 #' 
-#' @description A function that calculates CO2 emissions on a journey on land. Values to calculate emissions is UK DEFRA from 2021 report.
-# see https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/990675/2021-ghg-conversion-factors-methodology.pdf, https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021
+#' @description A function that calculates CO2e emissions on a journey on land. 
 #'
 #' @param distance Distance in km or miles of the journey made (this can be calculated with other tools, such as google maps.). 
 #' @param units Units for the distance travelled. Options are `"km"` or `"miles"`.
