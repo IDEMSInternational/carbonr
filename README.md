@@ -22,3 +22,12 @@ Radiative forcing as 1.891 is from www.carbonfund.org
 
 [3]
 Secondary sources calculated using https://www.carbonfootprint.com/calculatorfaqs.html
+
+Next Steps:
+* Add average home office per person function
+* Create simple vignette
+* Add in short haul/medium haul
+Under Employee Travel (https://carbonfund.org/calculation-methods/)
+"Short flights are calculated to be under 300 miles one-way with emissions of 0.217kg CO2e per passenger mile
+Medium flights are calculated to be 300-2300 miles one-way, average 1500 miles, with emissions of 0.134 kg CO2e per passenger mile
+Long flights are calculated to be > 2300 miles, average 3,000 miles one-way with emissions of 0.167kg CO2e per passenger mile"
