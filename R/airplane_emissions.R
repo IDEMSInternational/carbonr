@@ -1,5 +1,5 @@
 #' Calculate Airplane Emissions
-#' @description A function that calculates CO2 emissions between airports. Distances are calculated using the airport_distance function in the airportr package.
+#' @description A function that calculates CO2e emissions between airports. Distances are calculated using the airport_distance function in the airportr package.
 #' @param from Takes a three-letter IATA code corresponding to an airport. Can check the code by the `airportr::airport_lookup` function.
 #' @param to Takes a three-letter IATA code corresponding to an airport. Can check the code by the `airportr::airport_lookup` function.
 #' @param via Optional. Takes a vector containing three-letter IATA codes corresponding to airports.v
@@ -8,12 +8,13 @@
 #' @param round_trip Whether the flight is one-way or return.
 #' @param class Class flown in. Options are "economy", "premium economy", "business", and "first".
 #'
-#' @return Returns CO2 emissions in tonnes.
+#' @return Returns CO2e emissions in tonnes.
 #' @export 
 #' @examples # Emissions for a flight between Vancouver and Toronto
 #' airplane_emissions("YVR","YYZ")
 #' @examples # Emissions for a flight between London Heathrow and Kisumu Airport, via Amsterdam and Nairobi
 #' airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"))
+
 airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_force = TRUE, round_trip = FALSE, class = "economy") {
   if (!is.numeric(num_people) || num_people %% 1 != 0 || num_people < 1){
     stop("`num_people` must be a positive integer")
@@ -64,22 +65,21 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
     }
     miles <- sum(miles1) * 0.621371
   }
-
-  co2_emitted <- miles * num_people * 0.24 * 0.000453592
-  # 0.24lbs per person on average: https://blueskymodel.org/air-mile
-  # note: https://carbonfund.org/how-we-calculate/ - they use 0.2kg per mile, kg in tonnes in 0.001
-  # convert to metric tonne; 0.000453592
+  
+  if (miles < 2300){
+    co2_emitted <- miles * num_people * 0.000128489706
+  } else {
+    co2_emitted <- miles * num_people * 0.000125818201
+  }
   
   if (radiative_force == TRUE) {
     co2_emitted <- co2_emitted * 1.891
-    # radiative forcing: 1.891 carbonfund.org
   }
   
   if (round_trip == TRUE) {
     co2_emitted <- co2_emitted * 2
   }
   
-  # ratios calculated using differences in 2021 UK conversion file (https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021)
   if (class == "premium economy") {
     co2_emitted <- co2_emitted * 1.6
   } else if (class == "business") {
