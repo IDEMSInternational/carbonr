@@ -1,5 +1,5 @@
-#' Calculate Train Journey Emissions
-#' @description A function that calculates CO2 emissions between train stations in the UK.
+#' Calculate CO2e emissions from a train journey
+#' @description A function that calculates CO2e emissions between train stations in the UK.
 #' @param from Station departing from.
 #' @param to Station arriving to
 #' @param via Optional. Takes a vector containing the stations the train travels via.
