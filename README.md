@@ -24,7 +24,7 @@ Radiative forcing as 1.891 is from www.carbonfund.org
 Secondary sources calculated using https://www.carbonfootprint.com/calculatorfaqs.html
 
 Next Steps:
-* Add average home office per person function
+* Error messages for office_emissions, bug check, etc
 * Create simple vignette
 * Add in short haul/medium haul
 Under Employee Travel (https://carbonfund.org/calculation-methods/)
