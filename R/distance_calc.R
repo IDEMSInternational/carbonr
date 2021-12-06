@@ -1,6 +1,6 @@
-#' Distance Calculator
+#' Distance calculator
 #' 
-#' @description Calculate distances between locations in miles using the Haversine formula. Note this is calculated as the crow flies.
+#' @description Calculate distances between locations in miles using the Haversine formula. This is calculated as the crow flies.
 #'
 #' @param lat1 Latitude of the first location.
 #' @param lat2 Latitude of the second location.
