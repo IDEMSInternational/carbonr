@@ -1,4 +1,4 @@
-#' Calculate Airplane Emissions
+#' Calculate CO2e emissions from a airplane journey
 #' @description A function that calculates CO2e emissions between airports. Distances are calculated using the airport_distance function in the airportr package.
 #' @param from Takes a three-letter IATA code corresponding to an airport. Can check the code by the `airportr::airport_lookup` function.
 #' @param to Takes a three-letter IATA code corresponding to an airport. Can check the code by the `airportr::airport_lookup` function.
