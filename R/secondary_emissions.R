@@ -1,6 +1,6 @@
-#' Calculate Emissions from Secondary Sources
+#' Calculate CO2e emissions from secondary sources
 #' 
-#' @description Emissions from the manufacture, delivery, and disposal of products and services in a year. Emission values are calculated from carbonfootprint.com, which base the emissions values off DEFRA 2017 Supply Chain Factors.
+#' @description CO2e emissions from the manufacture, delivery, and disposal of products and services in a year. Emission values are calculated from carbonfootprint.com, which base the emissions values off DEFRA 2017 Supply Chain Factors.
 #'
 #' @param item Item bought. Valid options are: `"IT equipment"`, `"restaurants"`, `"TV"`, `"radio"`, `"phone"`, `"paper based products"`, `"motor"`, `"manufactured goods"`, `"telephone/mobile call costs"`, `"banking/finance"`, `"insurance"`, `"education"`, `"recreational activities"`, `"textiles"`, `"food"`.
 #' @param cost Amount spent on that item (in pounds)
