@@ -1,4 +1,5 @@
-#' Check the Code or Name of a Seaport
+#' Check the code or name of a seaport
+#' @description Given a country and/or city, find the name and/or code of a seaport for use in the `ferry_emissions` function.
 #'
 #' @param country Name of the country.
 #' @param city Name of the city.
