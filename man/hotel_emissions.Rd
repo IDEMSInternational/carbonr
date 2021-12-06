@@ -2,7 +2,7 @@
 % Please edit documentation in R/hotel_emissions.R
 \name{hotel_emissions}
 \alias{hotel_emissions}
-\title{Calculate Emissions from a hotel stay}
+\title{Calculate CO2e emissions from a hotel stay}
 \usage{
 hotel_emissions(location = "UK", nights = 1, rooms = 1)
 }
@@ -14,7 +14,7 @@ hotel_emissions(location = "UK", nights = 1, rooms = 1)
 \item{rooms}{Number of rooms used in the hotel.}
 }
 \value{
-Tonnes of CO2 emissions for a stay in a hotel.
+Tonnes of CO2e emissions for a stay in a hotel.
 }
 \description{
 Indirect emissions from a stay at a hotel. Values to calculate emissions are from UK government 2021 report.

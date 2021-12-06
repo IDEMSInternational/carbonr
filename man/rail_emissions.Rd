@@ -2,7 +2,7 @@
 % Please edit documentation in R/rail_emissions.R
 \name{rail_emissions}
 \alias{rail_emissions}
-\title{Calculate Train Journey Emissions}
+\title{Calculate CO2e emissions from a train journey}
 \usage{
 rail_emissions(
   from,
@@ -27,10 +27,10 @@ rail_emissions(
 \item{round_trip}{Whether the journey is one-way or return.}
 }
 \value{
-Returns CO2 emissions in tonnes for the train journey.
+Returns CO2e emissions in tonnes for the train journey.
 }
 \description{
-A function that calculates CO2 emissions between train stations in the UK.
+A function that calculates CO2e emissions between train stations in the UK.
 }
 \examples{
 # Emissions for a train journey between Southampton Central and Manchester Piccadilly Station

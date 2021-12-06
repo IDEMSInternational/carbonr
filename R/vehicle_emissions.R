@@ -6,6 +6,7 @@
 #' @param units Units for the distance travelled. Options are `"km"` or `"miles"`.
 #' @param vehicle Vehicle used for the journey. Options are `"car"`, `"motorbike"`, `"taxi"`, `"van"`, `"bus"`, `"coach"`, `"tram"`, `"tube"`. Note: bus, coach, tram, tube, are all per passenger 
 #' @param fuel Fuel type used for the journey. For car, `"petrol"`, `"diesel"`, `"hybrid"`, `"unknown"`, `"hybrid electric"`, `"battery electric"` are options. For van, `"petrol"`, `"diesel"`, and `"battery electric"` are options.
+#' `"hybrid electric"` and `"battery electric"` account for electricity kWh emissions. 
 #' @param size Size of vehicle for car, motorbike, and van.
 #' Options are `"small"`, `"medium"`, `"large"`, or `"average"`.
 #' For car: small denotes up to a 1.4L engine, unless diesel which is up to 1.7L engine. Medium denotes 1.4-2.0L for petrol cars, 1.7-2.0L for diesel cars. Large denotes 2.0L+ engine.
@@ -57,9 +58,9 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
       } else if (fuel == "unknown"){
         t_mile <- 0.00023414
       } else if (fuel == "hybrid electric"){
-        t_mile <- 0.00003607
+        t_mile <- 0.00003607 + 0.000490
       } else if (fuel == "battery electric"){
-        t_mile <- 0
+        t_mile <- 0.00006750
       }
     } else if (size == "medium") {
       if (fuel == "petrol"){
@@ -71,9 +72,9 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
       } else if (fuel == "unknown"){
         t_mile <- 0.00028263
       } else if (fuel == "hybrid electric"){
-        t_mile <- 0.00011175
+        t_mile <- 0.00011175 + 0.00003181
       } else if (fuel == "battery electric"){
-        t_mile <- 0
+        t_mile <- 0.00007767
       }
     }else if (size == "large") {
       if (fuel == "petrol"){
@@ -85,9 +86,9 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
       } else if (fuel == "unknown"){
         t_mile <- 0.00036366
       } else if (fuel == "hybrid electric"){
-        t_mile <- 0.00012350
+        t_mile <- 0.00012350 + 0.00004168
       } else if (fuel == "battery electric"){
-        t_mile <- 0
+        t_mile <- 0.00008969
       }
     }else if (size == "average") {
       if (fuel == "petrol"){
@@ -99,9 +100,9 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
       } else if (fuel == "unknown"){
         t_mile <- 0.00027596
       } else if (fuel == "hybrid electric"){
-        t_mile <- 0.00011426
+        t_mile <- 0.00011426 + 0.00003835
       } else if (fuel == "battery electric"){
-        t_mile <- 0
+        t_mile <- 0.00008097
       }
     }
   }
@@ -130,7 +131,7 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
       } else if (fuel == "diesel"){
         t_mile <- 0.00023608
       } else if (fuel == "battery electric"){
-        t_mile <- 0
+        t_mile <- 0.00005849
       }
     } else if (size == "medium") {
       if (fuel == "petrol"){
@@ -138,7 +139,7 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
       } else if (fuel == "diesel"){
         t_mile <- 0.00029476
       } else if (fuel == "battery electric"){
-        t_mile <- 0
+        t_mile <- 0.00008072
       }
     }else if (size == "large") {
       if (fuel == "petrol"){
@@ -146,7 +147,7 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
       } else if (fuel == "diesel"){
         t_mile <- 0.00042695
       } else if (fuel == "battery electric"){
-        t_mile <- 0
+        t_mile <- 0.00011325
       }
     }else if (size == "average"){
       if (fuel == "petrol") {
@@ -154,7 +155,7 @@ vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel =
       } else if (fuel == "diesel") {
         t_mile <- 0.00038811
       } else if (fuel == "battery electric"){
-        t_mile <- 0
+        t_mile <- 0.00008078
       }
     }
   }

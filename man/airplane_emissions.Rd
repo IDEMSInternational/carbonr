@@ -2,7 +2,7 @@
 % Please edit documentation in R/airplane_emissions.R
 \name{airplane_emissions}
 \alias{airplane_emissions}
-\title{Calculate Airplane Emissions}
+\title{Calculate CO2e emissions from a airplane journey}
 \usage{
 airplane_emissions(
   from,
@@ -23,17 +23,17 @@ airplane_emissions(
 
 \item{num_people}{Number of people taking the flight. Takes a single numerical value.}
 
-\item{radiative_force}{Whether radiative force should be taken into account. Emissions from airplanes at higher altitudes impact climate change more than at ground level, radiative forcing accounts for this. Recommended.}
+\item{radiative_force}{Whether radiative force should be taken into account. Recommended = TRUE. Emissions from airplanes at higher altitudes impact climate change more than at ground level, radiative forcing accounts for this.}
 
 \item{round_trip}{Whether the flight is one-way or return.}
 
 \item{class}{Class flown in. Options are "economy", "premium economy", "business", and "first".}
 }
 \value{
-Returns CO2 emissions in tonnes.
+Returns CO2e emissions in tonnes.
 }
 \description{
-A function that calculates CO2 emissions between airports. Distances are calculated using the airport_distance function in the airportr package.
+A function that calculates CO2e emissions between airports. Distances are calculated using the airport_distance function in the airportr package.
 }
 \examples{
 # Emissions for a flight between Vancouver and Toronto

@@ -2,7 +2,7 @@
 % Please edit documentation in R/seaport_lookup.R
 \name{seaport_lookup}
 \alias{seaport_lookup}
-\title{Check the Code or Name of a Seaport}
+\title{Check the code or name of a seaport}
 \usage{
 seaport_lookup(
   country = NULL,
@@ -24,7 +24,7 @@ seaport_lookup(
 Data frame containing the country, city, country code, port code, latitude, and longitude.
 }
 \description{
-Check the Code or Name of a Seaport
+Given a country and/or city, find the name and/or code of a seaport for use in the \code{ferry_emissions} function.
 }
 \examples{
 # Look up the city of Aberdeen to find the port_code for it

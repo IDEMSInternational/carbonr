@@ -2,7 +2,7 @@
 % Please edit documentation in R/secondary_emissions.R
 \name{secondary_emissions}
 \alias{secondary_emissions}
-\title{Calculate Emissions from Secondary Sources}
+\title{Calculate CO2e emissions from secondary sources}
 \usage{
 secondary_emissions(item, cost, time = "per year", diet = "medium meat")
 }
@@ -20,7 +20,7 @@ secondary_emissions(item, cost, time = "per year", diet = "medium meat")
 Tonnes of CO2 emissions from secondary sources in a year.
 }
 \description{
-Emissions from the manufacture, delivery, and disposal of products and services in a year. Emission values are calculated from carbonfootprint.com, which base the emissions values off DEFRA 2017 Supply Chain Factors.
+CO2e emissions from the manufacture, delivery, and disposal of products and services in a year. Emission values are calculated from carbonfootprint.com, which base the emissions values off DEFRA 2017 Supply Chain Factors.
 }
 \examples{
 # Emissions for a new Â£1000 computer. 

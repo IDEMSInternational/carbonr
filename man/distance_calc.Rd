@@ -2,7 +2,7 @@
 % Please edit documentation in R/distance_calc.R
 \name{distance_calc}
 \alias{distance_calc}
-\title{Distance Calculator}
+\title{Distance calculator}
 \usage{
 distance_calc(lat1, lat2, long1, long2)
 }
@@ -19,7 +19,7 @@ distance_calc(lat1, lat2, long1, long2)
 Distance between locations in miles
 }
 \description{
-Calculate distances between locations in miles using the Haversine formula. Note this is calculated as the crow flies.
+Calculate distances between locations in miles using the Haversine formula. This is calculated as the crow flies.
 }
 \examples{
 # Distance between the London Eye and the Eiffel Tower in miles

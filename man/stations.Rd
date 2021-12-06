@@ -3,7 +3,7 @@
 \docType{data}
 \name{stations}
 \alias{stations}
-\title{Table of Train Station Data}
+\title{Dataset of UK train stations}
 \format{
 A data frame with 2608 rows and 4 variables:
 \describe{

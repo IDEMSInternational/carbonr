@@ -2,7 +2,7 @@
 % Please edit documentation in R/vehicle_emissions.R
 \name{vehicle_emissions}
 \alias{vehicle_emissions}
-\title{Calculate Emissions from Land-Travel}
+\title{Calculate CO2e emissions from land-travel journeys}
 \usage{
 vehicle_emissions(
   distance,
@@ -21,7 +21,8 @@ vehicle_emissions(
 
 \item{vehicle}{Vehicle used for the journey. Options are \code{"car"}, \code{"motorbike"}, \code{"taxi"}, \code{"van"}, \code{"bus"}, \code{"coach"}, \code{"tram"}, \code{"tube"}. Note: bus, coach, tram, tube, are all per passenger}
 
-\item{fuel}{Fuel type used for the journey. For car, \code{"petrol"}, \code{"diesel"}, \code{"hybrid"}, \code{"unknown"}, \code{"hybrid electric"}, \code{"battery electric"} are options. For van, \code{"petrol"}, \code{"diesel"}, and \code{"battery electric"} are options.}
+\item{fuel}{Fuel type used for the journey. For car, \code{"petrol"}, \code{"diesel"}, \code{"hybrid"}, \code{"unknown"}, \code{"hybrid electric"}, \code{"battery electric"} are options. For van, \code{"petrol"}, \code{"diesel"}, and \code{"battery electric"} are options.
+\code{"hybrid electric"} and \code{"battery electric"} account for electricity kWh emissions.}
 
 \item{size}{Size of vehicle for car, motorbike, and van.
 Options are \code{"small"}, \code{"medium"}, \code{"large"}, or \code{"average"}.
@@ -36,7 +37,7 @@ For motorbike, sizes denote upto 125cc, 125cc-500cc, 500cc+ respectively.}
 Tonnes of CO2e emissions per mile travelled.
 }
 \description{
-A function that calculates CO2 emissions on a journey on land. Values to calculate emissions is UK DEFRA from 2021 report.
+A function that calculates CO2e emissions on a journey on land.
 }
 \examples{
 # Emissions for a 100 mile car journey

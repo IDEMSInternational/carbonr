@@ -2,7 +2,7 @@
 % Please edit documentation in R/ferry_emissions.R
 \name{ferry_emissions}
 \alias{ferry_emissions}
-\title{Calculate Ferry Journey Emissions}
+\title{Calculate CO2e emissions from ferry journeys}
 \usage{
 ferry_emissions(
   from,
@@ -30,10 +30,10 @@ ferry_emissions(
 \item{round_trip}{Whether the journey is one-way or return.}
 }
 \value{
-Returns CO2 emissions in tonnes for the ferry journey.
+Returns CO2e emissions in tonnes for the ferry journey.
 }
 \description{
-A function that calculates CO2 emissions between ferry ports.
+A function that calculates CO2e emissions between ferry ports.
 }
 \examples{
 # Emissions for a ferry journey between Belfast and New York City

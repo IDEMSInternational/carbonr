@@ -3,7 +3,7 @@
 \docType{data}
 \name{seaports}
 \alias{seaports}
-\title{Table of Seaport Data}
+\title{Dataset of different seaports}
 \format{
 A data frame with 8736 rows and 7 variables:
 \describe{
