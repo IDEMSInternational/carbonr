@@ -1,4 +1,4 @@
-#' Table of Seaport Data
+#' Dataset of different seaports
 #'
 #' A dataset containing the country, country code, city, city code, and coordinates of seaports
 #'
