@@ -1,4 +1,4 @@
-Package: caRbon
+Package: carbonr
 Title: Calculate CO2e emissions
 Version: 0.0.0.9000
 Authors@R: 
