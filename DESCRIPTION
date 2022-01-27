@@ -5,7 +5,7 @@ Authors@R:
     person("Lily", "Clements", , "lily@idems.international", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-8864-0552"))
 Description: Convenience functions to calculate carbon emissions.
-License: MIT + file LICENSE
+License: LGPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
@@ -13,8 +13,8 @@ Suggests:
     testthat (>= 2.0.0)
 Config/testthat/edition: 2
 Imports: 
-    rlang,
     airportr,
     dplyr,
+    rlang,
     sp,
     tibble
