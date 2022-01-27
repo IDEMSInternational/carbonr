@@ -25,16 +25,15 @@ An R package to conveniently calculate carbon-equivalent emissions.
 You can install the development version of carbonr from
 [GitHub](https://github.com/) with:
 
-```` r
+``` r
+
 # install.packages("devtools")
-devtools::install_github("IDEMSInternational/carbonr")```
+devtools::install_github("IDEMSInternational/carbonr")
+```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
-
-
-```r
+``` r
 library(carbonr)
 # Want to calculate emissions for a flight between Vancouver and Toronto
 
@@ -55,9 +54,9 @@ airplane_emissions("YVR","YYZ")
 #> Warning in data("airports", envir = environment()): data set 'airports' not
 #> found
 #> [1] 0.505254
-````
+```
 
-## Emissions calculated
+### Emissions calculated
 
 The emissions that are calculated (with their respective sources given
 in square brackets):
@@ -84,7 +83,7 @@ sheet linked above.
 \[3\] Secondary sources calculated using
 <https://www.carbonfootprint.com/calculatorfaqs.html>
 
-## Next Steps:
+### Next Steps:
 
   - checkmate package for errors
   - Link up with Shiny app calculator?
@@ -98,7 +97,7 @@ sheet linked above.
     average 3,000 miles one-way with emissions of 0.167kg CO2e per
     passenger mile”
 
-## Checking values alongside other calculators:
+### Checking values alongside other calculators:
 
 <https://carbonfund.org/calculation-methods/>
 <https://www.carbonfootprint.com/calculatorfaqs.html>

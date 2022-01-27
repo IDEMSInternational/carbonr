@@ -35,12 +35,13 @@ status](https://www.r-pkg.org/badges/version/carbonr)](https://CRAN.R-project.or
 You can install the development version of carbonr from [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("devtools")
-devtools::install_github("IDEMSInternational/carbonr")```
+devtools::install_github("IDEMSInternational/carbonr")
+
+```
 
 ## Example
-
-This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
 library(carbonr)
