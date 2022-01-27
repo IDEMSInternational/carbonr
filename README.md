@@ -1,11 +1,56 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# carbonr: Calculating CO2 equivalent (CO2e) emissions in R
+# carbonr
 
-The `carbonr` package …
+<!-- badges: start -->
 
-### Emissions calculated
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/carbonr)](https://CRAN.R-project.org/package=carbonr)
+<!-- badges: end -->
+
+An R package to conveniently calculate carbon-equivalent emissions.
+
+## Installation
+
+You can install the development version of carbonr from
+[GitHub](https://github.com/) with:
+
+```` r
+# install.packages("devtools")
+devtools::install_github("IDEMSInternational/carbonr")```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+
+```r
+library(carbonr)
+# Want to calculate emissions for a flight between Vancouver and Toronto
+
+airport_finder(name = "Vancouver")
+#> # A tibble: 3 x 3
+#>   Name                                  City      IATA 
+#>   <chr>                                 <chr>     <chr>
+#> 1 Vancouver International Airport       Vancouver "YVR"
+#> 2 Vancouver Harbour Water Aerodrome     Vancouver "CXH"
+#> 3 Vancouver International Seaplane Base Vancouver "\\N"
+airport_finder(name = "Toronto")
+#> # A tibble: 2 x 3
+#>   Name                                     City    IATA 
+#>   <chr>                                    <chr>   <chr>
+#> 1 Billy Bishop Toronto City Centre Airport Toronto YTZ  
+#> 2 Toronto/Oshawa Executive Airport         Oshawa  YOO
+airplane_emissions("YVR","YYZ")
+#> Warning in data("airports", envir = environment()): data set 'airports' not
+#> found
+#> [1] 0.505254
+````
+
+## Emissions calculated
 
 The emissions that are calculated (with their respective sources given
 in square brackets):
@@ -32,11 +77,11 @@ sheet linked above.
 \[3\] Secondary sources calculated using
 <https://www.carbonfootprint.com/calculatorfaqs.html>
 
-### Next Steps:
+## Next Steps:
 
-  - Error messages for `office_emissions`, bug check, etc
+  - checkmate package for errors
   - Link up with Shiny app calculator?
-      - Create simple vignette
+  - Create simple vignette
   - Add in short haul/medium haul for flights - Under “Employee Travel”
     <https://carbonfund.org/calculation-methods/> “Short flights are
     calculated to be under 300 miles one-way with emissions of 0.217kg
@@ -46,8 +91,7 @@ sheet linked above.
     average 3,000 miles one-way with emissions of 0.167kg CO2e per
     passenger mile”
 
-### Checking values alongside other calculators:
+## Checking values alongside other calculators:
 
 <https://carbonfund.org/calculation-methods/>
-
 <https://www.carbonfootprint.com/calculatorfaqs.html>
