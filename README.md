@@ -23,10 +23,6 @@ You can install the development version of carbonr from
 devtools::install_github("IDEMSInternational/carbonr")```
 
 ## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-
 ```r
 library(carbonr)
 # Want to calculate emissions for a flight between Vancouver and Toronto
