@@ -4,20 +4,42 @@
   
   <!-- README.md is generated from README.Rmd. Please edit that file -->
   
-  ```{r, echo = FALSE}
+  ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "man/figures/README-"
+  fig.path = "man/figures/README-",
+  out.width = "100%"
 )
 ```
 
-# carbonr: Calculating CO2 equivalent (CO2e) emissions in R
+# carbonr
 
-The `carbonr` package ...
-
-### Emissions calculated
-The emissions that are calculated (with their respective sources given in square brackets):
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/IDEMSInternational/carbonr/workflows/R-CMD-check/badge.svg)](https://github.com/IDEMSInternational/carbonr/actions)
+[![Codecov test coverage](https://codecov.io/gh/IDEMSInternational/carbonr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/IDEMSInternational/carbonr?branch=main)
+[![Project Status: WIP – Initial development is in progress, but there
+has not yet been a stable, usable release suitable for the
+public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![license](https://img.shields.io/badge/license-LGPL%20(%3E=%203)-lightgrey.svg)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN status](https://www.r-pkg.org/badges/version/carbonr)](https://CRAN.R-project.org/package=carbonr)
+<!-- badges: end -->
+                                                                 
+                                                                 An R package to conveniently calculate carbon-equivalent emissions.
+                                                               
+                                                               ## Installation
+                                                               
+                                                               You can install the development version of carbonr from [GitHub](https://github.com/) with:
+                                                                 
+                                                                 ``` r
+                                                               # install.packages("devtools")
+                                                               devtools::install_github("IDEMSInternational/carbonr")
+                                                               ```
+                                                               
+                                                               ## Emissions calculated
+                                                               
+                                                               The emissions that are calculated (with their respective sources given in square brackets):
   
 * Train journeys[1]
 * Ferry/boat journeys[1]
@@ -39,7 +61,7 @@ Radiative forcing as 1.891 is from www.carbonfund.org
 [3]
 Secondary sources calculated using https://www.carbonfootprint.com/calculatorfaqs.html
 
-### Next Steps:
+## Next Steps:
 * Error messages for `office_emissions`, bug check, etc
 * Link up with Shiny app calculator?
   * Create simple vignette
@@ -49,7 +71,7 @@ Medium flights are calculated to be 300-2300 miles one-way, average 1500 miles, 
 Long flights are calculated to be > 2300 miles, average 3,000 miles one-way with emissions of 0.167kg CO2e per passenger mile"
 
 
-### Checking values alongside other calculators:
+## Checking values alongside other calculators:
 
 https://carbonfund.org/calculation-methods/
   
