@@ -52,7 +52,7 @@ airplane_emissions("YVR","YYZ")
 
 ```
 
-## Emissions calculated
+### Emissions calculated
                                                                                              
 The emissions that are calculated (with their respective sources given in square brackets):
                                                                                                
@@ -73,7 +73,7 @@ See "business travel - air" sheet of gov.uk excel sheet linked above.
 
 [3] Secondary sources calculated using https://www.carbonfootprint.com/calculatorfaqs.html
 
-## Next Steps:
+### Next Steps:
  * checkmate package for errors
  * Link up with Shiny app calculator?
  * Create simple vignette
@@ -83,7 +83,7 @@ Medium flights are calculated to be 300-2300 miles one-way, average 1500 miles, 
 Long flights are calculated to be > 2300 miles, average 3,000 miles one-way with emissions of 0.167kg CO2e per passenger mile"
                                                                                              
                                                                                              
-## Checking values alongside other calculators:
+### Checking values alongside other calculators:
 https://carbonfund.org/calculation-methods/
 https://www.carbonfootprint.com/calculatorfaqs.html
                                                                                              
