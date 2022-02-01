@@ -3,35 +3,35 @@
 #' @param specify Whether an average should be used, or if they wish to specify the amount of energy used.
 #' @param num_people Number of people in the office.
 #' @param num_wfh Number of people working from home.
-#' @param electricity_kwh 
-#' @param kgco2e 
-#' @param butane 
+#' @param electricity_kwh TODO
+#' @param kgco2e TODO
+#' @param butane TODO
 #' @param butane_units units that the gas is given in. Options are `"tonnes"`, `"litres"`, `"kwh"`.
-#' @param CNG 
+#' @param CNG TODO
 #' @param CNG_units # todo: can I give this with other _units ones?
-#' @param LPG 
-#' @param LPG_units 
-#' @param LNG 
-#' @param LNG_units 
-#' @param natural_gas 
-#' @param natural_gas_units 
-#' @param gas 
-#' @param gas_units 
-#' @param propane 
-#' @param propane_units 
-#' @param burning_oil 
-#' @param burning_oil_units 
-#' @param diesel 
-#' @param diesel_units 
-#' @param coal 
-#' @param coal_units 
-#' @param wood 
-#' @param wood_units 
+#' @param LPG TODO
+#' @param LPG_units TODO
+#' @param LNG TODO
+#' @param LNG_units TODO
+#' @param natural_gas TODO
+#' @param natural_gas_units TODO
+#' @param gas TODO
+#' @param gas_units TODO
+#' @param propane TODO
+#' @param propane_units TODO
+#' @param burning_oil TODO
+#' @param burning_oil_units TODO
+#' @param diesel TODO
+#' @param diesel_units TODO
+#' @param coal TODO
+#' @param coal_units TODO
+#' @param wood TODO
+#' @param wood_units TODO
 #'
-#' @return
+#' @return TODO
 #' @export
 #'
-#' @examples
+#' @examples TODO
 
 # also: 
 # CO2e from water per cubic meters
