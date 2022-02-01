@@ -41,57 +41,60 @@ office_emissions(
 
 \item{num_wfh}{Number of people working from home.}
 
-\item{electricity_kwh}{}
+\item{electricity_kwh}{TODO}
 
-\item{kgco2e}{}
+\item{kgco2e}{TODO}
 
-\item{butane}{}
+\item{butane}{TODO}
 
 \item{butane_units}{units that the gas is given in. Options are \code{"tonnes"}, \code{"litres"}, \code{"kwh"}.}
 
-\item{CNG}{}
+\item{CNG}{TODO}
 
 \item{CNG_units}{todo: can I give this with other _units ones?}
 
-\item{LPG}{}
+\item{LPG}{TODO}
 
-\item{LPG_units}{}
+\item{LPG_units}{TODO}
 
-\item{LNG}{}
+\item{LNG}{TODO}
 
-\item{LNG_units}{}
+\item{LNG_units}{TODO}
 
-\item{natural_gas}{}
+\item{natural_gas}{TODO}
 
-\item{natural_gas_units}{}
+\item{natural_gas_units}{TODO}
 
-\item{gas}{}
+\item{gas}{TODO}
 
-\item{gas_units}{}
+\item{gas_units}{TODO}
 
-\item{propane}{}
+\item{propane}{TODO}
 
-\item{propane_units}{}
+\item{propane_units}{TODO}
 
-\item{burning_oil}{}
+\item{burning_oil}{TODO}
 
-\item{burning_oil_units}{}
+\item{burning_oil_units}{TODO}
 
-\item{diesel}{}
+\item{diesel}{TODO}
 
-\item{diesel_units}{}
+\item{diesel_units}{TODO}
 
-\item{coal}{}
+\item{coal}{TODO}
 
-\item{coal_units}{}
+\item{coal_units}{TODO}
 
-\item{wood}{}
+\item{wood}{TODO}
 
-\item{wood_units}{}
+\item{wood_units}{TODO}
 }
 \value{
-
+TODO
 }
 \description{
 CO2e emissions from office work.
+}
+\examples{
+TODO
 }

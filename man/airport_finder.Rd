@@ -2,22 +2,22 @@
 % Please edit documentation in R/airport_finder.R
 \name{airport_finder}
 \alias{airport_finder}
-\title{Title}
+\title{Find the airport code for an airport}
 \usage{
 airport_finder(name, city, IATA_code, ICAO_code)
 }
 \arguments{
-\item{name}{}
+\item{name}{Name of the airport}
 
-\item{city}{}
+\item{city}{City the airport is in}
 
-\item{IATA_code}{}
+\item{IATA_code}{The IATA code}
 
-\item{ICAO_code}{}
+\item{ICAO_code}{The ICAO code}
 }
 \value{
 
 }
 \description{
-Title
+Find the airport code for an airport
 }
