@@ -1,11 +1,11 @@
-#' Title
+#' Find the airport code for an airport
 #'
-#' @param name 
-#' @param city 
-#' @param IATA_code 
-#' @param ICAO_code 
+#' @param name Name of the airport
+#' @param city City the airport is in 
+#' @param IATA_code The IATA code
+#' @param ICAO_code The ICAO code
 #'
-#' @return
+#' @return 
 #' @export
 #'
 #' @examples
