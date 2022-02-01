@@ -31,7 +31,7 @@
 #' @return TODO
 #' @export
 #'
-#' @examples TODO
+#' @examples # TODO
 
 # also: 
 # CO2e from water per cubic meters
