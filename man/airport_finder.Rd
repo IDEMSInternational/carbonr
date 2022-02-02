@@ -4,16 +4,16 @@
 \alias{airport_finder}
 \title{Find the airport code for an airport}
 \usage{
-airport_finder(name, city, IATA_code, ICAO_code)
+airport_finder(name, city, country, IATA_code)
 }
 \arguments{
 \item{name}{Name of the airport}
 
-\item{city}{City the airport is in}
+\item{city}{City that the airport is in}
+
+\item{country}{Country that the airport is in}
 
 \item{IATA_code}{The IATA code}
-
-\item{ICAO_code}{The ICAO code}
 }
 \value{
 
@@ -22,5 +22,12 @@ airport_finder(name, city, IATA_code, ICAO_code)
 Find the airport code for an airport
 }
 \examples{
-# TODO
+# Can get the IATA code from the name of an airport. Gets similar matches.
+airport_finder(name = "Bristo")
+
+# Can get the IATA code from the name and city of an airport
+airport_finder(name = "Bristo", country = "United Kingdom")
+
+# Can find the name and city of an airport given the IATA code
+airport_finder(IATA_code = "BRS")
 }
