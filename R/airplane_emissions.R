@@ -1,7 +1,7 @@
 #' Calculate CO2e emissions from a airplane journey
 #' @description A function that calculates CO2e emissions between airports. Distances are calculated using the airport_distance function in the airportr package.
-#' @param from Takes a three-letter IATA code corresponding to an airport. Can check the IATA code by the `airportr::airport_lookup` function.
-#' @param to Takes a three-letter IATA code corresponding to an airport. Can check the IATA code by the `airportr::airport_lookup` function.
+#' @param from Takes a three-letter IATA code corresponding to an airport. Can check the IATA code by the `airport_finder` function.
+#' @param to Takes a three-letter IATA code corresponding to an airport. Can check the IATA code by the `airport_finder` function.
 #' @param via Optional. Takes a vector containing three-letter IATA codes corresponding to airports.
 #' @param num_people Number of people taking the flight. Takes a single numerical value.
 #' @param radiative_force logical. Whether radiative force should be taken into account. Recommended \code{TRUE}. Emissions from airplanes at higher altitudes impact climate change more than at ground level, radiative forcing accounts for this. 
@@ -32,13 +32,13 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
   airport_filter <- airportr::airports %>% dplyr::select(c(Name, City, IATA))
   if (!(from) %in% c(airport_filter$IATA)){
     airport_names <- agrep(data.frame(from), airport_filter$IATA, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
-    stop(print(from), " is not a name in the data frame. Try `airport_lookup` function in `airportr`. Did you mean: ",
+    stop(print(from), " is not a name in the data frame. Try `airport_finder` function. Did you mean: ",
          paste0(data.frame(airport_filter %>% dplyr::filter(IATA %in% airport_names))$IATA, sep = ", ")
     )
   }
   if (!(to) %in% c(airport_filter$IATA)){
     airport_names <- agrep(data.frame(to), airport_filter$IATA, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
-    stop(print(to), " is not a name in the data frame. Try `airport_lookup` function in `airportr`. Did you mean: ",
+    stop(print(to), " is not a name in the data frame. Try `airport_finder` function. Did you mean: ",
          paste0(data.frame(airport_filter %>% dplyr::filter(IATA %in% airport_names))$IATA, sep = ", ")
     )
   }
@@ -47,7 +47,7 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
       via_x <- via[i]
       if (!(via_x) %in% c(airport_filter$IATA)){
         airport_names <- agrep(data.frame(via_x), airport_filter$IATA, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
-        stop(print(via_x), " is not a name in the data frame. Try `airport_lookup` function in `airportr`. Did you mean: ",
+        stop(print(via_x), " is not a name in the data frame. Try `airport_finder` function. Did you mean: ",
              paste0(data.frame(airport_filter %>% dplyr::filter(IATA %in% airport_names))$IATA, sep = ", ")
         )
       }

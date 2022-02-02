@@ -15,9 +15,9 @@ airplane_emissions(
 )
 }
 \arguments{
-\item{from}{Takes a three-letter IATA code corresponding to an airport. Can check the IATA code by the \code{airportr::airport_lookup} function.}
+\item{from}{Takes a three-letter IATA code corresponding to an airport. Can check the IATA code by the \code{airport_finder} function.}
 
-\item{to}{Takes a three-letter IATA code corresponding to an airport. Can check the IATA code by the \code{airportr::airport_lookup} function.}
+\item{to}{Takes a three-letter IATA code corresponding to an airport. Can check the IATA code by the \code{airport_finder} function.}
 
 \item{via}{Optional. Takes a vector containing three-letter IATA codes corresponding to airports.}
 
