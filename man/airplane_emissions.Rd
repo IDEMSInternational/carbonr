@@ -11,23 +11,23 @@ airplane_emissions(
   num_people = 1,
   radiative_force = TRUE,
   round_trip = FALSE,
-  class = "economy"
+  class = c("economy", "premium economy", "business", "first")
 )
 }
 \arguments{
-\item{from}{Takes a three-letter IATA code corresponding to an airport. Can check the code by the \code{airportr::airport_lookup} function.}
+\item{from}{Takes a three-letter IATA code corresponding to an airport. Can check the IATA code by the \code{airportr::airport_lookup} function.}
 
-\item{to}{Takes a three-letter IATA code corresponding to an airport. Can check the code by the \code{airportr::airport_lookup} function.}
+\item{to}{Takes a three-letter IATA code corresponding to an airport. Can check the IATA code by the \code{airportr::airport_lookup} function.}
 
-\item{via}{Optional. Takes a vector containing three-letter IATA codes corresponding to airports.v}
+\item{via}{Optional. Takes a vector containing three-letter IATA codes corresponding to airports.}
 
 \item{num_people}{Number of people taking the flight. Takes a single numerical value.}
 
-\item{radiative_force}{Whether radiative force should be taken into account. Recommended = TRUE. Emissions from airplanes at higher altitudes impact climate change more than at ground level, radiative forcing accounts for this.}
+\item{radiative_force}{logical. Whether radiative force should be taken into account. Recommended \code{TRUE}. Emissions from airplanes at higher altitudes impact climate change more than at ground level, radiative forcing accounts for this.}
 
-\item{round_trip}{Whether the flight is one-way or return.}
+\item{round_trip}{logical. Whether the flight is one-way or return.}
 
-\item{class}{Class flown in. Options are "economy", "premium economy", "business", and "first".}
+\item{class}{Class flown in. Options are \code{c("economy", "premium economy", "business", "first")}.}
 }
 \value{
 Returns CO2e emissions in tonnes.

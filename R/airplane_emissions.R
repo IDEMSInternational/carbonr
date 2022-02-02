@@ -1,12 +1,12 @@
 #' Calculate CO2e emissions from a airplane journey
 #' @description A function that calculates CO2e emissions between airports. Distances are calculated using the airport_distance function in the airportr package.
-#' @param from Takes a three-letter IATA code corresponding to an airport. Can check the code by the `airportr::airport_lookup` function.
-#' @param to Takes a three-letter IATA code corresponding to an airport. Can check the code by the `airportr::airport_lookup` function.
-#' @param via Optional. Takes a vector containing three-letter IATA codes corresponding to airports.v
+#' @param from Takes a three-letter IATA code corresponding to an airport. Can check the IATA code by the `airportr::airport_lookup` function.
+#' @param to Takes a three-letter IATA code corresponding to an airport. Can check the IATA code by the `airportr::airport_lookup` function.
+#' @param via Optional. Takes a vector containing three-letter IATA codes corresponding to airports.
 #' @param num_people Number of people taking the flight. Takes a single numerical value.
-#' @param radiative_force Whether radiative force should be taken into account. Recommended = TRUE. Emissions from airplanes at higher altitudes impact climate change more than at ground level, radiative forcing accounts for this. 
-#' @param round_trip Whether the flight is one-way or return.
-#' @param class Class flown in. Options are "economy", "premium economy", "business", and "first".
+#' @param radiative_force logical. Whether radiative force should be taken into account. Recommended \code{TRUE}. Emissions from airplanes at higher altitudes impact climate change more than at ground level, radiative forcing accounts for this. 
+#' @param round_trip logical. Whether the flight is one-way or return.
+#' @param class Class flown in. Options are \code{c("economy", "premium economy", "business", "first")}.
 #'
 #' @return Returns CO2e emissions in tonnes.
 #' @export 

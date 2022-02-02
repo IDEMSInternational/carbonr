@@ -51,7 +51,7 @@ office_emissions(
 
 \item{CNG}{TODO}
 
-\item{CNG_units}{todo: can I give this with other _units ones?}
+\item{CNG_units}{todo can I give this with other units ones}
 
 \item{LPG}{TODO}
 

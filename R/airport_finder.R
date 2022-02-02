@@ -8,7 +8,7 @@
 #' @return 
 #' @export
 #'
-#' @examples
+#' @examples # TODO
 airport_finder <- function(name, city, IATA_code, ICAO_code){
   
   airport_filter <- airportr::airports %>% dplyr::select(c(Name, City, IATA))

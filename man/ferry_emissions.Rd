@@ -8,7 +8,7 @@ ferry_emissions(
   from,
   to,
   via = NULL,
-  type = "foot",
+  type = c("foot", "car", "average"),
   num_people = 1,
   times_journey = 1,
   round_trip = FALSE

@@ -16,7 +16,7 @@
 #' @examples # Emissions for a high meat eater who spends £200 on food each month. 
 #' secondary_emissions(item = "food", cost = 200, time = "per month")
 
-secondary_emissions <- function(item = c("IT equipment", "restaurants", "TV", "radio", "phone", "paper based products", "motor", "manufactured goods",
+secondary_emissions <- function(item = c("IT equipment", "restaurants", "TV", "radio", "phone", "paper based products", "motor", "manufactured goods", "food",
                                          "telephone/mobile call costs", "banking/finance", "insurance", "education", "recreational activities", "textiles"),
                                 cost, time = c("per week", "per month", "per year"),
                                 diet = c("medium meat", "high meat", "low meat", "pescatarian", "vegetarian", "vegan")){

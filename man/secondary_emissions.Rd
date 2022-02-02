@@ -4,7 +4,16 @@
 \alias{secondary_emissions}
 \title{Calculate CO2e emissions from secondary sources}
 \usage{
-secondary_emissions(item, cost, time = "per year", diet = "medium meat")
+secondary_emissions(
+  item = c("IT equipment", "restaurants", "TV", "radio", "phone",
+    "paper based products", "motor", "manufactured goods", "food",
+    "telephone/mobile call costs", "banking/finance", "insurance", "education",
+    "recreational activities", "textiles"),
+  cost,
+  time = c("per week", "per month", "per year"),
+  diet = c("medium meat", "high meat", "low meat", "pescatarian", "vegetarian",
+    "vegan")
+)
 }
 \arguments{
 \item{item}{Item bought. Valid options are: \code{"IT equipment"}, \code{"restaurants"}, \code{"TV"}, \code{"radio"}, \code{"phone"}, \code{"paper based products"}, \code{"motor"}, \code{"manufactured goods"}, \code{"telephone/mobile call costs"}, \code{"banking/finance"}, \code{"insurance"}, \code{"education"}, \code{"recreational activities"}, \code{"textiles"}, \code{"food"}.}

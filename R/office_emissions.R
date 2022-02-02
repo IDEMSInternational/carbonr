@@ -8,7 +8,7 @@
 #' @param butane TODO
 #' @param butane_units units that the gas is given in. Options are `"tonnes"`, `"litres"`, `"kwh"`.
 #' @param CNG TODO
-#' @param CNG_units # todo: can I give this with other _units ones?
+#' @param CNG_units # todo can I give this with other units ones
 #' @param LPG TODO
 #' @param LPG_units TODO
 #' @param LNG TODO
