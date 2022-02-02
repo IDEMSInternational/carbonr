@@ -18,15 +18,14 @@
 #' "Swindon", "Reading"))
 rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey = 1, round_trip = FALSE){
   data("stations", envir = environment())
-  if (!is.numeric(num_people)| num_people %% 1 != 0 | num_people < 1){
-    stop("`num_people` must be a positive integer")
-  }
-  if (!is.numeric(times_journey)| times_journey %% 1 != 0 | times_journey < 1){
-    stop("`times_journey` must be a positive integer")
-  }
-  if (!is.logical(round_trip)){
-    stop("`round_trip` can only take values TRUE or FALSE")
-  }
+  
+#  checkmate::assert_string(from)
+#  checkmate::assert_string(to)
+#  if (!is.null(via)) { checkmate::assert_character(via) }
+#  checkmate::assert_count(num_people)
+#  checkmate::assert_count(times_journey)
+#  checkmate::assert_logical(round_trip)
+  
   if (!(from) %in% c(stations$station)){
     station_names <- agrep(data.frame(from), stations$station, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
     stop(print(from), " is not a name in the data frame. Did you mean: ",

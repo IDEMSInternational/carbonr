@@ -16,12 +16,12 @@
 
 seaport_lookup <- function(country = NULL, city = NULL, distance = 0.1, ignore.case = FALSE){
   data("seaports", envir = environment())
-  if (!is.numeric(distance)| distance < 0){
-    stop("`distance` must be a positive number")
-  }
-  if (!is.logical(ignore.case)){
-    stop("`ignore.case` can only take values TRUE or FALSE")
-  }
+  
+  if (!is.null(country)){ checkmate::assert_string(country) }
+  if (!is.null(city)){ checkmate::assert_string(city) }
+  checkmate::assert_numeric(distance, lower = 0)
+  checkmate::assert_logical(ignore.case)
+  
   if (!is.null(country) & !is.null(city)){
     name_check1 <- agrep(data.frame(country), seaports$country, ignore.case = ignore.case, max.distance = distance, value = TRUE)
     df <- data.frame(seaports) %>% dplyr::filter(country %in% name_check1)

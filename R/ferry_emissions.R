@@ -15,20 +15,17 @@
 #' @examples seaport_lookup(city = "Belfast")
 #' seaport_lookup(city = "New York")
 #' ferry_emissions(from = "BEL", to = "BOY")
-ferry_emissions <- function(from, to, via = NULL, type = "foot", num_people = 1, times_journey = 1, round_trip = FALSE){
+ferry_emissions <- function(from, to, via = NULL, type = c("foot", "car", "average"), num_people = 1, times_journey = 1, round_trip = FALSE){
   data("seaports", envir = environment())
-  if (!is.numeric(num_people)| num_people %% 1 != 0 | num_people < 1){
-    stop("`num_people` must be a positive integer")
-  }
-  if (!is.numeric(times_journey)| times_journey %% 1 != 0 | times_journey < 1){
-    stop("`times_journey` must be a positive integer")
-  }
-  if (!is.logical(round_trip)){
-    stop("`round_trip` can only take values TRUE or FALSE")
-  }
-  if (!type %in% c("foot", "car", "average")){
-    stop("`type` can only take values 'foot', 'car', or 'average'")
-  }
+  
+  checkmate::assert_string(from)
+  checkmate::assert_string(to)
+  if (!is.null(via)) { checkmate::assert_character(via) }
+  checkmate::assert_count(num_people)
+  checkmate::assert_count(times_journey)
+  checkmate::assert_logical(round_trip)
+  type <- match.arg(type)
+  
   if (!(from) %in% c(seaports$port_code)){
     port_codes <- agrep(data.frame(from), seaports$port_code, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
     stop(print(from), " is not a port code in the data frame. Did you mean: ",

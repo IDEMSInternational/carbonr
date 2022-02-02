@@ -23,6 +23,9 @@
 #'  vehicle_emissions(distance = 100, vehicle = "motorbike", size = "large")
 
 vehicle_emissions <- function(distance, units = "miles", vehicle = "car", fuel = "petrol", size = "average", type = "average", taxi_type = "regular"){
+  
+  
+  
   if (!is.numeric(distance) || distance < 0){
     stop("`distance` should be a postive number")
   }

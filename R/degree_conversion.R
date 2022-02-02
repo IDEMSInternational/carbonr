@@ -10,8 +10,6 @@
 #' @examples # Convert 90 degrees into radians
 #' degree_conversion(90)
 degree_conversion <- function(deg) {
-  if (!is.numeric(deg)){
-    stop("`deg` should be a numeric value only.")
-  }
+  checkmate::check_numeric(deg)
   (deg * pi) / (180)
 }

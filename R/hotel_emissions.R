@@ -12,12 +12,9 @@
 #' @examples # Emissions for a two night stay in Fiji.
 #' hotel_emissions(location = "Fiji", nights = 2)
 hotel_emissions <- function(location = "UK", nights = 1, rooms = 1){
-  if (!is.numeric(nights) || nights %% 1 != 0 || nights < 0){
-    stop("`nights` should be a postive integer")
-  }
-  if (!is.numeric(rooms) || rooms %% 1 != 0 || rooms < 0){
-    stop("`rooms` should be a postive integer")
-  }
+  checkmate::assert_count(nights)
+  checkmate::assert_count(rooms)
+ 
   row <- which(hotel_df$Country == location)
   if (length(row) == 0) {
     hotel_names <- agrep(data.frame(location), hotel_df$Country, ignore.case = TRUE, max.distance = 0.1, value = TRUE)

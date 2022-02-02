@@ -16,21 +16,18 @@
 #' @examples # Emissions for a high meat eater who spends £200 on food each month. 
 #' secondary_emissions(item = "food", cost = 200, time = "per month")
 
-secondary_emissions <- function(item, cost, time = "per year", diet = "medium meat"){
+secondary_emissions <- function(item = c("IT equipment", "restaurants", "TV", "radio", "phone", "paper based products", "motor", "manufactured goods",
+                                         "telephone/mobile call costs", "banking/finance", "insurance", "education", "recreational activities", "textiles"),
+                                cost, time = c("per week", "per month", "per year"),
+                                diet = c("medium meat", "high meat", "low meat", "pescatarian", "vegetarian", "vegan")){
+
   item_list <- c("IT equipment", "restaurants", "TV", "radio", "phone", "paper based products", "motor", "manufactured goods", "telephone/mobile call costs",
                  "banking/finance", "insurance", "education", "recreational activities", "textiles")
-  if (!item %in% c(item_list, "food")){
-    stop("`item` must be one of", paste0(item_list, sep = ", "), "food.")
-  }
-  if (!diet %in% c("high meat", "medium meat", "low meat", "pescatarian", "vegetarian", "vegan")){
-    stop("`diet` must be one of high meat, medium meat, low meat, pescatarian, vegetarian, or vegan.")
-  }
-  if (!time %in% c("per week", "per month", "per year")){
-    stop("`time` must be one of per week, per month, per year.")
-  }
-  if (!is.numeric(cost)){
-    stop("`cost` should be a numeric value.")
-  }
+  
+  item <- match.arg(item)
+  diet <- match.arg(diet)
+  time <- match.arg(time)
+  checkmate::assert_numeric(cost, lower = 0)
   
   # cost list is cost per £1 spent
   CO2e <- c(0.00114, 0.00037, 0.00114, 0.00114, 0.00114, 0.00027, 0.00030, 0.00031, 0.00024, 0.00039, 0.00018, 0.00025, 0.00032, 0.00040)
