@@ -15,19 +15,20 @@
 #' @examples # Emissions for a flight between London Heathrow and Kisumu Airport, via Amsterdam and Nairobi
 #' airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"))
 
-airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_force = TRUE, round_trip = FALSE, class = "economy") {
+airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_force = TRUE, round_trip = FALSE, class = c("economy", "premium economy", "business", "first")) {
+
+  checkmate::assert_string(from)
+  checkmate::assert_string(to)
+  if (!is.null(via)) { checkmate::assert_character(via) }
+  checkmate::assert_count(num_people)
+  checkmate::assert_logical(radiative_force)
+  checkmate::assert_logical(round_trip)
+  class <- match.arg(class)
+  
   if (!is.numeric(num_people) || num_people %% 1 != 0 || num_people < 1){
     stop("`num_people` must be a positive integer")
   }
-  if (!is.logical(radiative_force)){
-    stop("`radiative_force` can only take values TRUE or FALSE")
-  }
-  if (!is.logical(round_trip)){
-    stop("`round_trip` can only take values TRUE or FALSE")
-  }
-  if (!(class) %in% c("economy", "premium economy", "business", "first")){
-    stop("`class` can only take values 'economy', 'premium economy', 'business', or 'first'")
-  }
+
   airport_filter <- airportr::airports %>% dplyr::select(c(Name, City, IATA))
   if (!(from) %in% c(airport_filter$IATA)){
     airport_names <- agrep(data.frame(from), airport_filter$IATA, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
