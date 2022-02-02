@@ -25,10 +25,6 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
   checkmate::assert_logical(round_trip)
   class <- match.arg(class)
   
-  if (!is.numeric(num_people) || num_people %% 1 != 0 || num_people < 1){
-    stop("`num_people` must be a positive integer")
-  }
-
   airport_filter <- airportr::airports %>% dplyr::select(c(Name, City, IATA))
   if (!(from) %in% c(airport_filter$IATA)){
     airport_names <- agrep(data.frame(from), airport_filter$IATA, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
