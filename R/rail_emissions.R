@@ -55,12 +55,12 @@ rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey =
   j <- which(stations$station == {{ to }})
   k <- stations[match({{ via }}, stations$station), ]$id # to keep order
   
-  latitude_from <- stations$Latitude[i]
-  longitude_from <- stations$Longitude[i]
-  latitude_to <- stations$Latitude[j]
-  longitude_to <- stations$Longitude[j]
-  latitude_via <- stations$Latitude[k]
-  longitude_via <- stations$Longitude[k]
+  latitude_from <- stations$latitude[i]
+  longitude_from <- stations$longitude[i]
+  latitude_to <- stations$latitude[j]
+  longitude_to <- stations$longitude[j]
+  latitude_via <- stations$latitude[k]
+  longitude_via <- stations$longitude[k]
   
   lats <- c(latitude_from, latitude_via, latitude_to)
   longs <- c(longitude_from, longitude_via, longitude_to)
