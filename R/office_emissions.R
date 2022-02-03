@@ -38,7 +38,7 @@
 # supply: 0.149
 # trt (scope 3): 0.272
 
-office_emissions <- function(specify = FALSE, num_people = 1, num_wfh, electricity_kwh, kgco2e = 0.21233, butane, butane_units, CNG, CNG_units, LPG, LPG_units, LNG, LNG_units, natural_gas, natural_gas_units = "kwh", gas, gas_units, propane, propane_units, burning_oil, burning_oil_units, diesel, diesel_units, coal, coal_units, wood, wood_units){
+office_emissions <- function(specify = FALSE, num_people = 1, num_wfh = 0, electricity_kwh, kgco2e = 0.21233, butane, butane_units, CNG, CNG_units, LPG, LPG_units, LNG, LNG_units, natural_gas, natural_gas_units = "kwh", gas, gas_units, propane, propane_units, burning_oil, burning_oil_units, diesel, diesel_units, coal, coal_units, wood, wood_units){
   if (specify == FALSE){
     # 2.60Tonnes CO2e as average for a year - https://www.carbonfootprint.com/businesscalculator.aspx?c=BusBasic&t=b
     emissions <- 2.60
