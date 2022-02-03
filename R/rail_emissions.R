@@ -14,17 +14,20 @@
 #' @examples rail_emissions("Southampton Central", "Manchester Piccadilly")
 #' @examples # Emissions for a train journey between Bristol Temple Meads and London Paddington
 #' @examples # via Bath, Swindon, and Reading
-#' @examples rail_emissions("Bristol Temple Meads", "London Paddington", via = c("Bath Spa",
+#' # Use the \code{rail_finder} function to find the name of London Paddington
+#' rail_finder(station = "Paddington")
+#' # Then calculate emissions
+#' @examples rail_emissions("Bristol Temple Meads", "Paddington", via = c("Bath Spa",
 #' "Swindon", "Reading"))
 rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey = 1, round_trip = FALSE){
   data("stations", envir = environment())
   
-#  checkmate::assert_string(from)
-#  checkmate::assert_string(to)
-#  if (!is.null(via)) { checkmate::assert_character(via) }
-#  checkmate::assert_count(num_people)
-#  checkmate::assert_count(times_journey)
-#  checkmate::assert_logical(round_trip)
+  checkmate::assert_string(from)
+  checkmate::assert_string(to)
+  if (!is.null(via)) { checkmate::assert_character(via) }
+  checkmate::assert_count(num_people)
+  checkmate::assert_count(times_journey)
+  checkmate::assert_logical(round_trip)
   
   if (!(from) %in% c(stations$station)){
     station_names <- agrep(data.frame(from), stations$station, ignore.case = TRUE, max.distance = 0.15, value = TRUE)

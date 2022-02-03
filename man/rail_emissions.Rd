@@ -37,6 +37,9 @@ A function that calculates CO2e emissions between train stations in the UK.
 rail_emissions("Southampton Central", "Manchester Piccadilly")
 # Emissions for a train journey between Bristol Temple Meads and London Paddington
 # via Bath, Swindon, and Reading
-rail_emissions("Bristol Temple Meads", "London Paddington", via = c("Bath Spa",
+# Use the \code{rail_finder} function to find the name of London Paddington
+rail_finder(station = "Paddington")
+# Then calculate emissions
+rail_emissions("Bristol Temple Meads", "Paddington", via = c("Bath Spa",
 "Swindon", "Reading"))
 }
