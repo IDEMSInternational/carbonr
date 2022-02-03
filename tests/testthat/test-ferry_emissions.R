@@ -7,7 +7,7 @@ test_that("correct calculations when you edit options on times and round trip", 
 })
 
 test_that("incorrect values gives error", {
-  expect_error(ferry_emissions(from = "BLE", to = "BOY"))
+  expect_error(ferry_emissions(from = "bel", to = "BOY"))
   expect_error(ferry_emissions(from = "BEL", to = "Bournemouth"))
-  expect_error(ferry_emissions(from = "BEL", to = "BOY", via = "BBB"))
+  expect_error(ferry_emissions(from = "BEL", to = "BOY", via = "PLLL"))
 })
