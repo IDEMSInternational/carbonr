@@ -15,11 +15,11 @@ ferry_emissions(
 )
 }
 \arguments{
-\item{from}{Port code for the port departing from. Use \code{seaport_lookup} to find port code.}
+\item{from}{Port code for the port departing from. Use \code{seaport_finder} to find port code.}
 
-\item{to}{Port code for the port arriving from. Use \code{seaport_lookup} to find port code.}
+\item{to}{Port code for the port arriving from. Use \code{seaport_finder} to find port code.}
 
-\item{via}{Optional. Takes a vector containing the port code that the ferry travels through. Use \code{seaport_lookup} to find port code.}
+\item{via}{Optional. Takes a vector containing the port code that the ferry travels through. Use \code{seaport_finder} to find port code.}
 
 \item{type}{Whether the journey is taken on foot or by car. Options are \code{"foot"}, \code{"car"}, \code{"average"}.}
 
@@ -37,7 +37,7 @@ A function that calculates CO2e emissions between ferry ports.
 }
 \examples{
 # Emissions for a ferry journey between Belfast and New York City
-seaport_lookup(city = "Belfast")
-seaport_lookup(city = "New York")
+seaport_finder(city = "Belfast")
+seaport_finder(city = "New York")
 ferry_emissions(from = "BEL", to = "BOY")
 }

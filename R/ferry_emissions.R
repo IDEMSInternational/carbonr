@@ -1,8 +1,8 @@
 #' Calculate CO2e emissions from ferry journeys
 #' @description A function that calculates CO2e emissions between ferry ports.
-#' @param from Port code for the port departing from. Use `seaport_lookup` to find port code.
-#' @param to Port code for the port arriving from. Use `seaport_lookup` to find port code.
-#' @param via Optional. Takes a vector containing the port code that the ferry travels through. Use `seaport_lookup` to find port code.
+#' @param from Port code for the port departing from. Use `seaport_finder` to find port code.
+#' @param to Port code for the port arriving from. Use `seaport_finder` to find port code.
+#' @param via Optional. Takes a vector containing the port code that the ferry travels through. Use `seaport_finder` to find port code.
 #' @param type Whether the journey is taken on foot or by car. Options are `"foot"`, `"car"`, `"average"`.
 #' @param num_people Number of people taking the journey. Takes a single numerical value.
 #' @param times_journey Number of times the journey is taken.
@@ -12,8 +12,8 @@
 #' @export
 #'
 #' @examples # Emissions for a ferry journey between Belfast and New York City
-#' @examples seaport_lookup(city = "Belfast")
-#' seaport_lookup(city = "New York")
+#' @examples seaport_finder(city = "Belfast")
+#' seaport_finder(city = "New York")
 #' ferry_emissions(from = "BEL", to = "BOY")
 ferry_emissions <- function(from, to, via = NULL, type = c("foot", "car", "average"), num_people = 1, times_journey = 1, round_trip = FALSE){
   data("seaports", envir = environment())
@@ -30,14 +30,14 @@ ferry_emissions <- function(from, to, via = NULL, type = c("foot", "car", "avera
     port_codes <- agrep(data.frame(from), seaports$port_code, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
     stop(print(from), " is not a port code in the data frame. Did you mean: ",
          paste0((data.frame(seaports) %>% dplyr::filter(port_code %in% port_codes))$port_code, sep = ", "),
-         "\n Otherwise find port code in `seaport_lookup` function"
+         "\n Otherwise find port code in `seaport_finder` function"
     )
   }
   if (!(to) %in% c(seaports$port_code)){
     port_codes <- agrep(data.frame(to), seaports$port_code, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
     stop(print(to), " is not a port code in the data frame. Did you mean: ",
          paste0((data.frame(seaports) %>% dplyr::filter(port_code %in% port_codes))$port_code, sep = ", "),
-         "\n Otherwise find port code in `seaport_lookup` function"
+         "\n Otherwise find port code in `seaport_finder` function"
     )
   } # mention port_codes data set to check station names
   if (!is.null(via)){
@@ -47,7 +47,7 @@ ferry_emissions <- function(from, to, via = NULL, type = c("foot", "car", "avera
         port_codes <- agrep(data.frame(via_x), seaports$port_code, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
         stop(print(via_x), " is not a port code in the data frame. Did you mean: ",
              paste0((data.frame(seaports) %>% dplyr::filter(port_code %in% port_codes))$port_code, sep = ", "),
-             "\n Otherwise find port code in `seaport_lookup` function"
+             "\n Otherwise find port code in `seaport_finder` function"
         )
       }
     }

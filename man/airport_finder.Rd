@@ -4,16 +4,27 @@
 \alias{airport_finder}
 \title{Find the airport code for an airport}
 \usage{
-airport_finder(name, city, country, IATA_code)
+airport_finder(
+  name,
+  city,
+  country,
+  IATA_code,
+  distance = 0.1,
+  ignore.case = FALSE
+)
 }
 \arguments{
-\item{name}{Name of the airport}
+\item{name}{Name of the airport.}
 
-\item{city}{City that the airport is in}
+\item{city}{City that the airport is in.}
 
-\item{country}{Country that the airport is in}
+\item{country}{Country that the airport is in.}
 
-\item{IATA_code}{The IATA code}
+\item{IATA_code}{The IATA code.}
+
+\item{distance}{Maximum distance allowed for a match between the name/country/city given, and that of the value in the data set.}
+
+\item{ignore.case}{If \code{FALSE}, the check for is case-sensitive. If \code{TRUE}, case is ignored.}
 }
 \value{
 
