@@ -13,3 +13,10 @@ test_that("correct calculations when you edit options on class and round trip", 
   expect_equal(8*airplane_emissions(from = "LAX", to = "LHR"), airplane_emissions(from = "LAX", to = "LHR", round_trip = TRUE, class = "first"))
 })
 
+
+# checking errors
+test_that("check an error arises for typos", {
+  expect_error(airplane_emissions(from = "NBO", to = "LHRR"))
+  expect_error(airplane_emissions(from = "Nairobi Airport", to = "LHR"))
+  expect_error(airplane_emissions(from = "NBO", to = "LHR", via = ""))
+})
