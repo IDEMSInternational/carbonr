@@ -5,5 +5,5 @@ test_that("correct calculations when editing number of people", {
 })
 
 test_that("correct calculations when specify is TRUE", {
-  expect_equal(office_emissions(specify = TRUE), 0)
+  expect_equal(office_emissions(specify = TRUE, electricity_kwh = 0), 0)
 })
