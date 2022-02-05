@@ -48,7 +48,7 @@ office_emissions <- function(specify = FALSE, num_people = 1, num_wfh = 0, elect
     
     # fuels - Fuels tab.
     # gaseous fuels calculations
-    if (is.null(butane)){
+    if (missing(butane)){
       butane <- 0
     } else {
       if (butane_units == "tonnes"){
@@ -59,7 +59,7 @@ office_emissions <- function(specify = FALSE, num_people = 1, num_wfh = 0, elect
         butane <- butane * 0.00024
       }
     }
-    if (is.null(CNG)){
+    if (missing(CNG)){
       CNG <- 0
     } else {
       if (CNG_units == "tonnes"){
@@ -70,7 +70,7 @@ office_emissions <- function(specify = FALSE, num_people = 1, num_wfh = 0, elect
         CNG <- CNG * 0.00020297
       }
     }
-    if (is.null(LNG)){
+    if (missing(LNG)){
       LNG <- 0
     } else {
       if (LNG_units == "tonnes"){
@@ -81,7 +81,7 @@ office_emissions <- function(specify = FALSE, num_people = 1, num_wfh = 0, elect
         LNG <- LNG * 0.00020431
       }
     }
-    if (is.null(LPG)){
+    if (missing(LPG)){
       LPG <- 0
     } else {
       if (LPG_units == "tonnes"){
@@ -92,7 +92,7 @@ office_emissions <- function(specify = FALSE, num_people = 1, num_wfh = 0, elect
         LPG <- LPG * 0.00023031
       }
     }
-    if (is.null(natural_gas)){
+    if (missing(natural_gas)){
       natural_gas <- 0
     } else {
       if (natural_gas_units == "tonnes"){
@@ -103,7 +103,7 @@ office_emissions <- function(specify = FALSE, num_people = 1, num_wfh = 0, elect
         natural_gas <- natural_gas * 0.00020431
       }
     }
-    if (is.null(gas)){
+    if (missing(gas)){
       gas <- 0
     } else {
       if (gas_units == "tonnes"){
@@ -114,7 +114,7 @@ office_emissions <- function(specify = FALSE, num_people = 1, num_wfh = 0, elect
         gas <- gas * 0.00019917
       }
     }
-    if (is.null(propane)){
+    if (missing(propane)){
       propane <- 0
     } else {
       if (propane_units == "tonnes"){
@@ -126,7 +126,7 @@ office_emissions <- function(specify = FALSE, num_people = 1, num_wfh = 0, elect
       }
     }
     # liquid, solid fuels calculations - to add. See Fuels tab.
-    if (is.null(burning_oil)){
+    if (missing(burning_oil)){
       burning_oil <- 0
     } else {
       if (burning_oil_units == "tonnes"){
@@ -137,7 +137,7 @@ office_emissions <- function(specify = FALSE, num_people = 1, num_wfh = 0, elect
         burning_oil <- burning_oil * 0.00026086
       }
     }
-    if (is.null(diesel)){
+    if (missing(diesel)){
       diesel <- 0
     } else {
       if (diesel_units == "tonnes"){
@@ -148,7 +148,7 @@ office_emissions <- function(specify = FALSE, num_people = 1, num_wfh = 0, elect
         diesel <- diesel * 0.00025165
       }
     }
-    if (is.null(coal)){
+    if (missing(coal)){
       coal <- 0
     } else {
       if (coal_units == "tonnes"){
@@ -161,7 +161,7 @@ office_emissions <- function(specify = FALSE, num_people = 1, num_wfh = 0, elect
     # Bioenergy tab - Wood
     # wood logs
     # there are other wood options - chips, pellets, grass, straw, biofuel
-    if (is.null(wood)){
+    if (missing(wood)){
       wood <- 0
     } else {
       if (wood_units == "tonnes"){
