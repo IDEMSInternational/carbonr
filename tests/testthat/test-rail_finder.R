@@ -12,5 +12,5 @@ test_that("correct output", {
 })
 
 test_that("works with multiple entries", {
-  expect_equal(rail_finder(region = "West Midlands", district = "Coventry", county = "West Midlands")$station = "Coventry")
+  expect_equal(rail_finder(region = "West Midlands", district = "Coventry", county = "West Midlands")$station, "Coventry")
 })
