@@ -10,10 +10,10 @@
 #' @param natural_gas amount used. Standard natural gas received through the gas mains grid network in the UK.
 #' @param natural_gas_mineral amount used. Natural gas (100% mineral blend) factor is natural gas not obtained through the grid and therefore does not contain any biogas content. It can be used for calculating bespoke fuel mixtures.
 #' @param other_petroleum_gas amount used. Consists mainly of ethane, plus other hydrocarbons, (excludes butane and propane).
-#' @param propane amount used. Fuel for piston-engined aircraft - a high octane petrol (aka AVGAS).
-#' @param aviation amount used. Fuel for turbo-prop aircraft and jets (aka jet fuel). Similar to kerosene used as a heating fuel, but refined to a higher quality.
-#' @param aviation_fuel amount used. Main purpose is for heating/lighting on a domestic scale (also known as kerosene).
-#' @param burning_oil amount used. (also known as kerosene).
+#' @param propane amount used.
+#' @param aviation amount used.  Fuel for piston-engined aircraft - a high octane petrol (aka AVGAS).
+#' @param aviation_fuel amount used. Fuel for turbo-prop aircraft and jets (aka jet fuel). Similar to kerosene used as a heating fuel, but refined to a higher quality.
+#' @param burning_oil amount used. Main purpose is for heating/lighting on a domestic scale (also known as kerosene).
 #' @param diesel amount used. Standard diesel bought from any local filling station (across the board forecourt fuel typically contains biofuel content).
 #' @param diesel_mineral amount used. Diesel that has not been blended with biofuel (non-forecourt diesel).
 #' @param fuel_oil amount used. Heavy oil used as fuel in furnaces and boilers of power stations, in industry, for industrial heating and in ships.
@@ -229,7 +229,6 @@ raw_fuels <- function(num_people = 1, electricity_kwh = 0, kgco2e = 0.21233,
   biogas_units <- match.arg(biogas_units)
   landfill_gas_units <- match.arg(landfill_gas_units)
   
-  
   var_fuel <- c(unique(fuels$Fuel))
   unit_fuel <- c(butane_units, CNG_units, LNG_units, LPG_units, natural_gas_units, natural_gas_mineral_units, other_petroleum_gas_units, propane_units, aviation_units, aviation_fuel_units, burning_oil_units,
                  diesel_units, diesel_mineral_units, fuel_oil_units, gas_oil_units, lubricants_units, naptha_units, petrol_biofuel_units, petrol_mineral_units, residual_oil_units, distillate_units,
@@ -242,12 +241,6 @@ raw_fuels <- function(num_people = 1, electricity_kwh = 0, kgco2e = 0.21233,
                 coal_home_produced_gen, bioethanol, biodiesel, biomethane, biodiesel_cooking_oil, biodiesel_tallow, biodiesel_HVO, biopropane, bio_petrol,
                 renewable_petrol, wood_log, wood_chips, wood_pellets, grass, biogas, landfill_gas)
   
-  #if (specify == FALSE){
-  #  # TODO: I assume a specify option does not make sense in raw_fuels.
-  #  # but should be in office_emissions.R
-  #  # 2.60 Tonnes CO2e as average for a year - https://www.carbonfootprint.com/businesscalculator.aspx?c=BusBasic&t=b
-  #  total_emissions <- 2.60
-  #} else {
     # electricty - UK electricity tab
     electricity <- electricity_kwh * kgco2e
     emission <- NULL
@@ -262,7 +255,6 @@ raw_fuels <- function(num_people = 1, electricity_kwh = 0, kgco2e = 0.21233,
     }
     total_emissions <- sum(emission) + electricity
   #}
-  #wfh <- 0.50*num_wfh # from https://www.carbonfootprint.com/
-  overall_emissions <- total_emissions * num_people # + wfh
+  overall_emissions <- total_emissions * num_people
   return(overall_emissions)
 }

@@ -123,13 +123,13 @@ raw_fuels(
 
 \item{other_petroleum_gas}{amount used. Consists mainly of ethane, plus other hydrocarbons, (excludes butane and propane).}
 
-\item{propane}{amount used. Fuel for piston-engined aircraft - a high octane petrol (aka AVGAS).}
+\item{propane}{amount used.}
 
-\item{aviation}{amount used. Fuel for turbo-prop aircraft and jets (aka jet fuel). Similar to kerosene used as a heating fuel, but refined to a higher quality.}
+\item{aviation}{amount used.  Fuel for piston-engined aircraft - a high octane petrol (aka AVGAS).}
 
-\item{aviation_fuel}{amount used. Main purpose is for heating/lighting on a domestic scale (also known as kerosene).}
+\item{aviation_fuel}{amount used. Fuel for turbo-prop aircraft and jets (aka jet fuel). Similar to kerosene used as a heating fuel, but refined to a higher quality.}
 
-\item{burning_oil}{amount used. (also known as kerosene).}
+\item{burning_oil}{amount used. Main purpose is for heating/lighting on a domestic scale (also known as kerosene).}
 
 \item{diesel}{amount used. Standard diesel bought from any local filling station (across the board forecourt fuel typically contains biofuel content).}
 
