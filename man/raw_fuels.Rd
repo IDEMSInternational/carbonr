@@ -6,7 +6,7 @@
 \usage{
 raw_fuels(
   num_people = 1,
-  electricity_kwh,
+  electricity_kwh = 0,
   kgco2e = 0.21233,
   butane = 0,
   CNG = 0,
