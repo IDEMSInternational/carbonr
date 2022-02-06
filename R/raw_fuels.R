@@ -1,8 +1,6 @@
 #' Raw Fuels Emissions
 #' 
-#' @param specify Whether an average should be used, or if they wish to specify the amount of energy used.
-#' @param num_people Number of people in the office.
-#' @param num_wfh Number of people working from home.
+#' @param num_people Number of people to account for.
 #' @param electricity_kwh TODO
 #' @param kgco2e TODO
 #' @param butane amount of Butane used.
@@ -115,7 +113,7 @@
 # supply: 0.149
 # trt (scope 3): 0.272
 
-raw_fuels <- function(specify = FALSE, num_people = 1, num_wfh = 0, electricity_kwh, kgco2e = 0.21233,
+raw_fuels <- function(num_people = 1, electricity_kwh, kgco2e = 0.21233,
                       butane = 0,CNG = 0,LPG = 0,LNG = 0,natural_gas = 0,natural_gas_mineral = 0,other_petroleum_gas = 0,propane = 0,
                       aviation = 0,aviation_fuel = 0,burning_oil = 0,diesel = 0,diesel_mineral = 0,fuel_oil = 0,gas_oil = 0,lubricants = 0,
                       naptha = 0,petrol_biofuel = 0,petrol_mineral = 0,residual_oil = 0,distillate = 0,refinery_miscellaneous = 0,
@@ -147,12 +145,12 @@ raw_fuels <- function(specify = FALSE, num_people = 1, num_wfh = 0, electricity_
                 coal_home_produced_gen, bioethanol, biodiesel, biomethane, biodiesel_cooking_oil, biodiesel_tallow, biodiesel_HVO, biopropane, bio_petrol,
                 renewable_petrol, wood_log, wood_chips, wood_pellets, grass, biogas, landfill_gas)
   
-  if (specify == FALSE){
-    # TODO: I assume a specify option does not make sense in raw_fuels.
-    # but should be in office_emissions.R
-    # 2.60 Tonnes CO2e as average for a year - https://www.carbonfootprint.com/businesscalculator.aspx?c=BusBasic&t=b
-    total_emissions <- 2.60
-  } else {
+  #if (specify == FALSE){
+  #  # TODO: I assume a specify option does not make sense in raw_fuels.
+  #  # but should be in office_emissions.R
+  #  # 2.60 Tonnes CO2e as average for a year - https://www.carbonfootprint.com/businesscalculator.aspx?c=BusBasic&t=b
+  #  total_emissions <- 2.60
+  #} else {
     # electricty - UK electricity tab
     electricity <- electricity_kwh * kgco2e
     emission <- NULL
@@ -166,9 +164,8 @@ raw_fuels <- function(specify = FALSE, num_people = 1, num_wfh = 0, electricity_
       }
     }
     total_emissions <- sum(emission) + electricity
-  }
-  wfh <- 0.50*num_wfh # from https://www.carbonfootprint.com/
-  return((total_emissions * num_people) + wfh)
+  #}
+  #wfh <- 0.50*num_wfh # from https://www.carbonfootprint.com/
+  overall_emissions <- total_emissions * num_people # + wfh
+  return(overall_emissions)
 }
-
-

@@ -5,9 +5,7 @@
 \title{Raw Fuels Emissions}
 \usage{
 raw_fuels(
-  specify = FALSE,
   num_people = 1,
-  num_wfh = 0,
   electricity_kwh,
   kgco2e = 0.21233,
   butane = 0,
@@ -105,11 +103,7 @@ raw_fuels(
 )
 }
 \arguments{
-\item{specify}{Whether an average should be used, or if they wish to specify the amount of energy used.}
-
-\item{num_people}{Number of people in the office.}
-
-\item{num_wfh}{Number of people working from home.}
+\item{num_people}{Number of people to account for.}
 
 \item{electricity_kwh}{TODO}
 
