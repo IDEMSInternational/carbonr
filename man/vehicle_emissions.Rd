@@ -6,18 +6,22 @@
 \usage{
 vehicle_emissions(
   distance,
-  units = "miles",
-  vehicle = "car",
-  fuel = "petrol",
-  size = "average",
-  type = "average",
-  taxi_type = "regular"
+  units = c("miles", "km"),
+  num = 1,
+  vehicle = c("car", "motorbike", "taxi", "van", "bus", "coach", "tram", "tube"),
+  fuel = c("petrol", "diesel", "hybrid", "unknown", "hybrid electric",
+    "battery electric"),
+  size = c("average", "small", "medium", "large"),
+  bus_type = c("local not London", "local London", "average"),
+  taxi_type = c("regular", "black cab")
 )
 }
 \arguments{
 \item{distance}{Distance in km or miles of the journey made (this can be calculated with other tools, such as google maps.).}
 
 \item{units}{Units for the distance travelled. Options are \code{"km"} or \code{"miles"}.}
+
+\item{num}{Number of passengers if \code{vehicle} is one of \code{coach}, \code{tram}, or \code{tube}. Otherwise, number of vehicles used.}
 
 \item{vehicle}{Vehicle used for the journey. Options are \code{"car"}, \code{"motorbike"}, \code{"taxi"}, \code{"van"}, \code{"bus"}, \code{"coach"}, \code{"tram"}, \code{"tube"}. Note: bus, coach, tram, tube, are all per passenger}
 
@@ -29,7 +33,7 @@ Options are \code{"small"}, \code{"medium"}, \code{"large"}, or \code{"average"}
 For car: small denotes up to a 1.4L engine, unless diesel which is up to 1.7L engine. Medium denotes 1.4-2.0L for petrol cars, 1.7-2.0L for diesel cars. Large denotes 2.0L+ engine.
 For motorbike, sizes denote upto 125cc, 125cc-500cc, 500cc+ respectively.}
 
-\item{type}{Options are \code{"local_nL"}, \code{"local_L"}, \code{"local"}, or \code{"average"}. These denote whether the bus is local but outside of London, local in London, local, or average.}
+\item{bus_type}{Options are \code{"local_nL"}, \code{"local_L"}, \code{"local"}, or \code{"average"}. These denote whether the bus is local but outside of London, local in London, local, or average.}
 
 \item{taxi_type}{Whether a taxi is regular or black cab. Options are \code{"regular"}, \code{"black cab"}.}
 }
