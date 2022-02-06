@@ -14,7 +14,7 @@
 hotel_emissions <- function(location = "UK", nights = 1, rooms = 1){
   checkmate::assert_count(nights)
   checkmate::assert_count(rooms)
- 
+
   row <- which(hotel_df$Country == location)
   if (length(row) == 0) {
     hotel_names <- agrep(data.frame(location), hotel_df$Country, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
