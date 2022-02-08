@@ -30,7 +30,7 @@ rail_finder(
 \item{ignore.case}{If \code{FALSE}, the check for is case-sensitive. If \code{TRUE}, case is ignored.}
 }
 \value{
-
+TODO
 }
 \description{
 Find the station code for a train station

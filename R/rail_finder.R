@@ -8,11 +8,10 @@
 #' @param distance Maximum distance allowed for a match between the name/country/city given, and that of the value in the data set.
 #' @param ignore.case If `FALSE`, the check for is case-sensitive. If `TRUE`, case is ignored.
 #'
-#' @return 
+#' @return TODO
 #' @export
 #'
-#' @examples
-#' # Can get the station code from the station. Gets similar matches.
+#' @examples # Can get the station code from the station. Gets similar matches.
 #' rail_finder(station = "Bristo")
 #' 
 #' # Can get the code from the station and city.
@@ -30,28 +29,26 @@ rail_finder <- function(station, region, county, district, station_code, distanc
   checkmate::assert_logical(ignore.case)
   data("stations", envir = environment())
   
-  rail_filter <- stations
-  
   if (!missing(station)){
-    rail_station <- agrep(data.frame(station), rail_filter$station, ignore.case = ignore.case, max.distance = distance, value = TRUE)
-    rail_filter <- rail_filter %>% dplyr::filter(station %in% rail_station)
+    rail_station <- agrep(data.frame(station), stations$station, ignore.case = ignore.case, max.distance = distance, value = TRUE)
+    stations <- stations %>% dplyr::filter(station %in% rail_station)
   }
   if (!missing(region)){
-    rail_region <- agrep(data.frame(region), rail_filter$region, ignore.case = ignore.case, max.distance = distance, value = TRUE)
-    rail_filter <- rail_filter %>% dplyr::filter(region %in% rail_region)
+    rail_region <- agrep(data.frame(region), stations$region, ignore.case = ignore.case, max.distance = distance, value = TRUE)
+    stations <- stations %>% dplyr::filter(region %in% rail_region)
   }
   if (!missing(county)){
-    rail_county <- agrep(data.frame(county), rail_filter$county, ignore.case = ignore.case, max.distance = distance, value = TRUE)
-    rail_filter <- rail_filter %>% dplyr::filter(county %in% rail_county)
+    rail_county <- agrep(data.frame(county), stations$county, ignore.case = ignore.case, max.distance = distance, value = TRUE)
+    stations <- stations %>% dplyr::filter(county %in% rail_county)
   }
   if (!missing(district)){
-    rail_district <- agrep(data.frame(district), rail_filter$district, ignore.case = ignore.case, max.distance = distance, value = TRUE)
-    rail_filter <- rail_filter %>% dplyr::filter(district %in% rail_district)
+    rail_district <- agrep(data.frame(district), stations$district, ignore.case = ignore.case, max.distance = distance, value = TRUE)
+    stations <- stations %>% dplyr::filter(district %in% rail_district)
   }
   if(!missing(station_code)){
-    rail_code <- agrep(data.frame(station_code), rail_filter$station_code, ignore.case = ignore.case, max.distance = 0, value = TRUE)
-    rail_filter <- rail_filter %>% dplyr::filter(station_code %in% rail_code)
+    rail_code <- agrep(data.frame(station_code), stations$station_code, ignore.case = ignore.case, max.distance = 0, value = TRUE)
+    stations <- stations %>% dplyr::filter(station_code %in% rail_code)
   }
   
-  return(rail_filter)
+  return(stations)
 }

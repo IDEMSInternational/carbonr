@@ -228,7 +228,7 @@ raw_fuels <- function(num_people = 1, electricity_kwh = 0, kgco2e = 0.21233,
   grass_units <- match.arg(grass_units)
   biogas_units <- match.arg(biogas_units)
   landfill_gas_units <- match.arg(landfill_gas_units)
-  
+
   var_fuel <- c(unique(fuels$Fuel))
   unit_fuel <- c(butane_units, CNG_units, LNG_units, LPG_units, natural_gas_units, natural_gas_mineral_units, other_petroleum_gas_units, propane_units, aviation_units, aviation_fuel_units, burning_oil_units,
                  diesel_units, diesel_mineral_units, fuel_oil_units, gas_oil_units, lubricants_units, naptha_units, petrol_biofuel_units, petrol_mineral_units, residual_oil_units, distillate_units,
@@ -247,8 +247,8 @@ raw_fuels <- function(num_people = 1, electricity_kwh = 0, kgco2e = 0.21233,
     for (i in 1:length(var_fuel)){
       if (val_fuel[i] != 0){
         emission[i] <- (fuels %>%
-                          dplyr::filter(Fuel == var_fuel[i]) %>%
-                          dplyr::filter(unit == unit_fuel[i]))$CO2e * val_fuel[i]
+                          dplyr::filter(.data$Fuel == var_fuel[i]) %>%
+                          dplyr::filter(.data$unit == unit_fuel[i]))$CO2e * val_fuel[i]
       } else {
         emission[i] <- 0
       }
