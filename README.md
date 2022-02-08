@@ -38,18 +38,18 @@ library(carbonr)
 # Want to calculate emissions for a flight between Vancouver and Toronto
 
 airport_finder(name = "Vancouver")
-#> # A tibble: 3 x 3
-#>   Name                                  City      IATA 
-#>   <chr>                                 <chr>     <chr>
-#> 1 Vancouver International Airport       Vancouver "YVR"
-#> 2 Vancouver Harbour Water Aerodrome     Vancouver "CXH"
-#> 3 Vancouver International Seaplane Base Vancouver "\\N"
+#> # A tibble: 3 x 4
+#>   Name                                  City      Country IATA 
+#>   <chr>                                 <chr>     <chr>   <chr>
+#> 1 Vancouver International Airport       Vancouver Canada  "YVR"
+#> 2 Vancouver Harbour Water Aerodrome     Vancouver Canada  "CXH"
+#> 3 Vancouver International Seaplane Base Vancouver Canada  "\\N"
 airport_finder(name = "Toronto")
-#> # A tibble: 2 x 3
-#>   Name                                     City    IATA 
-#>   <chr>                                    <chr>   <chr>
-#> 1 Billy Bishop Toronto City Centre Airport Toronto YTZ  
-#> 2 Toronto/Oshawa Executive Airport         Oshawa  YOO
+#> # A tibble: 2 x 4
+#>   Name                                     City    Country IATA 
+#>   <chr>                                    <chr>   <chr>   <chr>
+#> 1 Billy Bishop Toronto City Centre Airport Toronto Canada  YTZ  
+#> 2 Toronto/Oshawa Executive Airport         Oshawa  Canada  YOO
 airplane_emissions("YVR","YYZ")
 #> Warning in data("airports", envir = environment()): data set 'airports' not
 #> found
@@ -58,17 +58,23 @@ airplane_emissions("YVR","YYZ")
 
 ### Emissions calculated
 
-The emissions that are calculated (with their respective sources given
-in square brackets):
+The emissions values used in the calculations are from the UK Government
+report (2021).
 
-  - Train journeys\[1\]
-  - Ferry/boat journeys\[1\]
-  - Vehicles\[1\]
-  - Flights\[1, 2\]
-  - Secondary Emissions\[3\]
-  - Hotel stays\[1\]
+  - airplane emissions
+  - ferry emissions
+  - hotel stay emissions
+  - office emissions
+  - rail emissions
+  - raw fuel emission data (primary source)
+  - vehicle emissions
 
-Sources for the emission values
+### Checking values alongside other calculators:
+
+<https://carbonfund.org/calculation-methods/>
+<https://www.carbonfootprint.com/calculatorfaqs.html>
+
+### Sources:
 
 \[1\] UK government 2021 report. See
 <https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/990675/2021-ghg-conversion-factors-methodology.pdf>
@@ -79,25 +85,3 @@ only. Radiative forcing = TRUE will give indirect and direct effects.
 sheet linked above.
 
 \[2\] Radiative forcing as 1.891 is from www.carbonfund.org
-
-\[3\] Secondary sources calculated using
-<https://www.carbonfootprint.com/calculatorfaqs.html>
-
-### Next Steps:
-
-  - checkmate package for errors
-  - Link up with Shiny app calculator?
-  - Create simple vignette
-  - Add in short haul/medium haul for flights - Under “Employee Travel”
-    <https://carbonfund.org/calculation-methods/> “Short flights are
-    calculated to be under 300 miles one-way with emissions of 0.217kg
-    CO2e per passenger mile Medium flights are calculated to be 300-2300
-    miles one-way, average 1500 miles, with emissions of 0.134 kg CO2e
-    per passenger mile Long flights are calculated to be \> 2300 miles,
-    average 3,000 miles one-way with emissions of 0.167kg CO2e per
-    passenger mile”
-
-### Checking values alongside other calculators:
-
-<https://carbonfund.org/calculation-methods/>
-<https://www.carbonfootprint.com/calculatorfaqs.html>
