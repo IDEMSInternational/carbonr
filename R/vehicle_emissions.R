@@ -14,6 +14,10 @@
 #' For motorbike, sizes denote upto 125cc, 125cc-500cc, 500cc+ respectively.
 #' @param bus_type Options are `"local_nL"`, `"local_L"`, `"local"`, or `"average"`. These denote whether the bus is local but outside of London, local in London, local, or average.
 #' @param taxi_type Whether a taxi is regular or black cab. Options are `"regular"`, `"black cab"`.
+#' @param owned_by_org logical. Whether the vehicle used is owned by the organisation or not (only for `car`, `motorbike`).
+#' @param WTT logical. Well-to-tank (WTT) - whether to account for emissions associated with extraction, refining and transportation of the fuels (... in electric vehicles case)
+#' @param include_electricity logical. Whether to account for ... for electric vehicles (car and van).
+#' @param TD logical.Whether to account for transmission and distribution (TD) for electric vehicles  (only `car` and `van`)
 #'
 #' @return Tonnes of CO2e emissions per mile travelled.
 #' @export
@@ -26,9 +30,14 @@
 vehicle_emissions <- function(distance, units = c("miles", "km"), num = 1, vehicle = c("car", "motorbike", "taxi", "van", "bus", "coach", "tram", "tube"),
                               fuel = c("petrol", "diesel", "hybrid", "unknown", "hybrid electric", "battery electric"),
                               size = c("average", "small", "medium", "large"),
-                              bus_type = c("local not London", "local London", "average"), taxi_type = c("regular", "black cab")){
+                              bus_type = c("local not London", "local London", "average"), taxi_type = c("regular", "black cab"),
+                              TD = TRUE, WTT = TRUE, include_electricity = TRUE, owned_by_org = TRUE){
   
   checkmate::assert_numeric(distance, lower = 0)
+  checkmate::assert_logical(TD)
+  checkmate::assert_logical(WTT)
+  checkmate::assert_logical(include_electricity)
+  checkmate::assert_logical(owned_by_org)
   units <- match.arg(units)
   vehicle <- match.arg(vehicle)
   fuel <- match.arg(fuel)
@@ -56,12 +65,32 @@ vehicle_emissions <- function(distance, units = c("miles", "km"), num = 1, vehic
     fuel <- "petrol"
   }
   
-  # TODO: carbonr::vehicles?
   t_mile <- (vehicles %>%
     dplyr::filter(vehicle == {{ vehicle }}) %>%
     dplyr::filter(size == {{ size }}) %>%
-    dplyr::filter(fuel == {{ fuel }}))$CO2e
+    dplyr::filter(fuel == {{ fuel }}))
+  
+  # All of the vehicles and options have WTT
+  if (WTT == FALSE){
+    t_mile <- t_mile %>% dplyr::filter(WTT == FALSE)
+  }
+  
+  # only car and motorbike have an option for owned_by_org to be TRUE
+  if (!vehicle %in% c("car", "motorbike")){ # van has values the same regardless
+    owned_by_org = FALSE
+  }
+  t_mile <- t_mile %>% dplyr::filter(.data$`Owned/controlled by reporting org` %in% c("both", {{ owned_by_org }}))
+  if (fuel %in% c("hybrid electric", "battery electric")){
+    if (include_electricity == FALSE){
+      t_mile <- t_mile %>% dplyr::filter(.data$`include electricity` == FALSE)
+    }
+    if (TD == FALSE){
+      t_mile <- t_mile %>% dplyr::filter(TD == FALSE)
+    }
+  }
 
-  emissions <- distance * t_mile * num
+  t_mile_sum <- sum(t_mile$CO2e)
+
+  emissions <- distance * t_mile_sum * num
   return(emissions)
 }

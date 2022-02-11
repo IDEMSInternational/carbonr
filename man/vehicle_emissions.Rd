@@ -13,7 +13,11 @@ vehicle_emissions(
     "battery electric"),
   size = c("average", "small", "medium", "large"),
   bus_type = c("local not London", "local London", "average"),
-  taxi_type = c("regular", "black cab")
+  taxi_type = c("regular", "black cab"),
+  TD = TRUE,
+  WTT = TRUE,
+  include_electricity = TRUE,
+  owned_by_org = TRUE
 )
 }
 \arguments{
@@ -36,6 +40,14 @@ For motorbike, sizes denote upto 125cc, 125cc-500cc, 500cc+ respectively.}
 \item{bus_type}{Options are \code{"local_nL"}, \code{"local_L"}, \code{"local"}, or \code{"average"}. These denote whether the bus is local but outside of London, local in London, local, or average.}
 
 \item{taxi_type}{Whether a taxi is regular or black cab. Options are \code{"regular"}, \code{"black cab"}.}
+
+\item{TD}{logical.Whether to account for transmission and distribution (TD) for electric vehicles  (only \code{car} and \code{van})}
+
+\item{WTT}{logical. Well-to-tank (WTT) - whether to account for emissions associated with extraction, refining and transportation of the fuels (... in electric vehicles case)}
+
+\item{include_electricity}{logical. Whether to account for ... for electric vehicles (car and van).}
+
+\item{owned_by_org}{logical. Whether the vehicle used is owned by the organisation or not (only for \code{car}, \code{motorbike}).}
 }
 \value{
 Tonnes of CO2e emissions per mile travelled.
