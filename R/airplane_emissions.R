@@ -5,9 +5,9 @@
 #' @param via Optional. Takes a vector containing three-letter IATA codes corresponding to airports.
 #' @param num_people Number of people taking the flight. Takes a single numerical value.
 #' @param radiative_force logical. Whether radiative force should be taken into account. Recommended \code{TRUE}. Emissions from airplanes at higher altitudes impact climate change more than at ground level, radiative forcing accounts for this. 
+#' @param include_WTT logical. Recommended \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.
 #' @param round_trip logical. Whether the flight is one-way or return.
 #' @param class Class flown in. Options are \code{c("economy", "premium economy", "business", "first")}.
-#'
 #' @return Returns CO2e emissions in tonnes.
 #' @export 
 #' @examples # Emissions for a flight between Vancouver and Toronto
@@ -15,14 +15,15 @@
 #' @examples # Emissions for a flight between London Heathrow and Kisumu Airport, via Amsterdam and Nairobi
 #' airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"))
 
-airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_force = TRUE, round_trip = FALSE, class = c("economy", "premium economy", "business", "first")) {
-
+airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_force = TRUE, include_WTT = TRUE, round_trip = FALSE, class = c("economy", "premium economy", "business", "first")) {
+  
   checkmate::assert_string(from)
   checkmate::assert_string(to)
   if (!is.null(via)) { checkmate::assert_character(via) }
   checkmate::assert_count(num_people)
   checkmate::assert_logical(radiative_force)
   checkmate::assert_logical(round_trip)
+  checkmate::assert_logical(include_WTT)
   class <- match.arg(class)
   
   airport_filter <- airportr::airports %>% dplyr::select(c(Name, City, IATA))
@@ -50,32 +51,28 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
     }
   }
   
-  # calculate miles flown
+  # calculate km flown
   airports <- c(from, via, to)
-  
   if (length(airports) == 2) {
-    miles <- airportr::airport_distance(airports[1], airports[2]) * 0.621371
+    # gives in km
+    km <- airportr::airport_distance(airports[1], airports[2])
   } else {
-    miles1 <- NULL
+    km1 <- NULL
     for (m in 2:length(airports)-1){
-      miles1[m] <- airportr::airport_distance(airports[m], airports[m+1])
+      km1[m] <- airportr::airport_distance(airports[m], airports[m+1])
     }
-    miles <- sum(miles1) * 0.621371
+    km <- sum(km1)
   }
   
-  if (miles < 2300){
-    co2_emitted <- miles * num_people * 0.000128489706
+  if (km < 2050){
+    co2_emitted <- km * num_people * 0.15102
   } else {
-    co2_emitted <- miles * num_people * 0.000125818201
+    co2_emitted <- km * num_people * 0.14787
   }
   
-  if (radiative_force == TRUE) {
-    co2_emitted <- co2_emitted * 1.891
-  }
-  
-  if (round_trip == TRUE) {
-    co2_emitted <- co2_emitted * 2
-  }
+  # the order here matters: RF then WTT
+  if (radiative_force) co2_emitted <- co2_emitted * 1.891
+  if (include_WTT) co2_emitted <- co2_emitted + (km * num_people * 0.01654) # this is economy class (short haul) - will be multiplied as appropriate for other classes.
   
   if (class == "premium economy") {
     co2_emitted <- co2_emitted * 1.6
@@ -83,7 +80,8 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
     co2_emitted <- co2_emitted * 2.9
   } else if (class == "first") {
     co2_emitted <- co2_emitted * 4
-  }
+  } 
+  if (round_trip) co2_emitted <- co2_emitted * 2
   
-  return(co2_emitted)
+  return(co2_emitted * 0.001) # to return in tonnes
 }

@@ -11,6 +11,7 @@ ferry_emissions(
   type = c("foot", "car", "average"),
   num_people = 1,
   times_journey = 1,
+  include_WTT = TRUE,
   round_trip = FALSE
 )
 }
@@ -26,6 +27,8 @@ ferry_emissions(
 \item{num_people}{Number of people taking the journey. Takes a single numerical value.}
 
 \item{times_journey}{Number of times the journey is taken.}
+
+\item{include_WTT}{logical. Recommended \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.}
 
 \item{round_trip}{Whether the journey is one-way or return.}
 }

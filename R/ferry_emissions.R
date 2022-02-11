@@ -6,6 +6,7 @@
 #' @param type Whether the journey is taken on foot or by car. Options are `"foot"`, `"car"`, `"average"`.
 #' @param num_people Number of people taking the journey. Takes a single numerical value.
 #' @param times_journey Number of times the journey is taken.
+#' @param include_WTT logical. Recommended \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.
 #' @param round_trip Whether the journey is one-way or return.
 #'
 #' @return Returns CO2e emissions in tonnes for the ferry journey.
@@ -15,7 +16,7 @@
 #' @examples seaport_finder(city = "Belfast")
 #' seaport_finder(city = "New York")
 #' ferry_emissions(from = "BEL", to = "BOY")
-ferry_emissions <- function(from, to, via = NULL, type = c("foot", "car", "average"), num_people = 1, times_journey = 1, round_trip = FALSE){
+ferry_emissions <- function(from, to, via = NULL, type = c("foot", "car", "average"), num_people = 1, times_journey = 1, include_WTT = TRUE, round_trip = FALSE){
   data("seaports", envir = environment())
   
   checkmate::assert_string(from)
@@ -23,6 +24,7 @@ ferry_emissions <- function(from, to, via = NULL, type = c("foot", "car", "avera
   if (!is.null(via)) { checkmate::assert_character(via) }
   checkmate::assert_count(num_people)
   checkmate::assert_count(times_journey)
+  checkmate::assert_logical(include_WTT)
   checkmate::assert_logical(round_trip)
   type <- match.arg(type)
   
@@ -68,6 +70,7 @@ ferry_emissions <- function(from, to, via = NULL, type = c("foot", "car", "avera
   lats <- c(latitude_from, latitude_via, latitude_to)
   longs <- c(longitude_from, longitude_via, longitude_to)
   
+  # distance_calc gives distance in miles.
   if (length(lats) == 2) {
     distance <- mapply(FUN = distance_calc, lat1 = lats[1], lat2 = lats[2], long1 = longs[1], long2 = longs[2])
   } else {
@@ -78,18 +81,28 @@ ferry_emissions <- function(from, to, via = NULL, type = c("foot", "car", "avera
     distance <- sum(distance1)
   }
   
-  if (type == "foot"){
-    t_mile <- 0.00003015581
-  } else if (type == "car"){
-    t_mile <- 0.0002084369
-  } else if (type == "average"){
-    t_mile <- 0.0001816333
+  # km to miles: 0.6213728
+  km_to_miles <- 0.6213728
+  if (include_WTT){
+    if (type == "foot"){
+      t_mile <- (0.018738 + 0.004208) * km_to_miles
+    } else if (type == "car"){
+      t_mile <- (0.12952 + 0.029087) * km_to_miles
+    } else if (type == "average"){
+      t_mile <- (0.11286 + 0.025347) * km_to_miles
+    }
+  } else {
+    if (type == "foot"){
+      t_mile <- 0.018738 * km_to_miles
+    } else if (type == "car"){
+      t_mile <- 0.12952 * km_to_miles
+    } else if (type == "average"){
+      t_mile <- 0.11286 * km_to_miles
+    }
   }
   
   emissions <- distance*t_mile*num_people*times_journey
-  if (round_trip){
-    emissions <- 2*emissions
-  }
   
-  return(emissions)
+  if (round_trip) emissions <- 2*emissions
+  return(emissions * 0.001) # to give in tonnes
 }

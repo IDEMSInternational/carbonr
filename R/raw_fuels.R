@@ -1,8 +1,6 @@
 #' Raw Fuels Emissions
 #' 
 #' @param num_people Number of people to account for.
-#' @param electricity_kwh TODO
-#' @param kgco2e TODO
 #' @param butane amount of Butane used.
 #' @param CNG amount used. Compressed natural gas (CNG). A compressed version of the natural gas used in homes. An alternative transport fuel.
 #' @param LPG amount used. Liquid petroleum gas. Used to power cooking stoves or heaters off-grid and fuel some vehicles (e.g. fork-lift trucks and vans).
@@ -102,7 +100,7 @@
 #' Solid fuels: 
 #' 
 #' 
-#' @return TODO
+#' @return CO2e emissions in tonnes
 #' @export
 #'
 #' @examples # TODO
@@ -113,8 +111,7 @@
 # supply: 0.149
 # trt (scope 3): 0.272
 
-raw_fuels <- function(num_people = 1, electricity_kwh = 0, kgco2e = 0.21233,
-                      butane = 0,CNG = 0,LPG = 0,LNG = 0,natural_gas = 0,natural_gas_mineral = 0,other_petroleum_gas = 0,propane = 0,
+raw_fuels <- function(num_people = 1, butane = 0,CNG = 0,LPG = 0,LNG = 0,natural_gas = 0,natural_gas_mineral = 0,other_petroleum_gas = 0,propane = 0,
                       aviation = 0,aviation_fuel = 0,burning_oil = 0,diesel = 0,diesel_mineral = 0,fuel_oil = 0,gas_oil = 0,lubricants = 0,
                       naptha = 0,petrol_biofuel = 0,petrol_mineral = 0,residual_oil = 0,distillate = 0,refinery_miscellaneous = 0,
                       waste_oils = 0,marine_gas = 0,marine_fuel = 0,coal_industrial = 0,coal_electricity_gen = 0,coal_domestic = 0,
@@ -241,8 +238,6 @@ raw_fuels <- function(num_people = 1, electricity_kwh = 0, kgco2e = 0.21233,
                 coal_home_produced_gen, bioethanol, biodiesel, biomethane, biodiesel_cooking_oil, biodiesel_tallow, biodiesel_HVO, biopropane, bio_petrol,
                 renewable_petrol, wood_log, wood_chips, wood_pellets, grass, biogas, landfill_gas)
   
-    # electricty - UK electricity tab
-    electricity <- electricity_kwh * kgco2e
     emission <- NULL
     for (i in 1:length(var_fuel)){
       if (val_fuel[i] != 0){
@@ -253,8 +248,8 @@ raw_fuels <- function(num_people = 1, electricity_kwh = 0, kgco2e = 0.21233,
         emission[i] <- 0
       }
     }
-    total_emissions <- sum(emission) + electricity
+    total_emissions <- sum(emission)
   #}
   overall_emissions <- total_emissions * num_people
-  return(overall_emissions)
+  return(overall_emissions * 0.001) # to give in tonnes
 }

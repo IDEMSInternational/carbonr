@@ -6,8 +6,6 @@
 \usage{
 raw_fuels(
   num_people = 1,
-  electricity_kwh = 0,
-  kgco2e = 0.21233,
   butane = 0,
   CNG = 0,
   LPG = 0,
@@ -104,10 +102,6 @@ raw_fuels(
 }
 \arguments{
 \item{num_people}{Number of people to account for.}
-
-\item{electricity_kwh}{TODO}
-
-\item{kgco2e}{TODO}
 
 \item{butane}{amount of Butane used.}
 
@@ -294,7 +288,7 @@ raw_fuels(
 \item{landfill_gas_units}{units that the biogas is given in. Options are \code{"tonnes"}, \code{"kwh"}.}
 }
 \value{
-TODO
+CO2e emissions in tonnes
 }
 \description{
 Raw Fuels Emissions

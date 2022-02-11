@@ -38,7 +38,7 @@ test_that("coach works when an unrelated parameter is altered", {
   expect_equal(vehicle_emissions(distance = 100, vehicle = "coach", bus_type = "local not London"), vehicle_emissions(distance = 100, vehicle = "coach", bus_type = "average"))
 })
 
-test_that("battery electricity changes when TD is altered", {
+test_that("battery electricity changes when parameters are altered", {
   expect_gt(vehicle_emissions(distance = 100, fuel = "battery electric", TD = TRUE), vehicle_emissions(distance = 100, fuel = "battery electric", TD = FALSE))
   expect_gt(vehicle_emissions(distance = 100, fuel = "battery electric", WTT = TRUE), vehicle_emissions(distance = 100, fuel = "battery electric", WTT = FALSE))
   expect_gt(vehicle_emissions(distance = 100, fuel = "battery electric", owned_by_org = FALSE), vehicle_emissions(distance = 100, fuel = "battery electric", owned_by_org = TRUE))

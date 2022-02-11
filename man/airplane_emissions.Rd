@@ -10,6 +10,7 @@ airplane_emissions(
   via = NULL,
   num_people = 1,
   radiative_force = TRUE,
+  include_WTT = TRUE,
   round_trip = FALSE,
   class = c("economy", "premium economy", "business", "first")
 )
@@ -24,6 +25,8 @@ airplane_emissions(
 \item{num_people}{Number of people taking the flight. Takes a single numerical value.}
 
 \item{radiative_force}{logical. Whether radiative force should be taken into account. Recommended \code{TRUE}. Emissions from airplanes at higher altitudes impact climate change more than at ground level, radiative forcing accounts for this.}
+
+\item{include_WTT}{logical. Recommended \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.}
 
 \item{round_trip}{logical. Whether the flight is one-way or return.}
 

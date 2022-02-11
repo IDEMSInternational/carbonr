@@ -25,3 +25,8 @@ test_that("check an error arises for typos", {
 test_that("via option", {
   expect_gt(airplane_emissions(from = "NBO", to = "LHR", via = "AMS"), airplane_emissions(from = "NBO", to = "LHR"))
 })
+
+# WTT option
+test_that("via option", {
+  expect_gt(airplane_emissions(from = "NBO", to = "LHR"), airplane_emissions(from = "NBO", to = "LHR", include_WTT = FALSE))
+})
