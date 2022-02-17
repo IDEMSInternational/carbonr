@@ -81,23 +81,24 @@ ferry_emissions <- function(from, to, via = NULL, type = c("foot", "car", "avera
     distance <- sum(distance1)
   }
   
-  # km to miles: 0.6213728
-  km_to_miles <- 0.6213728
+  # convert to km
+  distance <- distance * 1.609
+  
   if (include_WTT){
     if (type == "foot"){
-      t_mile <- (0.018738 + 0.004208) * km_to_miles
+      t_mile <- (0.018738 + 0.004208)
     } else if (type == "car"){
-      t_mile <- (0.12952 + 0.029087) * km_to_miles
+      t_mile <- (0.12952 + 0.029087)
     } else if (type == "average"){
-      t_mile <- (0.11286 + 0.025347) * km_to_miles
+      t_mile <- (0.11286 + 0.025347)
     }
   } else {
     if (type == "foot"){
-      t_mile <- 0.018738 * km_to_miles
+      t_mile <- 0.018738
     } else if (type == "car"){
-      t_mile <- 0.12952 * km_to_miles
+      t_mile <- 0.12952
     } else if (type == "average"){
-      t_mile <- 0.11286 * km_to_miles
+      t_mile <- 0.11286
     }
   }
   

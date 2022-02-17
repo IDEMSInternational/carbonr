@@ -5,6 +5,7 @@
 #' @param via Optional. Takes a vector containing the stations the train travels via.
 #' @param num_people Number of people taking the journey. Takes a single numerical value.
 #' @param times_journey Number of times the journey is taken.
+#' @param include_WTT logical. Recommended \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.
 #' @param round_trip Whether the journey is one-way or return.
 # @param class Class travelled in. Options are ... .
 #'
@@ -19,7 +20,7 @@
 #' # Then calculate emissions
 #' @examples rail_emissions("Bristol Temple Meads", "Paddington", via = c("Bath Spa",
 #' "Swindon", "Reading"))
-rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey = 1, round_trip = FALSE){
+rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey = 1, include_WTT = TRUE, round_trip = FALSE){
   data("stations", envir = environment())
   
   checkmate::assert_string(from)
@@ -27,6 +28,7 @@ rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey =
   if (!is.null(via)) { checkmate::assert_character(via) }
   checkmate::assert_count(num_people)
   checkmate::assert_count(times_journey)
+  checkmate::assert_logical(include_WTT)
   checkmate::assert_logical(round_trip)
   
   if (!(from) %in% c(stations$station)){
@@ -77,12 +79,12 @@ rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey =
     }
     distance <- sum(distance1)
   }
-  
-  emissions <- 0.00005711548*distance*num_people*times_journey
-  # for international rail, they say 0.000007177656tonnes CO2e per mile
+  distance <- distance * 1.609 # convert to KM
+  emissions <- 0.03549
+  if (include_WTT){ emissions <- emissions + 0.00892 }
+  emissions <- emissions*distance*num_people*times_journey
   if (round_trip){
     emissions <- 2*emissions
   }
-  
-  return(emissions)
+  return(emissions * 0.001) # give in tonnes
 }

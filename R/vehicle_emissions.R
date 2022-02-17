@@ -92,5 +92,5 @@ vehicle_emissions <- function(distance, units = c("miles", "km"), num = 1, vehic
   t_mile_sum <- sum(t_mile$CO2e)
 
   emissions <- distance * t_mile_sum * num
-  return(emissions)
+  return(emissions * 0.001)
 }
