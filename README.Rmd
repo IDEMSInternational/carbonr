@@ -28,51 +28,68 @@ status](https://www.r-pkg.org/badges/version/carbonr)](https://CRAN.R-project.or
 [![license](https://img.shields.io/badge/license-LGPL%20(%3E=%203)-lightgrey.svg)](https://www.gnu.org/licenses/lgpl-3.0.en.html)
 <!-- badges: end -->
 
- An R package to conveniently calculate carbon-equivalent emissions.
+## Overview
+
+carbonr is a package in R to conveniently calculate carbon-equivalent emissions:
+
+* `airplane_emissions()`
+* `ferry_emissions()`
+* `hotel_emissions()`
+* `office_emissions()`
+* `rail_emissions()`
+* `raw_fuels()`
+* `vehicle_emissions()`
+
+These all return carbon-equivalent emissions in tonnes. The emissions values in the calculations are from the UK Government report (2021).
  
 ## Installation
 
 You can install the development version of carbonr from [GitHub](https://github.com/) with:
 
-``` r
-
+```{r, eval = FALSE}
 # install.packages("devtools")
-devtools::install_github("IDEMSInternational/carbonr")
-
+devtools::install_github("tidyverse/dplyr")
 ```
 
-## Example
 
-```{r example}
+## Usage
+
+```{r, message = FALSE, warning = FALSE}
+
 library(carbonr)
-# Want to calculate emissions for a flight between Vancouver and Toronto
 
+# To calculate emissions for a flight between Vancouver and Toronto
 airport_finder(name = "Vancouver")
 airport_finder(name = "Toronto")
-airplane_emissions("YVR","YYZ")
+airplane_emissions("YVR", "YYZ")
 
+# To calculate emissions for a round trip ferry from Melbourne to New York
+seaport_finder(country = "Australia", city = "Melbourne")
+seaport_finder(country = "US", city = "New York")
+ferry_emissions("POR", "BOY", round_trip = TRUE)
+
+# To calculate emissions for a train journey from Bristol Temple Meads to Edinburgh Waverley, via Birmingham New Street.
+rail_finder(station = "Bristol")
+rail_finder(station = "Edinburgh")
+rail_finder(station = "Birmingham")
+rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
+
+# To calculate vehicle emissions for a 100 mile bus journey
+vehicle_emissions(distance = 100, units = "miles", vehicle = "bus")
+
+# Additional emissions can be calculated as well. For example, office emissions
+office_emissions(specify = TRUE, electricity_kwh = 2455.2, water_m3 = 85, heat_kwh = 8764)
+
+# Alternatively, more advance emissions can be given with the `raw_fuels()` function.
 ```
 
-### Emissions calculated
-                                                                                             
-The emissions values used in the calculations are from the UK Government report (2021).
-
-* airplane emissions
-* ferry emissions
-* hotel stay emissions
-* office emissions
-* rail emissions
-* raw fuel emission data (primary source)
-* vehicle emissions
-
-                                                                                             
-### Checking values alongside other calculators:
-https://carbonfund.org/calculation-methods/
-https://www.carbonfootprint.com/calculatorfaqs.html
+### Other online calculators:
+* https://carbonfund.org/calculation-methods/
+* https://www.carbonfootprint.com/calculatorfaqs.html
                                                  
 ### Sources:
 [1] UK government 2021 report. See https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/990675/2021-ghg-conversion-factors-methodology.pdf https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021
-Note emissions for flights in the code uses values from direct effects only. Radiative forcing = TRUE will give indirect and direct effects. (multiples by 1.891).
+Note emissions for flights in the code uses values from direct effects only. Radiative forcing = TRUE will give indirect and direct effects. (multiplys by 1.891).
 See "business travel - air" sheet of gov.uk excel sheet linked above.
 
 [2] Radiative forcing as 1.891 is from www.carbonfund.org

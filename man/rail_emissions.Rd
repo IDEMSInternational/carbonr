@@ -41,7 +41,7 @@ rail_emissions("Southampton Central", "Manchester Piccadilly")
 # Emissions for a train journey between Bristol Temple Meads and London Paddington
 # via Bath, Swindon, and Reading
 # Use the \code{rail_finder} function to find the name of London Paddington
-rail_finder(station = "Paddington")
+rail_finder(region = "London")
 # Then calculate emissions
 rail_emissions("Bristol Temple Meads", "Paddington", via = c("Bath Spa",
 "Swindon", "Reading"))

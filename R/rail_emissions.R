@@ -8,7 +8,6 @@
 #' @param include_WTT logical. Recommended \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.
 #' @param round_trip Whether the journey is one-way or return.
 # @param class Class travelled in. Options are ... .
-#'
 #' @return Returns CO2e emissions in tonnes for the train journey.
 #' @export
 #' @examples # Emissions for a train journey between Southampton Central and Manchester Piccadilly Station
@@ -16,7 +15,7 @@
 #' @examples # Emissions for a train journey between Bristol Temple Meads and London Paddington
 #' @examples # via Bath, Swindon, and Reading
 #' # Use the \code{rail_finder} function to find the name of London Paddington
-#' rail_finder(station = "Paddington")
+#' rail_finder(region = "London")
 #' # Then calculate emissions
 #' @examples rail_emissions("Bristol Temple Meads", "Paddington", via = c("Bath Spa",
 #' "Swindon", "Reading"))
