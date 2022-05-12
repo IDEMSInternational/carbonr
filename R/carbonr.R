@@ -5,7 +5,7 @@
 #' @author here
 #' 
 #' @seealso here
-#' See the README on \href{https://github.com/lilyclements/carbonr/blob/update/README.md}{GitHub}
+#' See the README on \href{https://github.com/IDEMSInternational/carbonr/blob/main/README.md}{GitHub}
 #'
 #' @docType package
 #' @name carbonr
