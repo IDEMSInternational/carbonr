@@ -1,4 +1,6 @@
 #' Find the station code for a train station
+#' 
+#' @description Find the name, area, and code of a train station in the UK. For use in the `rail_emissions` function.
 #'
 #' @param station Name of train station.
 #' @param region Region the train station is in. One of \code{c("London", "Scotland", "Wales - Cymru", "North West", "West Midlands", "North East", "East", "South East", "East Midlands", "Yorkshire And The Humber", "South West", NA)}.
@@ -8,7 +10,7 @@
 #' @param distance Maximum distance allowed for a match between the name/country/city given, and that of the value in the data set.
 #' @param ignore.case If `FALSE`, the check for is case-sensitive. If `TRUE`, case is ignored.
 #'
-#' @return TODO
+#' @return Data frame containing the station code, station name, region, county, district, latitude, and longitude of a train station in the UK.
 #' @export
 #'
 #' @examples # Can get the station code from the station. Gets similar matches.

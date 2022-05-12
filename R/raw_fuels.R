@@ -94,7 +94,6 @@
 #' @param biogas_units units that the biogas is given in. Options are `"tonnes"`, `"kwh"`.
 #' @param landfill_gas_units units that the biogas is given in. Options are `"tonnes"`, `"kwh"`.
 #'
-#'
 #' @details Gas fuels: butane, CNG, LPG, LNG, natural_gas, natural_gas_mineral, other_petroleum_gas, propane.
 #' Liquid fuels:
 #' Solid fuels: 

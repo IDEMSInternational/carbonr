@@ -1,5 +1,5 @@
 #' Find the airport code for an airport
-#'
+#' @description Find the name, city, country, and IATA code of an airport. For use in the `airplane_emissions` function.
 #' @param name Name of the airport.
 #' @param city City that the airport is in.
 #' @param country Country that the airport is in.
@@ -7,7 +7,7 @@
 #' @param distance Maximum distance allowed for a match between the name/country/city given, and that of the value in the data set.
 #' @param ignore.case If `FALSE`, the check for is case-sensitive. If `TRUE`, case is ignored.
 #' 
-#' @return TODO
+#' @return Data frame containing the name, city, country, and IATA code of an airport.
 #' @export
 #'
 #' @examples # Can get the IATA code from the name of an airport. Gets similar matches.
@@ -43,6 +43,5 @@ airport_finder <- function(name, city, country, IATA_code, distance = 0.1, ignor
     airport_IATA <- agrep(data.frame(IATA_code), airport_filter$IATA, ignore.case = ignore.case, max.distance = 0, value = TRUE)
     airport_filter <- airport_filter %>% dplyr::filter(IATA %in% airport_IATA)
   }
-
   return(airport_filter)
 }

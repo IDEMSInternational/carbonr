@@ -18,10 +18,10 @@ seaport_finder(city, country, port_code, distance = 0.1, ignore.case = FALSE)
 \item{ignore.case}{If \code{FALSE}, the check is case-sensitive. If \code{TRUE}, case is ignored.}
 }
 \value{
-Data frame containing the country, city, country code, port code, latitude, and longitude.
+Data frame containing the country, city, country code, port code, latitude, and longitude of a seaport.
 }
 \description{
-Given a country and/or city, find the name and/or code of a seaport for use in the \code{ferry_emissions} function.
+Find the name and/or code of a seaport. For use in the \code{ferry_emissions} function.
 }
 \examples{
 # Look up the city of Aberdeen to find the port_code for it

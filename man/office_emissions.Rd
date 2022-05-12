@@ -72,7 +72,7 @@ Returns CO2e emissions in tonnes.
 Further options are given in the \code{raw_fuels} function.
 }
 \examples{
-# TODO
+# specify emissions in an office
 office_emissions(specify = TRUE, electricity_kwh = 200,
                  heat_kwh = 100, water_m3 = 100, include_TD = FALSE)
 

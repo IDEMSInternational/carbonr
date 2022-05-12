@@ -1,5 +1,5 @@
 #' Check the code or name of a seaport
-#' @description Given a country and/or city, find the name and/or code of a seaport for use in the `ferry_emissions` function.
+#' @description Find the name and/or code of a seaport. For use in the `ferry_emissions` function.
 #'
 #' @param country Name of the country.
 #' @param city Name of the city.
@@ -7,7 +7,7 @@
 #' @param distance Maximum distance allowed for a match between the country/city given, and that of the value in the data set.
 #' @param ignore.case If `FALSE`, the check is case-sensitive. If `TRUE`, case is ignored.
 #'
-#' @return Data frame containing the country, city, country code, port code, latitude, and longitude.
+#' @return Data frame containing the country, city, country code, port code, latitude, and longitude of a seaport.
 #' @export
 #'
 #' @examples # Look up the city of Aberdeen to find the port_code for it

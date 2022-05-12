@@ -27,10 +27,10 @@ airport_finder(
 \item{ignore.case}{If \code{FALSE}, the check for is case-sensitive. If \code{TRUE}, case is ignored.}
 }
 \value{
-TODO
+Data frame containing the name, city, country, and IATA code of an airport.
 }
 \description{
-Find the airport code for an airport
+Find the name, city, country, and IATA code of an airport. For use in the \code{airplane_emissions} function.
 }
 \examples{
 # Can get the IATA code from the name of an airport. Gets similar matches.

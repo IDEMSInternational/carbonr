@@ -30,10 +30,10 @@ rail_finder(
 \item{ignore.case}{If \code{FALSE}, the check for is case-sensitive. If \code{TRUE}, case is ignored.}
 }
 \value{
-TODO
+Data frame containing the station code, station name, region, county, district, latitude, and longitude of a train station in the UK.
 }
 \description{
-Find the station code for a train station
+Find the name, area, and code of a train station in the UK. For use in the \code{rail_emissions} function.
 }
 \examples{
 # Can get the station code from the station. Gets similar matches.
