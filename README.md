@@ -41,7 +41,7 @@ You can install the development version of carbonr from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("tidyverse/dplyr")
+devtools::install_github("IDEMSInternational/carbonr")
 ```
 
 ## Usage
@@ -80,8 +80,7 @@ seaport_finder(country = "US", city = "New York")
 ferry_emissions("POR", "BOY", round_trip = TRUE)
 #> [1] 4.422754
 
-# To calculate emissions for a train journey from Bristol Temple Meads to
-# Edinburgh Waverley, via Birmingham New Street.
+# To calculate emissions for a train journey from Bristol Temple Meads to Edinburgh Waverley, via Birmingham New Street.
 rail_finder(station = "Bristol")
 #> # A tibble: 2 x 7
 #>   station_code station              region    county district latitude longitude
@@ -103,8 +102,7 @@ rail_finder(station = "Birmingham")
 #> 3 BHM          Birmingham New Street   West ~ West ~ Birming~     52.5     -1.90
 #> 4 BMO          Birmingham Moor Street  West ~ West ~ Birming~     52.5     -1.89
 #> 5 BSW          Birmingham Snow Hill    West ~ West ~ Birming~     52.5     -1.90
-rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh",
-               via = "Birmingham New Street")
+rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
 #> [1] 0.02303694
 
 # To calculate vehicle emissions for a 100 mile bus journey
@@ -112,8 +110,7 @@ vehicle_emissions(distance = 100, units = "miles", vehicle = "bus")
 #> [1] 0.02356298
 
 # Additional emissions can be calculated as well. For example, office emissions
-office_emissions(specify = TRUE, electricity_kwh = 2455.2,
-                 water_m3 = 85, heat_kwh = 8764)
+office_emissions(specify = TRUE, electricity_kwh = 2455.2, water_m3 = 85, heat_kwh = 8764)
 #> [1] 2.60238
 
 # Alternatively, more advance emissions can be given with the `raw_fuels()` function.
@@ -121,8 +118,8 @@ office_emissions(specify = TRUE, electricity_kwh = 2455.2,
 
 ### Other online calculators:
 
-<https://carbonfund.org/calculation-methods/>
-<https://www.carbonfootprint.com/calculatorfaqs.html>
+-   <https://carbonfund.org/calculation-methods/>
+-   <https://www.carbonfootprint.com/calculatorfaqs.html>
 
 ### Sources:
 
