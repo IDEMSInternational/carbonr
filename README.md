@@ -34,6 +34,9 @@ emissions:
 These all return carbon-equivalent emissions in tonnes. The emissions
 values in the calculations are from the UK Government report (2021).
 
+A shiny app is also available by `shiny_emissions()` to calculate
+carbon-equivalent emissions with a GUI.
+
 ## Installation
 
 You can install the development version of carbonr from
@@ -114,6 +117,16 @@ office_emissions(specify = TRUE, electricity_kwh = 2455.2, water_m3 = 85, heat_k
 #> [1] 2.60238
 
 # Alternatively, more advance emissions can be given with the `raw_fuels()` function.
+```
+
+## Shiny App
+
+An interactive calculator using Shiny can be accessed by the
+`shiny_emissions()` function. This calculator uses the functions in the
+`carbonr` package:
+
+``` r
+shiny_emissions()
 ```
 
 ### Other online calculators:

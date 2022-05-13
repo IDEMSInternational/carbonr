@@ -41,6 +41,8 @@ carbonr is a package in R to conveniently calculate carbon-equivalent emissions:
 * `vehicle_emissions()`
 
 These all return carbon-equivalent emissions in tonnes. The emissions values in the calculations are from the UK Government report (2021).
+
+A shiny app is also available by `shiny_emissions()` to calculate carbon-equivalent emissions with a GUI.
  
 ## Installation
 
@@ -81,6 +83,13 @@ vehicle_emissions(distance = 100, units = "miles", vehicle = "bus")
 office_emissions(specify = TRUE, electricity_kwh = 2455.2, water_m3 = 85, heat_kwh = 8764)
 
 # Alternatively, more advance emissions can be given with the `raw_fuels()` function.
+```
+
+## Shiny App
+
+An interactive calculator using Shiny can be accessed by the `shiny_emissions()` function. This calculator uses the functions in the `carbonr` package: 
+```{r, eval = FALSE}
+shiny_emissions()
 ```
 
 ### Other online calculators:

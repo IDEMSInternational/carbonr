@@ -12,5 +12,5 @@ numeric_input <- 2
 add_input_output <- add_inputs(numeric_input = numeric_input, label = "Label", value = "Value")
 
 test_that("new name of object increases with numeric_input box", {
-  expect_equal(stringr::str_detect(as.character(add_input_output), paste0("via_", numeric_input, "-label")), TRUE)
+  expect_equal(grepl(x = as.character(add_input_output), pattern = paste0("via_", numeric_input, "-label")), TRUE)
 })
