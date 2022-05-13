@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# carbonr
+# carbonr <img src='man/figures/carbonr_icon.png' align="right" height="139"/>
 
 <!-- badges: start -->
 

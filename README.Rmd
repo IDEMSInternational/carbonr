@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# carbonr
+# carbonr <img src='man/figures/carbonr_icon.png' align="right" height="139"/>
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/IDEMSInternational/carbonr/workflows/R-CMD-check/badge.svg)](https://github.com/IDEMSInternational/carbonr/actions)
