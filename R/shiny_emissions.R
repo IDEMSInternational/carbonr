@@ -112,27 +112,8 @@ shiny_emissions <- function(){
     output$flight_name_check <- shiny::renderTable({{ flight_name_check() }}, striped = TRUE)
     
     # via input options
-    K_plane <- shiny::reactive({
-      input$flightvia
-    })
-    
-    output$flightvia_input <- shiny::renderUI({
-      NoV_P = K_plane()
-      
-      if (NoV_P == 0){
-        L_P = 0
-        output1 = NULL
-      } else {
-        L_P = sapply(1:NoV_P, function(i){paste0("via_",i)})
-        output1 = htmltools::tagList()
-        
-        for(i in seq_along(1:NoV_P)){
-          output1[[i]] = htmltools::tagList()
-          output1[[i]][[1]] = shiny::textInput(L_P[i], label = "Airport:", value = "airport IATA code")
-        }
-      }
-      output1
-    })
+    K_plane <- shiny::reactive({ input$flightvia })
+    output$flightvia_input <- shiny::renderUI({ add_inputs(numeric_input = K_plane(),  label = "Airport:", value = "airport IATA code") })
     
     carbon_calc <- shiny::reactive({
       if (input$flightvia == 0){
@@ -148,29 +129,15 @@ shiny_emissions <- function(){
                          radiative_force = input$radiative,
                          round_trip = input$roundtrip_plane)
     })
-    output$plane_emissions <- shiny::renderText({
-      carbon_calc()
-    })
+    output$plane_emissions <- shiny::renderText({ carbon_calc() })
     
     ##### Train Emissions #####
     train_name_check <- shiny::reactive({ rail_finder(station = input$trainname, ignore.case = TRUE) })
     output$train_name_check <- shiny::renderTable({{train_name_check()}}, striped = TRUE)
     K_train <- shiny::reactive({ input$trainvia })
-    output$trainvia_input <- shiny::renderUI({NoV_T = K_train()
-    if (NoV_T == 0){
-      L = 0
-      output = NULL
-    } else {
-      L = sapply(1:NoV_T, function(i){paste0("via1_",i)})
-      output = htmltools::tagList()
-      for(i in seq_along(1:NoV_T)){
-        output[[i]] = htmltools::tagList()
-        output[[i]][[1]] = shiny::textInput(L[i], label = "Station:", 
-                                            value = "station name")
-      }
-    }
-    output
-    })
+    
+    output$trainvia_input <- shiny::renderUI({ add_inputs(numeric_input = K_train(),  label = "Station:", value = "station name") })
+    
     train_carbon_calc <- shiny::reactive({
       if (input$trainvia == 0){
         C <- NULL
