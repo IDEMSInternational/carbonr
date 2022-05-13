@@ -48,7 +48,7 @@ You can install the development version of carbonr from [GitHub](https://github.
 
 ```{r, eval = FALSE}
 # install.packages("devtools")
-devtools::install_github("tidyverse/dplyr")
+devtools::install_github("IDEMSInterational/carbonr")
 ```
 
 

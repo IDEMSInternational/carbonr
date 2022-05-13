@@ -105,11 +105,6 @@ shiny_emissions <- function(){
   ) # close page
   
   server <- function(input, output) {
-    #url <- a("Emissions Calculator", href="https://carbonfund.org/take-action/businesses/business-calculators/")
-    #output$tab <- shiny::renderUI({
-    #  htmltools::tagList("Can calculate emissions here:", url)
-    #})
-    
     ##### Flight Emissions #####
     flight_name_check <- shiny::reactive({
       airport_finder(name = input$airportname, ignore.case = TRUE)
