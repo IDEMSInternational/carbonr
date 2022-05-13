@@ -16,11 +16,15 @@
 #'                                     shiny::fluidRow(
 #'                                     shiny::column(12, align = "left",
 #'                                     shiny::splitLayout(shinydashboard::box(width = NULL,
-#'                                     shiny::numericInput("newbox_add", "Number of new boxes:", value = 0, min = 0),
+#'                                     shiny::numericInput("newbox_add",
+#'                                                         "Number of new boxes:",
+#'                                                         value = 0, min = 0),
 #'                                     shiny::uiOutput("newbox_input")))))))
 #' server <- function(input, output) {
 #'   K_plane <- shiny::reactive({ input$newbox_add })
-#'   output$newbox_input <- shiny::renderUI({ add_inputs(numeric_input = K_plane(), label = "New Box:", value = "textbox") })
+#'   output$newbox_input <- shiny::renderUI({ add_inputs(numeric_input = K_plane(),
+#'                                                       label = "New Box:",
+#'                                                       value = "textbox") })
 #' }
 #' ## NOT RUN ##
 #' # shiny::shinyApp(ui, server)
