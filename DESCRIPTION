@@ -16,7 +16,10 @@ Imports:
     airportr,
     checkmate,
     dplyr,
+    htmltools,
     rlang,
+    shiny,
+    shinydashboard,
     sp,
     tibble
 Depends: 
