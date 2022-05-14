@@ -15,7 +15,7 @@ vehicle_emissions(
   bus_type = c("local not London", "local London", "average"),
   taxi_type = c("regular", "black cab"),
   TD = TRUE,
-  WTT = TRUE,
+  include_WTT = TRUE,
   include_electricity = TRUE,
   owned_by_org = TRUE
 )
@@ -43,7 +43,7 @@ For motorbike, sizes denote upto 125cc, 125cc-500cc, 500cc+ respectively.}
 
 \item{TD}{logical.Whether to account for transmission and distribution (TD) for electric vehicles  (only \code{car} and \code{van})}
 
-\item{WTT}{logical. Well-to-tank (WTT) - whether to account for emissions associated with extraction, refining and transportation of the fuels (... in electric vehicles case)}
+\item{include_WTT}{logical. Well-to-tank (include_WTT) - whether to account for emissions associated with extraction, refining and transportation of the fuels (for non-electric vehicles).}
 
 \item{include_electricity}{logical. Whether to account for ... for electric vehicles (car and van).}
 

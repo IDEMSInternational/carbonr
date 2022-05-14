@@ -15,7 +15,7 @@
 #' @param bus_type Options are `"local_nL"`, `"local_L"`, `"local"`, or `"average"`. These denote whether the bus is local but outside of London, local in London, local, or average.
 #' @param taxi_type Whether a taxi is regular or black cab. Options are `"regular"`, `"black cab"`.
 #' @param owned_by_org logical. Whether the vehicle used is owned by the organisation or not (only for `car`, `motorbike`).
-#' @param WTT logical. Well-to-tank (WTT) - whether to account for emissions associated with extraction, refining and transportation of the fuels (... in electric vehicles case)
+#' @param include_WTT logical. Well-to-tank (include_WTT) - whether to account for emissions associated with extraction, refining and transportation of the fuels (for non-electric vehicles).
 #' @param include_electricity logical. Whether to account for ... for electric vehicles (car and van).
 #' @param TD logical.Whether to account for transmission and distribution (TD) for electric vehicles  (only `car` and `van`)
 #'
@@ -31,11 +31,11 @@ vehicle_emissions <- function(distance, units = c("miles", "km"), num = 1, vehic
                               fuel = c("petrol", "diesel", "hybrid", "unknown", "hybrid electric", "battery electric"),
                               size = c("average", "small", "medium", "large"),
                               bus_type = c("local not London", "local London", "average"), taxi_type = c("regular", "black cab"),
-                              TD = TRUE, WTT = TRUE, include_electricity = TRUE, owned_by_org = TRUE){
+                              TD = TRUE, include_WTT = TRUE, include_electricity = TRUE, owned_by_org = TRUE){
   
   checkmate::assert_numeric(distance, lower = 0)
   checkmate::assert_logical(TD)
-  checkmate::assert_logical(WTT)
+  checkmate::assert_logical(include_WTT)
   checkmate::assert_logical(include_electricity)
   checkmate::assert_logical(owned_by_org)
   units <- match.arg(units)
@@ -70,9 +70,9 @@ vehicle_emissions <- function(distance, units = c("miles", "km"), num = 1, vehic
     dplyr::filter(size == {{ size }}) %>%
     dplyr::filter(fuel == {{ fuel }}))
   
-  # All of the vehicles and options have WTT
-  if (WTT == FALSE){
-    t_mile <- t_mile %>% dplyr::filter(WTT == FALSE)
+  # All of the vehicles and options have include_WTT
+  if (include_WTT == FALSE){
+    t_mile <- t_mile %>% dplyr::filter(include_WTT == FALSE)
   }
   
   # only car and motorbike have an option for owned_by_org to be TRUE
