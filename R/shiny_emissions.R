@@ -333,11 +333,12 @@ shiny_emissions <- function(){
                                                                                                                                      shiny::splitLayout(shiny::verbatimTextOutput("hotel_emissions"),
                                                                                                                                                         htmltools::h6("emissions"),
                                                                                                                                                         shiny::actionButton("add_hotel", "Add to Table", class="btn-success"), 
-                                                                                                                                                        cellArgs = list(style = "vertical-align: top")))),
-                                                                                                 shiny::tabPanel("Raw Fuels",
-                                                                                                                 # n = input
-                                                                                                                 # %
-                                                                                                 )
+                                                                                                                                                        cellArgs = list(style = "vertical-align: top")))
+                                                                                                                 )#,
+                                                                                                 #shiny::tabPanel("Raw Fuels",
+                                                                                                 #                # n = input
+                                                                                                 #                # %
+                                                                                                 #)
                                                                               )# close tabset panel
                                                           ),# close box1
                                                           htmltools::br(),
