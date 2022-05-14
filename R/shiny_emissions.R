@@ -1,5 +1,4 @@
 #' Run Shiny App to Calculate Carbon Emissions
-#'
 #' @description Runs a GUI to the functions in the carbonr package to calculate carbon-equivalent emissions.
 #'
 #' @return Shiny app to calculate carbon-equivalent emissions
@@ -9,12 +8,10 @@
 #' ## NOT RUN ##
 #' # shiny_emissions()
 shiny_emissions <- function(){
-  # remove sidebar
   df <- shiny::reactiveValues(data = data.frame(y=NULL))
-  
   ui <- shinydashboard::dashboardPage(skin = "green",
                                       header = shinydashboard::dashboardHeader(title = "Carbon Emissions - IDEMS"),
-                                      sidebar = shinydashboard::dashboardSidebar(),
+                                      sidebar = shinydashboard::dashboardSidebar(disable = TRUE),
                                       shinydashboard::dashboardBody(shiny::fluidRow(
                                         shiny::column(12, align = "left",
                                                       shinydashboard::box(shiny::splitLayout(htmltools::h2("Calculate Emissions"), shiny::icon("calculator", "fa-5x"), cellArgs = list(style = "vertical-align: top"), cellWidths = c("80%", "20%")),
