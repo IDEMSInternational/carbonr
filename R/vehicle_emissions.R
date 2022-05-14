@@ -72,7 +72,7 @@ vehicle_emissions <- function(distance, units = c("miles", "km"), num = 1, vehic
   
   # All of the vehicles and options have include_WTT
   if (include_WTT == FALSE){
-    t_mile <- t_mile %>% dplyr::filter(include_WTT == FALSE)
+    t_mile <- t_mile %>% dplyr::filter(WTT == FALSE)
   }
   
   # only car and motorbike have an option for owned_by_org to be TRUE

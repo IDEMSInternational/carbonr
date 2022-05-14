@@ -40,9 +40,7 @@ test_that("coach works when an unrelated parameter is altered", {
 
 test_that("battery electricity changes when parameters are altered", {
   expect_gt(vehicle_emissions(distance = 100, fuel = "battery electric", TD = TRUE), vehicle_emissions(distance = 100, fuel = "battery electric", TD = FALSE))
-  expect_gt(vehicle_emissions(distance = 100, fuel = "battery electric", WTT = TRUE), vehicle_emissions(distance = 100, fuel = "battery electric", WTT = FALSE))
+  expect_gt(vehicle_emissions(distance = 100, fuel = "battery electric", include_WTT = TRUE), vehicle_emissions(distance = 100, fuel = "battery electric", include_WTT = FALSE))
   expect_gt(vehicle_emissions(distance = 100, fuel = "battery electric", owned_by_org = FALSE), vehicle_emissions(distance = 100, fuel = "battery electric", owned_by_org = TRUE))
   expect_gt(vehicle_emissions(distance = 100, fuel = "battery electric", include_electricity = TRUE), vehicle_emissions(distance = 100, fuel = "battery electric", include_electricity = FALSE))
 })
-
-
