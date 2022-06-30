@@ -14,8 +14,12 @@ shiny_emissions <- function(){
                                       sidebar = shinydashboard::dashboardSidebar(disable = TRUE),
                                       shinydashboard::dashboardBody(shiny::fluidRow(
                                         shiny::column(12, align = "left",
-                                                      shinydashboard::box(shiny::splitLayout(htmltools::h2("Calculate Emissions"), shiny::icon("calculator", "fa-5x"), cellArgs = list(style = "vertical-align: top")), #cellWidths = c("80%", "20%")
-                                                                          width = 10, solidHeader = TRUE, height = "95px"))),
+                                                      shinydashboard::box(shiny::splitLayout(htmltools::h2("Calculate Emissions"), 
+                                                                                             shiny::icon("calculator", "fa-5x"),
+                                                                                             cellArgs = list(style = "vertical-align: top")), #cellWidths = c("80%", "20%")
+                                                                          width = 10,
+                                                                          solidHeader = TRUE,
+                                                                          height = "95px"))),
                                         shiny::fluidRow(
                                           shiny::column(12, align = "left",
                                                         shiny::splitLayout(
@@ -345,7 +349,11 @@ shiny_emissions <- function(){
                                                                               )# close tabset panel
                                                           ),# close box1
                                                           #htmltools::br(),
-                                                          shinydashboard::box(width = NULL, title = "Emissions Table", status ="success", solidHeader = TRUE, shiny::tableOutput("table_emissions"))#,cellWidths = c("65%", "5%", "30%")
+                                                          shinydashboard::box(width = NULL,
+                                                                              title = "Emissions Table",
+                                                                              status ="success",
+                                                                              solidHeader = TRUE,
+                                                                              shiny::tableOutput("table_emissions"))#,cellWidths = c("65%", "5%", "30%")
                                                           )))
                                       ) # close body
   ) # close page
