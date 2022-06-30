@@ -16,7 +16,6 @@
 #' airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"))
 
 airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_force = TRUE, include_WTT = TRUE, round_trip = FALSE, class = c("economy", "premium economy", "business", "first")) {
-  
   checkmate::assert_string(from)
   checkmate::assert_string(to)
   if (!is.null(via)) { checkmate::assert_character(via) }
@@ -69,8 +68,7 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
   } else {
     co2_emitted <- km * num_people * 0.14787
   }
-  
-  # the order here matters: RF then WTT
+
   if (radiative_force) co2_emitted <- co2_emitted * 1.891
   if (include_WTT) co2_emitted <- co2_emitted + (km * num_people * 0.01654) # this is economy class (short haul) - will be multiplied as appropriate for other classes.
   

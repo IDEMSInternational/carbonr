@@ -60,7 +60,7 @@ shiny_emissions <- function(){
                                                                                                                                                                              value = TRUE, 
                                                                                                                                                                              width = "20%"),
                                                                                                                                                         shiny::splitLayout(shiny::verbatimTextOutput("plane_emissions"),
-                                                                                                                                                                           htmltools::h6("emissions"),
+                                                                                                                                                                           htmltools::h6("tonnes"),
                                                                                                                                                                            shiny::actionButton("add_plane", "Add to Table", class="btn-success"), 
                                                                                                                                                                            cellArgs = list(style = "vertical-align: top")),
                                                                                                                  ),
@@ -103,7 +103,7 @@ shiny_emissions <- function(){
                                                                                                                                                                              label = "Include indirect emissions", # associated with extracting, refining, and transporting fuels", 
                                                                                                                                                                              value = TRUE, 
                                                                                                                                                                              width = "20%"),
-                                                                                                                                                        shiny::splitLayout(shiny::verbatimTextOutput("train_emissions"), htmltools::h6("emissions"), shiny::actionButton("add_train", "Add to Table", class="btn-success"), cellArgs = list(style = "vertical-align: top")),
+                                                                                                                                                        shiny::splitLayout(shiny::verbatimTextOutput("train_emissions"), htmltools::h6("tonnes"), shiny::actionButton("add_train", "Add to Table", class="btn-success"), cellArgs = list(style = "vertical-align: top")),
                                                                                                                  ),
                                                                                                                  shinydashboard::box(width = NULL,
                                                                                                                                      shiny::textInput(inputId = "trainname", label = "Check Train Station:", value = "Bristol"),
@@ -182,7 +182,7 @@ shiny_emissions <- function(){
                                                                                                                                                           label = "Include indirect emissions",
                                                                                                                                                           value = TRUE, 
                                                                                                                                                           width = "20%"),
-                                                                                                                                     shiny::splitLayout(shiny::verbatimTextOutput("driven_emissions"), htmltools::h6("emissions"), shiny::actionButton("add_drive", "Add to Table", class="btn-success"), 
+                                                                                                                                     shiny::splitLayout(shiny::verbatimTextOutput("driven_emissions"), htmltools::h6("tonnes"), shiny::actionButton("add_drive", "Add to Table", class="btn-success"), 
                                                                                                                                                         cellArgs = list(style = "vertical-align: top")),
                                                                                                                  )),
                                                                                                  shiny::tabPanel("Ferry", 
@@ -222,7 +222,7 @@ shiny_emissions <- function(){
                                                                                                                                                                              label = "Include indirect emissions", # associated with extracting, refining, and transporting fuels", 
                                                                                                                                                                              value = TRUE, 
                                                                                                                                                                              width = "20%"),
-                                                                                                                                                        shiny::splitLayout(shiny::verbatimTextOutput("ferry_emissions"), htmltools::h6("emissions"), shiny::actionButton("add_ferry", "Add to Table", class="btn-success"), cellArgs = list(style = "vertical-align: top")),
+                                                                                                                                                        shiny::splitLayout(shiny::verbatimTextOutput("ferry_emissions"), htmltools::h6("tonnes"), shiny::actionButton("add_ferry", "Add to Table", class="btn-success"), cellArgs = list(style = "vertical-align: top")),
                                                                                                                  ),
                                                                                                                  shinydashboard::box(width = NULL,
                                                                                                                                      shiny::textInput(inputId = "ferryname", label = "Check Port:", value = "Aberdeen"),
@@ -317,7 +317,7 @@ shiny_emissions <- function(){
                                                                                                                                         width = "20%")),
                                                                                                                  
                                                                                                                  shiny::splitLayout(shiny::verbatimTextOutput("office_emissions"),
-                                                                                                                                    htmltools::h6("emissions"),
+                                                                                                                                    htmltools::h6("tonnes"),
                                                                                                                                     shiny::actionButton("add_office", "Add to Table", class="btn-success"), 
                                                                                                                                     cellArgs = list(style = "vertical-align: top"))),
                                                                                                  shiny::tabPanel("Hotel Stays",
@@ -334,7 +334,7 @@ shiny_emissions <- function(){
                                                                                                                                                          value = "1",
                                                                                                                                                          width = "41%"),
                                                                                                                                      shiny::splitLayout(shiny::verbatimTextOutput("hotel_emissions"),
-                                                                                                                                                        htmltools::h6("emissions"),
+                                                                                                                                                        htmltools::h6("tonnes"),
                                                                                                                                                         shiny::actionButton("add_hotel", "Add to Table", class="btn-success"), 
                                                                                                                                                         cellArgs = list(style = "vertical-align: top")))
                                                                                                                  )#,
@@ -419,46 +419,46 @@ shiny_emissions <- function(){
     
     ######## Submit Button ########
     Data = shiny::reactive({ input$add_plane
-      if (input$add_plane > 0) { shiny::isolate(return(list(df = data.frame(Emissions = rbind(y=NULL, x=carbon_calc()))))) }
+      if (input$add_plane > 0) { shiny::isolate(return(list(df = data.frame(Emissions = rbind(y=NULL, x=c(carbon_calc(), "Airplane")))))) }
     })
     Data = shiny::reactive({input$add_train
-      if (input$add_train > 0) { shiny::isolate(return(list(df = data.frame(Emissions = rbind(y=NULL, x=train_carbon_calc()))))) }
+      if (input$add_train > 0) { shiny::isolate(return(list(df = data.frame(Emissions = rbind(y=NULL, x=c(train_carbon_calc(), "Train")))))) }
     })
     Data = shiny::reactive({input$add_drive
-      if (input$add_drive > 0) { shiny::isolate(return(list(df = data.frame(Emissions = rbind(y=NULL, x=drive_carbon_calc()))))) }
+      if (input$add_drive > 0) { shiny::isolate(return(list(df = data.frame(Emissions = rbind(y=NULL, x=c(drive_carbon_calc(), "Vehicle")))))) }
     })
     Data = shiny::reactive({input$add_ferry
-      if (input$add_ferry > 0) { shiny::isolate(return(list(df = data.frame(Emissions = rbind(y=NULL, x=ferry_carbon_calc()))))) }
+      if (input$add_ferry > 0) { shiny::isolate(return(list(df = data.frame(Emissions = rbind(y=NULL, x=c(ferry_carbon_calc(), "Ferry")))))) }
     })
     Data = shiny::reactive({input$add_hotel
-      if (input$add_hotel > 0) { shiny::isolate(return(list(df = data.frame(Emissions = rbind(y=NULL, x=hotel_carbon_calc()))))) }
+      if (input$add_hotel > 0) { shiny::isolate(return(list(df = data.frame(Emissions = rbind(y=NULL, x=c(hotel_carbon_calc(), "Hotel")))))) }
     })
     Data = shiny::reactive({input$add_office
-      if (input$add_office > 0) { shiny::isolate(return(list(df = data.frame(Emissions = rbind(y=NULL, x=office_carbon_calc()))))) }
+      if (input$add_office > 0) { shiny::isolate(return(list(df = data.frame(Emissions = rbind(y=NULL, x=c(office_carbon_calc(), "Office")))))) }
     })
     shiny::observeEvent(input$add_plane, {
-      if (input$add_plane > 0) { df$data <- rbind(df$data, carbon_calc()) }
-        names(df$data) <- "Emissions"
+      if (input$add_plane > 0) { df$data <- rbind(df$data, c(carbon_calc(), "Airplane")) }
+        names(df$data) <- c("Emissions", "Activity")
     })
     shiny::observeEvent(input$add_train, {
-      if (input$add_train > 0) { df$data <- rbind(df$data, train_carbon_calc()) }
-        names(df$data) <- "Emissions"
+      if (input$add_train > 0) { df$data <- rbind(df$data, c(train_carbon_calc(), "Train")) }
+        names(df$data) <- c("Emissions", "Activity")
     })
     shiny::observeEvent(input$add_drive, {
-      if (input$add_drive > 0) { df$data <- rbind(df$data, drive_carbon_calc()) }
-        names(df$data) <- "Emissions"
+      if (input$add_drive > 0) { df$data <- rbind(df$data, c(drive_carbon_calc(), "Vehicle")) }
+        names(df$data) <- c("Emissions", "Activity")
     })
     shiny::observeEvent(input$add_ferry, {
-      if (input$add_ferry > 0) { df$data <- rbind(df$data, ferry_carbon_calc()) }
-      names(df$data) <- "Emissions"
+      if (input$add_ferry > 0) { df$data <- rbind(df$data, c(ferry_carbon_calc(), "Ferry")) }
+      names(df$data) <- c("Emissions", "Activity")
     })
     shiny::observeEvent(input$add_hotel, {
-      if (input$add_hotel > 0) { df$data <- rbind(df$data, hotel_carbon_calc()) }
-      names(df$data) <- "Emissions"
+      if (input$add_hotel > 0) { df$data <- rbind(df$data, c(hotel_carbon_calc(), "Hotel")) }
+      names(df$data) <- c("Emissions", "Activity")
     })
     shiny::observeEvent(input$add_office, {
-      if (input$add_office > 0) { df$data <- rbind(df$data, office_carbon_calc()) }
-      names(df$data) <- "Emissions"
+      if (input$add_office > 0) { df$data <- rbind(df$data, c(office_carbon_calc(), "Office")) }
+      names(df$data) <- c("Emissions", "Activity")
     })
     output$table_emissions <- shiny::renderTable(df$data)
   }
