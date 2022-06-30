@@ -14,7 +14,7 @@ add_inputs(numeric_input, label, value)
 \item{value}{Value of new textInput.}
 }
 \value{
-
+Returns textInput for use in the \code{shiny_emissions()} function.
 }
 \description{
 For use in the \code{shiny_emissions()} function. Adding an unknown quantity of textInputs.

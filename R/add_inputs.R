@@ -6,7 +6,7 @@
 #' @param label Label of new textInput.
 #' @param value Value of new textInput.
 #'
-#' @return 
+#' @return Returns textInput for use in the `shiny_emissions()` function.
 #' @export
 #'
 #' @examples
