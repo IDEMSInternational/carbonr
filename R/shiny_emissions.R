@@ -11,7 +11,10 @@ shiny_emissions <- function(){
   df <- shiny::reactiveValues(data = data.frame(y=NULL))
   ui <- shinydashboard::dashboardPage(header = shinydashboard::dashboardHeader(title = "Carbon Emissions - IDEMS"),
                                       sidebar = shinydashboard::dashboardSidebar(disable = TRUE),
-                                      shinydashboard::dashboardBody()
+                                      shinydashboard::dashboardBody(shiny::fluidRow(
+                                        shiny::column(12, align = "left",
+                                                      shinydashboard::box(shiny::splitLayout(htmltools::h2("Calculate Emissions"), shiny::icon("calculator", "fa-5x"), cellArgs = list(style = "vertical-align: top"), cellWidths = c("80%", "20%")),
+                                                                          width = 10, solidHeader = TRUE, height = "95px"))))
   ) # close page
   
   server <- function(input, output) {
