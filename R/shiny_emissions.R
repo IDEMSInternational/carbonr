@@ -344,7 +344,7 @@ shiny_emissions <- function(){
                                                                                                  #)
                                                                               )# close tabset panel
                                                           ),# close box1
-                                                          htmltools::br(),
+                                                          #htmltools::br(),
                                                           shinydashboard::box(width = NULL, title = "Emissions Table", status ="success", solidHeader = TRUE, shiny::tableOutput("table_emissions"))#,cellWidths = c("65%", "5%", "30%")
                                                           )))
                                       ) # close body
