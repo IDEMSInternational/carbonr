@@ -1,6 +1,6 @@
 context("testing shiny functions")
 
-test_that("NULL object if 0 numeric inputs are given", {
+test_that("NULL object if no numeric inputs are given", {
   expect_null(add_inputs(numeric_input = 0, label = "Label", value = "Value"))
 })
 
