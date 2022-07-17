@@ -8,7 +8,7 @@ ferry_emissions(
   from,
   to,
   via = NULL,
-  type = c("foot", "car", "average"),
+  type = c("Foot", "Car", "Average"),
   num_people = 1,
   times_journey = 1,
   include_WTT = TRUE,
@@ -22,7 +22,7 @@ ferry_emissions(
 
 \item{via}{Optional. Takes a vector containing the port code that the ferry travels through. Use \code{seaport_finder} to find port code.}
 
-\item{type}{Whether the journey is taken on foot or by car. Options are \code{"foot"}, \code{"car"}, \code{"average"}.}
+\item{type}{Whether the journey is taken on foot or by car. Options are \code{"Foot"}, \code{"Car"}, \code{"Average"}.}
 
 \item{num_people}{Number of people taking the journey. Takes a single numerical value.}
 

@@ -11,7 +11,7 @@ test_that("include WTT works successfully", {
 })
 
 test_that("changing transport method works successfully", {
-  expect_gt(ferry_emissions(from = "BEL", to = "BOY", type = "car"), ferry_emissions(from = "BEL", to = "BOY", type = "average"))
+  expect_gt(ferry_emissions(from = "BEL", to = "BOY", type = "Car"), ferry_emissions(from = "BEL", to = "BOY", type = "Average"))
 })
 
 

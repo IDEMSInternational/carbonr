@@ -3,7 +3,7 @@
 #' @param from Port code for the port departing from. Use `seaport_finder` to find port code.
 #' @param to Port code for the port arriving from. Use `seaport_finder` to find port code.
 #' @param via Optional. Takes a vector containing the port code that the ferry travels through. Use `seaport_finder` to find port code.
-#' @param type Whether the journey is taken on foot or by car. Options are `"foot"`, `"car"`, `"average"`.
+#' @param type Whether the journey is taken on foot or by car. Options are `"Foot"`, `"Car"`, `"Average"`.
 #' @param num_people Number of people taking the journey. Takes a single numerical value.
 #' @param times_journey Number of times the journey is taken.
 #' @param include_WTT logical. Recommended \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.
@@ -16,7 +16,7 @@
 #' @examples seaport_finder(city = "Belfast")
 #' seaport_finder(city = "New York")
 #' ferry_emissions(from = "BEL", to = "BOY")
-ferry_emissions <- function(from, to, via = NULL, type = c("foot", "car", "average"), num_people = 1, times_journey = 1, include_WTT = TRUE, round_trip = FALSE){
+ferry_emissions <- function(from, to, via = NULL, type = c("Foot", "Car", "Average"), num_people = 1, times_journey = 1, include_WTT = TRUE, round_trip = FALSE){
   data("seaports", envir = environment())
   
   checkmate::assert_string(from)
@@ -84,23 +84,15 @@ ferry_emissions <- function(from, to, via = NULL, type = c("foot", "car", "avera
   # convert to km
   distance <- distance * 1.609
   
-  if (include_WTT){
-    if (type == "foot"){
-      t_mile <- (0.018738 + 0.004208)
-    } else if (type == "car"){
-      t_mile <- (0.12952 + 0.029087)
-    } else if (type == "average"){
-      t_mile <- (0.11286 + 0.025347)
-    }
-  } else {
-    if (type == "foot"){
-      t_mile <- 0.018738
-    } else if (type == "car"){
-      t_mile <- 0.12952
-    } else if (type == "average"){
-      t_mile <- 0.11286
-    }
-  }
+  uk_gov_data_ferry <- uk_gov_data %>% dplyr::filter(`Level 1` %in% c("Business travel- sea", "WTT- business travel (sea)"))
+  uk_gov_data_ferry_WTT <- uk_gov_data_ferry %>% dplyr::filter(`Level 2` == "WTT- ferry")
+  uk_gov_data_ferry <- uk_gov_data_ferry %>% dplyr::filter(`Level 2` == "Ferry")
+  
+  uk_gov_data_ferry <- uk_gov_data_ferry %>% dplyr::filter(grepl(type, `Level 3`))
+  uk_gov_data_ferry_WTT <- uk_gov_data_ferry_WTT %>% dplyr::filter(grepl(type, `Level 3`))
+  
+  t_mile <- uk_gov_data_ferry$`GHG Conversion Factor 2022`
+  if (include_WTT) t_mile <- t_mile + uk_gov_data_ferry_WTT$`GHG Conversion Factor 2022`
   
   emissions <- distance*t_mile*num_people*times_journey
   
