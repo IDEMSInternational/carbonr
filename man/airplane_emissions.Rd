@@ -12,7 +12,8 @@ airplane_emissions(
   radiative_force = TRUE,
   include_WTT = TRUE,
   round_trip = FALSE,
-  class = c("economy", "premium economy", "business", "first")
+  class = c("Average passenger", "Economy class", "Business class",
+    "Premium economy class", "First class")
 )
 }
 \arguments{
@@ -30,7 +31,7 @@ airplane_emissions(
 
 \item{round_trip}{logical. Whether the flight is one-way or return.}
 
-\item{class}{Class flown in. Options are \code{c("economy", "premium economy", "business", "first")}.}
+\item{class}{Class flown in. Options are \code{c("Average passenger", "Economy class", "Business class", "Premium economy class", "First class")}.}
 }
 \value{
 Returns CO2e emissions in tonnes.
@@ -42,5 +43,5 @@ A function that calculates CO2e emissions between airports. Distances are calcul
 # Emissions for a flight between Vancouver and Toronto
 airplane_emissions("YVR","YYZ")
 # Emissions for a flight between London Heathrow and Kisumu Airport, via Amsterdam and Nairobi
-airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"))
+airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"), class = "Economy class")
 }

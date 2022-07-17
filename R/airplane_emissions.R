@@ -7,15 +7,15 @@
 #' @param radiative_force logical. Whether radiative force should be taken into account. Recommended \code{TRUE}. Emissions from airplanes at higher altitudes impact climate change more than at ground level, radiative forcing accounts for this. 
 #' @param include_WTT logical. Recommended \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.
 #' @param round_trip logical. Whether the flight is one-way or return.
-#' @param class Class flown in. Options are \code{c("economy", "premium economy", "business", "first")}.
+#' @param class Class flown in. Options are \code{c("Average passenger", "Economy class", "Business class", "Premium economy class", "First class")}.
 #' @return Returns CO2e emissions in tonnes.
 #' @export 
 #' @examples # Emissions for a flight between Vancouver and Toronto
 #' airplane_emissions("YVR","YYZ")
 #' @examples # Emissions for a flight between London Heathrow and Kisumu Airport, via Amsterdam and Nairobi
-#' airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"))
+#' airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"), class = "Economy class")
 
-airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_force = TRUE, include_WTT = TRUE, round_trip = FALSE, class = c("economy", "premium economy", "business", "first")) {
+airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_force = TRUE, include_WTT = TRUE, round_trip = FALSE, class = c("Average passenger", "Economy class", "Business class", "Premium economy class", "First class")) {
   checkmate::assert_string(from)
   checkmate::assert_string(to)
   if (!is.null(via)) { checkmate::assert_character(via) }
@@ -25,7 +25,7 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
   checkmate::assert_logical(include_WTT)
   class <- match.arg(class)
   
-  airport_filter <- airportr::airports %>% dplyr::select(c(Name, City, IATA))
+  airport_filter <- airports %>% dplyr::select(c(Name, City, IATA))
   if (!(from) %in% c(airport_filter$IATA)){
     airport_names <- agrep(data.frame(from), airport_filter$IATA, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
     stop(print(from), " is not a name in the data frame. Try `airport_finder` function. Did you mean: ",
@@ -63,22 +63,34 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
     km <- sum(km1)
   }
   
-  if (km < 2050){
-    co2_emitted <- km * num_people * 0.15102
-  } else {
-    co2_emitted <- km * num_people * 0.14787
-  }
-
-  if (radiative_force) co2_emitted <- co2_emitted * 1.891
-  if (include_WTT) co2_emitted <- co2_emitted + (km * num_people * 0.01654) # this is economy class (short haul) - will be multiplied as appropriate for other classes.
+  # get data
+  uk_gov_data_air <- uk_gov_data %>%
+    dplyr::filter(`Level 1` %in% c("Business travel- air", "WTT- business travel (air)")) %>%
+    dplyr::filter(`Column Text` == "With RF")
+  uk_gov_data_air_WTT <-  uk_gov_data_air %>%
+    dplyr::filter(`Level 2` == "WTT- flights")
+  uk_gov_data_air <-  uk_gov_data_air %>%
+    dplyr::filter(`Level 2` == "Flights")
   
-  if (class == "premium economy") {
-    co2_emitted <- co2_emitted * 1.6
-  } else if (class == "business") {
-    co2_emitted <- co2_emitted * 2.9
-  } else if (class == "first") {
-    co2_emitted <- co2_emitted * 4
-  } 
+  
+  # TODO: domestic, International to/from non-UK.
+  if (km < 2050){
+    uk_gov_data_air <- uk_gov_data_air %>% dplyr::filter(`Level 3` == "Short-haul, to/from UK")
+    uk_gov_data_air_WTT <- uk_gov_data_air_WTT %>% dplyr::filter(`Level 3` == "Short-haul, to/from UK")
+  } else {
+    uk_gov_data_air <- uk_gov_data_air %>% dplyr::filter(`Level 3` == "Long-haul, to/from UK")
+    uk_gov_data_air_WTT <- uk_gov_data_air_WTT %>% dplyr::filter(`Level 3` == "Long-haul, to/from UK")
+  }
+  
+  uk_gov_data_air <- uk_gov_data_air %>% dplyr::filter(`Level 4` %in% class)
+  uk_gov_data_air_WTT <- uk_gov_data_air_WTT %>% dplyr::filter(`Level 4` %in% class)
+  # TODO: Add check that the class is correct
+  # some classes not allowed for short-haul flights
+  
+  co2_emitted <- km * uk_gov_data_air$`GHG Conversion Factor 2022`
+  
+  if (!radiative_force) co2_emitted <- co2_emitted * 0.5286915
+  if (include_WTT) co2_emitted <- co2_emitted + (km * num_people * uk_gov_data_air_WTT$`GHG Conversion Factor 2022`)
   if (round_trip) co2_emitted <- co2_emitted * 2
   
   return(co2_emitted * 0.001) # to return in tonnes
