@@ -5,42 +5,37 @@ test_that("correct calculations when editing distance", {
 })
 
 test_that("some parameters do not affect calculations for certain vehicles", {
-  expect_equal(vehicle_emissions(distance = 100, vehicle = "bus", owned_by_org = TRUE), vehicle_emissions(distance = 100, vehicle = "bus", owned_by_org = FALSE))
-  expect_equal(vehicle_emissions(distance = 100, vehicle = "coach", owned_by_org = TRUE), vehicle_emissions(distance = 100, vehicle = "coach", owned_by_org = FALSE))
-  expect_equal(vehicle_emissions(distance = 100, vehicle = "taxi", owned_by_org = TRUE), vehicle_emissions(distance = 100, vehicle = "taxi", owned_by_org = FALSE))
-  expect_equal(vehicle_emissions(distance = 100, vehicle = "car", include_electricity = TRUE), vehicle_emissions(distance = 100, vehicle = "car", include_electricity = FALSE))
-  expect_equal(vehicle_emissions(distance = 100, vehicle = "car", fuel = "hybrid", include_electricity = TRUE), vehicle_emissions(distance = 100, vehicle = "car", fuel = "hybrid", include_electricity = FALSE))
+  expect_equal(vehicle_emissions(distance = 100, vehicle = "Bus", owned_by_org = TRUE), vehicle_emissions(distance = 100, vehicle = "Bus", owned_by_org = FALSE))
+  expect_equal(vehicle_emissions(distance = 100, vehicle = "Coach", owned_by_org = TRUE), vehicle_emissions(distance = 100, vehicle = "Coach", owned_by_org = FALSE))
+  expect_equal(vehicle_emissions(distance = 100, vehicle = "Taxis", owned_by_org = TRUE), vehicle_emissions(distance = 100, vehicle = "Taxis", owned_by_org = FALSE))
+  expect_equal(vehicle_emissions(distance = 100, vehicle = "Cars", include_electricity = TRUE), vehicle_emissions(distance = 100, vehicle = "Cars", include_electricity = FALSE))
+  expect_equal(vehicle_emissions(distance = 100, vehicle = "Cars", fuel = "Petrol", include_electricity = TRUE), vehicle_emissions(distance = 100, vehicle = "Car", fuel = "Petrol", include_electricity = FALSE))
 })
 
 test_that("changing size option alters calculation", {
-  expect_gt(vehicle_emissions(distance = 100, vehicle = "motorbike", size = "large"), vehicle_emissions(distance = 100, vehicle = "motorbike", size = "small"))
-  expect_gt(vehicle_emissions(distance = 100, vehicle = "car", size = "large"), vehicle_emissions(distance = 100, vehicle = "car", size = "small"))
-  expect_gt(vehicle_emissions(distance = 100, vehicle = "van", size = "large"), vehicle_emissions(distance = 100, vehicle = "van", size = "small"))
+  expect_gt(vehicle_emissions(distance = 100, vehicle = "Motorbike", bike_type = "Large"), vehicle_emissions(distance = 100, vehicle = "Motorbike", bike_type = "Small"))
+  expect_gt(vehicle_emissions(distance = 100, vehicle = "Cars", car_type = "Large car"), vehicle_emissions(distance = 100, vehicle = "Cars", car_type = "Small car"))
 })
 
 test_that("changing `num` option alters calculation", {
-  expect_equal(vehicle_emissions(distance = 100, num = 2, vehicle = "van", size = "large"), 2*vehicle_emissions(distance = 100, vehicle = "van", size = "large"))
+  expect_equal(vehicle_emissions(distance = 100, num = 2, vehicle = "Motorbike", bike_type = "Large"), 2*vehicle_emissions(distance = 100, vehicle = "Motorbike", bike_type = "Large"))
 })
 
 test_that("more emissions are released at 100 miles than 100km", {
   expect_gt(vehicle_emissions(distance = 100, units = "miles"), vehicle_emissions(distance = 100, units = "km"))
 })
 
-test_that("van works with an incorrectly specified fuel", {
-  expect_warning(vehicle_emissions(distance = 100, vehicle = "van", fuel = "hybrid electric"))
-})
-
 test_that("bus works when bus_type is altered", {
-  expect_gt(vehicle_emissions(distance = 100, vehicle = "bus", bus_type = "local not London"), vehicle_emissions(distance = 100, vehicle = "bus", bus_type = "average"))
+  expect_gt(vehicle_emissions(distance = 100, vehicle = "Bus", bus_type = "Local bus (not London)"), vehicle_emissions(distance = 100, vehicle = "Bus", bus_type = "Local London bus"))
 })
 
 test_that("coach works when an unrelated parameter is altered", {
-  expect_equal(vehicle_emissions(distance = 100, vehicle = "coach", bus_type = "local not London"), vehicle_emissions(distance = 100, vehicle = "coach", bus_type = "average"))
+  expect_equal(vehicle_emissions(distance = 100, vehicle = "Coach", bus_type = "Local bus (not London)"), vehicle_emissions(distance = 100, vehicle = "Coach", bus_type = "Local London bus"))
 })
 
-test_that("battery electricity changes when parameters are altered", {
-  expect_gt(vehicle_emissions(distance = 100, fuel = "battery electric", TD = TRUE), vehicle_emissions(distance = 100, fuel = "battery electric", TD = FALSE))
-  expect_gt(vehicle_emissions(distance = 100, fuel = "battery electric", include_WTT = TRUE), vehicle_emissions(distance = 100, fuel = "battery electric", include_WTT = FALSE))
-  expect_gt(vehicle_emissions(distance = 100, fuel = "battery electric", owned_by_org = FALSE), vehicle_emissions(distance = 100, fuel = "battery electric", owned_by_org = TRUE))
-  expect_gt(vehicle_emissions(distance = 100, fuel = "battery electric", include_electricity = TRUE), vehicle_emissions(distance = 100, fuel = "battery electric", include_electricity = FALSE))
+test_that("Battery Electric Vehicle changes when parameters are altered", {
+  expect_gt(vehicle_emissions(distance = 100, fuel = "Battery Electric Vehicle", TD = TRUE), vehicle_emissions(distance = 100, fuel = "Battery Electric Vehicle", TD = FALSE))
+  expect_gt(vehicle_emissions(distance = 100, fuel = "Battery Electric Vehicle", include_WTT = TRUE), vehicle_emissions(distance = 100, fuel = "Battery Electric Vehicle", include_WTT = FALSE))
+  expect_gt(vehicle_emissions(distance = 100, fuel = "Battery Electric Vehicle", include_electricity = TRUE), vehicle_emissions(distance = 100, fuel = "Battery Electric Vehicle", include_electricity = FALSE))
 })
+

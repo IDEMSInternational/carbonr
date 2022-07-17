@@ -8,12 +8,16 @@ vehicle_emissions(
   distance,
   units = c("miles", "km"),
   num = 1,
-  vehicle = c("car", "motorbike", "taxi", "van", "bus", "coach", "tram", "tube"),
-  fuel = c("petrol", "diesel", "hybrid", "unknown", "hybrid electric",
-    "battery electric"),
-  size = c("average", "small", "medium", "large"),
-  bus_type = c("local not London", "local London", "average"),
-  taxi_type = c("regular", "black cab"),
+  vehicle = c("Cars", "Motorbike", "Taxis", "Bus", "National rail",
+    "International rail", "Light rail and tram", "London Underground", "Coach"),
+  fuel = c("Petrol", "Diesel", "Unknown", "Battery Electric Vehicle",
+    "Plug-in Hybrid Electric Vehicle"),
+  car_type = c("Average car", "Small car", "Medium car", "Large car", "Mini",
+    "Supermini", "Lower medium", "Upper medium", "Executive", "Luxury", "Sports",
+    "Dual purpose 4X4", "MPV"),
+  bike_type = c("Average", "Small", "Medium", "Large"),
+  bus_type = c("Local bus (not London)", "Local London bus", "Average local bus"),
+  taxi_type = c("Regular taxi", "Black cab"),
   TD = TRUE,
   include_WTT = TRUE,
   include_electricity = TRUE,
@@ -27,19 +31,23 @@ vehicle_emissions(
 
 \item{num}{Number of passengers if \code{vehicle} is one of \code{coach}, \code{tram}, or \code{tube}. Otherwise, number of vehicles used.}
 
-\item{vehicle}{Vehicle used for the journey. Options are \code{"car"}, \code{"motorbike"}, \code{"taxi"}, \code{"van"}, \code{"bus"}, \code{"coach"}, \code{"tram"}, \code{"tube"}. Note: bus, coach, tram, tube, are all per passenger}
+\item{vehicle}{Vehicle used for the journey. Options are \code{"Cars"}, \code{"Motorbike"}, \code{"Taxis"}, \code{"Bus"}, \code{"National rail"}, \verb{"International rail}, \code{"Coach"}, \code{"Light rail and tram"}, \code{"London Underground"}. Note: car, taxi, motorbike is per vehicle.}
 
-\item{fuel}{Fuel type used for the journey. For car, \code{"petrol"}, \code{"diesel"}, \code{"hybrid"}, \code{"unknown"}, \code{"hybrid electric"}, \code{"battery electric"} are options. For van, \code{"petrol"}, \code{"diesel"}, and \code{"battery electric"} are options.
-\code{"hybrid electric"} and \code{"battery electric"} account for electricity kWh emissions.}
+\item{fuel}{Fuel type used for the journey. For car, \code{"Petrol"}, \code{"Diesel"}, \code{"Unknown"}, \code{"Battery Electric Vehicle"}, \code{"Plug-in Hybrid Electric Vehicle"} are options. ##' \code{"hybrid electric"} and \code{"battery electric"} account for electricity kWh emissions.}
 
-\item{size}{Size of vehicle for car, motorbike, and van.
-Options are \code{"small"}, \code{"medium"}, \code{"large"}, or \code{"average"}.
-For car: small denotes up to a 1.4L engine, unless diesel which is up to 1.7L engine. Medium denotes 1.4-2.0L for petrol cars, 1.7-2.0L for diesel cars. Large denotes 2.0L+ engine.
-For motorbike, sizes denote upto 125cc, 125cc-500cc, 500cc+ respectively.}
+\item{car_type}{Size/type of vehicle for car.
+Options are \verb{c("Average car", "Small car", "Medium car", "Large car",}
+\verb{"Mini", "Supermini", "Lower medium", "Upper medium", "Executive",}
+\verb{"Luxury", "Sports", "Dual purpose 4X4", "MPV"),}.
+Small denotes up to a 1.4L engine, unless diesel which is up to 1.7L engine. Medium denotes 1.4-2.0L for petrol cars, 1.7-2.0L for diesel cars. Large denotes 2.0L+ engine.}
+
+\item{bike_type}{Size of vehicle for motorbike.
+Options are \code{"Small"}, \code{"Medium"}, \code{"Large"}, or \code{"Average"}.
+Sizes denote upto 125cc, 125cc-500cc, 500cc+ respectively.}
 
 \item{bus_type}{Options are \code{"local_nL"}, \code{"local_L"}, \code{"local"}, or \code{"average"}. These denote whether the bus is local but outside of London, local in London, local, or average.}
 
-\item{taxi_type}{Whether a taxi is regular or black cab. Options are \code{"regular"}, \code{"black cab"}.}
+\item{taxi_type}{Whether a taxi is regular or black cab. Options are \code{"Regular taxi"}, \code{"Black cab"}.}
 
 \item{TD}{logical.Whether to account for transmission and distribution (TD) for electric vehicles  (only \code{car} and \code{van})}
 
@@ -59,5 +67,5 @@ A function that calculates CO2e emissions on a journey on land.
 # Emissions for a 100 mile car journey
  vehicle_emissions(distance = 100)
 # Emissions for a 100 mile motorbike journey where the motorbike is 500+cc
- vehicle_emissions(distance = 100, vehicle = "motorbike", size = "large")
+ vehicle_emissions(distance = 100, vehicle = "Motorbike", bike_type = "Large")
 }

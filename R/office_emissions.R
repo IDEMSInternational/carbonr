@@ -36,7 +36,7 @@ office_emissions <- function(specify = FALSE, num_people = 1, num_wfh = 0,
                              natural_gas = 0, burning_oil = 0, coal_domestic = 0, wood_log = 0, wood_chips = 0, natural_gas_units = c("kwh", "cubic metres", "tonnes"),
                              burning_oil_units = c("kwh", "litres", "tonnes"), coal_domestic_units = c("kwh", "tonnes"), wood_log_units = c("kwh", "tonnes"), 
                              wood_chips_units = c("kwh", "tonnes")){
- 
+  
   checkmate::assert_logical(specify)
   checkmate::assert_numeric(num_wfh, lower = 0)
   
@@ -64,9 +64,9 @@ office_emissions <- function(specify = FALSE, num_people = 1, num_wfh = 0,
     }
     
     raw_emissions <- raw_fuels(natural_gas = natural_gas, burning_oil = burning_oil,
-                                coal_domestic = coal_domestic, wood_log = wood_log, wood_chips = wood_chips, natural_gas_units = natural_gas_units,
-                                burning_oil_units = burning_oil_units, coal_domestic_units = coal_domestic_units, wood_log_units = wood_log_units, 
-                                wood_chips_units = wood_chips_units, num_people = num_people)
+                               coal_domestic = coal_domestic, wood_log = wood_log, wood_chips = wood_chips, natural_gas_units = natural_gas_units,
+                               burning_oil_units = burning_oil_units, coal_domestic_units = coal_domestic_units, wood_log_units = wood_log_units, 
+                               wood_chips_units = wood_chips_units, num_people = num_people)
     
     specified_emissions <- (electricity_emissions + heating_emissions + water_emissions) * 0.001
     
