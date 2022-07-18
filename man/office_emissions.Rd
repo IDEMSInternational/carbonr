@@ -6,64 +6,49 @@
 \usage{
 office_emissions(
   specify = FALSE,
-  num_people = 1,
-  num_wfh = 0,
-  electricity_kwh = 0,
-  heat_kwh = 0,
-  water_m3 = 0,
-  include_TD = TRUE,
-  include_WTT = TRUE,
+  office_num = 1,
+  WFH_num = 0,
+  WFH_hours = 0,
+  WFH_type = c("Office Equipment", "Heating"),
+  water_supply = 0,
   water_trt = TRUE,
-  natural_gas = 0,
-  burning_oil = 0,
-  coal_domestic = 0,
-  wood_log = 0,
-  wood_chips = 0,
-  natural_gas_units = c("kwh", "cubic metres", "tonnes"),
-  burning_oil_units = c("kwh", "litres", "tonnes"),
-  coal_domestic_units = c("kwh", "tonnes"),
-  wood_log_units = c("kwh", "tonnes"),
-  wood_chips_units = c("kwh", "tonnes")
+  water_unit = c("cubic metres", "million litres"),
+  electricity_kWh = 0,
+  electricity_TD = TRUE,
+  electricity_WTT = TRUE,
+  heat_kWh = 0,
+  heat_TD = TRUE,
+  heat_WTT = TRUE
 )
 }
 \arguments{
 \item{specify}{logical. Whether an average should be used, or if the amount of energy used will be specified.}
 
-\item{num_people}{Number of people in the office.}
+\item{office_num}{If \code{specify = FALSE}, the number of individuals.}
 
-\item{num_wfh}{Number of people working from home.}
+\item{WFH_num}{Number of people working from home.}
 
-\item{electricity_kwh}{Electricity used in kWh.}
+\item{WFH_hours}{Number of hours working from home (per individual).}
 
-\item{heat_kwh}{Amount of heat/steam used for heating purposes in kWh.}
+\item{WFH_type}{Whether to account for \code{"Office Equipment"} and/or \code{"Heating"}. Default is both.}
 
-\item{water_m3}{Amount of water used in cubic-metres.}
+\item{water_supply}{Amount of water used in the office.}
 
-\item{include_TD}{logical. Recommended \code{TRUE}. Whether to include emissions associated with grid losses.}
+\item{water_trt}{logical. Default \code{TRUE}. Whether to include emissions associated with water treatment for used water.}
 
-\item{include_WTT}{logical. Recommended \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.}
+\item{water_unit}{Unit for \code{water_supply} variable. Options are \code{"cubic metres"} or \code{"million litres"}.}
 
-\item{water_trt}{logical. Recommended \code{TRUE}. Whether to include emissions associated with water treatment for used water.}
+\item{electricity_kWh}{Electricity used in kWh.}
 
-\item{natural_gas}{amount used. Standard natural gas received through the gas mains grid network in the UK.}
+\item{electricity_TD}{logical. Default \code{TRUE}. Whether to include emissions associated with grid losses.}
 
-\item{burning_oil}{amount used. Main purpose is for heating/lighting on a domestic scale (also known as kerosene).}
+\item{electricity_WTT}{logical. Default \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.}
 
-\item{coal_domestic}{amount used. Coal used domestically.}
+\item{heat_kWh}{heat used in kWh.}
 
-\item{wood_log}{amount used.}
+\item{heat_TD}{logical. Default \code{TRUE}. Whether to include emissions associated with grid losses.}
 
-\item{wood_chips}{amount used.}
-
-\item{natural_gas_units}{units that the gas is given in. Options are \code{"tonnes"}, \code{"cubic metres"}, \code{"kwh"}.}
-
-\item{burning_oil_units}{units that the fuel is given in. Options are \code{"tonnes"}, \code{"litres"}, \code{"kwh"}.}
-
-\item{coal_domestic_units}{units that the fuel is given in. Options are \code{"kwh"}, \code{"tonnes"}.}
-
-\item{wood_log_units}{units that the biomass is given in. Options are \code{"kwh"}, \code{"tonnes"}.}
-
-\item{wood_chips_units}{units that the biomass is given in. Options are \code{"kwh"}, \code{"tonnes"}.}
+\item{heat_WTT}{logical. Default \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.}
 }
 \value{
 Returns CO2e emissions in tonnes.
@@ -73,10 +58,10 @@ Further options are given in the \code{raw_fuels} function.
 }
 \examples{
 # specify emissions in an office
-office_emissions(specify = TRUE, electricity_kwh = 200,
-                 heat_kwh = 100, water_m3 = 100, include_TD = FALSE)
+office_emissions(specify = TRUE, electricity_kWh = 200,
+                 heat_kWh = 100, water_supply = 100, water_trt = FALSE)
 
 }
 \references{
-Descriptions from 2021 UK Government Report: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021
+Descriptions from 2022 UK Government Report: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2022
 }

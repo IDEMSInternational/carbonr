@@ -151,24 +151,24 @@ shiny_emissions <- function(){
                                                                                                                                                                                     label = "Vehicle owned by company",
                                                                                                                                                                                     value = FALSE, 
                                                                                                                                                                                     width = "20%")),
-                                                                                                                                      # shiny::conditionalPanel(condition = "input.vehicle == 'van'",
-                                                                                                                                      #                         shiny::radioButtons("driven_gas",
-                                                                                                                                      #                                             "Fuel Type:",
-                                                                                                                                      #                                             c("Unleaded gasoline" = "petrol",
-                                                                                                                                      #                                               "Diesel" = "diesel",
-                                                                                                                                      #                                               "Battery electric" = "battery electric")),
-                                                                                                                                      #                         shiny::conditionalPanel(condition = "input.driven_gas == 'battery electric'",
-                                                                                                                                      #                                                 shiny::checkboxInput(inputId = "secondary_electric", 
-                                                                                                                                      #                                                                      label = "Include emissions for electricity",
-                                                                                                                                      #                                                                      value = TRUE, 
-                                                                                                                                      #                                                                      width = "20%")))
-                                                                                                                                       ),
+                                                                                                                                       # shiny::conditionalPanel(condition = "input.vehicle == 'van'",
+                                                                                                                                       #                         shiny::radioButtons("driven_gas",
+                                                                                                                                       #                                             "Fuel Type:",
+                                                                                                                                       #                                             c("Unleaded gasoline" = "petrol",
+                                                                                                                                       #                                               "Diesel" = "diesel",
+                                                                                                                                       #                                               "Battery electric" = "battery electric")),
+                                                                                                                                       #                         shiny::conditionalPanel(condition = "input.driven_gas == 'battery electric'",
+                                                                                                                                       #                                                 shiny::checkboxInput(inputId = "secondary_electric", 
+                                                                                                                                       #                                                                      label = "Include emissions for electricity",
+                                                                                                                                       #                                                                      value = TRUE, 
+                                                                                                                                       #                                                                      width = "20%")))
+                                                                                                                                     ),
                                                                                                                                      shiny::conditionalPanel(condition = "input.vehicle == 'Bus'",
-                                                                                                                                       shiny::radioButtons("driven_type", 
-                                                                                                                                                           "Type:", 
-                                                                                                                                                           c("Average" = "Average local bus", 
-                                                                                                                                                             "Local (London)" = "Local London bus", 
-                                                                                                                                                             "Local (Not London)" = "Local bus (not London)"))),
+                                                                                                                                                             shiny::radioButtons("driven_type", 
+                                                                                                                                                                                 "Type:", 
+                                                                                                                                                                                 c("Average" = "Average local bus", 
+                                                                                                                                                                                   "Local (London)" = "Local London bus", 
+                                                                                                                                                                                   "Local (Not London)" = "Local bus (not London)"))),
                                                                                                                                      shiny::conditionalPanel(
                                                                                                                                        condition = "input.vehicle == 'Taxis'",
                                                                                                                                        shiny::radioButtons("taxi_type", 
@@ -238,88 +238,60 @@ shiny_emissions <- function(){
                                                                                                                                       label = "Specify Emissions", 
                                                                                                                                       value = TRUE, 
                                                                                                                                       width = "20%"),
-                                                                                                                 shiny::numericInput(inputId = "number_office",
-                                                                                                                                     label = "Number of people in the office:",
-                                                                                                                                     value = 1,
-                                                                                                                                     width = "41%"),
                                                                                                                  shiny::numericInput(inputId = "wfh_office",
                                                                                                                                      label = "Number of people working from home:",
                                                                                                                                      value = 1,
                                                                                                                                      width = "41%"),
+                                                                                                                 shiny::numericInput(inputId = "wfh_hours",
+                                                                                                                                     label = "Hours working from home (per person):",
+                                                                                                                                     value = 7,
+                                                                                                                                     width = "41%"),
+                                                                                                                 # @param WFH_type Whether to account for `"Office Equipment"` and/or `"Heating"`. Default is both.
+                                                                                                                 shiny::conditionalPanel(
+                                                                                                                   condition = "input.specify_office == 0",
+                                                                                                                   shiny::numericInput(inputId = "number_office",
+                                                                                                                                       label = "Number of people in the office:",
+                                                                                                                                       value = 1,
+                                                                                                                                       width = "41%")),
                                                                                                                  shiny::conditionalPanel(
                                                                                                                    condition = "input.specify_office == 1",
                                                                                                                    shiny::numericInput(inputId = "electricity_office",
                                                                                                                                        label = "Electricity (kWh):",
                                                                                                                                        value = 0,
                                                                                                                                        width = "41%"),
+                                                                                                                   shiny::checkboxInput(inputId = "wtt_electricity", 
+                                                                                                                                        label = "Include indirect emissions for electricity", # associated with extracting, refining, and transporting fuels", 
+                                                                                                                                        value = TRUE, 
+                                                                                                                                        width = "20%"),
+                                                                                                                   shiny::checkboxInput(inputId = "td_electricity", 
+                                                                                                                                        label = "Include emissions associated with grid losses for electricity", 
+                                                                                                                                        value = TRUE, 
+                                                                                                                                        width = "20%"),
                                                                                                                    shiny::numericInput(inputId = "heat_office",
                                                                                                                                        label = "Heat (kWh):",
                                                                                                                                        value = 0,
                                                                                                                                        width = "41%"),
-                                                                                                                   shiny::numericInput(inputId = "water_office",
-                                                                                                                                       label = "Water (m3):",
-                                                                                                                                       value = 0,
-                                                                                                                                       width = "41%"),
-                                                                                                                   shiny::numericInput(inputId = "naturalgas_office",
-                                                                                                                                       label = "Natural Gas:",
-                                                                                                                                       value = 0,
-                                                                                                                                       width = "41%"),
-                                                                                                                   shiny::selectInput("naturalgas_units_office", 
-                                                                                                                                      "Units:",
-                                                                                                                                      c("Tonnes" = "tonnes",
-                                                                                                                                        "Cubic metres" = "cubic metres",
-                                                                                                                                        "kWh" = "kwh"),
-                                                                                                                                      width = "41%"),
-                                                                                                                   shiny::numericInput(inputId = "oil_office",
-                                                                                                                                       label = "Burning Oil:",
-                                                                                                                                       value = 0,
-                                                                                                                                       width = "41%"),
-                                                                                                                   shiny::selectInput("oil_units_office",
-                                                                                                                                      "Units:",
-                                                                                                                                      c("Tonnes" = "tonnes",
-                                                                                                                                        "Litres" = "litres",
-                                                                                                                                        "kWh" = "kwh"),
-                                                                                                                                      width = "41%"),
-                                                                                                                   shiny::numericInput(inputId = "coal_office",
-                                                                                                                                       label = "Domestic Coal:",
-                                                                                                                                       value = 0,
-                                                                                                                                       width = "41%"),
-                                                                                                                   shiny::selectInput("coal_units_office", 
-                                                                                                                                      "Units:",
-                                                                                                                                      c("Tonnes" = "tonnes",
-                                                                                                                                        "kWh" = "kwh"),
-                                                                                                                                      width = "41%"),
-                                                                                                                   shiny::numericInput(inputId = "woodlogs_office",
-                                                                                                                                       label = "Wood logs:",
-                                                                                                                                       value = 0,
-                                                                                                                                       width = "41%"),
-                                                                                                                   shiny::selectInput("woodlogs_units_office", 
-                                                                                                                                      "Units:",
-                                                                                                                                      c("Tonnes" = "tonnes",
-                                                                                                                                        "kWh" = "kwh"),
-                                                                                                                                      width = "41%"),
-                                                                                                                   shiny::numericInput(inputId = "woodchips_office",
-                                                                                                                                       label = "Wood chips:",
-                                                                                                                                       value = 0,
-                                                                                                                                       width = "41%"),
-                                                                                                                   shiny::selectInput("woodchips_units_office", 
-                                                                                                                                      "Units:",
-                                                                                                                                      c("Tonnes" = "tonnes",
-                                                                                                                                        "kWh" = "kwh"),
-                                                                                                                                      width = "41%"),
-                                                                                                                   shiny::checkboxInput(inputId = "wtt_office", 
-                                                                                                                                        label = "Include indirect emissions for fuels", # associated with extracting, refining, and transporting fuels", 
+                                                                                                                   shiny::checkboxInput(inputId = "wtt_heat", 
+                                                                                                                                        label = "Include indirect emissions for heat/steam", # associated with extracting, refining, and transporting fuels", 
                                                                                                                                         value = TRUE, 
                                                                                                                                         width = "20%"),
-                                                                                                                   shiny::checkboxInput(inputId = "td_office", 
-                                                                                                                                        label = "Include emissions associated with grid losses", 
+                                                                                                                   shiny::checkboxInput(inputId = "td_heat",
+                                                                                                                                        label = "Include emissions associated with grid losses for heat/steam", 
                                                                                                                                         value = TRUE, 
                                                                                                                                         width = "20%"),
-                                                                                                                   shiny::checkboxInput(inputId = "trt_office", 
+                                                                                                                   shiny::numericInput(inputId = "office_water",
+                                                                                                                                       label = "Water:",
+                                                                                                                                       value = 0,
+                                                                                                                                       width = "41%"),
+                                                                                                                   shiny::checkboxInput(inputId = "trt_water", 
                                                                                                                                         label = "Include emissions associated with water treatment for used water", 
                                                                                                                                         value = TRUE, 
+                                                                                                                                        width = "20%"),
+                                                                                                                   shiny::selectInput("units_water", 
+                                                                                                                                      "Units for water:",
+                                                                                                                                      c("cubic metres",
+                                                                                                                                        "million litres"),
                                                                                                                                         width = "20%")),
-                                                                                                                 
                                                                                                                  shiny::splitLayout(shiny::verbatimTextOutput("office_emissions"),
                                                                                                                                     htmltools::h6("tonnes"),
                                                                                                                                     shiny::actionButton("add_office", "Add to Table", class="btn-success"), 
@@ -341,7 +313,7 @@ shiny_emissions <- function(){
                                                                                                                                                         htmltools::h6("tonnes"),
                                                                                                                                                         shiny::actionButton("add_hotel", "Add to Table", class="btn-success"), 
                                                                                                                                                         cellArgs = list(style = "vertical-align: top")))
-                                                                                                                 )#,
+                                                                                                 )#,
                                                                                                  #shiny::tabPanel("Raw Fuels",
                                                                                                  #                # n = input
                                                                                                  #                # %
@@ -354,7 +326,7 @@ shiny_emissions <- function(){
                                                                               status ="success",
                                                                               solidHeader = TRUE,
                                                                               shiny::tableOutput("table_emissions"))#,cellWidths = c("65%", "5%", "30%")
-                                                          )))
+                                                        )))
                                       ) # close body
   ) # close page
   
@@ -381,7 +353,7 @@ shiny_emissions <- function(){
     # checking station names
     train_name_check <- shiny::reactive({ rail_finder(station = input$trainname, ignore.case = TRUE) })
     output$train_name_check <- shiny::renderTable({{train_name_check()}}, striped = TRUE)
-
+    
     # via input options
     K_train <- shiny::reactive({ input$trainvia })
     output$trainvia_input <- shiny::renderUI({ add_inputs(numeric_input = K_train(),  label = "Station:", value = "station name") })
@@ -422,7 +394,7 @@ shiny_emissions <- function(){
     output$hotel_emissions <- shiny::renderText({ hotel_carbon_calc() })
     
     ##### Office Emissions #####
-    office_carbon_calc <- shiny::reactive({ office_emissions(specify = input$specify_office, num_people = input$number_office, num_wfh = input$wfh_office, electricity_kwh = input$electricity_office, heat_kwh = input$heat_office, water_m3 = input$water_office, include_TD = input$td_office, include_WTT = input$wtt_office, water_trt = input$trt_office, natural_gas = input$naturalgas_office, burning_oil = input$oil_office, coal_domestic = input$coal_office, wood_log = input$woodlogs_office, wood_chips = input$woodchips_office, natural_gas_units = input$naturalgas_units_office, burning_oil_units = input$oil_units_office, coal_domestic_units = input$coal_units_office, wood_log_units = input$woodlogs_units_office,  wood_chips_units = input$woodchips_units_office) })
+    office_carbon_calc <- shiny::reactive({ office_emissions(specify = input$specify_office, office_num = input$number_office, WFH_num = input$wfh_office, WFH_hours = input$wfh_hours, electricity_kWh = input$electricity_office, heat_kWh = input$heat_office, water_supply = input$office_water, electricity_TD = input$td_electricity, electricity_WTT = input$wtt_electricity, heat_TD = input$td_heat, heat_WTT = input$wtt_heat, water_trt = input$trt_water, water_unit = input$units_water) })
     output$office_emissions <- shiny::renderText({ office_carbon_calc() })
     
     ######## Submit Button ########
@@ -446,15 +418,15 @@ shiny_emissions <- function(){
     })
     shiny::observeEvent(input$add_plane, {
       if (input$add_plane > 0) { df$data <- rbind(df$data, c(carbon_calc(), "Airplane")) }
-        names(df$data) <- c("Emissions", "Activity")
+      names(df$data) <- c("Emissions", "Activity")
     })
     shiny::observeEvent(input$add_train, {
       if (input$add_train > 0) { df$data <- rbind(df$data, c(train_carbon_calc(), "Train")) }
-        names(df$data) <- c("Emissions", "Activity")
+      names(df$data) <- c("Emissions", "Activity")
     })
     shiny::observeEvent(input$add_drive, {
       if (input$add_drive > 0) { df$data <- rbind(df$data, c(drive_carbon_calc(), "Vehicle")) }
-        names(df$data) <- c("Emissions", "Activity")
+      names(df$data) <- c("Emissions", "Activity")
     })
     shiny::observeEvent(input$add_ferry, {
       if (input$add_ferry > 0) { df$data <- rbind(df$data, c(ferry_carbon_calc(), "Ferry")) }
