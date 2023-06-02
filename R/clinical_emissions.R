@@ -4,7 +4,7 @@
 #'
 #' @param wet_clinical_waste Amount of (wet) clinical waste that is usually incinerated.
 #' @param wet_clinical_waste_unit Unit for `wet_clinical_waste` variable. Options are `"tonnes"` or `"kg"`.
-#' @param water_supply Amount of water used in the office.
+#' @param water_supply Amount of water used in the operating theatre.
 #' @param water_trt logical. Default \code{TRUE}. Whether to include emissions associated with water treatment for used water.
 #' @param water_unit Unit for `water_supply` variable. Options are `"cubic metres"` or `"million litres"`.
 #' @param electricity_kWh Electricity used in kWh.

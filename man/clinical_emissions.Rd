@@ -23,7 +23,7 @@ clinical_emissions(
 
 \item{wet_clinical_waste_unit}{Unit for \code{wet_clinical_waste} variable. Options are \code{"tonnes"} or \code{"kg"}.}
 
-\item{water_supply}{Amount of water used in the office.}
+\item{water_supply}{Amount of water used in the operating theatre.}
 
 \item{water_trt}{logical. Default \code{TRUE}. Whether to include emissions associated with water treatment for used water.}
 
