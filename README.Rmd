@@ -77,10 +77,10 @@ rail_finder(station = "Birmingham")
 rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
 
 # To calculate vehicle emissions for a 100 mile bus journey
-vehicle_emissions(distance = 100, units = "miles", vehicle = "bus")
+land_emissions(distance = 100, units = "miles", vehicle = "Bus")
 
 # Additional emissions can be calculated as well. For example, office emissions
-office_emissions(specify = TRUE, electricity_kwh = 2455.2, water_m3 = 85, heat_kwh = 8764)
+office_emissions(specify = TRUE, electricity_kWh = 2455.2, water_supply = 85, heat_kWh = 8764)
 
 # Alternatively, more advance emissions can be given with the `raw_fuels()` function.
 ```

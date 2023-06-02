@@ -23,13 +23,13 @@ status](https://www.r-pkg.org/badges/version/carbonr)](https://CRAN.R-project.or
 carbonr is a package in R to conveniently calculate carbon-equivalent
 emissions:
 
--   `airplane_emissions()`
--   `ferry_emissions()`
--   `hotel_emissions()`
--   `office_emissions()`
--   `rail_emissions()`
--   `raw_fuels()`
--   `vehicle_emissions()`
+- `airplane_emissions()`
+- `ferry_emissions()`
+- `hotel_emissions()`
+- `office_emissions()`
+- `rail_emissions()`
+- `raw_fuels()`
+- `vehicle_emissions()`
 
 These all return carbon-equivalent emissions in tonnes. The emissions
 values in the calculations are from the UK Government report (2021).
@@ -50,6 +50,7 @@ devtools::install_github("IDEMSInternational/carbonr")
 ## Usage
 
 ``` r
+
 library(carbonr)
 
 # To calculate emissions for a flight between Vancouver and Toronto
@@ -67,7 +68,7 @@ airport_finder(name = "Toronto")
 #> 1 Billy Bishop Toronto City Centre Airport Toronto Canada  YTZ  
 #> 2 Toronto/Oshawa Executive Airport         Oshawa  Canada  YOO
 airplane_emissions("YVR", "YYZ")
-#> [1] 0.9911252
+#> [1] 0.7169341
 
 # To calculate emissions for a round trip ferry from Melbourne to New York
 seaport_finder(country = "Australia", city = "Melbourne")
@@ -86,35 +87,38 @@ ferry_emissions("POR", "BOY", round_trip = TRUE)
 # To calculate emissions for a train journey from Bristol Temple Meads to Edinburgh Waverley, via Birmingham New Street.
 rail_finder(station = "Bristol")
 #> # A tibble: 2 x 7
-#>   station_code station              region    county district latitude longitude
-#>   <chr>        <chr>                <chr>     <chr>  <chr>       <dbl>     <dbl>
-#> 1 BPW          Bristol Parkway      South We~ South~ South G~     51.5     -2.54
-#> 2 BRI          Bristol Temple Meads South We~ Brist~ Bristol~     51.4     -2.58
+#>   station_code station              region     county    distr~1 latit~2 longi~3
+#>   <chr>        <chr>                <chr>      <chr>     <chr>     <dbl>   <dbl>
+#> 1 BPW          Bristol Parkway      South West South Gl~ South ~    51.5   -2.54
+#> 2 BRI          Bristol Temple Meads South West Bristol ~ Bristo~    51.4   -2.58
+#> # ... with abbreviated variable names 1: district, 2: latitude, 3: longitude
 rail_finder(station = "Edinburgh")
 #> # A tibble: 2 x 7
-#>   station_code station        region   county        district latitude longitude
-#>   <chr>        <chr>          <chr>    <chr>         <chr>       <dbl>     <dbl>
-#> 1 EDB          Edinburgh      Scotland Edinburgh Ci~ Edinbur~     56.0     -3.19
-#> 2 EDP          Edinburgh Park Scotland Edinburgh Ci~ Edinbur~     55.9     -3.31
+#>   station_code station        region   county            distr~1 latit~2 longi~3
+#>   <chr>        <chr>          <chr>    <chr>             <chr>     <dbl>   <dbl>
+#> 1 EDB          Edinburgh      Scotland Edinburgh City Of Edinbu~    56.0   -3.19
+#> 2 EDP          Edinburgh Park Scotland Edinburgh City Of Edinbu~    55.9   -3.31
+#> # ... with abbreviated variable names 1: district, 2: latitude, 3: longitude
 rail_finder(station = "Birmingham")
 #> # A tibble: 5 x 7
-#>   station_code station                 region county district latitude longitude
-#>   <chr>        <chr>                   <chr>  <chr>  <chr>       <dbl>     <dbl>
-#> 1 BBS          Birmingham Bordesley    West ~ West ~ Birming~     52.5     -1.88
-#> 2 BHI          Birmingham Internation~ West ~ West ~ Solihull     52.5     -1.73
-#> 3 BHM          Birmingham New Street   West ~ West ~ Birming~     52.5     -1.90
-#> 4 BMO          Birmingham Moor Street  West ~ West ~ Birming~     52.5     -1.89
-#> 5 BSW          Birmingham Snow Hill    West ~ West ~ Birming~     52.5     -1.90
+#>   station_code station                  region    county distr~1 latit~2 longi~3
+#>   <chr>        <chr>                    <chr>     <chr>  <chr>     <dbl>   <dbl>
+#> 1 BBS          Birmingham Bordesley     West Mid~ West ~ Birmin~    52.5   -1.88
+#> 2 BHI          Birmingham International West Mid~ West ~ Solihu~    52.5   -1.73
+#> 3 BHM          Birmingham New Street    West Mid~ West ~ Birmin~    52.5   -1.90
+#> 4 BMO          Birmingham Moor Street   West Mid~ West ~ Birmin~    52.5   -1.89
+#> 5 BSW          Birmingham Snow Hill     West Mid~ West ~ Birmin~    52.5   -1.90
+#> # ... with abbreviated variable names 1: district, 2: latitude, 3: longitude
 rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
 #> [1] 0.02303694
 
 # To calculate vehicle emissions for a 100 mile bus journey
-vehicle_emissions(distance = 100, units = "miles", vehicle = "bus")
-#> [1] 0.02356298
+land_emissions(distance = 100, units = "miles", vehicle = "Bus")
+#> [1] 0.013646
 
 # Additional emissions can be calculated as well. For example, office emissions
-office_emissions(specify = TRUE, electricity_kwh = 2455.2, water_m3 = 85, heat_kwh = 8764)
-#> [1] 2.60238
+office_emissions(specify = TRUE, electricity_kWh = 2455.2, water_supply = 85, heat_kWh = 8764)
+#> [1] 2.805666
 
 # Alternatively, more advance emissions can be given with the `raw_fuels()` function.
 ```
@@ -131,8 +135,8 @@ shiny_emissions()
 
 ### Other online calculators:
 
--   <https://carbonfund.org/calculation-methods/>
--   <https://www.carbonfootprint.com/calculatorfaqs.html>
+- <https://carbonfund.org/calculation-methods/>
+- <https://www.carbonfootprint.com/calculatorfaqs.html>
 
 ### Sources:
 
