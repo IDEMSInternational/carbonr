@@ -2,7 +2,7 @@
 #' 
 #' Further options are given in the `raw_fuels` function.
 #' 
-#' @param water_supply Amount of water used in the office.
+#' @param water_supply Amount of water used in the building.
 #' @param water_trt logical. Default \code{TRUE}. Whether to include emissions associated with water treatment for used water.
 #' @param water_unit Unit for `water_supply` variable. Options are `"cubic metres"` or `"million litres"`.
 #' @param electricity_kWh Electricity used in kWh.

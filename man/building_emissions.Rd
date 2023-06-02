@@ -17,7 +17,7 @@ building_emissions(
 )
 }
 \arguments{
-\item{water_supply}{Amount of water used in the office.}
+\item{water_supply}{Amount of water used in the building.}
 
 \item{water_trt}{logical. Default \code{TRUE}. Whether to include emissions associated with water treatment for used water.}
 
