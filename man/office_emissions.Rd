@@ -44,7 +44,7 @@ office_emissions(
 
 \item{electricity_WTT}{logical. Default \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.}
 
-\item{heat_kWh}{heat used in kWh.}
+\item{heat_kWh}{heat and steam used in kWh.}
 
 \item{heat_TD}{logical. Default \code{TRUE}. Whether to include emissions associated with grid losses.}
 

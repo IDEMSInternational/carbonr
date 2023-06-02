@@ -13,7 +13,7 @@
 #' @param electricity_kWh Electricity used in kWh.
 #' @param electricity_TD logical. Default \code{TRUE}. Whether to include emissions associated with grid losses.
 #' @param electricity_WTT logical. Default \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.
-#' @param heat_kWh heat used in kWh.
+#' @param heat_kWh heat and steam used in kWh.
 #' @param heat_TD logical. Default \code{TRUE}. Whether to include emissions associated with grid losses.
 #' @param heat_WTT logical. Default \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.
 #' @return Returns CO2e emissions in tonnes.

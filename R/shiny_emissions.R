@@ -368,7 +368,7 @@ shiny_emissions <- function(){
     output$train_emissions <- shiny::renderText({ train_carbon_calc() })
     
     ##### Vehicle Emissions #####
-    drive_carbon_calc <- shiny::reactive({ vehicle_emissions(distance = input$drive_KM, vehicle = input$vehicle, units = input$driven_units, num = input$drive_number, fuel = input$driven_gas, car_type = input$size_vehicle, bus_type = input$driven_type, taxi_type = input$taxi_type, include_WTT = input$secondary_vehicles, include_electricity = input$secondary_electric, TD = input$owned_vehicles) })
+    drive_carbon_calc <- shiny::reactive({ land_emissions(distance = input$drive_KM, vehicle = input$vehicle, units = input$driven_units, num = input$drive_number, fuel = input$driven_gas, car_type = input$size_vehicle, bus_type = input$driven_type, taxi_type = input$taxi_type, include_WTT = input$secondary_vehicles, include_electricity = input$secondary_electric, TD = input$owned_vehicles) })
     output$driven_emissions <- shiny::renderText({ drive_carbon_calc() })
     
     ##### Ferry Emissions #####

@@ -5,9 +5,6 @@ test_that("correct calculations when editing distance", {
 })
 
 test_that("some parameters do not affect calculations for certain vehicles", {
-  expect_equal(vehicle_emissions(distance = 100, vehicle = "Bus", owned_by_org = TRUE), vehicle_emissions(distance = 100, vehicle = "Bus", owned_by_org = FALSE))
-  expect_equal(vehicle_emissions(distance = 100, vehicle = "Coach", owned_by_org = TRUE), vehicle_emissions(distance = 100, vehicle = "Coach", owned_by_org = FALSE))
-  expect_equal(vehicle_emissions(distance = 100, vehicle = "Taxis", owned_by_org = TRUE), vehicle_emissions(distance = 100, vehicle = "Taxis", owned_by_org = FALSE))
   expect_equal(vehicle_emissions(distance = 100, vehicle = "Cars", include_electricity = TRUE), vehicle_emissions(distance = 100, vehicle = "Cars", include_electricity = FALSE))
   expect_equal(vehicle_emissions(distance = 100, vehicle = "Cars", fuel = "Petrol", include_electricity = TRUE), vehicle_emissions(distance = 100, vehicle = "Car", fuel = "Petrol", include_electricity = FALSE))
 })
@@ -25,17 +22,8 @@ test_that("more emissions are released at 100 miles than 100km", {
   expect_gt(vehicle_emissions(distance = 100, units = "miles"), vehicle_emissions(distance = 100, units = "km"))
 })
 
-test_that("bus works when bus_type is altered", {
-  expect_gt(vehicle_emissions(distance = 100, vehicle = "Bus", bus_type = "Local bus (not London)"), vehicle_emissions(distance = 100, vehicle = "Bus", bus_type = "Local London bus"))
-})
-
-test_that("coach works when an unrelated parameter is altered", {
-  expect_equal(vehicle_emissions(distance = 100, vehicle = "Coach", bus_type = "Local bus (not London)"), vehicle_emissions(distance = 100, vehicle = "Coach", bus_type = "Local London bus"))
-})
-
 test_that("Battery Electric Vehicle changes when parameters are altered", {
   expect_gt(vehicle_emissions(distance = 100, fuel = "Battery Electric Vehicle", TD = TRUE), vehicle_emissions(distance = 100, fuel = "Battery Electric Vehicle", TD = FALSE))
   expect_gt(vehicle_emissions(distance = 100, fuel = "Battery Electric Vehicle", include_WTT = TRUE), vehicle_emissions(distance = 100, fuel = "Battery Electric Vehicle", include_WTT = FALSE))
   expect_gt(vehicle_emissions(distance = 100, fuel = "Battery Electric Vehicle", include_electricity = TRUE), vehicle_emissions(distance = 100, fuel = "Battery Electric Vehicle", include_electricity = FALSE))
 })
-
