@@ -19,7 +19,7 @@ clinical_emissions(
 )
 }
 \arguments{
-\item{wet_clinical_waste}{Amount of (wet) clinical waste that is usually incenerated.}
+\item{wet_clinical_waste}{Amount of (wet) clinical waste that is usually incinerated.}
 
 \item{wet_clinical_waste_unit}{Unit for \code{wet_clinical_waste} variable. Options are \code{"tonnes"} or \code{"kg"}.}
 

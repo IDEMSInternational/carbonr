@@ -2,7 +2,7 @@
 #' 
 #' @description Calculate carbon-equivalent emissions following an operating theatre
 #'
-#' @param wet_clinical_waste Amount of (wet) clinical waste that is usually incenerated.
+#' @param wet_clinical_waste Amount of (wet) clinical waste that is usually incinerated.
 #' @param wet_clinical_waste_unit Unit for `wet_clinical_waste` variable. Options are `"tonnes"` or `"kg"`.
 #' @param water_supply Amount of water used in the office.
 #' @param water_trt logical. Default \code{TRUE}. Whether to include emissions associated with water treatment for used water.
