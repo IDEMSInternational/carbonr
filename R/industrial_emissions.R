@@ -101,9 +101,9 @@ industrial_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
   construction_emissions <- construction_emissions(aggregates = aggregates, average = construction_average, asbestos = asbestos, asphalt = asphalt, 
                                                    bricks = bricks, concrete = concrete, insulation = insulation, metals = metals, soils = soils,
                                                    mineral_oil = mineral_oil, plasterboard = plasterboard, tyres = tyres, wood = wood,
-                                                   aggregates = aggregates_WD, average_WD = construction_average_WD, asbestos = asbestos_WD, asphalt = asphalt_WD, 
-                                                   bricks = bricks_WD, concrete = concrete_WD, insulation = insulation_WD, metals = metals_WD, soils = soils,
-                                                   mineral_oil = mineral_oil_WD, plasterboard = plasterboard_WD, tyres = tyres_WD, wood = wood,
+                                                   aggregates_WD = aggregates_WD, average_WD = construction_average_WD, asbestos_WD = asbestos_WD, asphalt_WD = asphalt_WD, 
+                                                   bricks_WD = bricks_WD, concrete_WD = concrete_WD, insulation_WD = insulation_WD, metals_WD = metals_WD, soils_WD = soils_WD,
+                                                   mineral_oil_WD = mineral_oil_WD, plasterboard_WD = plasterboard_WD, tyres_WD = tyres_WD, wood_WD = wood_WD,
                                                    units = units,
                                                    waste_disposal = construction_waste_disposal)
   # for glass?
