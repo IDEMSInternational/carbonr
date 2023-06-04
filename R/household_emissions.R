@@ -43,8 +43,8 @@
 #' `"Anaerobic digestion"` energy is recovered from the waste through anaerobic digestion.
 #'
 #' @examples
-#' household_material_emissions(glass = 100, clothing = 10, glass_WD = 10, units = "kg")
-household_material_emissions <- function(glass = 0, clothing = 0, food = 0, drink = 0, compost_from_garden = 0,
+#' household_emissions(glass = 100, clothing = 10, glass_WD = 10, units = "kg")
+household_emissions <- function(glass = 0, clothing = 0, food = 0, drink = 0, compost_from_garden = 0,
                                 compost_from_food_and_garden = 0, board = 0, mixed = 0, paper = 0,
                                 fridges = 0, freezers = 0, large_electrical = 0, IT = 0, small_electrical = 0,
                                 alkaline_batteries = 0, LiIon_batteries = 0, NiMh_batteries = 0,

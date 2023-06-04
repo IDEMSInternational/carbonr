@@ -79,3 +79,4 @@ electrical_emissions <- function(fridges = 0, freezers = 0, large = 0, IT = 0, s
   if (units == "kg") electrical_emissions <- electrical_emissions/1000
   return(electrical_emissions)
 }
+
