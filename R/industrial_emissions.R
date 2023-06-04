@@ -69,7 +69,8 @@ industrial_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
                                  aggregates_WD = 0, construction_average_WD = 0, asbestos_WD = 0, asphalt_WD = 0, bricks_WD = 0,
                                  concrete_WD = 0, insulation_WD = 0, metals_WD = 0, soils_WD = 0, mineral_oil_WD = 0,
                                  plasterboard_WD = 0, tyres_WD = 0, wood_WD = 0,
-                                 construction_waste_disposal = c("TODO"),
+                                 construction_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill",
+                                                                 "Open-loop"),
                                  units = c("kg", "tonnes")){
   
   gcb_waste_disposal <- match.arg(glass_waste_disposal)

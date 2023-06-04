@@ -92,7 +92,8 @@ industrial_emissions(
   plasterboard_WD = 0,
   tyres_WD = 0,
   wood_WD = 0,
-  construction_waste_disposal = c("TODO"),
+  construction_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill",
+    "Open-loop"),
   units = c("kg", "tonnes")
 )
 }
