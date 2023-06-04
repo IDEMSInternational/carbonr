@@ -103,7 +103,7 @@ household_material_emissions <- function(glass = 0, clothing = 0, food = 0, drin
   electrical_emissions <- electrical_emissions(fridges = fridges, freezers = freezers, large = large_electrical, IT = IT,
                                                small = small_electrical, alkaline_batteries = alkaline_batteries,
                                                LiIon_batteries = LiIon_batteries, NiMh_batteries = NiMh_batteries,
-                                               fridges_WD = fridges_WD, freezers_WD = freezers_WD, large_WD = large_eletrical_WD, IT_WD = IT_WD,
+                                               fridges_WD = fridges_WD, freezers_WD = freezers_WD, large_WD = large_electrical_WD, IT_WD = IT_WD,
                                                small_WD = small_electrical_WD, alkaline_batteries_WD = alkaline_batteries_WD, LiIon_batteries_WD = LiIon_batteries_WD,
                                                NiMh_batteries_WD = NiMh_batteries_WD, waste_disposal = electric_waste_disposal, units = units)
   emission_values <- uk_gov_data %>%
