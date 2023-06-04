@@ -71,7 +71,7 @@ plastic_emissions <- function(average = 0, average_film = 0, average_rigid = 0, 
   checkmate::assert_numeric(PVC_WD, lower = 0)
   
   # set as kg not tonnes
-  uk_gov_data <- uk_gov_data %>% mutate(`GHG Conversion Factor 2022` = `GHG Conversion Factor 2022`/1000)
+  uk_gov_data <- uk_gov_data %>% dplyr::mutate(`GHG Conversion Factor 2022` = `GHG Conversion Factor 2022`/1000)
   MU <- uk_gov_data %>%
     dplyr::filter(`Level 2` == "Plastic") %>%
     dplyr::filter(`Column Text` == "Primary material production") %>%

@@ -20,6 +20,8 @@
 #' @param drink_WD Numeric value indicating the quantity of drink disposed of using waste disposal methods. Default is `0`.
 #' @param compost_from_garden_WD Numeric value indicating the quantity of compost from garden waste disposed of using waste disposal methods. Default is `0`.
 #' @param compost_from_food_and_garden_WD Numeric value indicating the quantity of compost from garden and food waste disposed of using waste disposal methods. Default is `0`.
+#' @param large_electrical Numeric value indicating the quantity of large electrical items. Default is `0`.
+#' @param small_electrical Numeric value indicating the quantity of small electrical items. Default is `0`.
 #' @param compost_waste_disposal Character value specifying the waste disposal method for compost waste (options: `"Anaerobic digestion"`, `"Combustion"`, `"Composting"`, `"Landfill"`). Default is `"Anaerobic digestion"`. See `details` for more information.
 #' @param metal_waste_disposal Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: "Closed-loop", "Combustion", "Landfill", "Open-loop". Default is "Closed-loop". See `details` for more information.
 #' @param paper_waste_disposal Character vector specifying the waste disposal method for paper to use for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Composting"`, `"Landfill"`. Default is `"Closed-loop"`. See `details` for more information.
@@ -61,8 +63,8 @@ household_material_emissions <- function(glass = 0, clothing = 0, food = 0, drin
                                 average_WD = 0, average_film_WD = 0, average_rigid_WD = 0, HDPE_WD = 0,
                                 LDPE_WD = 0, LLDPE_WD = 0, PET_WD = 0, PP_WD = 0, PS_WD = 0, PVC_WD = 0,
                                 plastic_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
-                                fridges_WD = 0, freezers_WD = 0, large_WD = 0, IT_WD = 0,
-                                small_WD = 0, alkaline_batteries_WD = 0, LiIon_batteries_WD = 0,
+                                fridges_WD = 0, freezers_WD = 0, large_electrical_WD = 0, IT_WD = 0,
+                                small_electrical_WD = 0, alkaline_batteries_WD = 0, LiIon_batteries_WD = 0,
                                 NiMh_batteries_WD = 0, electric_waste_disposal = c("Landfill", "Open-loop"),
                                 units = c("kg", "tonnes")){
   
@@ -101,8 +103,8 @@ household_material_emissions <- function(glass = 0, clothing = 0, food = 0, drin
   electrical_emissions <- electrical_emissions(fridges = fridges, freezers = freezers, large = large_electrical, IT = IT,
                                                small = small_electrical, alkaline_batteries = alkaline_batteries,
                                                LiIon_batteries = LiIon_batteries, NiMh_batteries = NiMh_batteries,
-                                               fridges_WD = fridges_WD, freezers_WD = freezers_WD, large_WD = large_WD, IT_WD = IT_WD,
-                                               small_WD = small_WD, alkaline_batteries_WD = alkaline_batteries_WD, LiIon_batteries_WD = LiIon_batteries_WD,
+                                               fridges_WD = fridges_WD, freezers_WD = freezers_WD, large_WD = large_eletrical_WD, IT_WD = IT_WD,
+                                               small_WD = small_electrical_WD, alkaline_batteries_WD = alkaline_batteries_WD, LiIon_batteries_WD = LiIon_batteries_WD,
                                                NiMh_batteries_WD = NiMh_batteries_WD, waste_disposal = electric_waste_disposal, units = units)
   emission_values <- uk_gov_data %>%
     dplyr::filter(`Level 2` %in% c("Organic", "Other")) %>%

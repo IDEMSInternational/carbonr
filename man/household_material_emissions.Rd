@@ -72,9 +72,9 @@ household_material_emissions(
   plastic_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
   fridges_WD = 0,
   freezers_WD = 0,
-  large_WD = 0,
+  large_electrical_WD = 0,
   IT_WD = 0,
-  small_WD = 0,
+  small_electrical_WD = 0,
   alkaline_batteries_WD = 0,
   LiIon_batteries_WD = 0,
   NiMh_batteries_WD = 0,
@@ -105,7 +105,11 @@ household_material_emissions(
 
 \item{freezers}{Numeric value indicating the quantity of freezers. Default is \code{0}.}
 
+\item{large_electrical}{Numeric value indicating the quantity of large electrical items. Default is \code{0}.}
+
 \item{IT}{Numeric value indicating the quantity of IT (Information Technology) equipment. Default is \code{0}.}
+
+\item{small_electrical}{Numeric value indicating the quantity of small electrical items. Default is \code{0}.}
 
 \item{alkaline_batteries}{Numeric value indicating the quantity of alkaline batteries. Default is \code{0}.}
 
@@ -211,11 +215,7 @@ household_material_emissions(
 
 \item{freezers_WD}{Numeric value indicating the quantity of freezers disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{large_WD}{Numeric value indicating the quantity of large electrical items disposed of using waste disposal methods. Default is \code{0}.}
-
 \item{IT_WD}{Numeric value indicating the quantity of IT equipment disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{small_WD}{Numeric value indicating the quantity of small electrical items disposed of using waste disposal methods. Default is \code{0}.}
 
 \item{alkaline_batteries_WD}{Numeric value indicating the quantity of alkaline batteries disposed of using waste disposal methods. Default is \code{0}.}
 
