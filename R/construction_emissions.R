@@ -2,32 +2,32 @@
 #' 
 #' @description: This function calculates the construction emissions based on the input parameters.
 #' 
-#' @param aggregates The quantity of aggregates used in construction. Default is `0`.
-#' @param average The quantity of average material used in construction. Default is `0`.
-#' @param asbestos The quantity of asbestos used in construction. Default is `0`.
-#' @param asphalt The quantity of asphalt used in construction. Default is `0`.
-#' @param bricks The quantity of bricks used in construction. Default is `0`.
-#' @param concrete The quantity of concrete used in construction. Default is `0`.
-#' @param insulation The quantity of insulation material used in construction. Default is `0`.
-#' @param metals The quantity of metals used in construction. Default is `0`.
-#' @param soils The quantity of soils used in construction. Default is `0`.
-#' @param mineral_oil The quantity of mineral oil used in construction. Default is `0`.
-#' @param plasterboard The quantity of plasterboard used in construction. Default is `0`.
-#' @param tyres The quantity of tyres used in construction. Default is `0`.
-#' @param wood The quantity of wood used in construction. Default is `0`.
-#' @param aggregates_WD The quantity of aggregates disposed of as waste. Default is `0`.
-#' @param construction_average_WD The quantity of average material disposed of as waste. Default is `0`.
-#' @param asbestos_WD The quantity of asbestos disposed of as waste. Default is `0`.
-#' @param asphalt_WD The quantity of asphalt disposed of as waste. Default is `0`.
-#' @param bricks_WD The quantity of bricks disposed of as waste. Default is `0`.
-#' @param concrete_WD The quantity of concrete disposed of as waste. Default is `0`.
-#' @param insulation_WD The quantity of insulation material disposed of as waste. Default is `0`.
-#' @param metals_WD The quantity of metals disposed of as waste. Default is `0`.
-#' @param soils_WD The quantity of soils disposed of as waste. Default is `0`.
-#' @param mineral_oil_WD The quantity of mineral oil disposed of as waste. Default is `0`.
-#' @param plasterboard_WD The quantity of plasterboard disposed of as waste. Default is `0`.
-#' @param tyres_WD The quantity of tyres disposed of as waste. Default is `0`.
-#' @param wood_WD The quantity of wood disposed of as waste. Default is `0`.
+#' @param aggregates The weight of aggregates used in construction. Default is `0`.
+#' @param average The weight of average material used in construction. Default is `0`.
+#' @param asbestos The weight of asbestos used in construction. Default is `0`.
+#' @param asphalt The weight of asphalt used in construction. Default is `0`.
+#' @param bricks The weight of bricks used in construction. Default is `0`.
+#' @param concrete The weight of concrete used in construction. Default is `0`.
+#' @param insulation The weight of insulation material used in construction. Default is `0`.
+#' @param metals The weight of metals used in construction. Default is `0`.
+#' @param soils The weight of soils used in construction. Default is `0`.
+#' @param mineral_oil The weight of mineral oil used in construction. Default is `0`.
+#' @param plasterboard The weight of plasterboard used in construction. Default is `0`.
+#' @param tyres The weight of tyres used in construction. Default is `0`.
+#' @param wood The weight of wood used in construction. Default is `0`.
+#' @param aggregates_WD The weight of aggregates disposed of as waste. Default is `0`.
+#' @param average_WD The weight of average material disposed of as waste. Default is `0`.
+#' @param asbestos_WD The weight of asbestos disposed of as waste. Default is `0`.
+#' @param asphalt_WD The weight of asphalt disposed of as waste. Default is `0`.
+#' @param bricks_WD The weight of bricks disposed of as waste. Default is `0`.
+#' @param concrete_WD The weight of concrete disposed of as waste. Default is `0`.
+#' @param insulation_WD The weight of insulation material disposed of as waste. Default is `0`.
+#' @param metals_WD The weight of metals disposed of as waste. Default is `0`.
+#' @param soils_WD The weight of soils disposed of as waste. Default is `0`.
+#' @param mineral_oil_WD The weight of mineral oil disposed of as waste. Default is `0`.
+#' @param plasterboard_WD The weight of plasterboard disposed of as waste. Default is `0`.
+#' @param tyres_WD The weight of tyres disposed of as waste. Default is `0`.
+#' @param wood_WD The weight of wood disposed of as waste. Default is `0`.
 #' @param units The units in which the emissions should be returned (`"kg"` or `"tonnes"`). Default is `0`.
 #' @param waste_disposal The method of waste disposal. Options are, `"Closed-loop"`, `"Combustion"`, `"Composting"`, `"Landfill"`,
 #' `"Open-loop"`. Default is `"Closed-loop"`. See `details` for more information on this. 
@@ -63,7 +63,7 @@
 construction_emissions <- function(aggregates = 0, average = 0, asbestos = 0, asphalt = 0, bricks = 0,
                                    concrete = 0, insulation = 0, metals = 0, soils = 0, mineral_oil = 0,
                                    plasterboard = 0, tyres = 0, wood = 0,
-                                   aggregates_WD = 0, average_WD = 0, construction_average_WD = 0, asbestos_WD = 0, asphalt_WD = 0, bricks_WD = 0,
+                                   aggregates_WD = 0, average_WD = 0, asbestos_WD = 0, asphalt_WD = 0, bricks_WD = 0,
                                    concrete_WD = 0, insulation_WD = 0, metals_WD = 0, soils_WD = 0, mineral_oil_WD = 0,
                                    plasterboard_WD = 0, tyres_WD = 0, wood_WD = 0,
                                    units = c("kg", "tonnes"),

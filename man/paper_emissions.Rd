@@ -16,17 +16,17 @@ paper_emissions(
 )
 }
 \arguments{
-\item{board}{Numeric value indicating the quantity of paperboard. Default is \code{0}.}
+\item{board}{Numeric value indicating the weight of paperboard. Default is \code{0}.}
 
-\item{mixed}{Numeric value indicating the quantity of mixed paper. Default is \code{0}.}
+\item{mixed}{Numeric value indicating the weight of mixed paper. Default is \code{0}.}
 
-\item{paper}{Numeric value indicating the quantity of paper. Default is \code{0}.}
+\item{paper}{Numeric value indicating the weight of paper. Default is \code{0}.}
 
-\item{board_WD}{Numeric value indicating the quantity of paperboard disposed of using waste disposal methods. Default is \code{0}.}
+\item{board_WD}{Numeric value indicating the weight of paperboard disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{mixed_WD}{Numeric value indicating the quantity of mixed paper disposed of using waste disposal methods. Default is \code{0}.}
+\item{mixed_WD}{Numeric value indicating the weight of mixed paper disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{paper_WD}{Numeric value indicating the quantity of paper disposed of using waste disposal methods. Default is \code{0}.}
+\item{paper_WD}{Numeric value indicating the weight of paper disposed of using waste disposal methods. Default is \code{0}.}
 
 \item{waste_disposal}{Character vector specifying the waste disposal method to use for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Composting"}, \code{"Landfill"}. Default is \code{"Closed-loop"}.
 \code{"Closed-loop"} is the process of recycling material back into the same product.

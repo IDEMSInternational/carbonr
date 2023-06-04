@@ -8,8 +8,15 @@
 #' @param glass Numeric value representing the amount of glass. Default is `0`.
 #' @param glass_WD Numeric value representing the amount of glass waste with disposal. Default is `0`.
 #' @param industrial_waste Numeric value representing the amount of household residual waste. Default is `0`.
+#' @param large_electrical Numeric value indicating the weight of large electrical items. Default is `0`.
+#' @param small_electrical Numeric value indicating the weight of small electrical items. Default is `0`.
+#' @param large_electrical_WD Numeric value indicating the weight of large electrical items disposed of using waste disposal methods. Default is `0`.
+#' @param small_electrical_WD Numeric value indicating the weight of small electrical items disposed of using waste disposal methods. Default is `0`.
+#' @param construction_average The weight of average material used in construction. Default is `0`.
+#' @param construction_average_WD The weight of average material disposed of as waste. Default is `0`.
 #' @param industrial_waste_disposal Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: `"Combustion"`, `"Landfill"`. Default is `"Combustion"`. See `details` for more information.
 #' @param metal_waste_disposal Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Landfill"`, `"Open-loop"`. Default is "Closed-loop". See `details` for more information.
+#' @param glass_waste_disposal Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Landfill"`, `"Open-loop"`. Default is "Closed-loop". See `details` for more information.
 #' @param paper_waste_disposal Character vector specifying the waste disposal method for paper to use for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Composting"`, `"Landfill"`. Default is `"Closed-loop"`. See `details` for more information.
 #' @param plastic_waste_disposal Character vector specifying the waste disposal method for plastic to use for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Landfill"`, `"Open-loop"`. Default is `"Closed-loop"`. See `details` for more information.
 #' @param electric_waste_disposal Character vector specifying the waste disposal method for electrical items to use for calculating emissions. Possible values: `"Landfill"`, `"Open-loop"`. Default is `"Landfill"`. See `details` for more information.
@@ -43,8 +50,7 @@ industrial_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
                                  aluminuim_cans = 0, aluminuim_foil = 0, mixed_cans = 0, scrap = 0, steel_cans = 0,
                                  average = 0, average_film = 0, average_rigid = 0, HDPE = 0,
                                  LDPE = 0, LLDPE = 0, PET = 0, PP = 0, PS = 0, PVC = 0,
-                                 glass_WD = 0, books_WD = 0, clothing_WD = 0,
-                                 glass_waste_disposal = c("Open-loop", "Closed-loop", "Combustion", "Landfill"),
+                                 glass_WD = 0, glass_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
                                  industrial_waste = 0, industrial_waste_disposal = c("Combustion", "Landfill"),
                                  aluminuim_cans_WD = 0, aluminuim_foil_WD = 0,
                                  mixed_cans_WD = 0, scrap_WD = 0, steel_cans_WD = 0,
@@ -54,8 +60,8 @@ industrial_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
                                  average_WD = 0, average_film_WD = 0, average_rigid_WD = 0, HDPE_WD = 0,
                                  LDPE_WD = 0, LLDPE_WD = 0, PET_WD = 0, PP_WD = 0, PS_WD = 0, PVC_WD = 0,
                                  plastic_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
-                                 fridges_WD = 0, freezers_WD = 0, large_WD = 0, IT_WD = 0,
-                                 small_WD = 0, alkaline_batteries_WD = 0, LiIon_batteries_WD = 0,
+                                 fridges_WD = 0, freezers_WD = 0, large_electrical_WD = 0, IT_WD = 0,
+                                 small_electrical_WD = 0, alkaline_batteries_WD = 0, LiIon_batteries_WD = 0,
                                  NiMh_batteries_WD = 0, electric_waste_disposal = c("Landfill", "Open-loop"),
                                  aggregates = 0, construction_average = 0, asbestos = 0, asphalt = 0, bricks = 0,
                                  concrete = 0, insulation = 0, metals = 0, soils = 0, mineral_oil = 0,
@@ -89,13 +95,13 @@ industrial_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
   electrical_emissions <- electrical_emissions(fridges = fridges, freezers = freezers, large = large_electrical, IT = IT,
                                                small = small_electrical, alkaline_batteries = alkaline_batteries,
                                                LiIon_batteries = LiIon_batteries, NiMh_batteries = NiMh_batteries,
-                                               fridges_WD = fridges_WD, freezers_WD = freezers_WD, large_WD = large_WD, IT_WD = IT_WD,
-                                               small_WD = small_WD, alkaline_batteries_WD = alkaline_batteries_WD, LiIon_batteries_WD = LiIon_batteries_WD,
+                                               fridges_WD = fridges_WD, freezers_WD = freezers_WD, large_WD = large_electrical_WD, IT_WD = IT_WD,
+                                               small_WD = small_electrical_WD, alkaline_batteries_WD = alkaline_batteries_WD, LiIon_batteries_WD = LiIon_batteries_WD,
                                                NiMh_batteries_WD = NiMh_batteries_WD, waste_disposal = electric_waste_disposal, units = units)
   construction_emissions <- construction_emissions(aggregates = aggregates, average = construction_average, asbestos = asbestos, asphalt = asphalt, 
                                                    bricks = bricks, concrete = concrete, insulation = insulation, metals = metals, soils = soils,
                                                    mineral_oil = mineral_oil, plasterboard = plasterboard, tyres = tyres, wood = wood,
-                                                   aggregates = aggregates_WD, average = construction_average_WD, asbestos = asbestos_WD, asphalt = asphalt_WD, 
+                                                   aggregates = aggregates_WD, average_WD = construction_average_WD, asbestos = asbestos_WD, asphalt = asphalt_WD, 
                                                    bricks = bricks_WD, concrete = concrete_WD, insulation = insulation_WD, metals = metals_WD, soils = soils,
                                                    mineral_oil = mineral_oil_WD, plasterboard = plasterboard_WD, tyres = tyres_WD, wood = wood,
                                                    units = units,

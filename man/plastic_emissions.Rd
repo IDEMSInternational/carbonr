@@ -30,45 +30,45 @@ plastic_emissions(
 )
 }
 \arguments{
-\item{average}{Numeric value indicating the quantity of average plastic. Default is \code{0}.}
+\item{average}{Numeric value indicating the weight of average plastic. Default is \code{0}.}
 
-\item{average_film}{Numeric value indicating the quantity of average film plastic. Default is \code{0}.}
+\item{average_film}{Numeric value indicating the weight of average film plastic. Default is \code{0}.}
 
-\item{average_rigid}{Numeric value indicating the quantity of average rigid plastic. Default is \code{0}.}
+\item{average_rigid}{Numeric value indicating the weight of average rigid plastic. Default is \code{0}.}
 
-\item{HDPE}{Numeric value indicating the quantity of HDPE plastic. Default is \code{0}.}
+\item{HDPE}{Numeric value indicating the weight of HDPE plastic. Default is \code{0}.}
 
-\item{LDPE}{Numeric value indicating the quantity of LDPE plastic. Default is \code{0}.}
+\item{LDPE}{Numeric value indicating the weight of LDPE plastic. Default is \code{0}.}
 
-\item{LLDPE}{Numeric value indicating the quantity of LLDPE plastic. Default is \code{0}.}
+\item{LLDPE}{Numeric value indicating the weight of LLDPE plastic. Default is \code{0}.}
 
-\item{PET}{Numeric value indicating the quantity of PET plastic. Default is \code{0}.}
+\item{PET}{Numeric value indicating the weight of PET plastic. Default is \code{0}.}
 
-\item{PP}{Numeric value indicating the quantity of PP plastic. Default is \code{0}.}
+\item{PP}{Numeric value indicating the weight of PP plastic. Default is \code{0}.}
 
-\item{PS}{Numeric value indicating the quantity of PS plastic. Default is \code{0}.}
+\item{PS}{Numeric value indicating the weight of PS plastic. Default is \code{0}.}
 
-\item{PVC}{Numeric value indicating the quantity of PVC plastic. Default is \code{0}.}
+\item{PVC}{Numeric value indicating the weight of PVC plastic. Default is \code{0}.}
 
-\item{average_WD}{Numeric value indicating the quantity of average plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{average_WD}{Numeric value indicating the weight of average plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{average_film_WD}{Numeric value indicating the quantity of average film plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{average_film_WD}{Numeric value indicating the weight of average film plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{average_rigid_WD}{Numeric value indicating the quantity of average rigid plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{average_rigid_WD}{Numeric value indicating the weight of average rigid plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{HDPE_WD}{Numeric value indicating the quantity of HDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{HDPE_WD}{Numeric value indicating the weight of HDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{LDPE_WD}{Numeric value indicating the quantity of LDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{LDPE_WD}{Numeric value indicating the weight of LDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{LLDPE_WD}{Numeric value indicating the quantity of LLDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{LLDPE_WD}{Numeric value indicating the weight of LLDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{PET_WD}{Numeric value indicating the quantity of PET plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{PET_WD}{Numeric value indicating the weight of PET plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{PP_WD}{Numeric value indicating the quantity of PP plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{PP_WD}{Numeric value indicating the weight of PP plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{PS_WD}{Numeric value indicating the quantity of PS plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{PS_WD}{Numeric value indicating the weight of PS plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{PVC_WD}{Numeric value indicating the quantity of PVC plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{PVC_WD}{Numeric value indicating the weight of PVC plastic disposed of using waste disposal methods. Default is \code{0}.}
 
 \item{waste_disposal}{Character vector specifying the waste disposal method to use for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Landfill"}, \code{"Open-loop"}. Default is \code{"Closed-loop"}.
 \code{"Open-loop"} is the process of recycling material into other products.

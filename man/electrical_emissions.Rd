@@ -26,37 +26,37 @@ electrical_emissions(
 )
 }
 \arguments{
-\item{fridges}{Numeric value indicating the quantity of fridges. Default is \code{0}.}
+\item{fridges}{Numeric value indicating the weight of fridges. Default is \code{0}.}
 
-\item{freezers}{Numeric value indicating the quantity of freezers. Default is \code{0}.}
+\item{freezers}{Numeric value indicating the weight of freezers. Default is \code{0}.}
 
-\item{large}{Numeric value indicating the quantity of large electrical items. Default is \code{0}.}
+\item{large}{Numeric value indicating the weight of large electrical items. Default is \code{0}.}
 
-\item{IT}{Numeric value indicating the quantity of IT (Information Technology) equipment. Default is \code{0}.}
+\item{IT}{Numeric value indicating the weight of IT (Information Technology) equipment. Default is \code{0}.}
 
-\item{small}{Numeric value indicating the quantity of small electrical items. Default is \code{0}.}
+\item{small}{Numeric value indicating the weight of small electrical items. Default is \code{0}.}
 
-\item{alkaline_batteries}{Numeric value indicating the quantity of alkaline batteries. Default is \code{0}.}
+\item{alkaline_batteries}{Numeric value indicating the weight of alkaline batteries. Default is \code{0}.}
 
-\item{LiIon_batteries}{Numeric value indicating the quantity of Lithium-ion batteries. Default is \code{0}.}
+\item{LiIon_batteries}{Numeric value indicating the weight of Lithium-ion batteries. Default is \code{0}.}
 
-\item{NiMh_batteries}{Numeric value indicating the quantity of Nickel Metal Hydride batteries. Default is \code{0}.}
+\item{NiMh_batteries}{Numeric value indicating the weight of Nickel Metal Hydride batteries. Default is \code{0}.}
 
-\item{fridges_WD}{Numeric value indicating the quantity of fridges disposed of using waste disposal methods. Default is \code{0}.}
+\item{fridges_WD}{Numeric value indicating the weight of fridges disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{freezers_WD}{Numeric value indicating the quantity of freezers disposed of using waste disposal methods. Default is \code{0}.}
+\item{freezers_WD}{Numeric value indicating the weight of freezers disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{large_WD}{Numeric value indicating the quantity of large electrical items disposed of using waste disposal methods. Default is \code{0}.}
+\item{large_WD}{Numeric value indicating the weight of large electrical items disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{IT_WD}{Numeric value indicating the quantity of IT equipment disposed of using waste disposal methods. Default is \code{0}.}
+\item{IT_WD}{Numeric value indicating the weight of IT equipment disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{small_WD}{Numeric value indicating the quantity of small electrical items disposed of using waste disposal methods. Default is \code{0}.}
+\item{small_WD}{Numeric value indicating the weight of small electrical items disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{alkaline_batteries_WD}{Numeric value indicating the quantity of alkaline batteries disposed of using waste disposal methods. Default is \code{0}.}
+\item{alkaline_batteries_WD}{Numeric value indicating the weight of alkaline batteries disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{LiIon_batteries_WD}{Numeric value indicating the quantity of Lithium-ion batteries disposed of using waste disposal methods. Default is \code{0}.}
+\item{LiIon_batteries_WD}{Numeric value indicating the weight of Lithium-ion batteries disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{NiMh_batteries_WD}{Numeric value indicating the quantity of Nickel Metal Hydride batteries disposed of using waste disposal methods. Default is \code{0}.}
+\item{NiMh_batteries_WD}{Numeric value indicating the weight of Nickel Metal Hydride batteries disposed of using waste disposal methods. Default is \code{0}.}
 
 \item{waste_disposal}{Character vector specifying the waste disposal method to use for calculating emissions. Possible values: \code{"Landfill"}, \code{"Open-loop"}. Default is \code{"Landfill"}.
 \code{"Open-loop"} is the process of recycling material into other products.

@@ -20,7 +20,6 @@ construction_emissions(
   wood = 0,
   aggregates_WD = 0,
   average_WD = 0,
-  construction_average_WD = 0,
   asbestos_WD = 0,
   asphalt_WD = 0,
   bricks_WD = 0,
@@ -37,57 +36,57 @@ construction_emissions(
 )
 }
 \arguments{
-\item{aggregates}{The quantity of aggregates used in construction. Default is \code{0}.}
+\item{aggregates}{The weight of aggregates used in construction. Default is \code{0}.}
 
-\item{average}{The quantity of average material used in construction. Default is \code{0}.}
+\item{average}{The weight of average material used in construction. Default is \code{0}.}
 
-\item{asbestos}{The quantity of asbestos used in construction. Default is \code{0}.}
+\item{asbestos}{The weight of asbestos used in construction. Default is \code{0}.}
 
-\item{asphalt}{The quantity of asphalt used in construction. Default is \code{0}.}
+\item{asphalt}{The weight of asphalt used in construction. Default is \code{0}.}
 
-\item{bricks}{The quantity of bricks used in construction. Default is \code{0}.}
+\item{bricks}{The weight of bricks used in construction. Default is \code{0}.}
 
-\item{concrete}{The quantity of concrete used in construction. Default is \code{0}.}
+\item{concrete}{The weight of concrete used in construction. Default is \code{0}.}
 
-\item{insulation}{The quantity of insulation material used in construction. Default is \code{0}.}
+\item{insulation}{The weight of insulation material used in construction. Default is \code{0}.}
 
-\item{metals}{The quantity of metals used in construction. Default is \code{0}.}
+\item{metals}{The weight of metals used in construction. Default is \code{0}.}
 
-\item{soils}{The quantity of soils used in construction. Default is \code{0}.}
+\item{soils}{The weight of soils used in construction. Default is \code{0}.}
 
-\item{mineral_oil}{The quantity of mineral oil used in construction. Default is \code{0}.}
+\item{mineral_oil}{The weight of mineral oil used in construction. Default is \code{0}.}
 
-\item{plasterboard}{The quantity of plasterboard used in construction. Default is \code{0}.}
+\item{plasterboard}{The weight of plasterboard used in construction. Default is \code{0}.}
 
-\item{tyres}{The quantity of tyres used in construction. Default is \code{0}.}
+\item{tyres}{The weight of tyres used in construction. Default is \code{0}.}
 
-\item{wood}{The quantity of wood used in construction. Default is \code{0}.}
+\item{wood}{The weight of wood used in construction. Default is \code{0}.}
 
-\item{aggregates_WD}{The quantity of aggregates disposed of as waste. Default is \code{0}.}
+\item{aggregates_WD}{The weight of aggregates disposed of as waste. Default is \code{0}.}
 
-\item{construction_average_WD}{The quantity of average material disposed of as waste. Default is \code{0}.}
+\item{average_WD}{The weight of average material disposed of as waste. Default is \code{0}.}
 
-\item{asbestos_WD}{The quantity of asbestos disposed of as waste. Default is \code{0}.}
+\item{asbestos_WD}{The weight of asbestos disposed of as waste. Default is \code{0}.}
 
-\item{asphalt_WD}{The quantity of asphalt disposed of as waste. Default is \code{0}.}
+\item{asphalt_WD}{The weight of asphalt disposed of as waste. Default is \code{0}.}
 
-\item{bricks_WD}{The quantity of bricks disposed of as waste. Default is \code{0}.}
+\item{bricks_WD}{The weight of bricks disposed of as waste. Default is \code{0}.}
 
-\item{concrete_WD}{The quantity of concrete disposed of as waste. Default is \code{0}.}
+\item{concrete_WD}{The weight of concrete disposed of as waste. Default is \code{0}.}
 
-\item{insulation_WD}{The quantity of insulation material disposed of as waste. Default is \code{0}.}
+\item{insulation_WD}{The weight of insulation material disposed of as waste. Default is \code{0}.}
 
-\item{metals_WD}{The quantity of metals disposed of as waste. Default is \code{0}.}
+\item{metals_WD}{The weight of metals disposed of as waste. Default is \code{0}.}
 
-\item{soils_WD}{The quantity of soils disposed of as waste. Default is \code{0}.}
+\item{soils_WD}{The weight of soils disposed of as waste. Default is \code{0}.}
 
-\item{mineral_oil_WD}{The quantity of mineral oil disposed of as waste. Default is \code{0}.}
+\item{mineral_oil_WD}{The weight of mineral oil disposed of as waste. Default is \code{0}.}
 
-\item{plasterboard_WD}{The quantity of plasterboard disposed of as waste. Default is \code{0}.}
+\item{plasterboard_WD}{The weight of plasterboard disposed of as waste. Default is \code{0}.}
 
-\item{tyres_WD}{The quantity of tyres disposed of as waste. Default is \code{0}.}
+\item{tyres_WD}{The weight of tyres disposed of as waste. Default is \code{0}.}
 
-\item{wood_WD}{The quantity of wood disposed of as waste. Default is \code{0}.}
+\item{wood_WD}{The weight of wood disposed of as waste. Default is \code{0}.}
 
 \item{units}{The units in which the emissions should be returned (\code{"kg"} or \code{"tonnes"}). Default is \code{0}.}
 

@@ -20,25 +20,25 @@ metal_emissions(
 )
 }
 \arguments{
-\item{aluminuim_cans}{Numeric value indicating the quantity of aluminum cans. Default is \code{0}.}
+\item{aluminuim_cans}{Numeric value indicating the weight of aluminum cans. Default is \code{0}.}
 
-\item{aluminuim_foil}{Numeric value indicating the quantity of aluminum foil. Default is \code{0}.}
+\item{aluminuim_foil}{Numeric value indicating the weight of aluminum foil. Default is \code{0}.}
 
-\item{mixed_cans}{Numeric value indicating the quantity of mixed metal cans. Default is \code{0}.}
+\item{mixed_cans}{Numeric value indicating the weight of mixed metal cans. Default is \code{0}.}
 
-\item{scrap}{Numeric value indicating the quantity of metal scrap. Default is \code{0}.}
+\item{scrap}{Numeric value indicating the weight of metal scrap. Default is \code{0}.}
 
-\item{steel_cans}{Numeric value indicating the quantity of steel cans. Default is \code{0}.}
+\item{steel_cans}{Numeric value indicating the weight of steel cans. Default is \code{0}.}
 
-\item{aluminuim_cans_WD}{Numeric value indicating the quantity of aluminum cans disposed of using waste disposal methods. Default is \code{0}.}
+\item{aluminuim_cans_WD}{Numeric value indicating the weight of aluminum cans disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{aluminuim_foil_WD}{Numeric value indicating the quantity of aluminum foil disposed of using waste disposal methods. Default is \code{0}.}
+\item{aluminuim_foil_WD}{Numeric value indicating the weight of aluminum foil disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{mixed_cans_WD}{Numeric value indicating the quantity of mixed metal cans disposed of using waste disposal methods. Default is \code{0}.}
+\item{mixed_cans_WD}{Numeric value indicating the weight of mixed metal cans disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{scrap_WD}{Numeric value indicating the quantity of metal scrap disposed of using waste disposal methods. Default is \code{0}.}
+\item{scrap_WD}{Numeric value indicating the weight of metal scrap disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{steel_cans_WD}{Numeric value indicating the quantity of steel cans disposed of using waste disposal methods. Default is \code{0}.}
+\item{steel_cans_WD}{Numeric value indicating the weight of steel cans disposed of using waste disposal methods. Default is \code{0}.}
 
 \item{waste_disposal}{Character vector specifying the waste disposal method to use for calculating emissions. Possible values: "Closed-loop", "Combustion", "Landfill", "Open-loop". Default is "Closed-loop".
 \code{"Open-loop"} is the process of recycling material into other products.

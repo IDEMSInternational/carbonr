@@ -95,57 +95,57 @@ household_material_emissions(
 
 \item{compost_from_food_and_garden}{Numeric value representing the amount of compost from food and garden waste. Default is \code{0}.}
 
-\item{board}{Numeric value indicating the quantity of paperboard. Default is \code{0}.}
+\item{board}{Numeric value indicating the weight of paperboard. Default is \code{0}.}
 
-\item{mixed}{Numeric value indicating the quantity of mixed paper. Default is \code{0}.}
+\item{mixed}{Numeric value indicating the weight of mixed paper. Default is \code{0}.}
 
-\item{paper}{Numeric value indicating the quantity of paper. Default is \code{0}.}
+\item{paper}{Numeric value indicating the weight of paper. Default is \code{0}.}
 
-\item{fridges}{Numeric value indicating the quantity of fridges. Default is \code{0}.}
+\item{fridges}{Numeric value indicating the weight of fridges. Default is \code{0}.}
 
-\item{freezers}{Numeric value indicating the quantity of freezers. Default is \code{0}.}
+\item{freezers}{Numeric value indicating the weight of freezers. Default is \code{0}.}
 
-\item{large_electrical}{Numeric value indicating the quantity of large electrical items. Default is \code{0}.}
+\item{large_electrical}{Numeric value indicating the weight of large electrical items. Default is \code{0}.}
 
-\item{IT}{Numeric value indicating the quantity of IT (Information Technology) equipment. Default is \code{0}.}
+\item{IT}{Numeric value indicating the weight of IT (Information Technology) equipment. Default is \code{0}.}
 
-\item{small_electrical}{Numeric value indicating the quantity of small electrical items. Default is \code{0}.}
+\item{small_electrical}{Numeric value indicating the weight of small electrical items. Default is \code{0}.}
 
-\item{alkaline_batteries}{Numeric value indicating the quantity of alkaline batteries. Default is \code{0}.}
+\item{alkaline_batteries}{Numeric value indicating the weight of alkaline batteries. Default is \code{0}.}
 
-\item{LiIon_batteries}{Numeric value indicating the quantity of Lithium-ion batteries. Default is \code{0}.}
+\item{LiIon_batteries}{Numeric value indicating the weight of Lithium-ion batteries. Default is \code{0}.}
 
-\item{NiMh_batteries}{Numeric value indicating the quantity of Nickel Metal Hydride batteries. Default is \code{0}.}
+\item{NiMh_batteries}{Numeric value indicating the weight of Nickel Metal Hydride batteries. Default is \code{0}.}
 
-\item{aluminuim_cans}{Numeric value indicating the quantity of aluminum cans. Default is \code{0}.}
+\item{aluminuim_cans}{Numeric value indicating the weight of aluminum cans. Default is \code{0}.}
 
-\item{aluminuim_foil}{Numeric value indicating the quantity of aluminum foil. Default is \code{0}.}
+\item{aluminuim_foil}{Numeric value indicating the weight of aluminum foil. Default is \code{0}.}
 
-\item{mixed_cans}{Numeric value indicating the quantity of mixed metal cans. Default is \code{0}.}
+\item{mixed_cans}{Numeric value indicating the weight of mixed metal cans. Default is \code{0}.}
 
-\item{scrap}{Numeric value indicating the quantity of metal scrap. Default is \code{0}.}
+\item{scrap}{Numeric value indicating the weight of metal scrap. Default is \code{0}.}
 
-\item{steel_cans}{Numeric value indicating the quantity of steel cans. Default is \code{0}.}
+\item{steel_cans}{Numeric value indicating the weight of steel cans. Default is \code{0}.}
 
-\item{average}{Numeric value indicating the quantity of average plastic. Default is \code{0}.}
+\item{average}{Numeric value indicating the weight of average plastic. Default is \code{0}.}
 
-\item{average_film}{Numeric value indicating the quantity of average film plastic. Default is \code{0}.}
+\item{average_film}{Numeric value indicating the weight of average film plastic. Default is \code{0}.}
 
-\item{average_rigid}{Numeric value indicating the quantity of average rigid plastic. Default is \code{0}.}
+\item{average_rigid}{Numeric value indicating the weight of average rigid plastic. Default is \code{0}.}
 
-\item{HDPE}{Numeric value indicating the quantity of HDPE plastic. Default is \code{0}.}
+\item{HDPE}{Numeric value indicating the weight of HDPE plastic. Default is \code{0}.}
 
-\item{LDPE}{Numeric value indicating the quantity of LDPE plastic. Default is \code{0}.}
+\item{LDPE}{Numeric value indicating the weight of LDPE plastic. Default is \code{0}.}
 
-\item{LLDPE}{Numeric value indicating the quantity of LLDPE plastic. Default is \code{0}.}
+\item{LLDPE}{Numeric value indicating the weight of LLDPE plastic. Default is \code{0}.}
 
-\item{PET}{Numeric value indicating the quantity of PET plastic. Default is \code{0}.}
+\item{PET}{Numeric value indicating the weight of PET plastic. Default is \code{0}.}
 
-\item{PP}{Numeric value indicating the quantity of PP plastic. Default is \code{0}.}
+\item{PP}{Numeric value indicating the weight of PP plastic. Default is \code{0}.}
 
-\item{PS}{Numeric value indicating the quantity of PS plastic. Default is \code{0}.}
+\item{PS}{Numeric value indicating the weight of PS plastic. Default is \code{0}.}
 
-\item{PVC}{Numeric value indicating the quantity of PVC plastic. Default is \code{0}.}
+\item{PVC}{Numeric value indicating the weight of PVC plastic. Default is \code{0}.}
 
 \item{glass_WD}{Numeric value representing the amount of glass waste with disposal. Default is \code{0}.}
 
@@ -159,69 +159,73 @@ household_material_emissions(
 
 \item{hh_waste_disposal}{Character value specifying the waste disposal method for  waste (options: \code{"Combustion"}, \code{"Landfill"}). Default is \code{"Combustion"}. See \code{details} for more information.}
 
-\item{food_WD}{Numeric value indicating the quantity of food disposed of using waste disposal methods. Default is \code{0}.}
+\item{food_WD}{Numeric value indicating the weight of food disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{drink_WD}{Numeric value indicating the quantity of drink disposed of using waste disposal methods. Default is \code{0}.}
+\item{drink_WD}{Numeric value indicating the weight of drink disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{compost_from_garden_WD}{Numeric value indicating the quantity of compost from garden waste disposed of using waste disposal methods. Default is \code{0}.}
+\item{compost_from_garden_WD}{Numeric value indicating the weight of compost from garden waste disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{compost_from_food_and_garden_WD}{Numeric value indicating the quantity of compost from garden and food waste disposed of using waste disposal methods. Default is \code{0}.}
+\item{compost_from_food_and_garden_WD}{Numeric value indicating the weight of compost from garden and food waste disposed of using waste disposal methods. Default is \code{0}.}
 
 \item{compost_waste_disposal}{Character value specifying the waste disposal method for compost waste (options: \code{"Anaerobic digestion"}, \code{"Combustion"}, \code{"Composting"}, \code{"Landfill"}). Default is \code{"Anaerobic digestion"}. See \code{details} for more information.}
 
-\item{aluminuim_cans_WD}{Numeric value indicating the quantity of aluminum cans disposed of using waste disposal methods. Default is \code{0}.}
+\item{aluminuim_cans_WD}{Numeric value indicating the weight of aluminum cans disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{aluminuim_foil_WD}{Numeric value indicating the quantity of aluminum foil disposed of using waste disposal methods. Default is \code{0}.}
+\item{aluminuim_foil_WD}{Numeric value indicating the weight of aluminum foil disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{mixed_cans_WD}{Numeric value indicating the quantity of mixed metal cans disposed of using waste disposal methods. Default is \code{0}.}
+\item{mixed_cans_WD}{Numeric value indicating the weight of mixed metal cans disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{scrap_WD}{Numeric value indicating the quantity of metal scrap disposed of using waste disposal methods. Default is \code{0}.}
+\item{scrap_WD}{Numeric value indicating the weight of metal scrap disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{steel_cans_WD}{Numeric value indicating the quantity of steel cans disposed of using waste disposal methods. Default is \code{0}.}
+\item{steel_cans_WD}{Numeric value indicating the weight of steel cans disposed of using waste disposal methods. Default is \code{0}.}
 
 \item{metal_waste_disposal}{Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: "Closed-loop", "Combustion", "Landfill", "Open-loop". Default is "Closed-loop". See \code{details} for more information.}
 
-\item{board_WD}{Numeric value indicating the quantity of paperboard disposed of using waste disposal methods. Default is \code{0}.}
+\item{board_WD}{Numeric value indicating the weight of paperboard disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{mixed_WD}{Numeric value indicating the quantity of mixed paper disposed of using waste disposal methods. Default is \code{0}.}
+\item{mixed_WD}{Numeric value indicating the weight of mixed paper disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{paper_WD}{Numeric value indicating the quantity of paper disposed of using waste disposal methods. Default is \code{0}.}
+\item{paper_WD}{Numeric value indicating the weight of paper disposed of using waste disposal methods. Default is \code{0}.}
 
 \item{paper_waste_disposal}{Character vector specifying the waste disposal method for paper to use for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Composting"}, \code{"Landfill"}. Default is \code{"Closed-loop"}. See \code{details} for more information.}
 
-\item{average_WD}{Numeric value indicating the quantity of average plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{average_WD}{Numeric value indicating the weight of average plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{average_film_WD}{Numeric value indicating the quantity of average film plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{average_film_WD}{Numeric value indicating the weight of average film plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{average_rigid_WD}{Numeric value indicating the quantity of average rigid plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{average_rigid_WD}{Numeric value indicating the weight of average rigid plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{HDPE_WD}{Numeric value indicating the quantity of HDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{HDPE_WD}{Numeric value indicating the weight of HDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{LDPE_WD}{Numeric value indicating the quantity of LDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{LDPE_WD}{Numeric value indicating the weight of LDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{LLDPE_WD}{Numeric value indicating the quantity of LLDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{LLDPE_WD}{Numeric value indicating the weight of LLDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{PET_WD}{Numeric value indicating the quantity of PET plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{PET_WD}{Numeric value indicating the weight of PET plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{PP_WD}{Numeric value indicating the quantity of PP plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{PP_WD}{Numeric value indicating the weight of PP plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{PS_WD}{Numeric value indicating the quantity of PS plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{PS_WD}{Numeric value indicating the weight of PS plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{PVC_WD}{Numeric value indicating the quantity of PVC plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{PVC_WD}{Numeric value indicating the weight of PVC plastic disposed of using waste disposal methods. Default is \code{0}.}
 
 \item{plastic_waste_disposal}{Character vector specifying the waste disposal method for plastic to use for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Landfill"}, \code{"Open-loop"}. Default is \code{"Closed-loop"}. See \code{details} for more information.}
 
-\item{fridges_WD}{Numeric value indicating the quantity of fridges disposed of using waste disposal methods. Default is \code{0}.}
+\item{fridges_WD}{Numeric value indicating the weight of fridges disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{freezers_WD}{Numeric value indicating the quantity of freezers disposed of using waste disposal methods. Default is \code{0}.}
+\item{freezers_WD}{Numeric value indicating the weight of freezers disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{IT_WD}{Numeric value indicating the quantity of IT equipment disposed of using waste disposal methods. Default is \code{0}.}
+\item{large_electrical_WD}{Numeric value indicating the weight of large electrical items disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{alkaline_batteries_WD}{Numeric value indicating the quantity of alkaline batteries disposed of using waste disposal methods. Default is \code{0}.}
+\item{IT_WD}{Numeric value indicating the weight of IT equipment disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{LiIon_batteries_WD}{Numeric value indicating the quantity of Lithium-ion batteries disposed of using waste disposal methods. Default is \code{0}.}
+\item{small_electrical_WD}{Numeric value indicating the weight of small electrical items disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{NiMh_batteries_WD}{Numeric value indicating the quantity of Nickel Metal Hydride batteries disposed of using waste disposal methods. Default is \code{0}.}
+\item{alkaline_batteries_WD}{Numeric value indicating the weight of alkaline batteries disposed of using waste disposal methods. Default is \code{0}.}
+
+\item{LiIon_batteries_WD}{Numeric value indicating the weight of Lithium-ion batteries disposed of using waste disposal methods. Default is \code{0}.}
+
+\item{NiMh_batteries_WD}{Numeric value indicating the weight of Nickel Metal Hydride batteries disposed of using waste disposal methods. Default is \code{0}.}
 
 \item{electric_waste_disposal}{Character vector specifying the waste disposal method for electrical items to use for calculating emissions. Possible values: \code{"Landfill"}, \code{"Open-loop"}. Default is \code{"Landfill"}. See \code{details} for more information.}
 

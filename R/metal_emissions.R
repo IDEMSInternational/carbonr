@@ -2,16 +2,16 @@
 #' 
 #' @description This function calculates the emissions produced from different metal sources based on the specified inputs. It considers emissions from primary material production and waste disposal of various metal types.
 #'
-#' @param aluminuim_cans Numeric value indicating the quantity of aluminum cans. Default is `0`.
-#' @param aluminuim_foil Numeric value indicating the quantity of aluminum foil. Default is `0`.
-#' @param mixed_cans Numeric value indicating the quantity of mixed metal cans. Default is `0`.
-#' @param scrap Numeric value indicating the quantity of metal scrap. Default is `0`.
-#' @param steel_cans Numeric value indicating the quantity of steel cans. Default is `0`.
-#' @param aluminuim_cans_WD Numeric value indicating the quantity of aluminum cans disposed of using waste disposal methods. Default is `0`.
-#' @param aluminuim_foil_WD Numeric value indicating the quantity of aluminum foil disposed of using waste disposal methods. Default is `0`.
-#' @param mixed_cans_WD Numeric value indicating the quantity of mixed metal cans disposed of using waste disposal methods. Default is `0`.
-#' @param scrap_WD Numeric value indicating the quantity of metal scrap disposed of using waste disposal methods. Default is `0`.
-#' @param steel_cans_WD Numeric value indicating the quantity of steel cans disposed of using waste disposal methods. Default is `0`.
+#' @param aluminuim_cans Numeric value indicating the weight of aluminum cans. Default is `0`.
+#' @param aluminuim_foil Numeric value indicating the weight of aluminum foil. Default is `0`.
+#' @param mixed_cans Numeric value indicating the weight of mixed metal cans. Default is `0`.
+#' @param scrap Numeric value indicating the weight of metal scrap. Default is `0`.
+#' @param steel_cans Numeric value indicating the weight of steel cans. Default is `0`.
+#' @param aluminuim_cans_WD Numeric value indicating the weight of aluminum cans disposed of using waste disposal methods. Default is `0`.
+#' @param aluminuim_foil_WD Numeric value indicating the weight of aluminum foil disposed of using waste disposal methods. Default is `0`.
+#' @param mixed_cans_WD Numeric value indicating the weight of mixed metal cans disposed of using waste disposal methods. Default is `0`.
+#' @param scrap_WD Numeric value indicating the weight of metal scrap disposed of using waste disposal methods. Default is `0`.
+#' @param steel_cans_WD Numeric value indicating the weight of steel cans disposed of using waste disposal methods. Default is `0`.
 #' @param waste_disposal Character vector specifying the waste disposal method to use for calculating emissions. Possible values: "Closed-loop", "Combustion", "Landfill", "Open-loop". Default is "Closed-loop".
 #' `"Open-loop"` is the process of recycling material into other products.
 #' `"Closed-loop"` is the process of recycling material back into the same product.

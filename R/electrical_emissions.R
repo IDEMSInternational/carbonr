@@ -2,22 +2,22 @@
 #' 
 #' This function calculates the emissions produced from different electrical items and their waste disposal based on the specified inputs. It considers emissions from primary material production and waste disposal of electrical items.
 #'
-#' @param fridges Numeric value indicating the quantity of fridges. Default is `0`.
-#' @param freezers Numeric value indicating the quantity of freezers. Default is `0`.
-#' @param large Numeric value indicating the quantity of large electrical items. Default is `0`.
-#' @param IT Numeric value indicating the quantity of IT (Information Technology) equipment. Default is `0`.
-#' @param small Numeric value indicating the quantity of small electrical items. Default is `0`.
-#' @param alkaline_batteries Numeric value indicating the quantity of alkaline batteries. Default is `0`.
-#' @param LiIon_batteries Numeric value indicating the quantity of Lithium-ion batteries. Default is `0`.
-#' @param NiMh_batteries Numeric value indicating the quantity of Nickel Metal Hydride batteries. Default is `0`.
-#' @param fridges_WD Numeric value indicating the quantity of fridges disposed of using waste disposal methods. Default is `0`.
-#' @param freezers_WD Numeric value indicating the quantity of freezers disposed of using waste disposal methods. Default is `0`.
-#' @param large_WD Numeric value indicating the quantity of large electrical items disposed of using waste disposal methods. Default is `0`.
-#' @param IT_WD Numeric value indicating the quantity of IT equipment disposed of using waste disposal methods. Default is `0`.
-#' @param small_WD Numeric value indicating the quantity of small electrical items disposed of using waste disposal methods. Default is `0`.
-#' @param alkaline_batteries_WD Numeric value indicating the quantity of alkaline batteries disposed of using waste disposal methods. Default is `0`.
-#' @param LiIon_batteries_WD Numeric value indicating the quantity of Lithium-ion batteries disposed of using waste disposal methods. Default is `0`.
-#' @param NiMh_batteries_WD Numeric value indicating the quantity of Nickel Metal Hydride batteries disposed of using waste disposal methods. Default is `0`.
+#' @param fridges Numeric value indicating the weight of fridges. Default is `0`.
+#' @param freezers Numeric value indicating the weight of freezers. Default is `0`.
+#' @param large Numeric value indicating the weight of large electrical items. Default is `0`.
+#' @param IT Numeric value indicating the weight of IT (Information Technology) equipment. Default is `0`.
+#' @param small Numeric value indicating the weight of small electrical items. Default is `0`.
+#' @param alkaline_batteries Numeric value indicating the weight of alkaline batteries. Default is `0`.
+#' @param LiIon_batteries Numeric value indicating the weight of Lithium-ion batteries. Default is `0`.
+#' @param NiMh_batteries Numeric value indicating the weight of Nickel Metal Hydride batteries. Default is `0`.
+#' @param fridges_WD Numeric value indicating the weight of fridges disposed of using waste disposal methods. Default is `0`.
+#' @param freezers_WD Numeric value indicating the weight of freezers disposed of using waste disposal methods. Default is `0`.
+#' @param large_WD Numeric value indicating the weight of large electrical items disposed of using waste disposal methods. Default is `0`.
+#' @param IT_WD Numeric value indicating the weight of IT equipment disposed of using waste disposal methods. Default is `0`.
+#' @param small_WD Numeric value indicating the weight of small electrical items disposed of using waste disposal methods. Default is `0`.
+#' @param alkaline_batteries_WD Numeric value indicating the weight of alkaline batteries disposed of using waste disposal methods. Default is `0`.
+#' @param LiIon_batteries_WD Numeric value indicating the weight of Lithium-ion batteries disposed of using waste disposal methods. Default is `0`.
+#' @param NiMh_batteries_WD Numeric value indicating the weight of Nickel Metal Hydride batteries disposed of using waste disposal methods. Default is `0`.
 #' @param waste_disposal Character vector specifying the waste disposal method to use for calculating emissions. Possible values: `"Landfill"`, `"Open-loop"`. Default is `"Landfill"`.
 #' `"Open-loop"` is the process of recycling material into other products.
 #' `"Landfill"` the product goes to landfill after use.

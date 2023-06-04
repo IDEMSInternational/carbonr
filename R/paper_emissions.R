@@ -2,12 +2,12 @@
 #'
 #' @description This function calculates the emissions produced from different paper sources based on the specified inputs. It considers emissions from primary material production and waste disposal of paper materials.
 #' 
-#' @param board Numeric value indicating the quantity of paperboard. Default is `0`.
-#' @param mixed Numeric value indicating the quantity of mixed paper. Default is `0`.
-#' @param paper Numeric value indicating the quantity of paper. Default is `0`.
-#' @param board_WD Numeric value indicating the quantity of paperboard disposed of using waste disposal methods. Default is `0`.
-#' @param mixed_WD Numeric value indicating the quantity of mixed paper disposed of using waste disposal methods. Default is `0`.
-#' @param paper_WD Numeric value indicating the quantity of paper disposed of using waste disposal methods. Default is `0`.
+#' @param board Numeric value indicating the weight of paperboard. Default is `0`.
+#' @param mixed Numeric value indicating the weight of mixed paper. Default is `0`.
+#' @param paper Numeric value indicating the weight of paper. Default is `0`.
+#' @param board_WD Numeric value indicating the weight of paperboard disposed of using waste disposal methods. Default is `0`.
+#' @param mixed_WD Numeric value indicating the weight of mixed paper disposed of using waste disposal methods. Default is `0`.
+#' @param paper_WD Numeric value indicating the weight of paper disposed of using waste disposal methods. Default is `0`.
 #' @param waste_disposal Character vector specifying the waste disposal method to use for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Composting"`, `"Landfill"`. Default is `"Closed-loop"`.
 #' `"Closed-loop"` is the process of recycling material back into the same product.
 #' `"Combustion"` energy is recovered from the waste through incineration and subsequent generation of electricity.

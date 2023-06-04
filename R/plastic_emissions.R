@@ -2,26 +2,26 @@
 #'
 #' This function calculates the emissions produced from different plastic sources based on the specified inputs. It considers emissions from primary material production and waste disposal of plastic materials.
 #'
-#' @param average Numeric value indicating the quantity of average plastic. Default is `0`.
-#' @param average_film Numeric value indicating the quantity of average film plastic. Default is `0`.
-#' @param average_rigid Numeric value indicating the quantity of average rigid plastic. Default is `0`.
-#' @param HDPE Numeric value indicating the quantity of HDPE plastic. Default is `0`.
-#' @param LDPE Numeric value indicating the quantity of LDPE plastic. Default is `0`.
-#' @param LLDPE Numeric value indicating the quantity of LLDPE plastic. Default is `0`.
-#' @param PET Numeric value indicating the quantity of PET plastic. Default is `0`.
-#' @param PP Numeric value indicating the quantity of PP plastic. Default is `0`.
-#' @param PS Numeric value indicating the quantity of PS plastic. Default is `0`.
-#' @param PVC Numeric value indicating the quantity of PVC plastic. Default is `0`.
-#' @param average_WD Numeric value indicating the quantity of average plastic disposed of using waste disposal methods. Default is `0`.
-#' @param average_film_WD Numeric value indicating the quantity of average film plastic disposed of using waste disposal methods. Default is `0`.
-#' @param average_rigid_WD Numeric value indicating the quantity of average rigid plastic disposed of using waste disposal methods. Default is `0`.
-#' @param HDPE_WD Numeric value indicating the quantity of HDPE plastic disposed of using waste disposal methods. Default is `0`.
-#' @param LDPE_WD Numeric value indicating the quantity of LDPE plastic disposed of using waste disposal methods. Default is `0`.
-#' @param LLDPE_WD Numeric value indicating the quantity of LLDPE plastic disposed of using waste disposal methods. Default is `0`.
-#' @param PET_WD Numeric value indicating the quantity of PET plastic disposed of using waste disposal methods. Default is `0`.
-#' @param PP_WD Numeric value indicating the quantity of PP plastic disposed of using waste disposal methods. Default is `0`.
-#' @param PS_WD Numeric value indicating the quantity of PS plastic disposed of using waste disposal methods. Default is `0`.
-#' @param PVC_WD Numeric value indicating the quantity of PVC plastic disposed of using waste disposal methods. Default is `0`.
+#' @param average Numeric value indicating the weight of average plastic. Default is `0`.
+#' @param average_film Numeric value indicating the weight of average film plastic. Default is `0`.
+#' @param average_rigid Numeric value indicating the weight of average rigid plastic. Default is `0`.
+#' @param HDPE Numeric value indicating the weight of HDPE plastic. Default is `0`.
+#' @param LDPE Numeric value indicating the weight of LDPE plastic. Default is `0`.
+#' @param LLDPE Numeric value indicating the weight of LLDPE plastic. Default is `0`.
+#' @param PET Numeric value indicating the weight of PET plastic. Default is `0`.
+#' @param PP Numeric value indicating the weight of PP plastic. Default is `0`.
+#' @param PS Numeric value indicating the weight of PS plastic. Default is `0`.
+#' @param PVC Numeric value indicating the weight of PVC plastic. Default is `0`.
+#' @param average_WD Numeric value indicating the weight of average plastic disposed of using waste disposal methods. Default is `0`.
+#' @param average_film_WD Numeric value indicating the weight of average film plastic disposed of using waste disposal methods. Default is `0`.
+#' @param average_rigid_WD Numeric value indicating the weight of average rigid plastic disposed of using waste disposal methods. Default is `0`.
+#' @param HDPE_WD Numeric value indicating the weight of HDPE plastic disposed of using waste disposal methods. Default is `0`.
+#' @param LDPE_WD Numeric value indicating the weight of LDPE plastic disposed of using waste disposal methods. Default is `0`.
+#' @param LLDPE_WD Numeric value indicating the weight of LLDPE plastic disposed of using waste disposal methods. Default is `0`.
+#' @param PET_WD Numeric value indicating the weight of PET plastic disposed of using waste disposal methods. Default is `0`.
+#' @param PP_WD Numeric value indicating the weight of PP plastic disposed of using waste disposal methods. Default is `0`.
+#' @param PS_WD Numeric value indicating the weight of PS plastic disposed of using waste disposal methods. Default is `0`.
+#' @param PVC_WD Numeric value indicating the weight of PVC plastic disposed of using waste disposal methods. Default is `0`.
 #' @param waste_disposal Character vector specifying the waste disposal method to use for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Landfill"`, `"Open-loop"`. Default is `"Closed-loop"`.
 #' `"Open-loop"` is the process of recycling material into other products.
 #' `"Closed-loop"` is the process of recycling material back into the same product.

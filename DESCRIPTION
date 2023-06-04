@@ -23,6 +23,7 @@ Imports:
     shinydashboard,
     sp,
     stringr,
-    tibble
+    tibble,
+    tidyr
 Depends: 
     R (>= 2.10)

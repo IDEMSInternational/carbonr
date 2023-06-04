@@ -16,12 +16,14 @@
 #' @param gcb_waste_disposal Character value specifying the waste disposal method for glass, clothing, and books waste (options: `"Closed-loop"`, `"Combustion"`, `"Landfill"`). Default is `"Closed-loop"`. See `details` for more information.
 #' @param household_residual_waste Numeric value representing the amount of household residual waste. Default is `0`.
 #' @param hh_waste_disposal Character value specifying the waste disposal method for  waste (options: `"Combustion"`, `"Landfill"`). Default is `"Combustion"`. See `details` for more information.
-#' @param food_WD Numeric value indicating the quantity of food disposed of using waste disposal methods. Default is `0`.
-#' @param drink_WD Numeric value indicating the quantity of drink disposed of using waste disposal methods. Default is `0`.
-#' @param compost_from_garden_WD Numeric value indicating the quantity of compost from garden waste disposed of using waste disposal methods. Default is `0`.
-#' @param compost_from_food_and_garden_WD Numeric value indicating the quantity of compost from garden and food waste disposed of using waste disposal methods. Default is `0`.
-#' @param large_electrical Numeric value indicating the quantity of large electrical items. Default is `0`.
-#' @param small_electrical Numeric value indicating the quantity of small electrical items. Default is `0`.
+#' @param food_WD Numeric value indicating the weight of food disposed of using waste disposal methods. Default is `0`.
+#' @param drink_WD Numeric value indicating the weight of drink disposed of using waste disposal methods. Default is `0`.
+#' @param compost_from_garden_WD Numeric value indicating the weight of compost from garden waste disposed of using waste disposal methods. Default is `0`.
+#' @param compost_from_food_and_garden_WD Numeric value indicating the weight of compost from garden and food waste disposed of using waste disposal methods. Default is `0`.
+#' @param large_electrical Numeric value indicating the weight of large electrical items. Default is `0`.
+#' @param small_electrical Numeric value indicating the weight of small electrical items. Default is `0`.
+#' @param large_electrical_WD Numeric value indicating the weight of large electrical items disposed of using waste disposal methods. Default is `0`.
+#' @param small_electrical_WD Numeric value indicating the weight of small electrical items disposed of using waste disposal methods. Default is `0`.
 #' @param compost_waste_disposal Character value specifying the waste disposal method for compost waste (options: `"Anaerobic digestion"`, `"Combustion"`, `"Composting"`, `"Landfill"`). Default is `"Anaerobic digestion"`. See `details` for more information.
 #' @param metal_waste_disposal Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: "Closed-loop", "Combustion", "Landfill", "Open-loop". Default is "Closed-loop". See `details` for more information.
 #' @param paper_waste_disposal Character vector specifying the waste disposal method for paper to use for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Composting"`, `"Landfill"`. Default is `"Closed-loop"`. See `details` for more information.
