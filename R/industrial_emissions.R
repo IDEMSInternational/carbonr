@@ -73,8 +73,8 @@ industrial_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
                                                                  "Open-loop"),
                                  units = c("kg", "tonnes")){
   
-  gcb_waste_disposal <- match.arg(glass_waste_disposal)
-  hh_waste_disposal <- match.arg(industrial_waste_disposal)
+  glass_waste_disposal <- match.arg(glass_waste_disposal)
+  industrial_waste_disposal <- match.arg(industrial_waste_disposal)
   units <- match.arg(units)
   checkmate::assert_numeric(glass, lower = 0)
   checkmate::assert_numeric(glass_WD, lower = 0)
