@@ -120,8 +120,8 @@ industrial_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
     dplyr::filter(`Level 3` == "Glass") %>%
     dplyr::filter(`Column Text`== glass_waste_disposal) %>%
     dplyr::pull(`GHG Conversion Factor 2022`)
-  industrial_emissions <- glass*MU_glass_values[2] + glass_WD*WD_glass_values[2] +
-    industrial_waste*industrial_waste_disposal[1]
-  if (units == "kg") hh_emissions <- hh_emissions/1000
+  industrial_emissions <- glass*MU_glass_values[1] + glass_WD*WD_glass_values[2] +
+    industrial_waste*WD_ind_values[1]
+  if (units == "kg") industrial_emissions <- industrial_emissions/1000
   return(paper_emissions + metal_emissions + plastic_emissions + electrical_emissions + construction_emissions + industrial_emissions)
 }
