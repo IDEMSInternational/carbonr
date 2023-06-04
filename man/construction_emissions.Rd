@@ -92,7 +92,7 @@ construction_emissions(
 \item{units}{The units in which the emissions should be returned (\code{"kg"} or \code{"tonnes"}). Default is \code{0}.}
 
 \item{waste_disposal}{The method of waste disposal. Options are, \code{"Closed-loop"}, \code{"Combustion"}, \code{"Composting"}, \code{"Landfill"},
-\code{"Open-loop"}. Default is \code{"Closed-loop"}). See \code{details} for more information on this.}
+\code{"Open-loop"}. Default is \code{"Closed-loop"}. See \code{details} for more information on this.}
 }
 \value{
 The calculated construction emissions as a numeric value in tonnes.
@@ -110,7 +110,7 @@ be specified as either kilograms (kg) or tonnes.
 
 All assume \verb{Primary material production} for the material used in construction, except soils which assumes \code{Closed-loop}
 
-#' The waste disposal method can be selected from the options: \code{"Closed-loop"}, \code{"Combustion"},
+The waste disposal method can be selected from the options: \code{"Closed-loop"}, \code{"Combustion"},
 \code{"Composting"}, \code{"Landfill"}, or \code{"Open-loop"}.
 Note that: \code{"Closed-loop"} is valid for aggregates, average, asphalt, concrete, insulation,
 metal, soils, mineral oil, plasterboard, tyres, and wood.

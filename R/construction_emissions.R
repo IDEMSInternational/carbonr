@@ -30,7 +30,7 @@
 #' @param wood_WD The quantity of wood disposed of as waste. Default is `0`.
 #' @param units The units in which the emissions should be returned (`"kg"` or `"tonnes"`). Default is `0`.
 #' @param waste_disposal The method of waste disposal. Options are, `"Closed-loop"`, `"Combustion"`, `"Composting"`, `"Landfill"`,
-#' `"Open-loop"`. Default is `"Closed-loop"`). See `details` for more information on this. 
+#' `"Open-loop"`. Default is `"Closed-loop"`. See `details` for more information on this. 
 
 #' @details The function calculates the construction emissions based on the input quantities of
 #' different materials used in construction and the quantities of those materials disposed of
@@ -41,7 +41,7 @@
 #' 
 #' All assume `Primary material production` for the material used in construction, except soils which assumes `Closed-loop`
 #' 
-#' #' The waste disposal method can be selected from the options: `"Closed-loop"`, `"Combustion"`,
+#' The waste disposal method can be selected from the options: `"Closed-loop"`, `"Combustion"`,
 #' `"Composting"`, `"Landfill"`, or `"Open-loop"`.
 #' Note that: `"Closed-loop"` is valid for aggregates, average, asphalt, concrete, insulation,
 #' metal, soils, mineral oil, plasterboard, tyres, and wood.
