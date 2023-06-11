@@ -19,7 +19,7 @@
 #' electricity_kwh = c(100, 110, 90, 100, 100, 110),
 #' general_waste = c(65, 55, 70, 50, 60, 30))
 #' 
-#' clinical_theatre_df(df, time = time, name = theatre,
+#' clinical_theatre_data(df, time = time, name = theatre,
 #'                  wet_clinical_waste = clinical_waste,
 #'                  wet_clinical_waste_unit = "kg",
 #'                  average = general_waste,
