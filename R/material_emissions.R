@@ -48,7 +48,7 @@
 #' `"Anaerobic digestion"` energy is recovered from the waste through anaerobic digestion.
 #'
 #' @examples
-#' material_emissions(glass = 100, glass_WD = 10, units = "kg")
+#' material_emissions(glass = 100, glass_WD = 10, glass_units = "kg")
 material_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
                                  fridges = 0, freezers = 0, large_electrical = 0, IT = 0, small_electrical = 0,
                                  alkaline_batteries = 0, LiIon_batteries = 0, NiMh_batteries = 0,

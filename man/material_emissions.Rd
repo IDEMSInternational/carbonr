@@ -428,5 +428,5 @@ Material (and waste) emissions
 }
 \examples{
 material_emissions(glass = 100, glass_WD = 10, units = "kg")
-material_emissions(glass = 100, glass_WD = 10, units = "kg")
+material_emissions(glass = 100, glass_WD = 10, glass_units = "kg")
 }

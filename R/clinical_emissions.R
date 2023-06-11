@@ -11,8 +11,8 @@
 #' @export
 #'
 #' @examples
-#' clinical_emissions(wet_clinical_waste = 100)
-clinical_emissions <- function(wet_clinical_waste, wet_clinical_waste_unit = c("tonnes", "kg"),
+#' clinical_theatre_emissions(wet_clinical_waste = 100)
+clinical_theatre_emissions <- function(wet_clinical_waste, wet_clinical_waste_unit = c("tonnes", "kg"),
                                water_supply = 0, water_trt = TRUE, water_unit = c("cubic metres", "million litres"),
                                electricity_kWh = 0, electricity_TD = TRUE, electricity_WTT = TRUE,
                                heat_kWh = 0, heat_TD = TRUE, heat_WTT = TRUE,
@@ -69,6 +69,6 @@ clinical_emissions <- function(wet_clinical_waste, wet_clinical_waste_unit = c("
                                         small_electrical_WD = small_electrical_WD, alkaline_batteries_WD = alkaline_batteries_WD, LiIon_batteries_WD = LiIon_batteries_WD,
                                         NiMh_batteries_WD = NiMh_batteries_WD, electric_waste_disposal = electric_waste_disposal, electrical_units = electrical_units)
   
-  clinical_emissions <- theatre_emissions + wet_clinical_waste + usage_emissions
-  return(clinical_emissions * 0.001) 
+  clinical_theatre_emissions <- theatre_emissions + wet_clinical_waste + usage_emissions
+  return(clinical_theatre_emissions * 0.001) 
 }
