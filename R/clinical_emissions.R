@@ -37,7 +37,7 @@ clinical_emissions <- function(wet_clinical_waste, wet_clinical_waste_unit = c("
                                NiMh_batteries_WD = 0, electric_waste_disposal = c("Landfill", "Open-loop"),
                                metal_units = c("kg", "tonnes"), glass_units = c("kg", "tonnes"),
                                paper_units = c("kg", "tonnes"), plastic_units = c("kg", "tonnes"), electrical_units = c("kg", "tonnes")){
-  
+ 
   checkmate::assert_numeric(wet_clinical_waste, lower = 0)
   wet_clinical_waste_unit <- match.arg(wet_clinical_waste_unit)
   
