@@ -44,7 +44,7 @@ clinical_theatre_emissions <- function(wet_clinical_waste, wet_clinical_waste_un
   clinical_emission_factor <- 0.879 # requested by genghiskhanofnz in issue #16, from p32 of Australian greenhouse 2022 document https://www.dcceew.gov.au/climate-change/publications/national-greenhouse-accounts-factors-2022.
   if (wet_clinical_waste_unit == "kg") wet_clinical_waste <- wet_clinical_waste*0.001  # convert to tonnes if clinical waste is given in kg
   wet_clinical_waste <- wet_clinical_waste*clinical_emission_factor
-  theatre_emissions <- building_emissions(water_supply = water_supply, water_trt = water_trt,
+  building_emissions <- building_emissions(water_supply = water_supply, water_trt = water_trt,
                                           water_unit = water_unit, electricity_kWh = electricity_kWh,
                                           electricity_TD = electricity_TD, electricity_WTT = electricity_WTT,
                                           heat_kWh = heat_kWh, heat_TD = heat_TD, heat_WTT = heat_WTT)
@@ -69,6 +69,6 @@ clinical_theatre_emissions <- function(wet_clinical_waste, wet_clinical_waste_un
                                         small_electrical_WD = small_electrical_WD, alkaline_batteries_WD = alkaline_batteries_WD, LiIon_batteries_WD = LiIon_batteries_WD,
                                         NiMh_batteries_WD = NiMh_batteries_WD, electric_waste_disposal = electric_waste_disposal, electrical_units = electrical_units)
   
-  clinical_theatre_emissions <- theatre_emissions + wet_clinical_waste + usage_emissions
+  clinical_theatre_emissions <- building_emissions + wet_clinical_waste + usage_emissions
   return(clinical_theatre_emissions * 0.001) 
 }

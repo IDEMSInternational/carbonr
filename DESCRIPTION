@@ -16,6 +16,7 @@ Imports:
     airportr,
     checkmate,
     dplyr,
+    ggplot2,
     htmltools,
     magrittr,
     rlang,
