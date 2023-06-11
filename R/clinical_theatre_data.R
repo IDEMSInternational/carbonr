@@ -59,7 +59,7 @@ clinical_theatre_data <- function(data, time, name, wet_clinical_waste, wet_clin
                                 metal_units = c("kg", "tonnes"), glass_units = c("kg", "tonnes"),
                                 paper_units = c("kg", "tonnes"), plastic_units = c("kg", "tonnes"), electrical_units = c("kg", "tonnes")){
   summary_emissions <- data %>%
-    mutate(emissions = clinical_theatre_emissions( wet_clinical_waste = {{ wet_clinical_waste }}, wet_clinical_waste_unit = wet_clinical_waste_unit,
+    dplyr::mutate(emissions = clinical_theatre_emissions( wet_clinical_waste = {{ wet_clinical_waste }}, wet_clinical_waste_unit = wet_clinical_waste_unit,
                                                               water_supply = {{ water_supply }}, water_trt = water_trt, water_unit = water_unit,
                                                     electricity_kWh = {{ electricity_kWh }}, electricity_TD = electricity_TD, electricity_WTT = electricity_WTT,
                                                              heat_kWh = {{ heat_kWh }}, heat_TD = heat_TD, heat_WTT = heat_WTT,
