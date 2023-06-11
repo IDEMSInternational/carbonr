@@ -29,7 +29,12 @@
 #' `"Landfill"` is valid for everything except average, mineral oil, and tyres.
 #' `"Open-loop"` is valid for aggregates, average, asphalt, bricks, concrete, 
 #' If one of these is used for a value that does not provide it, then an `"NA"` is given.
-#' @param units Character vector specifying the units of the emissions output. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
+#' @param construction_units Character vector specifying the units of the emissions related to construction. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
+#' @param metal_units Character vector specifying the units of the emissions  related to metal. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
+#' @param glass_units Character vector specifying the units of the emissions related to glass. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
+#' @param paper_units Character vector specifying the units of the emissions related to paper. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
+#' @param plastic_units Character vector specifying the units of the emissions related to plastic materials. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
+#' @param electrical_units Character vector specifying the units of the emissions related to electrical materials. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
 #'
 #' @return The calculated household emissions as a numeric value in tonnes.
 #' @export
@@ -70,12 +75,13 @@ material_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
                                  concrete_WD = 0, insulation_WD = 0, metals_WD = 0, soils_WD = 0, mineral_oil_WD = 0,
                                  plasterboard_WD = 0, tyres_WD = 0, wood_WD = 0,
                                  construction_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill",
-                                                                 "Open-loop"),
-                                 units = c("kg", "tonnes")){
+                                                                 "Open-loop"), 
+                               construction_units = c("kg", "tonnes"), metal_units = c("kg", "tonnes"), glass_units = c("kg", "tonnes"),
+                               paper_units = c("kg", "tonnes"), plastic_units = c("kg", "tonnes"), electrical_units = c("kg", "tonnes")){
   
   glass_waste_disposal <- match.arg(glass_waste_disposal)
   industrial_waste_disposal <- match.arg(industrial_waste_disposal)
-  units <- match.arg(units)
+  glass_units <- match.arg(glass_units)
   checkmate::assert_numeric(glass, lower = 0)
   checkmate::assert_numeric(glass_WD, lower = 0)
   checkmate::assert_numeric(industrial_waste, lower = 0)
@@ -84,28 +90,28 @@ material_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
                                      mixed_cans = mixed_cans, scrap = scrap, steel_cans = steel_cans,
                                      aluminuim_cans_WD = aluminuim_cans_WD, aluminuim_foil_WD = aluminuim_foil_WD,
                                      mixed_cans_WD = mixed_cans_WD, scrap_WD = scrap_WD, steel_cans_WD = steel_cans_WD,
-                                     waste_disposal = metal_waste_disposal, units = units)
+                                     waste_disposal = metal_waste_disposal, units = metal_units)
   paper_emissions <- paper_emissions(board = board, mixed = mixed, paper = paper,
                                      board_WD = board_WD, mixed_WD = mixed_WD, paper_WD = paper_WD,
-                                     waste_disposal = paper_waste_disposal, units = units)
+                                     waste_disposal = paper_waste_disposal, units = paper_units)
   plastic_emissions <- plastic_emissions(average = average, average_film = average_film, average_rigid = average_rigid,
                                          HDPE = HDPE, LDPE = LDPE, LLDPE = LLDPE, PET = PET, PP = PP, PS = PS, PVC = PVC,
                                          average_WD = average_WD, average_film_WD = average_film_WD, average_rigid_WD = average_rigid_WD,
                                          HDPE_WD = HDPE_WD, LDPE_WD = LDPE_WD, LLDPE_WD = LLDPE_WD, PET_WD = PET_WD, PP_WD = PP_WD,
-                                         PS_WD = PS_WD, PVC_WD = PVC_WD, waste_disposal = plastic_waste_disposal, units = units)
+                                         PS_WD = PS_WD, PVC_WD = PVC_WD, waste_disposal = plastic_waste_disposal, units = plastic_units)
   electrical_emissions <- electrical_emissions(fridges = fridges, freezers = freezers, large = large_electrical, IT = IT,
                                                small = small_electrical, alkaline_batteries = alkaline_batteries,
                                                LiIon_batteries = LiIon_batteries, NiMh_batteries = NiMh_batteries,
                                                fridges_WD = fridges_WD, freezers_WD = freezers_WD, large_WD = large_electrical_WD, IT_WD = IT_WD,
                                                small_WD = small_electrical_WD, alkaline_batteries_WD = alkaline_batteries_WD, LiIon_batteries_WD = LiIon_batteries_WD,
-                                               NiMh_batteries_WD = NiMh_batteries_WD, waste_disposal = electric_waste_disposal, units = units)
+                                               NiMh_batteries_WD = NiMh_batteries_WD, waste_disposal = electric_waste_disposal, units = electrical_units)
   construction_emissions <- construction_emissions(aggregates = aggregates, average = construction_average, asbestos = asbestos, asphalt = asphalt, 
                                                    bricks = bricks, concrete = concrete, insulation = insulation, metals = metals, soils = soils,
                                                    mineral_oil = mineral_oil, plasterboard = plasterboard, tyres = tyres, wood = wood,
                                                    aggregates_WD = aggregates_WD, average_WD = construction_average_WD, asbestos_WD = asbestos_WD, asphalt_WD = asphalt_WD, 
                                                    bricks_WD = bricks_WD, concrete_WD = concrete_WD, insulation_WD = insulation_WD, metals_WD = metals_WD, soils_WD = soils_WD,
                                                    mineral_oil_WD = mineral_oil_WD, plasterboard_WD = plasterboard_WD, tyres_WD = tyres_WD, wood_WD = wood_WD,
-                                                   units = units,
+                                                   units = construction_units,
                                                    waste_disposal = construction_waste_disposal)
   # for glass?
   WD_ind_values <- uk_gov_data %>%
@@ -122,6 +128,6 @@ material_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
     dplyr::pull(`GHG Conversion Factor 2022`)
   material_emissions <- glass*MU_glass_values[1] + glass_WD*WD_glass_values[2] +
     industrial_waste*WD_ind_values[1]
-  if (units == "kg") material_emissions <- material_emissions/1000
+  if (glass_units == "kg") material_emissions <- material_emissions/1000
   return(paper_emissions + metal_emissions + plastic_emissions + electrical_emissions + construction_emissions + material_emissions)
 }

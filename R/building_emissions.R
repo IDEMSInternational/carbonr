@@ -37,12 +37,12 @@ building_emissions <- function(water_supply = 0, water_trt = TRUE,
   
   # Water supply and treatment
   if (water_supply > 0){
-    uk_office_water <- uk_gov_data %>% dplyr::filter(`Level 1` %in% c("Water supply", "Water treatment"))
-    uk_office_water <- (uk_office_water %>% dplyr::filter(UOM == {{ water_unit }}))$`GHG Conversion Factor 2022`
+    uk_water <- uk_gov_data %>% dplyr::filter(`Level 1` %in% c("Water supply", "Water treatment"))
+    uk_water <- (uk_water %>% dplyr::filter(UOM == {{ water_unit }}))$`GHG Conversion Factor 2022`
     if (!water_trt) {
-      water_emissions <- uk_office_water[1] * water_supply
+      water_emissions <- uk_water[1] * water_supply
     } else {
-      water_emissions <- sum(uk_office_water) * water_supply
+      water_emissions <- sum(uk_water) * water_supply
     }
   } else {
     water_emissions <- 0
@@ -50,55 +50,55 @@ building_emissions <- function(water_supply = 0, water_trt = TRUE,
   
   # Electricity
   if (electricity_kWh > 0){
-    uk_office_electricity <- uk_gov_data %>%
+    uk_electricity <- uk_gov_data %>%
       dplyr::filter(`Level 1` %in% c("Transmission and distribution", "UK electricity", "WTT- UK & overseas elec"))
     if (electricity_TD) {
       if (electricity_WTT){
-        uk_office_electricity_TD <- sum((uk_office_electricity %>%
+        uk_electricity_TD <- sum((uk_electricity %>%
                                            dplyr::filter(`Level 2` %in% c("T&D- UK electricity", "WTT- UK electricity (T&D)")))$`GHG Conversion Factor 2022`)
       } else {
-        uk_office_electricity_TD <- (uk_office_electricity %>%
+        uk_electricity_TD <- (uk_electricity %>%
                                        dplyr::filter(`Level 2` %in% c("T&D- UK electricity")))$`GHG Conversion Factor 2022`
       }
     } else {
-      uk_office_electricity_TD <- 0
+      uk_electricity_TD <- 0
     }
     if (electricity_WTT){
-      uk_office_electricity_WTT <- (uk_office_electricity %>%
+      uk_electricity_WTT <- (uk_electricity %>%
                                       dplyr::filter(`Level 2` %in% c("WTT- UK electricity (generation)")))$`GHG Conversion Factor 2022`
     } else {
-      uk_office_electricity_WTT <- 0
+      uk_electricity_WTT <- 0
     }
-    electricity_emissions <- electricity_kWh*((uk_office_electricity %>% dplyr::filter(`Level 1` == c("UK electricity")))$`GHG Conversion Factor 2022` +
-                                                uk_office_electricity_TD + uk_office_electricity_WTT)  
+    electricity_emissions <- electricity_kWh*((uk_electricity %>% dplyr::filter(`Level 1` == c("UK electricity")))$`GHG Conversion Factor 2022` +
+                                                uk_electricity_TD + uk_electricity_WTT)  
   } else {
     electricity_emissions <- 0
   }
   
   # Heat and steam
   if (heat_kWh > 0){
-    uk_office_heat <- uk_gov_data %>%
+    uk_heat <- uk_gov_data %>%
       dplyr::filter(`Level 1` %in% c("Heat and steam", "WTT- heat and steam", "Transmission and distribution")) %>%
       dplyr::filter(!`Level 3` %in% c("District heat and steam"))
     if (heat_TD) {
       if (heat_WTT){
-        uk_office_heat_TD <- sum((uk_office_heat %>%
+        uk_heat_TD <- sum((uk_heat %>%
                                     dplyr::filter(`Level 2` %in% c("Distribution - district heat & steam", "WTT- heat and steam")))$`GHG Conversion Factor 2022`)
       } else {
-        uk_office_heat_TD <- (uk_office_heat %>%
+        uk_heat_TD <- (uk_heat %>%
                                 dplyr::filter(`Level 2` %in% c("Distribution - district heat & steam")))$`GHG Conversion Factor 2022`
       }
     } else {
-      uk_office_heat_TD <- 0
+      uk_heat_TD <- 0
     }
     if (heat_WTT){
-      uk_office_heat_WTT <- (uk_office_heat %>%
+      uk_heat_WTT <- (uk_heat %>%
                                dplyr::filter(`Level 2` %in% c("WTT- heat and steam")))$`GHG Conversion Factor 2022`
     } else {
-      uk_office_heat_WTT <- 0
+      uk_heat_WTT <- 0
     }
-    heat_emissions <- heat_kWh*((uk_office_heat %>% dplyr::filter(`Level 1` == c("Heat and steam")))$`GHG Conversion Factor 2022` +
-                                  uk_office_heat_TD + uk_office_heat_WTT)  
+    heat_emissions <- heat_kWh*((uk_heat %>% dplyr::filter(`Level 1` == c("Heat and steam")))$`GHG Conversion Factor 2022` +
+                                  uk_heat_TD + uk_heat_WTT)  
   } else {
     heat_emissions <- 0
   }
