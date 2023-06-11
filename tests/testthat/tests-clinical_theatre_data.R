@@ -8,7 +8,7 @@ df <- data.frame(time = c("10/04/2000", "10/04/2000", "11/04/2000", "11/04/2000"
                  general_waste = c(65, 55, 70, 50, 60, 30))
 
 
-output <- (clinical_theatre_df(df, time = time,
+output <- (clinical_theatre_data(df, time = time,
                                name = theatre,
                                wet_clinical_waste = clinical_waste,
                                wet_clinical_waste_unit = "kg",
