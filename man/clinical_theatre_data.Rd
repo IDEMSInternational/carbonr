@@ -23,19 +23,6 @@ clinical_theatre_data(
   board = 0,
   mixed = 0,
   paper = 0,
-  fridges = 0,
-  freezers = 0,
-  large_electrical = 0,
-  IT = 0,
-  small_electrical = 0,
-  alkaline_batteries = 0,
-  LiIon_batteries = 0,
-  NiMh_batteries = 0,
-  aluminuim_cans = 0,
-  aluminuim_foil = 0,
-  mixed_cans = 0,
-  scrap = 0,
-  steel_cans = 0,
   average = 0,
   average_film = 0,
   average_rigid = 0,
@@ -48,14 +35,6 @@ clinical_theatre_data(
   PVC = 0,
   glass_WD = 0,
   glass_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
-  industrial_waste = 0,
-  industrial_waste_disposal = c("Combustion", "Landfill"),
-  aluminuim_cans_WD = 0,
-  aluminuim_foil_WD = 0,
-  mixed_cans_WD = 0,
-  scrap_WD = 0,
-  steel_cans_WD = 0,
-  metal_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
   board_WD = 0,
   mixed_WD = 0,
   paper_WD = 0,
@@ -71,20 +50,9 @@ clinical_theatre_data(
   PS_WD = 0,
   PVC_WD = 0,
   plastic_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
-  fridges_WD = 0,
-  freezers_WD = 0,
-  large_electrical_WD = 0,
-  IT_WD = 0,
-  small_electrical_WD = 0,
-  alkaline_batteries_WD = 0,
-  LiIon_batteries_WD = 0,
-  NiMh_batteries_WD = 0,
-  electric_waste_disposal = c("Landfill", "Open-loop"),
-  metal_units = c("kg", "tonnes"),
   glass_units = c("kg", "tonnes"),
   paper_units = c("kg", "tonnes"),
-  plastic_units = c("kg", "tonnes"),
-  electrical_units = c("kg", "tonnes")
+  plastic_units = c("kg", "tonnes")
 )
 }
 \arguments{
@@ -124,32 +92,6 @@ clinical_theatre_data(
 
 \item{paper}{Numeric value indicating the weight of paper. Default is \code{0}.}
 
-\item{fridges}{Numeric value indicating the weight of fridges. Default is \code{0}.}
-
-\item{freezers}{Numeric value indicating the weight of freezers. Default is \code{0}.}
-
-\item{large_electrical}{Numeric value indicating the weight of large electrical items. Default is \code{0}.}
-
-\item{IT}{Numeric value indicating the weight of IT (Information Technology) equipment. Default is \code{0}.}
-
-\item{small_electrical}{Numeric value indicating the weight of small electrical items. Default is \code{0}.}
-
-\item{alkaline_batteries}{Numeric value indicating the weight of alkaline batteries. Default is \code{0}.}
-
-\item{LiIon_batteries}{Numeric value indicating the weight of Lithium-ion batteries. Default is \code{0}.}
-
-\item{NiMh_batteries}{Numeric value indicating the weight of Nickel Metal Hydride batteries. Default is \code{0}.}
-
-\item{aluminuim_cans}{Numeric value indicating the weight of aluminum cans. Default is \code{0}.}
-
-\item{aluminuim_foil}{Numeric value indicating the weight of aluminum foil. Default is \code{0}.}
-
-\item{mixed_cans}{Numeric value indicating the weight of mixed metal cans. Default is \code{0}.}
-
-\item{scrap}{Numeric value indicating the weight of metal scrap. Default is \code{0}.}
-
-\item{steel_cans}{Numeric value indicating the weight of steel cans. Default is \code{0}.}
-
 \item{average}{Numeric value indicating the weight of average plastic. Default is \code{0}.}
 
 \item{average_film}{Numeric value indicating the weight of average film plastic. Default is \code{0}.}
@@ -173,22 +115,6 @@ clinical_theatre_data(
 \item{glass_WD}{Numeric value representing the amount of glass waste with disposal. Default is \code{0}.}
 
 \item{glass_waste_disposal}{Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Landfill"}, \code{"Open-loop"}. Default is "Closed-loop". See \code{details} for more information.}
-
-\item{industrial_waste}{Numeric value representing the amount of household residual waste. Default is \code{0}.}
-
-\item{industrial_waste_disposal}{Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: \code{"Combustion"}, \code{"Landfill"}. Default is \code{"Combustion"}. See \code{details} for more information.}
-
-\item{aluminuim_cans_WD}{Numeric value indicating the weight of aluminum cans disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{aluminuim_foil_WD}{Numeric value indicating the weight of aluminum foil disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{mixed_cans_WD}{Numeric value indicating the weight of mixed metal cans disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{scrap_WD}{Numeric value indicating the weight of metal scrap disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{steel_cans_WD}{Numeric value indicating the weight of steel cans disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{metal_waste_disposal}{Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Landfill"}, \code{"Open-loop"}. Default is "Closed-loop". See \code{details} for more information.}
 
 \item{board_WD}{Numeric value indicating the weight of paperboard disposed of using waste disposal methods. Default is \code{0}.}
 
@@ -220,33 +146,11 @@ clinical_theatre_data(
 
 \item{plastic_waste_disposal}{Character vector specifying the waste disposal method for plastic to use for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Landfill"}, \code{"Open-loop"}. Default is \code{"Closed-loop"}. See \code{details} for more information.}
 
-\item{fridges_WD}{Numeric value indicating the weight of fridges disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{freezers_WD}{Numeric value indicating the weight of freezers disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{large_electrical_WD}{Numeric value indicating the weight of large electrical items disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{IT_WD}{Numeric value indicating the weight of IT equipment disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{small_electrical_WD}{Numeric value indicating the weight of small electrical items disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{alkaline_batteries_WD}{Numeric value indicating the weight of alkaline batteries disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{LiIon_batteries_WD}{Numeric value indicating the weight of Lithium-ion batteries disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{NiMh_batteries_WD}{Numeric value indicating the weight of Nickel Metal Hydride batteries disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{electric_waste_disposal}{Character vector specifying the waste disposal method for electrical items to use for calculating emissions. Possible values: \code{"Landfill"}, \code{"Open-loop"}. Default is \code{"Landfill"}. See \code{details} for more information.}
-
-\item{metal_units}{Character vector specifying the units of the emissions  related to metal. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
-
 \item{glass_units}{Character vector specifying the units of the emissions related to glass. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
 
 \item{paper_units}{Character vector specifying the units of the emissions related to paper. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
 
 \item{plastic_units}{Character vector specifying the units of the emissions related to plastic materials. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
-
-\item{electrical_units}{Character vector specifying the units of the emissions related to electrical materials. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
 }
 \value{
 Returns two objects. A table containing CO2e emissions for each row of data, and a \code{ggplot2} object plotting the CO2e emissions.
