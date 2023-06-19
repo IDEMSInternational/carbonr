@@ -35,6 +35,10 @@ clinical_theatre_emissions(
   board_WD = 0,
   mixed_WD = 0,
   paper_WD = 0,
+  fridges = 0,
+  freezers = 0,
+  electric_waste_disposal = c("Landfill", "Open-loop"),
+  electrical_units = c("kg", "tonnes"),
   paper_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),
   average_WD = 0,
   average_film_WD = 0,
@@ -112,6 +116,14 @@ clinical_theatre_emissions(
 \item{mixed_WD}{Numeric value indicating the weight of mixed paper disposed of using waste disposal methods. Default is \code{0}.}
 
 \item{paper_WD}{Numeric value indicating the weight of paper disposed of using waste disposal methods. Default is \code{0}.}
+
+\item{fridges}{Numeric value indicating the weight of fridges. Default is \code{0}.}
+
+\item{freezers}{Numeric value indicating the weight of freezers. Default is \code{0}.}
+
+\item{electric_waste_disposal}{Character vector specifying the waste disposal method for electrical items to use for calculating emissions. Possible values: \code{"Landfill"}, \code{"Open-loop"}. Default is \code{"Landfill"}. See \code{details} for more information.}
+
+\item{electrical_units}{Character vector specifying the units of the emissions related to electrical materials. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
 
 \item{paper_waste_disposal}{Character vector specifying the waste disposal method for paper to use for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Composting"}, \code{"Landfill"}. Default is \code{"Closed-loop"}. See \code{details} for more information.}
 

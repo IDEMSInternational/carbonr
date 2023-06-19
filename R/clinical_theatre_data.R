@@ -46,7 +46,9 @@ clinical_theatre_data <- function(data, time, name, wet_clinical_waste, wet_clin
                                   average_WD = 0, average_film_WD = 0, average_rigid_WD = 0, HDPE_WD = 0,
                                   LDPE_WD = 0, LLDPE_WD = 0, PET_WD = 0, PP_WD = 0, PS_WD = 0, PVC_WD = 0,
                                   plastic_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
-                                  glass_units = c("kg", "tonnes"), paper_units = c("kg", "tonnes"), plastic_units = c("kg", "tonnes")){
+                                  fridges = 0, freezers = 0, electric_waste_disposal = c("Landfill", "Open-loop"),
+                                  glass_units = c("kg", "tonnes"), paper_units = c("kg", "tonnes"), plastic_units = c("kg", "tonnes"),
+                                  electrical_units = c("kg", "tonnes")){
   summary_emissions <- data %>%
     dplyr::mutate(emissions = clinical_theatre_emissions(wet_clinical_waste = {{ wet_clinical_waste }}, wet_clinical_waste_unit = wet_clinical_waste_unit,
                                                          water_supply = {{ water_supply }}, water_trt = water_trt, water_unit = water_unit,
@@ -63,7 +65,8 @@ clinical_theatre_data <- function(data, time, name, wet_clinical_waste, wet_clin
                                                          HDPE = {{ HDPE }}, LDPE = {{ LDPE }}, LLDPE = {{ LLDPE }}, PET = {{ PET }}, PP = {{ PP }}, PS = {{ PS }}, PVC = {{ PVC }},
                                                          average_WD = {{ average_WD }}, average_film_WD = {{ average_film_WD }}, average_rigid_WD = {{ average_rigid_WD }},
                                                          HDPE_WD = {{ HDPE_WD }}, LDPE_WD = {{ LDPE_WD }}, LLDPE_WD = {{ LLDPE_WD }}, PET_WD = {{ PET_WD }}, PP_WD = {{ PP_WD }},
-                                                         PS_WD = {{ PS_WD }}, PVC_WD = {{ PVC_WD }}, plastic_waste_disposal = plastic_waste_disposal, plastic_units = plastic_units)) %>%
+                                                         PS_WD = {{ PS_WD }}, PVC_WD = {{ PVC_WD }}, plastic_waste_disposal = plastic_waste_disposal, plastic_units = plastic_units,
+                                                         fridges = {{ fridges }}, freezers = {{ freezers }}, electric_waste_disposal = electric_waste_disposal, electrical_units = electrical_units)) %>%
     dplyr::select(c({{ time }}, {{ name }}, emissions))
   
   summary_plot <- ggplot2::ggplot(summary_emissions, ggplot2::aes(x = {{ time }}, y = emissions)) + ggplot2::geom_point() + ggplot2::facet_wrap(ggplot2::vars({{ name }}))
