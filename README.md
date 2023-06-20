@@ -163,6 +163,28 @@ rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingha
 land_emissions(distance = 100, units = "miles", vehicle = "Bus")
 #> [1] 0.013646
 
+# We can use a data frame to read through the data easier
+multiple_ind <- tibble::tribble(~ID, ~station_from, ~station_to, ~airport_from, ~airport_to, ~airport_via,
+                        "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
+                        "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
+multiple_ind %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(plane_emissions = airplane_emissions(airport_from,
+                                              airport_to,
+                                              airport_via)) %>%
+  dplyr::mutate(train_emissions = rail_emissions(station_from,
+                                          station_to)) %>%
+  dplyr::mutate(total_emissions = plane_emissions + train_emissions)
+#> # A tibble: 2 x 9
+#> # Rowwise: 
+#>   ID    station_from     stati~1 airpo~2 airpo~3 airpo~4 plane~5 train~6 total~7
+#>   <chr> <chr>            <chr>   <chr>   <chr>   <chr>     <dbl>   <dbl>   <dbl>
+#> 1 Clint Bristol Temple ~ Paddin~ LHR     KIS     NBO        1.53 0.00740    1.53
+#> 2 Zara  Bristol Temple ~ Paddin~ LHR     LAX     ORL        2.25 0.00740    2.26
+#> # ... with abbreviated variable names 1: station_to, 2: airport_from,
+#> #   3: airport_to, 4: airport_via, 5: plane_emissions, 6: train_emissions,
+#> #   7: total_emissions
+
 # Additional emissions can be calculated as well. For example, office emissions
 office_emissions(specify = TRUE, electricity_kWh = 2455.2, water_supply = 85, heat_kWh = 8764)
 #> [1] 0.002805666
