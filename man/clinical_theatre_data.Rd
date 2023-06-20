@@ -200,6 +200,7 @@ general_waste = c(65, 55, 70, 50, 60, 30))
 clinical_theatre_data(df, time = time, name = theatre,
                  wet_clinical_waste = clinical_waste,
                  wet_clinical_waste_unit = "kg",
+                 desflurane = 10,
                  average = general_waste,
                  plastic_units = "kg",
                  electricity_kWh = electricity_kwh)
