@@ -2,7 +2,7 @@
 % Please edit documentation in R/airplane_emissions.R
 \name{airplane_emissions}
 \alias{airplane_emissions}
-\title{Calculate CO2e emissions from a airplane journey}
+\title{Calculate CO2e emissions from an airplane journey}
 \usage{
 airplane_emissions(
   from,
@@ -17,31 +17,31 @@ airplane_emissions(
 )
 }
 \arguments{
-\item{from}{Takes a three-letter IATA code corresponding to an airport. Can check the IATA code by the \code{airport_finder} function.}
+\item{from}{Three-letter IATA code corresponding to the departure airport. You can check the IATA code using the "airport_finder" function.}
 
-\item{to}{Takes a three-letter IATA code corresponding to an airport. Can check the IATA code by the \code{airport_finder} function.}
+\item{to}{Three-letter IATA code corresponding to the destination airport. You can check the IATA code using the "airport_finder" function.}
 
-\item{via}{Optional. Takes a vector containing three-letter IATA codes corresponding to airports.}
+\item{via}{Optional. Vector of three-letter IATA codes corresponding to airports for any layovers or stops along the route.}
 
-\item{num_people}{Number of people taking the flight. Takes a single numerical value.}
+\item{num_people}{Number of people taking the flight. Must be a single numerical value.}
 
-\item{radiative_force}{logical. Whether radiative force should be taken into account. Recommended \code{TRUE}. Emissions from airplanes at higher altitudes impact climate change more than at ground level, radiative forcing accounts for this.}
+\item{radiative_force}{Logical. Determines whether radiative forcing should be taken into account. It is recommended to set this parameter as TRUE since emissions from airplanes at higher altitudes have a greater impact on climate change than those at ground level.}
 
-\item{include_WTT}{logical. Recommended \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.}
+\item{include_WTT}{Logical. Determines whether emissions associated with extracting, refining, and transporting fuels should be included. It is recommended to set this parameter as TRUE.}
 
-\item{round_trip}{logical. Whether the flight is one-way or return.}
+\item{round_trip}{Logical. Determines if the flight is round trip (return) or one-way. Default is FALSE (one-way).}
 
-\item{class}{Class flown in. Options are \code{c("Average passenger", "Economy class", "Business class", "Premium economy class", "First class")}.}
+\item{class}{Class flown in. Options include "Average passenger", "Economy class", "Business class", "Premium economy class", and "First class".}
 }
 \value{
 Returns CO2e emissions in tonnes.
 }
 \description{
-A function that calculates CO2e emissions between airports. Distances are calculated using the airport_distance function in the airportr package.
+This function calculates the CO2e emissions between airports based on the provided parameters. The distances are calculated using the "airport_distance" function from the "airportr" package.
 }
 \examples{
-# Emissions for a flight between Vancouver and Toronto
-airplane_emissions("YVR","YYZ")
-# Emissions for a flight between London Heathrow and Kisumu Airport, via Amsterdam and Nairobi
+# Calculate emissions for a flight between Vancouver (YVR) and Toronto (YYZ)
+airplane_emissions("YVR", "YYZ")
+# Calculate emissions for a flight between London Heathrow (LHR) and Kisumu Airport (KIS), with layovers in Amsterdam (AMS) and Nairobi (NBO), flying in Economy class
 airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"), class = "Economy class")
 }

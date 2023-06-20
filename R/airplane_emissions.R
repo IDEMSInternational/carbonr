@@ -1,20 +1,21 @@
-#' Calculate CO2e emissions from a airplane journey
-#' @description A function that calculates CO2e emissions between airports. Distances are calculated using the airport_distance function in the airportr package.
-#' @param from Takes a three-letter IATA code corresponding to an airport. Can check the IATA code by the `airport_finder` function.
-#' @param to Takes a three-letter IATA code corresponding to an airport. Can check the IATA code by the `airport_finder` function.
-#' @param via Optional. Takes a vector containing three-letter IATA codes corresponding to airports.
-#' @param num_people Number of people taking the flight. Takes a single numerical value.
-#' @param radiative_force logical. Whether radiative force should be taken into account. Recommended \code{TRUE}. Emissions from airplanes at higher altitudes impact climate change more than at ground level, radiative forcing accounts for this. 
-#' @param include_WTT logical. Recommended \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.
-#' @param round_trip logical. Whether the flight is one-way or return.
-#' @param class Class flown in. Options are \code{c("Average passenger", "Economy class", "Business class", "Premium economy class", "First class")}.
+#' Calculate CO2e emissions from an airplane journey
+#'
+#' This function calculates the CO2e emissions between airports based on the provided parameters. The distances are calculated using the "airport_distance" function from the "airportr" package.
+#'
+#' @param from Three-letter IATA code corresponding to the departure airport. You can check the IATA code using the "airport_finder" function.
+#' @param to Three-letter IATA code corresponding to the destination airport. You can check the IATA code using the "airport_finder" function.
+#' @param via Optional. Vector of three-letter IATA codes corresponding to airports for any layovers or stops along the route.
+#' @param num_people Number of people taking the flight. Must be a single numerical value.
+#' @param radiative_force Logical. Determines whether radiative forcing should be taken into account. It is recommended to set this parameter as TRUE since emissions from airplanes at higher altitudes have a greater impact on climate change than those at ground level.
+#' @param include_WTT Logical. Determines whether emissions associated with extracting, refining, and transporting fuels should be included. It is recommended to set this parameter as TRUE.
+#' @param round_trip Logical. Determines if the flight is round trip (return) or one-way. Default is FALSE (one-way).
+#' @param class Class flown in. Options include "Average passenger", "Economy class", "Business class", "Premium economy class", and "First class".
 #' @return Returns CO2e emissions in tonnes.
 #' @export 
-#' @examples # Emissions for a flight between Vancouver and Toronto
-#' airplane_emissions("YVR","YYZ")
-#' @examples # Emissions for a flight between London Heathrow and Kisumu Airport, via Amsterdam and Nairobi
+#' @examples # Calculate emissions for a flight between Vancouver (YVR) and Toronto (YYZ)
+#' airplane_emissions("YVR", "YYZ")
+#' @examples # Calculate emissions for a flight between London Heathrow (LHR) and Kisumu Airport (KIS), with layovers in Amsterdam (AMS) and Nairobi (NBO), flying in Economy class
 #' airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"), class = "Economy class")
-
 airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_force = TRUE, include_WTT = TRUE, round_trip = FALSE, class = c("Average passenger", "Economy class", "Business class", "Premium economy class", "First class")) {
   checkmate::assert_string(from)
   checkmate::assert_string(to)
@@ -28,13 +29,15 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
   airport_filter <- airports %>% dplyr::select(c(Name, City, IATA))
   if (!(from) %in% c(airport_filter$IATA)){
     airport_names <- agrep(data.frame(from), airport_filter$IATA, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
-    stop(print(from), " is not a name in the data frame. Try `airport_finder` function. Did you mean: ",
+    stop(print(from), " is not a valid IATA code. Please use the `airport_finder` function to check for the correct code. Did you mean: ",
          paste0(data.frame(airport_filter %>% dplyr::filter(IATA %in% airport_names))$IATA, sep = ", ")
     )
   }
   if (!(to) %in% c(airport_filter$IATA)){
     airport_names <- agrep(data.frame(to), airport_filter$IATA, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
-    stop(print(to), " is not a name in the data frame. Try `airport_finder` function. Did you mean: ",
+    stop(print(to), " is not a valid IATA code. Please use the `airport
+
+_finder` function to check for the correct code. Did you mean: ",
          paste0(data.frame(airport_filter %>% dplyr::filter(IATA %in% airport_names))$IATA, sep = ", ")
     )
   }
@@ -43,18 +46,17 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
       via_x <- via[i]
       if (!(via_x) %in% c(airport_filter$IATA)){
         airport_names <- agrep(data.frame(via_x), airport_filter$IATA, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
-        stop(print(via_x), " is not a name in the data frame. Try `airport_finder` function. Did you mean: ",
+        stop(print(via_x), " is not a valid IATA code. Please use the `airport_finder` function to check for the correct code. Did you mean: ",
              paste0(data.frame(airport_filter %>% dplyr::filter(IATA %in% airport_names))$IATA, sep = ", ")
         )
       }
     }
   }
   
-  # calculate km flown
+  # Calculate the distance flown in kilometers
   airports <- c(from, via, to)
   if (length(airports) == 2) {
-    # gives in km
-    km <- airportr::airport_distance(airports[1], airports[2])
+    km <- airportr::airport_distance(airports[1], airports[2])  # returns distance in km
   } else {
     km1 <- NULL
     for (m in 2:length(airports)-1){
@@ -63,7 +65,7 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
     km <- sum(km1)
   }
   
-  # get data
+  # Retrieve relevant data
   uk_gov_data_air <- uk_gov_data %>%
     dplyr::filter(`Level 1` %in% c("Business travel- air", "WTT- business travel (air)")) %>%
     dplyr::filter(`Column Text` == "With RF")
@@ -72,8 +74,7 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
   uk_gov_data_air <-  uk_gov_data_air %>%
     dplyr::filter(`Level 2` == "Flights")
   
-  
-  # TODO: domestic, International to/from non-UK.
+  # Determine flight category based on distance (short-haul or long-haul)
   if (km < 2050){
     uk_gov_data_air <- uk_gov_data_air %>% dplyr::filter(`Level 3` == "Short-haul, to/from UK")
     uk_gov_data_air_WTT <- uk_gov_data_air_WTT %>% dplyr::filter(`Level 3` == "Short-haul, to/from UK")
@@ -84,14 +85,15 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
   
   uk_gov_data_air <- uk_gov_data_air %>% dplyr::filter(`Level 4` %in% class)
   uk_gov_data_air_WTT <- uk_gov_data_air_WTT %>% dplyr::filter(`Level 4` %in% class)
-  # TODO: Add check that the class is correct
-  # some classes not allowed for short-haul flights
   
+  # Perform emissions calculation
   co2_emitted <- km * uk_gov_data_air$`GHG Conversion Factor 2022`
   
   if (!radiative_force) co2_emitted <- co2_emitted * 0.5286915
-  if (include_WTT) co2_emitted <- co2_emitted + (km * num_people * uk_gov_data_air_WTT$`GHG Conversion Factor 2022`)
+  if (include_WTT) co2_emitted <- co2_emitted + (km * num_people *
+                                                   
+                                                   uk_gov_data_air_WTT$`GHG Conversion Factor 2022`)
   if (round_trip) co2_emitted <- co2_emitted * 2
   
-  return(co2_emitted * 0.001) # to return in tonnes
+  return(co2_emitted * 0.001)  # Convert to tonnes and return CO2e emissions
 }
