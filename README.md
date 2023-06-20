@@ -117,67 +117,89 @@ carbon-equivalent emissions with a GUI.
 library(carbonr)
 
 # To calculate emissions for a flight between Vancouver and Toronto
-airport_finder(name = "Vancouver")
-#> # A tibble: 3 x 4
-#>   Name                                  City      Country IATA 
-#>   <chr>                                 <chr>     <chr>   <chr>
-#> 1 Vancouver International Airport       Vancouver Canada  "YVR"
-#> 2 Vancouver Harbour Water Aerodrome     Vancouver Canada  "CXH"
-#> 3 Vancouver International Seaplane Base Vancouver Canada  "\\N"
+airport_finder(name = "Vancouver") %>%
+  knitr::kable()
+```
+
+| Name                                  | City      | Country | IATA |
+|:--------------------------------------|:----------|:--------|:-----|
+| Vancouver International Airport       | Vancouver | Canada  | YVR  |
+| Vancouver Harbour Water Aerodrome     | Vancouver | Canada  | CXH  |
+| Vancouver International Seaplane Base | Vancouver | Canada  |      |
+
+``` r
 airport_finder(name = "Toronto")
-#> # A tibble: 2 x 4
-#>   Name                                     City    Country IATA 
-#>   <chr>                                    <chr>   <chr>   <chr>
-#> 1 Billy Bishop Toronto City Centre Airport Toronto Canada  YTZ  
-#> 2 Toronto/Oshawa Executive Airport         Oshawa  Canada  YOO
+```
+
+| Name                                     | City    | Country | IATA |
+|:-----------------------------------------|:--------|:--------|:-----|
+| Billy Bishop Toronto City Centre Airport | Toronto | Canada  | YTZ  |
+| Toronto/Oshawa Executive Airport         | Oshawa  | Canada  | YOO  |
+
+``` r
 airplane_emissions("YVR", "YYZ")
 #> [1] 0.7169341
+```
 
+``` r
 # To calculate emissions for a round trip ferry from Melbourne to New York
 seaport_finder(country = "Australia", city = "Melbourne")
-#>     country                       city country_code port_code latitude
-#> 1 Australia Point Henry Pier/Melbourne           AU       PHP   -38.07
-#> 2 Australia             Port Melbourne           AU       POR   -37.50
-#>   longitude
-#> 1    144.26
-#> 2    144.56
+```
+
+| country   | city                       | country_code | port_code | latitude | longitude |
+|:----------|:---------------------------|:-------------|:----------|---------:|----------:|
+| Australia | Point Henry Pier/Melbourne | AU           | PHP       |   -38.07 |    144.26 |
+| Australia | Port Melbourne             | AU           | POR       |   -37.50 |    144.56 |
+
+``` r
 seaport_finder(country = "US", city = "New York")
-#>         country              city country_code port_code latitude longitude
-#> 1 United States Brooklyn/New York           US       BOY    40.44    -73.56
+```
+
+| country       | city              | country_code | port_code | latitude | longitude |
+|:--------------|:------------------|:-------------|:----------|---------:|----------:|
+| United States | Brooklyn/New York | US           | BOY       |    40.44 |    -73.56 |
+
+``` r
 ferry_emissions("POR", "BOY", round_trip = TRUE)
 #> [1] 4.422754
+```
 
+``` r
 # To calculate emissions for a train journey from Bristol Temple Meads to Edinburgh Waverley, via Birmingham New Street.
 rail_finder(station = "Bristol")
-#> # A tibble: 2 x 7
-#>   station_code station              region     county    distr~1 latit~2 longi~3
-#>   <chr>        <chr>                <chr>      <chr>     <chr>     <dbl>   <dbl>
-#> 1 BPW          Bristol Parkway      South West South Gl~ South ~    51.5   -2.54
-#> 2 BRI          Bristol Temple Meads South West Bristol ~ Bristo~    51.4   -2.58
-#> # ... with abbreviated variable names 1: district, 2: latitude, 3: longitude
+```
+
+| station_code | station              | region     | county                | district              | latitude | longitude |
+|:-------------|:---------------------|:-----------|:----------------------|:----------------------|---------:|----------:|
+| BPW          | Bristol Parkway      | South West | South Gloucestershire | South Gloucestershire | 51.51380 | -2.542163 |
+| BRI          | Bristol Temple Meads | South West | Bristol City Of       | Bristol City Of       | 51.44914 | -2.581315 |
+
+``` r
 rail_finder(station = "Edinburgh")
-#> # A tibble: 2 x 7
-#>   station_code station        region   county            distr~1 latit~2 longi~3
-#>   <chr>        <chr>          <chr>    <chr>             <chr>     <dbl>   <dbl>
-#> 1 EDB          Edinburgh      Scotland Edinburgh City Of Edinbu~    56.0   -3.19
-#> 2 EDP          Edinburgh Park Scotland Edinburgh City Of Edinbu~    55.9   -3.31
-#> # ... with abbreviated variable names 1: district, 2: latitude, 3: longitude
+```
+
+| station_code | station        | region   | county            | district          | latitude | longitude |
+|:-------------|:---------------|:---------|:------------------|:------------------|---------:|----------:|
+| EDB          | Edinburgh      | Scotland | Edinburgh City Of | Edinburgh City Of | 55.95239 | -3.188228 |
+| EDP          | Edinburgh Park | Scotland | Edinburgh City Of | Edinburgh City Of | 55.92755 | -3.307664 |
+
+``` r
 rail_finder(station = "Birmingham")
-#> # A tibble: 5 x 7
-#>   station_code station                  region    county distr~1 latit~2 longi~3
-#>   <chr>        <chr>                    <chr>     <chr>  <chr>     <dbl>   <dbl>
-#> 1 BBS          Birmingham Bordesley     West Mid~ West ~ Birmin~    52.5   -1.88
-#> 2 BHI          Birmingham International West Mid~ West ~ Solihu~    52.5   -1.73
-#> 3 BHM          Birmingham New Street    West Mid~ West ~ Birmin~    52.5   -1.90
-#> 4 BMO          Birmingham Moor Street   West Mid~ West ~ Birmin~    52.5   -1.89
-#> 5 BSW          Birmingham Snow Hill     West Mid~ West ~ Birmin~    52.5   -1.90
-#> # ... with abbreviated variable names 1: district, 2: latitude, 3: longitude
+```
+
+| station_code | station                  | region        | county        | district   | latitude | longitude |
+|:-------------|:-------------------------|:--------------|:--------------|:-----------|---------:|----------:|
+| BBS          | Birmingham Bordesley     | West Midlands | West Midlands | Birmingham | 52.47187 | -1.877769 |
+| BHI          | Birmingham International | West Midlands | West Midlands | Solihull   | 52.45081 | -1.725857 |
+| BHM          | Birmingham New Street    | West Midlands | West Midlands | Birmingham | 52.47782 | -1.900205 |
+| BMO          | Birmingham Moor Street   | West Midlands | West Midlands | Birmingham | 52.47908 | -1.892473 |
+| BSW          | Birmingham Snow Hill     | West Midlands | West Midlands | Birmingham | 52.48335 | -1.899088 |
+
+``` r
 rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
-#> [1] 0.02303694
 
 # To calculate vehicle emissions for a 100 mile bus journey
 land_emissions(distance = 100, units = "miles", vehicle = "Bus")
-#> [1] 0.013646
 ```
 
 ``` r
@@ -192,8 +214,7 @@ multiple_ind %>%
                                               airport_via)) %>%
   dplyr::mutate(train_emissions = rail_emissions(station_from,
                                           station_to)) %>%
-  dplyr::mutate(total_emissions = plane_emissions + train_emissions) %>%
-  knitr::kable()
+  dplyr::mutate(total_emissions = plane_emissions + train_emissions)
 ```
 
 | ID    | station_from         | station_to | airport_from | airport_to | airport_via | plane_emissions | train_emissions | total_emissions |
@@ -212,8 +233,8 @@ office_emissions(specify = TRUE, electricity_kWh = 2455.2, water_supply = 85, he
 ## Shiny App
 
 An interactive calculator using Shiny can be accessed by the
-`shiny_emissions()` function. This calculator uses the functions in the
-`carbonr` package:
+`shiny_emissions()` function. This calculator uses some of the functions
+in the `carbonr` package:
 
 ``` r
 shiny_emissions()

@@ -92,26 +92,83 @@ A shiny app is also available by `shiny_emissions()` to calculate carbon-equival
 library(carbonr)
 
 # To calculate emissions for a flight between Vancouver and Toronto
-airport_finder(name = "Vancouver")
+airport_finder(name = "Vancouver") %>%
+  knitr::kable()
+```
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
 airport_finder(name = "Toronto")
+```
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+airport_finder(name = "Toronto") %>%
+  knitr::kable()
+```
+```{r, message = FALSE, warning = FALSE}
 airplane_emissions("YVR", "YYZ")
-
+```
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
 # To calculate emissions for a round trip ferry from Melbourne to New York
 seaport_finder(country = "Australia", city = "Melbourne")
+```
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+# To calculate emissions for a round trip ferry from Melbourne to New York
+seaport_finder(country = "Australia", city = "Melbourne") %>%
+  knitr::kable()
+```
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
 seaport_finder(country = "US", city = "New York")
+```
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+seaport_finder(country = "US", city = "New York") %>%
+  knitr::kable()
+```
+```{r, message = FALSE, warning = FALSE}
 ferry_emissions("POR", "BOY", round_trip = TRUE)
-
+```
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
 # To calculate emissions for a train journey from Bristol Temple Meads to Edinburgh Waverley, via Birmingham New Street.
 rail_finder(station = "Bristol")
+```
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+# To calculate emissions for a train journey from Bristol Temple Meads to Edinburgh Waverley, via Birmingham New Street.
+rail_finder(station = "Bristol") %>%
+  knitr::kable()
+```
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
 rail_finder(station = "Edinburgh")
+```
+```{r, message = FALSE, warning = FALSE, echo=FALSE}
+rail_finder(station = "Edinburgh") %>%
+  knitr::kable()
+```
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
 rail_finder(station = "Birmingham")
+```
+```{r, message = FALSE, warning = FALSE, echo=FALSE}
+rail_finder(station = "Birmingham") %>%
+  knitr::kable()
+```
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
 rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
 
 # To calculate vehicle emissions for a 100 mile bus journey
 land_emissions(distance = 100, units = "miles", vehicle = "Bus")
 ```
 
-```{r, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+# We can use a data frame to read through the data easier
+multiple_ind <- tibble::tribble(~ID, ~station_from, ~station_to, ~airport_from, ~airport_to, ~airport_via,
+                        "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
+                        "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
+multiple_ind %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(plane_emissions = airplane_emissions(airport_from,
+                                              airport_to,
+                                              airport_via)) %>%
+  dplyr::mutate(train_emissions = rail_emissions(station_from,
+                                          station_to)) %>%
+  dplyr::mutate(total_emissions = plane_emissions + train_emissions)
+```
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
 # We can use a data frame to read through the data easier
 multiple_ind <- tibble::tribble(~ID, ~station_from, ~station_to, ~airport_from, ~airport_to, ~airport_via,
                         "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
