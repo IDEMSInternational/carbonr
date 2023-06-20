@@ -23,13 +23,60 @@ status](https://www.r-pkg.org/badges/version/carbonr)](https://CRAN.R-project.or
 carbonr is a package in R to conveniently calculate carbon-equivalent
 emissions:
 
-- `airplane_emissions()`
-- `ferry_emissions()`
-- `hotel_emissions()`
-- `office_emissions()`
-- `rail_emissions()`
-- `raw_fuels()`
-- `vehicle_emissions()`
+## Aims of carbonR
+
+In 2021, work began on the carbonr package in R with the aim of
+addressing the following challenges and improving the estimation of
+carbon-equivalent emissions. This came after a review of current
+approaches to estimate carbon-equivalent emissions.
+
+Reproducibility: The carbonr package seeks to provide a reliable and
+reproducible approach to calculating emissions levels, ensuring that the
+results can be saved, edited, and redistributed easily.
+
+Open Source: R is an open-source language, which means that the carbonr
+package benefits from the collaborative nature of the R community. This
+allows for open discussions and contributions on platforms like GitHub,
+capturing different perspectives and enhancing the functionality of the
+package.
+
+Transparency and Flexibility: The carbonr package aims for transparency
+to provide the ability to amend emissions values and tailor them to
+specific environments and contexts. This allows for greater flexibility
+and customisation in estimating emissions.
+
+Cost-effective: The carbonr package being open source eliminates the
+need for users to incur additional costs. This makes it a cost-effective
+solution for estimating carbon-equivalent emissions.
+
+Accessibility: The carbonr package aims to make the estimation of
+carbon-equivalent emissions more accessible by offering a user-friendly
+front-end interface using Shiny. This ensures that the tools are easier
+to use, even for individuals with limited programming experience.
+
+Expansion and Collaboration: Although currently a small stand-alone
+package used within IDEMS International, the vision for carbonr is to
+expand and become more comprehensive. The creators invite contributions
+from the community to extend the package’s functionality, build
+additional features, and transform it into a more robust tool for
+estimating carbon-equivalent emissions.
+
+By addressing these challenges and incorporating these improvements, the
+carbonr package aims to provide a reliable, accessible, and customisable
+solution for estimating and offsetting carbon-equivalent emissions.
+
+## Functions in CarbonR
+
+carbonr is a package in R to conveniently calculate carbon-equivalent
+emissions. Currently, emission estimates relate to travel, materials,
+day-to-day, and clinically based. \* `airplane_emissions()` \*
+`ferry_emissions()` \* `rail_emissions()` \* `land_emissions()` \*
+`vehicle_emissions()` \* `hotel_emissions()` \* `building_emissions()`
+\* `office_emissions()` \* `household_emissions()` \*
+`construction_emissions()` \* `electrical_emissions()` \*
+`material_emissions()` \* `metal_emissions()` \* `paper_emissions()` \*
+`plastic_emissions()` \* `raw_fuels()` \* `anaesthetic_emissions()` \*
+`clinical_emissions()` \* `clinical_theatre_data()`
 
 These all return carbon-equivalent emissions in tonnes. The emissions
 values in the calculations are from the UK Government report (2021).
@@ -118,7 +165,7 @@ land_emissions(distance = 100, units = "miles", vehicle = "Bus")
 
 # Additional emissions can be calculated as well. For example, office emissions
 office_emissions(specify = TRUE, electricity_kWh = 2455.2, water_supply = 85, heat_kWh = 8764)
-#> [1] 2.805666
+#> [1] 0.002805666
 
 # Alternatively, more advance emissions can be given with the `raw_fuels()` function.
 ```
@@ -140,12 +187,19 @@ shiny_emissions()
 
 ### Sources:
 
-\[1\] UK government 2021 report. See
-<https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/990675/2021-ghg-conversion-factors-methodology.pdf>
+\[1\] UK government 2022 report. See
+<https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/990675/2022-ghg-conversion-factors-methodology.pdf>
 <https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021>
 Note emissions for flights in the code uses values from direct effects
 only. Radiative forcing = TRUE will give indirect and direct effects.
 (multiplys by 1.891). See “business travel - air” sheet of gov.uk excel
-sheet linked above.
-
-\[2\] Radiative forcing as 1.891 is from www.carbonfund.org
+sheet linked above. \[2\] Radiative forcing as 1.891 is from
+www.carbonfund.org \[3\] For Clinically-based emissions, we expanded
+beyond the 2022 Government Report since there were not estimates
+available. anaesthetic emissions from:
+<https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8415729>;
+<https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7421303/>;
+<https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9413181/>;
+<https://journals.lww.com/anesthesia-analgesia/Fulltext/2012/05000/Life_Cycle_Greenhouse_Gas_Emissions_of_Anesthetic.25.aspx>
+clinical_wet_waste: p32 of
+<https://www.dcceew.gov.au/climate-change/publications/national-greenhouse-accounts-factors-2022>
