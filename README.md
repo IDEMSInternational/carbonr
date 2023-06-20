@@ -102,7 +102,8 @@ day-to-day, and clinically based.
 - `clinical_theatre_data()`
 
 These all return carbon-equivalent emissions in tonnes. The emissions
-values in the calculations are from the UK Government report (2021).
+values in the calculations are from the [UK Government report
+(2022)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2022).
 
 A shiny app is also available by `shiny_emissions()` to calculate
 carbon-equivalent emissions with a GUI.
@@ -224,17 +225,23 @@ shiny_emissions()
 
 \[1\] UK government 2022 report. See
 <https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/990675/2022-ghg-conversion-factors-methodology.pdf>
-<https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021>
+<https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2022>
+
 Note emissions for flights in the code uses values from direct effects
 only. Radiative forcing = TRUE will give indirect and direct effects.
 (multiplys by 1.891). See “business travel - air” sheet of gov.uk excel
-sheet linked above. \[2\] Radiative forcing as 1.891 is from
-www.carbonfund.org \[3\] For Clinically-based emissions, we expanded
-beyond the 2022 Government Report since there were not estimates
-available. anaesthetic emissions from:
+sheet linked above.
+
+\[2\] Radiative forcing as 1.891 is from www.carbonfund.org
+
+\[3\] For Clinically-based emissions, we expanded beyond the 2022
+Government Report since there were not estimates available.
+
+anaesthetic emissions from:
 <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8415729>;
 <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7421303/>;
 <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9413181/>;
 <https://journals.lww.com/anesthesia-analgesia/Fulltext/2012/05000/Life_Cycle_Greenhouse_Gas_Emissions_of_Anesthetic.25.aspx>
+
 clinical_wet_waste: p32 of
 <https://www.dcceew.gov.au/climate-change/publications/national-greenhouse-accounts-factors-2022>
