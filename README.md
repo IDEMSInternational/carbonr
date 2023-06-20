@@ -23,6 +23,16 @@ status](https://www.r-pkg.org/badges/version/carbonr)](https://CRAN.R-project.or
 carbonr is a package in R to conveniently calculate carbon-equivalent
 emissions:
 
+## Installation
+
+You can install the development version of carbonr from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("IDEMSInternational/carbonr")
+```
+
 ## Aims of carbonR
 
 In 2021, work began on the carbonr package in R with the aim of
@@ -30,31 +40,31 @@ addressing the following challenges and improving the estimation of
 carbon-equivalent emissions. This came after a review of current
 approaches to estimate carbon-equivalent emissions.
 
-Reproducibility: The carbonr package seeks to provide a reliable and
+**Reproducibility:** The carbonr package seeks to provide a reliable and
 reproducible approach to calculating emissions levels, ensuring that the
 results can be saved, edited, and redistributed easily.
 
-Open Source: R is an open-source language, which means that the carbonr
-package benefits from the collaborative nature of the R community. This
-allows for open discussions and contributions on platforms like GitHub,
-capturing different perspectives and enhancing the functionality of the
-package.
+**Open Source:** R is an open-source language, which means that the
+carbonr package benefits from the collaborative nature of the R
+community. This allows for open discussions and contributions on
+platforms like GitHub, capturing different perspectives and enhancing
+the functionality of the package.
 
-Transparency and Flexibility: The carbonr package aims for transparency
-to provide the ability to amend emissions values and tailor them to
-specific environments and contexts. This allows for greater flexibility
-and customisation in estimating emissions.
+**Transparency and Flexibility:** The carbonr package aims for
+transparency to provide the ability to amend emissions values and tailor
+them to specific environments and contexts. This allows for greater
+flexibility and customisation in estimating emissions.
 
-Cost-effective: The carbonr package being open source eliminates the
+**Cost-effective:** The carbonr package being open source eliminates the
 need for users to incur additional costs. This makes it a cost-effective
 solution for estimating carbon-equivalent emissions.
 
-Accessibility: The carbonr package aims to make the estimation of
+**Accessibility:** The carbonr package aims to make the estimation of
 carbon-equivalent emissions more accessible by offering a user-friendly
 front-end interface using Shiny. This ensures that the tools are easier
 to use, even for individuals with limited programming experience.
 
-Expansion and Collaboration: Although currently a small stand-alone
+**Expansion and Collaboration:** Although currently a small stand-alone
 package used within IDEMS International, the vision for carbonr is to
 expand and become more comprehensive. The creators invite contributions
 from the community to extend the package’s functionality, build
@@ -69,14 +79,27 @@ solution for estimating and offsetting carbon-equivalent emissions.
 
 carbonr is a package in R to conveniently calculate carbon-equivalent
 emissions. Currently, emission estimates relate to travel, materials,
-day-to-day, and clinically based. \* `airplane_emissions()` \*
-`ferry_emissions()` \* `rail_emissions()` \* `land_emissions()` \*
-`vehicle_emissions()` \* `hotel_emissions()` \* `building_emissions()`
-\* `office_emissions()` \* `household_emissions()` \*
-`construction_emissions()` \* `electrical_emissions()` \*
-`material_emissions()` \* `metal_emissions()` \* `paper_emissions()` \*
-`plastic_emissions()` \* `raw_fuels()` \* `anaesthetic_emissions()` \*
-`clinical_emissions()` \* `clinical_theatre_data()`
+day-to-day, and clinically based.
+
+- `airplane_emissions()`
+- `ferry_emissions()`
+- `rail_emissions()`
+- `land_emissions()`
+- `vehicle_emissions()`
+- `hotel_emissions()`
+- `building_emissions()`
+- `office_emissions()`
+- `household_emissions()`
+- `construction_emissions()`
+- `electrical_emissions()`
+- `material_emissions()`
+- `metal_emissions()`
+- `paper_emissions()`
+- `plastic_emissions()`
+- `raw_fuels()`
+- `anaesthetic_emissions()`
+- `clinical_emissions()`
+- `clinical_theatre_data()`
 
 These all return carbon-equivalent emissions in tonnes. The emissions
 values in the calculations are from the UK Government report (2021).
@@ -84,20 +107,9 @@ values in the calculations are from the UK Government report (2021).
 A shiny app is also available by `shiny_emissions()` to calculate
 carbon-equivalent emissions with a GUI.
 
-## Installation
-
-You can install the development version of carbonr from
-[GitHub](https://github.com/) with:
-
-``` r
-# install.packages("devtools")
-devtools::install_github("IDEMSInternational/carbonr")
-```
-
 ## Usage
 
 ``` r
-
 library(carbonr)
 
 # To calculate emissions for a flight between Vancouver and Toronto
@@ -162,29 +174,27 @@ rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingha
 # To calculate vehicle emissions for a 100 mile bus journey
 land_emissions(distance = 100, units = "miles", vehicle = "Bus")
 #> [1] 0.013646
+```
 
-# We can use a data frame to read through the data easier
-multiple_ind <- tibble::tribble(~ID, ~station_from, ~station_to, ~airport_from, ~airport_to, ~airport_via,
-                        "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
-                        "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
-multiple_ind %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(plane_emissions = airplane_emissions(airport_from,
-                                              airport_to,
-                                              airport_via)) %>%
-  dplyr::mutate(train_emissions = rail_emissions(station_from,
-                                          station_to)) %>%
-  dplyr::mutate(total_emissions = plane_emissions + train_emissions)
-#> # A tibble: 2 x 9
-#> # Rowwise: 
-#>   ID    station_from     stati~1 airpo~2 airpo~3 airpo~4 plane~5 train~6 total~7
-#>   <chr> <chr>            <chr>   <chr>   <chr>   <chr>     <dbl>   <dbl>   <dbl>
-#> 1 Clint Bristol Temple ~ Paddin~ LHR     KIS     NBO        1.53 0.00740    1.53
-#> 2 Zara  Bristol Temple ~ Paddin~ LHR     LAX     ORL        2.25 0.00740    2.26
-#> # ... with abbreviated variable names 1: station_to, 2: airport_from,
-#> #   3: airport_to, 4: airport_via, 5: plane_emissions, 6: train_emissions,
-#> #   7: total_emissions
+    #> Warning: There were 4 warnings in `dplyr::mutate()`.
+    #> The first warning was:
+    #> i In argument: `plane_emissions = airplane_emissions(airport_from, airport_to,
+    #>   airport_via)`.
+    #> i In row 1.
+    #> Caused by warning in `data()`:
+    #> ! data set 'airports' not found
+    #> i Run `dplyr::last_dplyr_warnings()` to see the 3 remaining warnings.
+    #> # A tibble: 2 x 9
+    #> # Rowwise: 
+    #>   ID    station_from     stati~1 airpo~2 airpo~3 airpo~4 plane~5 train~6 total~7
+    #>   <chr> <chr>            <chr>   <chr>   <chr>   <chr>     <dbl>   <dbl>   <dbl>
+    #> 1 Clint Bristol Temple ~ Paddin~ LHR     KIS     NBO        1.53 0.00740    1.53
+    #> 2 Zara  Bristol Temple ~ Paddin~ LHR     LAX     ORL        2.25 0.00740    2.26
+    #> # ... with abbreviated variable names 1: station_to, 2: airport_from,
+    #> #   3: airport_to, 4: airport_via, 5: plane_emissions, 6: train_emissions,
+    #> #   7: total_emissions
 
+``` r
 # Additional emissions can be calculated as well. For example, office emissions
 office_emissions(specify = TRUE, electricity_kWh = 2455.2, water_supply = 85, heat_kWh = 8764)
 #> [1] 0.002805666
