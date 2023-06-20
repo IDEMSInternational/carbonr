@@ -7,6 +7,12 @@
 clinical_theatre_emissions(
   wet_clinical_waste,
   wet_clinical_waste_unit = c("tonnes", "kg"),
+  desflurane = 0,
+  sevoflurane = 0,
+  isoflurane = 0,
+  methoxyflurane = 0,
+  N2O = 0,
+  propofol = 0,
   water_supply = 0,
   water_trt = TRUE,
   water_unit = c("cubic metres", "million litres"),
@@ -60,6 +66,18 @@ clinical_theatre_emissions(
 \item{wet_clinical_waste}{Amount of (wet) clinical waste that is usually incinerated.}
 
 \item{wet_clinical_waste_unit}{Unit for \code{wet_clinical_waste} variable. Options are \code{"tonnes"} or \code{"kg"}.}
+
+\item{desflurane}{Amount of desflurane used in KG (default: 0).}
+
+\item{sevoflurane}{Amount of sevoflurane used in KG (default: 0).}
+
+\item{isoflurane}{Amount of isoflurane used in KG (default: 0).}
+
+\item{methoxyflurane}{Amount of methoxyflurane used in KG (default: 0).}
+
+\item{N2O}{Amount of nitrous oxide (N2O) used in KG (default: 0).}
+
+\item{propofol}{Amount of propofol used in KG (default: 0).}
 
 \item{water_supply}{Amount of water used in the building.}
 

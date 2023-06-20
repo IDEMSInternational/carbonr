@@ -95,6 +95,6 @@ plastic_emissions <- function(average = 0, average_film = 0, average_rigid = 0, 
     average_WD*WD_values[1] + average_film_WD*WD_values[2] + average_rigid_WD*WD_values[3] +
     HDPE_WD*WD_values[4] + LDPE_WD*WD_values[5] + LLDPE_WD*WD_values[5] + PET_WD*WD_values[6] +
     PP_WD*WD_values[7] + PS_WD*WD_values[8] + PVC_WD*WD_values[9]
-  if (units == "kg") plastic_emissions <- plastic_emissions/1000
+  if (units == "kg") plastic_emissions <- plastic_emissions * 0.001
   return(plastic_emissions)
 }

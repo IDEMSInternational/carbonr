@@ -33,7 +33,8 @@
 # electricity_kWh = electricity_kwh,
 # water_supply = water_million_litres,
 # water_unit = "million litres")
-clinical_theatre_data <- function(data, time, name, wet_clinical_waste, wet_clinical_waste_unit = c("tonnes", "kg"),
+clinical_theatre_data <- function(data, time, name, wet_clinical_waste = 0, wet_clinical_waste_unit = c("tonnes", "kg"),
+                                  desflurane = 0, sevoflurane = 0, isoflurane = 0, methoxyflurane = 0, N2O = 0, propofol = 0,
                                   water_supply = 0, water_trt = TRUE, water_unit = c("cubic metres", "million litres"),
                                   electricity_kWh = 0, electricity_TD = TRUE, electricity_WTT = TRUE,
                                   heat_kWh = 0, heat_TD = TRUE, heat_WTT = TRUE,
@@ -51,6 +52,8 @@ clinical_theatre_data <- function(data, time, name, wet_clinical_waste, wet_clin
                                   electrical_units = c("kg", "tonnes")){
   summary_emissions <- data %>%
     dplyr::mutate(emissions = clinical_theatre_emissions(wet_clinical_waste = {{ wet_clinical_waste }}, wet_clinical_waste_unit = wet_clinical_waste_unit,
+                                                         desflurane = {{ desflurane }}, sevoflurane = {{ sevoflurane }}, isoflurane = {{ isoflurane }},
+                                                         methoxyflurane = {{ methoxyflurane }}, N2O = {{ N2O }}, propofol = {{ propofol }},
                                                          water_supply = {{ water_supply }}, water_trt = water_trt, water_unit = water_unit,
                                                          electricity_kWh = {{ electricity_kWh }}, electricity_TD = electricity_TD, electricity_WTT = electricity_WTT,
                                                          heat_kWh = {{ heat_kWh }}, heat_TD = heat_TD, heat_WTT = heat_WTT,

@@ -76,7 +76,7 @@ electrical_emissions <- function(fridges = 0, freezers = 0, large = 0, IT = 0, s
     fridges_WD*WD_values[1] + freezers_WD*WD_values[1] + large_WD*WD_values[2] +
     IT_WD*WD_values[3] + small_WD*WD_values[4] + alkaline_batteries_WD*WD_values[5] +
     LiIon_batteries_WD*WD_values[5] + NiMh_batteries_WD*WD_values[5]
-  if (units == "kg") electrical_emissions <- electrical_emissions/1000
+  if (units == "kg") electrical_emissions <- electrical_emissions * 0.001
   return(electrical_emissions)
 }
 

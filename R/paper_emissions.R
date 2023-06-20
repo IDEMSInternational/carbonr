@@ -51,6 +51,6 @@ paper_emissions <- function(board = 0, mixed = 0, paper = 0,
   emission_values <- MU$`GHG Conversion Factor 2022`
   paper_emissions <- board*emission_values[1] + mixed*emission_values[2] + paper*emission_values[3] +
     board_WD*WD_values[1] + mixed_WD*WD_values[2] + paper_WD*WD_values[3]
-  if (units == "kg") paper_emissions <- paper_emissions/1000
+  if (units == "kg") paper_emissions <- paper_emissions * 0.001
   return(paper_emissions)
 }

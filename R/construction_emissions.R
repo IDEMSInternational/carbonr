@@ -121,6 +121,6 @@ construction_emissions <- function(aggregates = 0, average = 0, asbestos = 0, as
     mineral_oil_WD*WD_values[10] + plasterboard_WD*WD_values[11] + tyres_WD*WD_values[12] +
     wood_WD*WD_values[13]
   
-  if (units == "kg") construction_emissions <- construction_emissions/1000
+  if (units == "kg") construction_emissions <- construction_emissions * 0.001
   return(construction_emissions)
 }

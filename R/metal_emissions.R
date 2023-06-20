@@ -62,6 +62,6 @@ metal_emissions <- function(aluminuim_cans = 0, aluminuim_foil = 0, mixed_cans =
     scrap*emission_values[3] + steel_cans*emission_values[4] +
     aluminuim_cans_WD*WD_values[1] + aluminuim_foil_WD*WD_values[1] + mixed_cans_WD*WD_values[2] +
     scrap_WD*WD_values[3] + steel_cans_WD*WD_values[4]
-  if (units == "kg") metal_emissions <- metal_emissions/1000
+  if (units == "kg") metal_emissions <- metal_emissions * 0.001
   return(metal_emissions)
 }
