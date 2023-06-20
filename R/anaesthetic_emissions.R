@@ -10,7 +10,7 @@
 #' @param propofol Amount of propofol used in KG (default: 0).
 #'
 #' @return The total CO2e emissions in tonnes.
-#'
+#' @export
 #' @examples
 #' anaesthetic_emissions(desflurane = 200, sevoflurane = 30, N2O = 5)
 #'
