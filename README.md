@@ -21,7 +21,12 @@ status](https://www.r-pkg.org/badges/version/carbonr)](https://CRAN.R-project.or
 ## Overview
 
 carbonr is a package in R to conveniently calculate carbon-equivalent
-emissions:
+emissions. The emissions values in the calculations are from the [UK
+Government report
+(2022)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2022)
+whereever available. For more specific functions related to operating
+theatre waste, alternative sources are used given in the References
+section.
 
 ## Installation
 
@@ -101,9 +106,7 @@ day-to-day, and clinically based.
 - `clinical_emissions()`
 - `clinical_theatre_data()`
 
-These all return carbon-equivalent emissions in tonnes. The emissions
-values in the calculations are from the [UK Government report
-(2022)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2022).
+These all return carbon-equivalent emissions in tonnes.
 
 A shiny app is also available by `shiny_emissions()` to calculate
 carbon-equivalent emissions with a GUI.
@@ -215,6 +218,8 @@ An interactive calculator using Shiny can be accessed by the
 ``` r
 shiny_emissions()
 ```
+
+## References
 
 ### Other online calculators:
 
