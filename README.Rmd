@@ -147,7 +147,7 @@ rail_finder(station = "Birmingham")
 rail_finder(station = "Birmingham") %>%
   knitr::kable()
 ```
-```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+```{r, message = FALSE, warning = FALSE}
 rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
 ```
 ```{r, message = FALSE, warning = FALSE}

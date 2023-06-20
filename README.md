@@ -197,6 +197,7 @@ rail_finder(station = "Birmingham")
 
 ``` r
 rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
+#> [1] 0.02303694
 ```
 
 ``` r
