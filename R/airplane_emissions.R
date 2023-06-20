@@ -26,31 +26,21 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
   checkmate::assert_logical(include_WTT)
   class <- match.arg(class)
   
-  airport_filter <- airports %>% dplyr::select(c(Name, City, IATA))
-  if (!(from) %in% c(airport_filter$IATA)){
-    airport_names <- agrep(data.frame(from), airport_filter$IATA, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
-    stop(print(from), " is not a valid IATA code. Please use the `airport_finder` function to check for the correct code. Did you mean: ",
-         paste0(data.frame(airport_filter %>% dplyr::filter(IATA %in% airport_names))$IATA, sep = ", ")
-    )
-  }
-  if (!(to) %in% c(airport_filter$IATA)){
-    airport_names <- agrep(data.frame(to), airport_filter$IATA, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
-    stop(print(to), " is not a valid IATA code. Please use the `airport
-
-_finder` function to check for the correct code. Did you mean: ",
-         paste0(data.frame(airport_filter %>% dplyr::filter(IATA %in% airport_names))$IATA, sep = ", ")
-    )
-  }
-  if (!is.null(via)){
-    for (i in 1:length(via)){
-      via_x <- via[i]
-      if (!(via_x) %in% c(airport_filter$IATA)){
-        airport_names <- agrep(data.frame(via_x), airport_filter$IATA, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
-        stop(print(via_x), " is not a valid IATA code. Please use the `airport_finder` function to check for the correct code. Did you mean: ",
-             paste0(data.frame(airport_filter %>% dplyr::filter(IATA %in% airport_names))$IATA, sep = ", ")
-        )
-      }
+  # Retrieve airport data
+  airport_filter <- airports %>% dplyr::select(Name, City, IATA)
+  
+  # Check if from, to, and via airports are valid
+  check_valid_airport <- function(airport_code) {
+    if (!(airport_code) %in% airport_filter$IATA) {
+      airport_names <- agrep(data.frame(airport_code), airport_filter$IATA, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
+      stop(paste(airport_code, "is not a valid IATA code. Did you mean:", paste0(data.frame(airport_filter %>% dplyr::filter(IATA %in% airport_names))$IATA, collapse = ", ")))
     }
+  }
+  
+  check_valid_airport(from)
+  check_valid_airport(to)
+  if (!is.null(via)) {
+    sapply(via, check_valid_airport)
   }
   
   # Calculate the distance flown in kilometers
@@ -75,7 +65,7 @@ _finder` function to check for the correct code. Did you mean: ",
     dplyr::filter(`Level 2` == "Flights")
   
   # Determine flight category based on distance (short-haul or long-haul)
-  if (km < 2050){
+  if (km < 2050) {
     uk_gov_data_air <- uk_gov_data_air %>% dplyr::filter(`Level 3` == "Short-haul, to/from UK")
     uk_gov_data_air_WTT <- uk_gov_data_air_WTT %>% dplyr::filter(`Level 3` == "Short-haul, to/from UK")
   } else {
@@ -88,11 +78,8 @@ _finder` function to check for the correct code. Did you mean: ",
   
   # Perform emissions calculation
   co2_emitted <- km * uk_gov_data_air$`GHG Conversion Factor 2022`
-  
   if (!radiative_force) co2_emitted <- co2_emitted * 0.5286915
-  if (include_WTT) co2_emitted <- co2_emitted + (km * num_people *
-                                                   
-                                                   uk_gov_data_air_WTT$`GHG Conversion Factor 2022`)
+  if (include_WTT) co2_emitted <- co2_emitted + (km * num_people * uk_gov_data_air_WTT$`GHG Conversion Factor 2022`)
   if (round_trip) co2_emitted <- co2_emitted * 2
   
   return(co2_emitted * 0.001)  # Convert to tonnes and return CO2e emissions
