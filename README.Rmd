@@ -111,7 +111,7 @@ rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingha
 land_emissions(distance = 100, units = "miles", vehicle = "Bus")
 ```
 
-```{r, echo=FALSE}
+```{r, message = FALSE, warning = FALSE}
 # We can use a data frame to read through the data easier
 multiple_ind <- tibble::tribble(~ID, ~station_from, ~station_to, ~airport_from, ~airport_to, ~airport_via,
                         "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
@@ -123,7 +123,8 @@ multiple_ind %>%
                                               airport_via)) %>%
   dplyr::mutate(train_emissions = rail_emissions(station_from,
                                           station_to)) %>%
-  dplyr::mutate(total_emissions = plane_emissions + train_emissions)
+  dplyr::mutate(total_emissions = plane_emissions + train_emissions) %>%
+  knitr::kable()
 ```
 ```{r, message = FALSE, warning = FALSE}
 # Additional emissions can be calculated as well. For example, office emissions
