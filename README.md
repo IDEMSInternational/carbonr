@@ -197,9 +197,12 @@ rail_finder(station = "Birmingham")
 
 ``` r
 rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
+```
 
+``` r
 # To calculate vehicle emissions for a 100 mile bus journey
 land_emissions(distance = 100, units = "miles", vehicle = "Bus")
+#> [1] 0.013646
 ```
 
 ``` r
@@ -224,10 +227,10 @@ multiple_ind %>%
 
 ``` r
 # Additional emissions can be calculated as well. For example, office emissions
-office_emissions(specify = TRUE, electricity_kWh = 2455.2, water_supply = 85, heat_kWh = 8764)
-#> [1] 0.002805666
+office_emissions(specify = TRUE, electricity_kWh = 255.2, water_supply = 85, heat_kWh = 8764)
+#> [1] 0.002230256
 
-# Alternatively, more advance emissions can be given with the `raw_fuels()` function.
+# Alternatively, more advance emissions can be given with other functions, such as the `material_emissions()`, `construction_emissions()`, and `raw_fuels()` functions.
 ```
 
 ## Shiny App
