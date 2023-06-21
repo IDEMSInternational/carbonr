@@ -125,18 +125,13 @@ first want to find the name of the airports. We do this using the
 
 ``` r
 airport_finder(name = "Vancouver")
-#> # A tibble: 3 x 4
-#>   Name                                  City      Country IATA 
-#>   <chr>                                 <chr>     <chr>   <chr>
-#> 1 Vancouver International Airport       Vancouver Canada  "YVR"
-#> 2 Vancouver Harbour Water Aerodrome     Vancouver Canada  "CXH"
-#> 3 Vancouver International Seaplane Base Vancouver Canada  "\\N"
 ```
 
-``` r
-airport_finder(name = "Vancouver") %>%
-  knitr::kable()
-```
+| Name                                  | City      | Country | IATA |
+|:--------------------------------------|:----------|:--------|:-----|
+| Vancouver International Airport       | Vancouver | Canada  | YVR  |
+| Vancouver Harbour Water Aerodrome     | Vancouver | Canada  | CXH  |
+| Vancouver International Seaplane Base | Vancouver | Canada  |      |
 
 ``` r
 airport_finder(name = "Toronto")

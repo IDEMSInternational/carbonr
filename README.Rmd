@@ -96,10 +96,10 @@ library(carbonr)
 
 To calculate emissions for a flight between Vancouver and Toronto, we first want to find the name of the airports. We do this using the `airport_finder()` function:
 
-```{r, message = FALSE, warning = FALSE}
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
 airport_finder(name = "Vancouver")
 ```
-```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
 airport_finder(name = "Vancouver") %>%
   knitr::kable()
 ```
