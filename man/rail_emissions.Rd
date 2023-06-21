@@ -35,6 +35,9 @@ Returns CO2e emissions in tonnes for the train journey.
 \description{
 A function that calculates CO2e emissions between train stations in the UK.
 }
+\details{
+The distances are calculated using the Haversine formula. This is calculated as the crow flies. As a result, inputting the "via" journeys will make for a more reliable function.
+}
 \examples{
 # Emissions for a train journey between Southampton Central and Manchester Piccadilly Station
 rail_emissions("Southampton Central", "Manchester Piccadilly")

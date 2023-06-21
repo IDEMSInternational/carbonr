@@ -38,6 +38,9 @@ Returns CO2e emissions in tonnes for the ferry journey.
 \description{
 A function that calculates CO2e emissions between ferry ports.
 }
+\details{
+The distances are calculated using the Haversine formula. This is calculated as the crow flies.
+}
 \examples{
 # Emissions for a ferry journey between Belfast and New York City
 seaport_finder(city = "Belfast")

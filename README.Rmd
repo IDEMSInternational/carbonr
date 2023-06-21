@@ -88,10 +88,18 @@ A shiny app is also available by `shiny_emissions()` to calculate carbon-equival
 
 ## Usage
 
+We give some small examples in using the functions in `carbonr()`
+
 ```{r, message = FALSE, warning = FALSE}
 library(carbonr)
+```
 
-# To calculate emissions for a flight between Vancouver and Toronto
+To calculate emissions for a flight between Vancouver and Toronto, we first want to find the name of the airports. We do this using the `airport_finder()` function:
+
+```{r, message = FALSE, warning = FALSE}
+airport_finder(name = "Vancouver")
+```
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
 airport_finder(name = "Vancouver") %>%
   knitr::kable()
 ```
@@ -102,15 +110,17 @@ airport_finder(name = "Toronto")
 airport_finder(name = "Toronto") %>%
   knitr::kable()
 ```
+
+Now we can find the overall emission value using the appropriate IATA code. These distances are calculated using the Haversine formula:
 ```{r, message = FALSE, warning = FALSE}
 airplane_emissions("YVR", "YYZ")
 ```
+
+A similar approach can be performed for ferry emissions. For example, to calculate emissions for a round trip ferry from Melbourne to New York, we first find the appropriate seaport code with the `seaport_finder()` function:
 ```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
-# To calculate emissions for a round trip ferry from Melbourne to New York
 seaport_finder(country = "Australia", city = "Melbourne")
 ```
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
-# To calculate emissions for a round trip ferry from Melbourne to New York
 seaport_finder(country = "Australia", city = "Melbourne") %>%
   knitr::kable()
 ```
@@ -121,75 +131,74 @@ seaport_finder(country = "US", city = "New York")
 seaport_finder(country = "US", city = "New York") %>%
   knitr::kable()
 ```
+
+Now we can find the overall emission value using the appropriate seaport code:
 ```{r, message = FALSE, warning = FALSE}
 ferry_emissions("POR", "BOY", round_trip = TRUE)
 ```
+
+For the UK we can calculate emissions for a train journey. Like with `airplane_emissions()` and `ferry_emissions()`, the distances are calculated using the Haversine formula - this is calculated as the crow flies. As before, we first find the stations. As always, for a more accurate estimation we can include via points:
+
+To calculate emissions for a train journey from Bristol Temple Meads to Edinburgh Waverley, via Birmingham New Street. We can use a data frame and `purrr::map()` to read through the data easier:
+
 ```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
-# To calculate emissions for a train journey from Bristol Temple Meads to Edinburgh Waverley, via Birmingham New Street.
-rail_finder(station = "Bristol")
-```
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
-# To calculate emissions for a train journey from Bristol Temple Meads to Edinburgh Waverley, via Birmingham New Street.
-rail_finder(station = "Bristol") %>%
-  knitr::kable()
-```
-```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
-rail_finder(station = "Edinburgh")
+multiple_ind <- tibble::tribble(~ID, ~station,
+                        "From", "Bristol",
+                        "To", "Edinburgh",
+                        "Via", "Birmingham")
+purrr::map(.x = multiple_ind$station, .f = ~rail_finder(.x)) %>%
+  dplyr::bind_rows()
 ```
 ```{r, message = FALSE, warning = FALSE, echo=FALSE}
-rail_finder(station = "Edinburgh") %>%
+multiple_ind <- tibble::tribble(~ID, ~station,
+                        "From", "Bristol",
+                        "To", "Edinburgh",
+                        "Via", "Birmingham")
+purrr::map(.x = multiple_ind$station, .f = ~rail_finder(.x)) %>%
+  dplyr::bind_rows() %>%
   knitr::kable()
 ```
-```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
-rail_finder(station = "Birmingham")
-```
-```{r, message = FALSE, warning = FALSE, echo=FALSE}
-rail_finder(station = "Birmingham") %>%
-  knitr::kable()
-```
+
+Then we can estimate the overall tCO2e emissions for the journey:
 ```{r, message = FALSE, warning = FALSE}
 rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
 ```
-```{r, message = FALSE, warning = FALSE}
-# To calculate vehicle emissions for a 100 mile bus journey
-land_emissions(distance = 100, units = "miles", vehicle = "Bus")
-```
 
+We can use a data frame to read through the data easier in general. For example, if we had data for multiple individuals, or journeys:
 ```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
-# We can use a data frame to read through the data easier
-multiple_ind <- tibble::tribble(~ID, ~station_from, ~station_to, ~airport_from, ~airport_to, ~airport_via,
+multiple_ind <- tibble::tribble(~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
                         "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
                         "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
 multiple_ind %>%
   dplyr::rowwise() %>%
-  dplyr::mutate(plane_emissions = airplane_emissions(airport_from,
-                                              airport_to,
-                                              airport_via)) %>%
-  dplyr::mutate(train_emissions = rail_emissions(station_from,
-                                          station_to)) %>%
+  dplyr::mutate(plane_emissions = airplane_emissions(air_from,
+                                              air_to,
+                                              air_via)) %>%
+  dplyr::mutate(train_emissions = rail_emissions(rail_from,
+                                          rail_to)) %>%
   dplyr::mutate(total_emissions = plane_emissions + train_emissions)
 ```
 ```{r, message = FALSE, warning = FALSE, echo = FALSE}
-# We can use a data frame to read through the data easier
-multiple_ind <- tibble::tribble(~ID, ~station_from, ~station_to, ~airport_from, ~airport_to, ~airport_via,
+multiple_ind <- tibble::tribble(~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
                         "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
                         "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
 multiple_ind %>%
   dplyr::rowwise() %>%
-  dplyr::mutate(plane_emissions = airplane_emissions(airport_from,
-                                              airport_to,
-                                              airport_via)) %>%
-  dplyr::mutate(train_emissions = rail_emissions(station_from,
-                                          station_to)) %>%
+  dplyr::mutate(plane_emissions = airplane_emissions(air_from,
+                                              air_to,
+                                              air_via)) %>%
+  dplyr::mutate(train_emissions = rail_emissions(rail_from,
+                                          rail_to)) %>%
   dplyr::mutate(total_emissions = plane_emissions + train_emissions) %>%
   knitr::kable()
 ```
-```{r, message = FALSE, warning = FALSE}
-# Additional emissions can be calculated as well. For example, office emissions
-office_emissions(specify = TRUE, electricity_kWh = 255.2, water_supply = 85, heat_kWh = 8764)
 
-# Alternatively, more advance emissions can be given with other functions, such as the `material_emissions()`, `construction_emissions()`, and `raw_fuels()` functions.
+Additional emissions can be calculated as well. For example, office emissions
+```{r, message = FALSE, warning = FALSE}
+office_emissions(specify = TRUE, electricity_kWh = 255.2, water_supply = 85, heat_kWh = 8764)
 ```
+
+Alternatively, more advance emissions can be given with other functions, such as the `material_emissions()`, `construction_emissions()`, and `raw_fuels()` functions.
 
 ## Shiny App
 
@@ -197,6 +206,11 @@ An interactive calculator using Shiny can be accessed by the `shiny_emissions()`
 ```{r, eval = FALSE}
 shiny_emissions()
 ```
+
+## For the future
+To calculate office emissions, we want the ability for the function to read in data from the office, perhaps accounting data. While the R side of this is relatively straightforward, this is on hold while we look to have an appropriate data set in place.
+
+We intend to build in reports that give information on the users estimated emissions. This would include summary statistics, tables, and graphs.
 
 ## References
 

@@ -7,8 +7,9 @@
 #' @param times_journey Number of times the journey is taken.
 #' @param include_WTT logical. Recommended \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.
 #' @param round_trip Whether the journey is one-way or return.
-# @param class Class travelled in. Options are ... .
+# @param class Class travelled in. Options are ...
 #' @return Returns CO2e emissions in tonnes for the train journey.
+#' @details The distances are calculated using the Haversine formula. This is calculated as the crow flies. As a result, inputting the "via" journeys will make for a more reliable function.
 #' @export
 #' @examples # Emissions for a train journey between Southampton Central and Manchester Piccadilly Station
 #' @examples rail_emissions("Southampton Central", "Manchester Piccadilly")

@@ -113,19 +113,30 @@ carbon-equivalent emissions with a GUI.
 
 ## Usage
 
+We give some small examples in using the functions in `carbonr()`
+
 ``` r
 library(carbonr)
+```
 
-# To calculate emissions for a flight between Vancouver and Toronto
+To calculate emissions for a flight between Vancouver and Toronto, we
+first want to find the name of the airports. We do this using the
+`airport_finder()` function:
+
+``` r
+airport_finder(name = "Vancouver")
+#> # A tibble: 3 x 4
+#>   Name                                  City      Country IATA 
+#>   <chr>                                 <chr>     <chr>   <chr>
+#> 1 Vancouver International Airport       Vancouver Canada  "YVR"
+#> 2 Vancouver Harbour Water Aerodrome     Vancouver Canada  "CXH"
+#> 3 Vancouver International Seaplane Base Vancouver Canada  "\\N"
+```
+
+``` r
 airport_finder(name = "Vancouver") %>%
   knitr::kable()
 ```
-
-| Name                                  | City      | Country | IATA |
-|:--------------------------------------|:----------|:--------|:-----|
-| Vancouver International Airport       | Vancouver | Canada  | YVR  |
-| Vancouver Harbour Water Aerodrome     | Vancouver | Canada  | CXH  |
-| Vancouver International Seaplane Base | Vancouver | Canada  |      |
 
 ``` r
 airport_finder(name = "Toronto")
@@ -136,13 +147,20 @@ airport_finder(name = "Toronto")
 | Billy Bishop Toronto City Centre Airport | Toronto | Canada  | YTZ  |
 | Toronto/Oshawa Executive Airport         | Oshawa  | Canada  | YOO  |
 
+Now we can find the overall emission value using the appropriate IATA
+code. These distances are calculated using the Haversine formula:
+
 ``` r
 airplane_emissions("YVR", "YYZ")
 #> [1] 0.7169341
 ```
 
+A similar approach can be performed for ferry emissions. For example, to
+calculate emissions for a round trip ferry from Melbourne to New York,
+we first find the appropriate seaport code with the `seaport_finder()`
+function:
+
 ``` r
-# To calculate emissions for a round trip ferry from Melbourne to New York
 seaport_finder(country = "Australia", city = "Melbourne")
 ```
 
@@ -159,80 +177,85 @@ seaport_finder(country = "US", city = "New York")
 |:--------------|:------------------|:-------------|:----------|---------:|----------:|
 | United States | Brooklyn/New York | US           | BOY       |    40.44 |    -73.56 |
 
+Now we can find the overall emission value using the appropriate seaport
+code:
+
 ``` r
 ferry_emissions("POR", "BOY", round_trip = TRUE)
 #> [1] 4.422754
 ```
 
-``` r
-# To calculate emissions for a train journey from Bristol Temple Meads to Edinburgh Waverley, via Birmingham New Street.
-rail_finder(station = "Bristol")
-```
+For the UK we can calculate emissions for a train journey. Like with
+`airplane_emissions()` and `ferry_emissions()`, the distances are
+calculated using the Haversine formula - this is calculated as the crow
+flies. As before, we first find the stations. As always, for a more
+accurate estimation we can include via points:
 
-| station_code | station              | region     | county                | district              | latitude | longitude |
-|:-------------|:---------------------|:-----------|:----------------------|:----------------------|---------:|----------:|
-| BPW          | Bristol Parkway      | South West | South Gloucestershire | South Gloucestershire | 51.51380 | -2.542163 |
-| BRI          | Bristol Temple Meads | South West | Bristol City Of       | Bristol City Of       | 51.44914 | -2.581315 |
-
-``` r
-rail_finder(station = "Edinburgh")
-```
-
-| station_code | station        | region   | county            | district          | latitude | longitude |
-|:-------------|:---------------|:---------|:------------------|:------------------|---------:|----------:|
-| EDB          | Edinburgh      | Scotland | Edinburgh City Of | Edinburgh City Of | 55.95239 | -3.188228 |
-| EDP          | Edinburgh Park | Scotland | Edinburgh City Of | Edinburgh City Of | 55.92755 | -3.307664 |
+To calculate emissions for a train journey from Bristol Temple Meads to
+Edinburgh Waverley, via Birmingham New Street. We can use a data frame
+and `purrr::map()` to read through the data easier:
 
 ``` r
-rail_finder(station = "Birmingham")
+multiple_ind <- tibble::tribble(~ID, ~station,
+                        "From", "Bristol",
+                        "To", "Edinburgh",
+                        "Via", "Birmingham")
+purrr::map(.x = multiple_ind$station, .f = ~rail_finder(.x)) %>%
+  dplyr::bind_rows()
 ```
 
-| station_code | station                  | region        | county        | district   | latitude | longitude |
-|:-------------|:-------------------------|:--------------|:--------------|:-----------|---------:|----------:|
-| BBS          | Birmingham Bordesley     | West Midlands | West Midlands | Birmingham | 52.47187 | -1.877769 |
-| BHI          | Birmingham International | West Midlands | West Midlands | Solihull   | 52.45081 | -1.725857 |
-| BHM          | Birmingham New Street    | West Midlands | West Midlands | Birmingham | 52.47782 | -1.900205 |
-| BMO          | Birmingham Moor Street   | West Midlands | West Midlands | Birmingham | 52.47908 | -1.892473 |
-| BSW          | Birmingham Snow Hill     | West Midlands | West Midlands | Birmingham | 52.48335 | -1.899088 |
+| station_code | station                  | region        | county                | district              | latitude | longitude |
+|:-------------|:-------------------------|:--------------|:----------------------|:----------------------|---------:|----------:|
+| BPW          | Bristol Parkway          | South West    | South Gloucestershire | South Gloucestershire | 51.51380 | -2.542163 |
+| BRI          | Bristol Temple Meads     | South West    | Bristol City Of       | Bristol City Of       | 51.44914 | -2.581315 |
+| EDB          | Edinburgh                | Scotland      | Edinburgh City Of     | Edinburgh City Of     | 55.95239 | -3.188228 |
+| EDP          | Edinburgh Park           | Scotland      | Edinburgh City Of     | Edinburgh City Of     | 55.92755 | -3.307664 |
+| BBS          | Birmingham Bordesley     | West Midlands | West Midlands         | Birmingham            | 52.47187 | -1.877769 |
+| BHI          | Birmingham International | West Midlands | West Midlands         | Solihull              | 52.45081 | -1.725857 |
+| BHM          | Birmingham New Street    | West Midlands | West Midlands         | Birmingham            | 52.47782 | -1.900205 |
+| BMO          | Birmingham Moor Street   | West Midlands | West Midlands         | Birmingham            | 52.47908 | -1.892473 |
+| BSW          | Birmingham Snow Hill     | West Midlands | West Midlands         | Birmingham            | 52.48335 | -1.899088 |
+
+Then we can estimate the overall tCO2e emissions for the journey:
 
 ``` r
 rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
 #> [1] 0.02303694
 ```
 
-``` r
-# To calculate vehicle emissions for a 100 mile bus journey
-land_emissions(distance = 100, units = "miles", vehicle = "Bus")
-#> [1] 0.013646
-```
+We can use a data frame to read through the data easier in general. For
+example, if we had data for multiple individuals, or journeys:
 
 ``` r
-# We can use a data frame to read through the data easier
-multiple_ind <- tibble::tribble(~ID, ~station_from, ~station_to, ~airport_from, ~airport_to, ~airport_via,
+multiple_ind <- tibble::tribble(~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
                         "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
                         "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
 multiple_ind %>%
   dplyr::rowwise() %>%
-  dplyr::mutate(plane_emissions = airplane_emissions(airport_from,
-                                              airport_to,
-                                              airport_via)) %>%
-  dplyr::mutate(train_emissions = rail_emissions(station_from,
-                                          station_to)) %>%
+  dplyr::mutate(plane_emissions = airplane_emissions(air_from,
+                                              air_to,
+                                              air_via)) %>%
+  dplyr::mutate(train_emissions = rail_emissions(rail_from,
+                                          rail_to)) %>%
   dplyr::mutate(total_emissions = plane_emissions + train_emissions)
 ```
 
-| ID    | station_from         | station_to | airport_from | airport_to | airport_via | plane_emissions | train_emissions | total_emissions |
-|:------|:---------------------|:-----------|:-------------|:-----------|:------------|----------------:|----------------:|----------------:|
-| Clint | Bristol Temple Meads | Paddington | LHR          | KIS        | NBO         |        1.526127 |       0.0074019 |        1.533529 |
-| Zara  | Bristol Temple Meads | Paddington | LHR          | LAX        | ORL         |        2.253014 |       0.0074019 |        2.260416 |
+| ID    | rail_from            | rail_to    | air_from | air_to | air_via | plane_emissions | train_emissions | total_emissions |
+|:------|:---------------------|:-----------|:---------|:-------|:--------|----------------:|----------------:|----------------:|
+| Clint | Bristol Temple Meads | Paddington | LHR      | KIS    | NBO     |        1.526127 |       0.0074019 |        1.533529 |
+| Zara  | Bristol Temple Meads | Paddington | LHR      | LAX    | ORL     |        2.253014 |       0.0074019 |        2.260416 |
+
+Additional emissions can be calculated as well. For example, office
+emissions
 
 ``` r
-# Additional emissions can be calculated as well. For example, office emissions
 office_emissions(specify = TRUE, electricity_kWh = 255.2, water_supply = 85, heat_kWh = 8764)
 #> [1] 0.002230256
-
-# Alternatively, more advance emissions can be given with other functions, such as the `material_emissions()`, `construction_emissions()`, and `raw_fuels()` functions.
 ```
+
+Alternatively, more advance emissions can be given with other functions,
+such as the `material_emissions()`, `construction_emissions()`, and
+`raw_fuels()` functions.
 
 ## Shiny App
 
@@ -243,6 +266,17 @@ in the `carbonr` package:
 ``` r
 shiny_emissions()
 ```
+
+## For the future
+
+To calculate office emissions, we want the ability for the function to
+read in data from the office, perhaps accounting data. While the R side
+of this is relatively straightforward, this is on hold while we look to
+have an appropriate data set in place.
+
+We intend to build in reports that give information on the users
+estimated emissions. This would include summary statistics, tables, and
+graphs.
 
 ## References
 

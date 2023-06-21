@@ -12,6 +12,7 @@
 #' @param class Class flown in. Options include "Average passenger", "Economy class", "Business class", "Premium economy class", and "First class".
 #' @return Returns CO2e emissions in tonnes.
 #' @export 
+#' @details The distances are calculated using the "airport_distance" function from the "airportr" package. This means that the distances between locations uses the Haversine formula. This is calculated as the crow flies.
 #' @examples # Calculate emissions for a flight between Vancouver (YVR) and Toronto (YYZ)
 #' airplane_emissions("YVR", "YYZ")
 #' @examples # Calculate emissions for a flight between London Heathrow (LHR) and Kisumu Airport (KIS), with layovers in Amsterdam (AMS) and Nairobi (NBO), flying in Economy class

@@ -10,6 +10,8 @@
 #' @param round_trip Whether the journey is one-way or return.
 #'
 #' @return Returns CO2e emissions in tonnes for the ferry journey.
+#' 
+#' @details The distances are calculated using the Haversine formula. This is calculated as the crow flies.
 #' @export
 #'
 #' @examples # Emissions for a ferry journey between Belfast and New York City
