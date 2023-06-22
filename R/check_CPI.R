@@ -14,12 +14,12 @@
 #' which_years_and_period <- valid_jurisdictions(jurisdiction = "Switzerland", period = TRUE)
 valid_jurisdictions <- function(jurisdiction = NULL, period = FALSE){
   if (is.null(jurisdiction)){
-    return(unique(carbon_credits$Jurisdiction))
+    return(unique(cpi_data$Jurisdiction))
   } else {
     if (period){
-      return(carbon_credits %>% dplyr::filter(Jurisdiction == jurisdiction) %>% dplyr::select(Period, Year))     
+      return(cpi_data %>% dplyr::filter(Jurisdiction == jurisdiction) %>% dplyr::select(Period, Year))     
     } else {
-      return(unique(carbon_credits %>% dplyr::filter(Jurisdiction == jurisdiction) %>% dplyr::pull(Year)))
+      return(unique(cpi_data %>% dplyr::filter(Jurisdiction == jurisdiction) %>% dplyr::pull(Year)))
     }
   }
 }
