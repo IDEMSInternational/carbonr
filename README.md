@@ -27,7 +27,7 @@ Government report
 whereever available. For more specific functions related to operating
 theatre waste, alternative sources are used given in the References
 section. Carbon credit prices are additionally available in the
-`carbon_credit_price` function using the [World Bank
+`carbon_credit_price` function where values are based on the [World Bank
 data](https://carbonpricingdashboard.worldbank.org/). The jurisdiction
 and year available for that jurisdiction can be found in the
 `check_CPI()` function.
