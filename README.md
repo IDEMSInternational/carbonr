@@ -26,7 +26,11 @@ Government report
 (2022)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2022)
 whereever available. For more specific functions related to operating
 theatre waste, alternative sources are used given in the References
-section.
+section. Carbon credit prices are additionally available in the
+`carbon_credit_price` function using the [World Bank
+data](https://carbonpricingdashboard.worldbank.org/). The jurisdiction
+and year available for that jurisdiction can be found in the
+`check_CPI()` function.
 
 ## Installation
 

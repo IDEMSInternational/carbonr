@@ -31,6 +31,7 @@ status](https://www.r-pkg.org/badges/version/carbonr)](https://CRAN.R-project.or
 ## Overview
 
 carbonr is a package in R to conveniently calculate carbon-equivalent emissions. The emissions values in the calculations are from the [UK Government report (2022)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2022) whereever available. For more specific functions related to operating theatre waste, alternative sources are used given in the References section.
+Carbon credit prices are additionally available in the `carbon_credit_price` function using the [World Bank data](https://carbonpricingdashboard.worldbank.org/). The jurisdiction and year available for that jurisdiction can be found in the `check_CPI()` function.
 
 ## Installation
 

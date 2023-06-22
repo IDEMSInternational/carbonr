@@ -8,11 +8,11 @@
 #' @export
 #'
 #' @examples
-#' which_jur <- valid_jurisdictions()
+#' which_jur <- check_CPI()
 #' 
-#' which_years <- valid_jurisdictions(jurisdiction = "Switzerland")
-#' which_years_and_period <- valid_jurisdictions(jurisdiction = "Switzerland", period = TRUE)
-valid_jurisdictions <- function(jurisdiction = NULL, period = FALSE){
+#' which_years <- check_CPI(jurisdiction = "Switzerland")
+#' which_years_and_period <- check_CPI(jurisdiction = "Switzerland", period = TRUE)
+check_CPI <- function(jurisdiction = NULL, period = FALSE){
   if (is.null(jurisdiction)){
     return(unique(cpi_data$Jurisdiction))
   } else {

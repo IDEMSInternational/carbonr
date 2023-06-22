@@ -22,7 +22,7 @@ carbon_price_credit <- function(jurisdiction, year = NULL, period = 0, co2e_val)
   if (!is.null(year)){
     our_cpi <- our_cpi %>% dplyr::filter(Year == year)
     if (nrow(our_cpi) == 0) {
-      stop("No data for given year. Try `valid_jurisdictions()` to see valid years. Or give no year argument to get the most recent year.")
+      stop("No data for given year. Try `check_CPI()` to see valid years. Or give no year argument to get the most recent year.")
     }
   } else {
     our_cpi <- our_cpi %>% filter(Year == max(Year))
