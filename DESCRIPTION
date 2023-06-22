@@ -20,7 +20,7 @@ Imports:
     htmltools,
     knitr,
     magrittr,
-    readr,
+    readxl,
     rlang,
     shiny,
     shinydashboard,
