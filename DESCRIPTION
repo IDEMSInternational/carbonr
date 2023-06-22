@@ -20,12 +20,14 @@ Imports:
     htmltools,
     knitr,
     magrittr,
+    readr,
     rlang,
     shiny,
     shinydashboard,
     sp,
     stringr,
     tibble,
-    tidyr
+    tidyr,
+    tidyselect
 Depends: 
     R (>= 2.10)
