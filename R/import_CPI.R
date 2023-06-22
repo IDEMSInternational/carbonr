@@ -16,7 +16,7 @@ import_CPI <- function(path = "C:/Users/lclem/Downloads/CPI_Data_DashboardExtrac
   data <- readxl::read_excel(path, sheet = sheet, skip = skip)
   data <- data %>%
     dplyr::filter(`Instrument Type` == "ETS") %>% 
-    dplyr::select(-c(starts_with("Price_label_"), ends_with("Instrument_Type"), `Name of the initiative`, `Instrument Type`))%>%
+    dplyr::select(-c(tidyr::starts_with("Price_label_"), tidyr::ends_with("Instrument_Type"), `Name of the initiative`, `Instrument Type`))%>%
     tidyr::pivot_longer(cols = tidyselect::starts_with("Price_rate_"), names_to = "Year", values_to = "Price ($)") %>%
     mutate(Year = sub(".*Price_rate_", "", Year))
   year_time <- stringr::str_split(data$Year, "_", simplify = TRUE)
