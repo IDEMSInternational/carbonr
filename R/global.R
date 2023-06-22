@@ -1,1 +1,1 @@
-utils::globalVariables(c("Name", "City", "IATA", "port_code", "station", "seaports", "Level 1", "Level 2", "Level 3", "Column Text", "Level 4", "UOM", "GHG Conversion Factor 2022"))
+utils::globalVariables(c("Name", "City", "IATA", "port_code", "station", "seaports", "Level 1", "Level 2", "Level 3", "Column Text", "Level 4", "UOM", "GHG Conversion Factor 2022", "Jurisdiction", "usage", "co2e", "amount", "Year", "Price ($)", "Period", "emissions"))
