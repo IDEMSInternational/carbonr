@@ -14,7 +14,7 @@ test_that("check_CPI returns correct jurisdictions", {
 test_that("check_CPI returns correct years", {
   # Test for check_CPI() with jurisdiction specified
   result <- check_CPI(jurisdiction = "United Kingdom")
-  expected_result <- unique(cpi_data %>% filter(Jurisdiction == "United Kingdom") %>% dplyr::pull(Year))
+  expected_result <- unique(cpi_data %>% dplyr::filter(Jurisdiction == "United Kingdom") %>% dplyr::pull(Year))
   expect_equal(result, expected_result)
 })
 

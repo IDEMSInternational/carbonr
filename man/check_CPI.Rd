@@ -19,7 +19,6 @@ Find jurisdictions available in the Carbon Credits data. If a jurisdiction is sp
 }
 \examples{
 which_jur <- check_CPI()
-
 which_years <- check_CPI(jurisdiction = "Switzerland")
 which_years_and_period <- check_CPI(jurisdiction = "Switzerland", period = TRUE)
 }

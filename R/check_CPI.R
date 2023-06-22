@@ -9,7 +9,6 @@
 #'
 #' @examples
 #' which_jur <- check_CPI()
-#' 
 #' which_years <- check_CPI(jurisdiction = "Switzerland")
 #' which_years_and_period <- check_CPI(jurisdiction = "Switzerland", period = TRUE)
 check_CPI <- function(jurisdiction = NULL, period = FALSE){
