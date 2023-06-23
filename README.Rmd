@@ -116,7 +116,7 @@ airport_finder(name = "Toronto") %>%
 
 Now we can find the overall emission value using the appropriate IATA code. These distances are calculated using the Haversine formula:
 ```{r, message = FALSE, warning = FALSE}
-airplane_emissions("YVR", "YYZ")
+airplane_emissions("YVR", "YTZ")
 ```
 
 A similar approach can be performed for ferry emissions. For example, to calculate emissions for a round trip ferry from Melbourne to New York, we first find the appropriate seaport code with the `seaport_finder()` function:
@@ -261,7 +261,6 @@ results <- clinical_theatre_data(df, time = time, name = theatre,
                   jurisdiction = "Australia",
                   year = 2023)
 results[[1]] %>% knitr::kable()
-results[[2]]
 ```
 
                   

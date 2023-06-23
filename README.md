@@ -158,8 +158,8 @@ Now we can find the overall emission value using the appropriate IATA
 code. These distances are calculated using the Haversine formula:
 
 ``` r
-airplane_emissions("YVR", "YYZ")
-#> [1] 0.7169341
+airplane_emissions("YVR", "YTZ")
+#> [1] 0.7210839
 ```
 
 A similar approach can be performed for ferry emissions. For example, to
@@ -321,8 +321,6 @@ clinical_theatre_data(df, time = time, name = theatre,
 | 11/04/2000 | B       | 0.2698696 |            2.871013 |
 | 12/04/2000 | A       | 0.3186125 |            3.389565 |
 | 12/04/2000 | B       | 0.2189492 |            2.329296 |
-
-<img src="man/figures/README-unnamed-chunk-23-1.png" width="100%" />
 
 ## Shiny App
 
