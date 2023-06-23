@@ -264,6 +264,66 @@ Alternatively, more advance emissions can be given with other functions,
 such as the `material_emissions()`, `construction_emissions()`, and
 `raw_fuels()` functions.
 
+## Operating Theatre Emissions
+
+Upon request, we have introduced the estimation of CO2e emissions
+specifically for operating theatres. We walk through a small example to
+demonstrate this function.
+
+To begin, we’ll create a dummy data frame of clinical data. The data
+frame will serve as a representative sample of the information typically
+found in operating theatres. It could include various parameters such as
+the anaesthetic type (desflurane, isoflurane), the wet clinical waste in
+kg, the electricity in kWh, and general waste in kg.
+
+``` r
+df <- data.frame(time = c("10/04/2000", "10/04/2000", "11/04/2000", "11/04/2000", "12/04/2000", "12/04/2000"),
+theatre = rep(c("A", "B"), times = 3),
+desflurane = c(30, 0, 25, 0, 28, 0),
+isoflurane = c(0, 37, 0, 30, 0, 35),
+clinical_waste = c(80, 90, 80, 100, 120, 110),
+electricity_kwh = c(100, 110, 90, 100, 100, 110),
+general_waste = c(65, 55, 70, 50, 60, 30))
+```
+
+| time       | theatre | desflurane | isoflurane | clinical_waste | electricity_kwh | general_waste |
+|:-----------|:--------|-----------:|-----------:|---------------:|----------------:|--------------:|
+| 10/04/2000 | A       |         30 |          0 |             80 |             100 |            65 |
+| 10/04/2000 | B       |         28 |          0 |             90 |             110 |            55 |
+| 11/04/2000 | A       |         25 |          0 |             80 |              90 |            70 |
+| 11/04/2000 | B       |          0 |         30 |            100 |             100 |            50 |
+| 12/04/2000 | A       |          0 |         37 |            120 |             100 |            60 |
+| 12/04/2000 | B       |          0 |         35 |            110 |             110 |            30 |
+
+After creating the dummy data frame of clinical data, we can obtain the
+CO2e emissions and the carbon price index by the `clinical_theatre_data`
+function. This information can be conveniently presented in a table
+format:
+
+``` r
+# get emissions and CPI (carbon price index)
+clinical_theatre_data(df, time = time, name = theatre,
+                  wet_clinical_waste = clinical_waste,
+                  wet_clinical_waste_unit = "kg",
+                  average = general_waste,
+                  plastic_units = "kg",
+                  electricity_kWh = electricity_kwh,
+                  include_cpi = TRUE,
+                  jurisdiction = "Australia",
+                  year = 2023)
+```
+
+| time       | theatre | emissions | carbon_price_credit |
+|:-----------|:--------|----------:|--------------------:|
+| 10/04/2000 | A       | 0.2990340 |            3.181279 |
+| 10/04/2000 | B       | 0.2792765 |            2.971089 |
+| 11/04/2000 | A       | 0.3119999 |            3.319217 |
+| 11/04/2000 | B       | 0.2698696 |            2.871013 |
+| 12/04/2000 | A       | 0.3186125 |            3.389565 |
+| 12/04/2000 | B       | 0.2189492 |            2.329296 |
+
+<img src="man/figures/README-unnamed-chunk-23-1.png" width="100%" />
+
 ## Shiny App
 
 An interactive calculator using Shiny can be accessed by the
