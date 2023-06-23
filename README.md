@@ -73,6 +73,14 @@ carbon-equivalent emissions more accessible by offering a user-friendly
 front-end interface using Shiny. This ensures that the tools are easier
 to use, even for individuals with limited programming experience.
 
+**Informed Decision Making** The carbonr package includes a feature
+where users can estimate their carbon credit price calculations. By
+incorporating carbon credit price calculations, the package equips users
+with the information to estimate the financial implications associated
+with their carbon emissions. This feature, we hope, empowers users to
+make informed decisions and take appropriate actions in mitigating their
+environmental impact.
+
 **Expansion and Collaboration:** Although currently a small stand-alone
 package used within IDEMS International, the vision for carbonr is to
 expand and become more comprehensive. The creators invite contributions
