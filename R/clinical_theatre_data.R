@@ -12,7 +12,7 @@
 #' If `NULL`, the most recent year available in the CPI data will be used.
 #' @param period An optional numeric value specifying the period within the specified year for which the carbon price credit should be calculated.
 #' If `1`, the function will use the first period if it is available; if `2`, the function will use the second period if it is available. If `0`, the function will calculate the mean between the first and second period.
-#' @param manual_price An option to manually input a carbon price index instead of using the World Bank Data.
+#' @param manual_price An option to manually input a carbon price index to override the value in the World Bank Data.
 #' 
 #' @return Returns two objects. A table containing CO2e emissions for each row of data (and carbon price index in USD if `include_cpi` is `TRUE`), and a `ggplot2` object plotting the CO2e emissions.
 #' @export

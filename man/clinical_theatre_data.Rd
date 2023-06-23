@@ -197,7 +197,7 @@ If \code{NULL}, the most recent year available in the CPI data will be used.}
 \item{period}{An optional numeric value specifying the period within the specified year for which the carbon price credit should be calculated.
 If \code{1}, the function will use the first period if it is available; if \code{2}, the function will use the second period if it is available. If \code{0}, the function will calculate the mean between the first and second period.}
 
-\item{manual_price}{An option to manually input a carbon price index instead of using the World Bank Data.}
+\item{manual_price}{An option to manually input a carbon price index to override the value in the World Bank Data.}
 }
 \value{
 Returns two objects. A table containing CO2e emissions for each row of data (and carbon price index in USD if \code{include_cpi} is \code{TRUE}), and a \code{ggplot2} object plotting the CO2e emissions.

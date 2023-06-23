@@ -21,7 +21,7 @@ If \code{NULL}, the most recent year available in the CPI data will be used.}
 \item{period}{An optional numeric value specifying the period within the specified year for which the carbon price credit should be calculated.
 If \code{1}, the function will use the first period if it is available; if \code{2}, the function will use the second period if it is available. If \code{0}, the function will calculate the mean between the first and second period.}
 
-\item{manual_price}{An option to manually input a carbon price index instead of using the World Bank Data. This value is used if not \code{NULL}, even if jurisdiction is inputted.
+\item{manual_price}{An option to manually input a carbon price index to override the value in the World Bank Data.
 This should be a value of the carbon credit price per tCO2e.}
 
 \item{co2e_val}{A numeric value specifying the CO2e (carbon dioxide equivalent) value for which the carbon price credit should be calculated.}
@@ -36,7 +36,7 @@ The carbon price credit is calculated by multiplying the CO2e value by the corre
 }
 \examples{
 # Calculate carbon price credit for the United Kingdom in the year 2000, period 2, and CO2e value of 100
-carbon_price_credit("United Kingdom", 2022, 2, 100)
+carbon_price_credit("United Kingdom", 2022, 2, co2e_val = 100)
 
 # Or manually enter a value
 carbon_price_credit(manual_price = 66.9, co2e_val = 100)
