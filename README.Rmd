@@ -210,7 +210,7 @@ An interactive calculator using Shiny can be accessed by the `shiny_emissions()`
 shiny_emissions()
 ```
 
-<img src='man/figures/shiny_example.png' align="center" height="139"/>
+<img src='man/figures/shiny_example.png' align="center" height="400"/>
 
 ## For the future
 To calculate office emissions, we want the ability for the function to read in data from the office, perhaps accounting data. While the R side of this is relatively straightforward, this is on hold while we look to have an appropriate data set in place.

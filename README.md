@@ -274,7 +274,7 @@ in the `carbonr` package:
 shiny_emissions()
 ```
 
-<img src='man/figures/shiny_example.png' align="center" height="139"/>
+<img src='man/figures/shiny_example.png' align="center" height="400"/>
 
 ## For the future
 
