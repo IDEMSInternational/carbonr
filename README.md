@@ -274,6 +274,8 @@ in the `carbonr` package:
 shiny_emissions()
 ```
 
+<img src='man/figures/shiny_example.png' align="center" height="139"/>
+
 ## For the future
 
 To calculate office emissions, we want the ability for the function to
