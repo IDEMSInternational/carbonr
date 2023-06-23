@@ -62,7 +62,12 @@ clinical_theatre_data(
   glass_units = c("kg", "tonnes"),
   paper_units = c("kg", "tonnes"),
   plastic_units = c("kg", "tonnes"),
-  electrical_units = c("kg", "tonnes")
+  electrical_units = c("kg", "tonnes"),
+  include_cpi = FALSE,
+  jurisdiction = NULL,
+  year = NULL,
+  period = 0,
+  manual_price = NULL
 )
 }
 \arguments{
@@ -181,9 +186,21 @@ clinical_theatre_data(
 \item{plastic_units}{Character vector specifying the units of the emissions related to plastic materials. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
 
 \item{electrical_units}{Character vector specifying the units of the emissions related to electrical materials. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
+
+\item{include_cpi}{Logical variable specifying whether to calculate carbon price credit as well as emissions.}
+
+\item{jurisdiction}{A character string specifying the jurisdiction for which the carbon price credit should be calculated. Available jurisdictions can be found by \code{check_CPI()}.}
+
+\item{year}{An optional numeric value specifying the year for which the carbon price credit should be calculated.
+If \code{NULL}, the most recent year available in the CPI data will be used.}
+
+\item{period}{An optional numeric value specifying the period within the specified year for which the carbon price credit should be calculated.
+If \code{1}, the function will use the first period if it is available; if \code{2}, the function will use the second period if it is available. If \code{0}, the function will calculate the mean between the first and second period.}
+
+\item{manual_price}{An option to manually input a carbon price index instead of using the World Bank Data.}
 }
 \value{
-Returns two objects. A table containing CO2e emissions for each row of data, and a \code{ggplot2} object plotting the CO2e emissions.
+Returns two objects. A table containing CO2e emissions for each row of data (and carbon price index in USD if \code{include_cpi} is \code{TRUE}), and a \code{ggplot2} object plotting the CO2e emissions.
 }
 \description{
 Get the clinical theatre emissions after a data frame is inputted into the function.
@@ -197,11 +214,14 @@ clinical_waste = c(80, 90, 80, 100, 120, 110),
 electricity_kwh = c(100, 110, 90, 100, 100, 110),
 general_waste = c(65, 55, 70, 50, 60, 30))
 
-clinical_theatre_data(df, time = time, name = theatre,
+x <- clinical_theatre_data(df, time = time, name = theatre,
                  wet_clinical_waste = clinical_waste,
                  wet_clinical_waste_unit = "kg",
                  desflurane = 10,
                  average = general_waste,
                  plastic_units = "kg",
-                 electricity_kWh = electricity_kwh)
+                 electricity_kWh = electricity_kwh,
+                 include_cpi = TRUE,
+                 jurisdiction = "Australia",
+                 year = 2023)
 }
