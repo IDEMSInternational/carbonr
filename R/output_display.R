@@ -1,10 +1,10 @@
 #' Display a grid of plots and tables
-#' 
-#' @description Function to display a grid of plots and tables
+#'
+#' @description This function generates a grid of plots and tables, including a value box, data table, relative GPI plot, and total output plot.
 #'
 #' @param data The data frame containing the data.
 #' @param time The variable representing the time dimension.
-#' @param date_format The date format for the time variable (optional, default: c("%d/%m/%Y")).
+#' @param date_format The date format for the time variable (optional, default: "%d/%m/%Y").
 #' @param name The variable representing the grouping variable.
 #' @param relative_gpi_val The variable representing the relative GPI (Growth to Previous Index) value.
 #' @param gti_by The grouping type for calculating the GTI ("default", "month", "year").
@@ -12,10 +12,7 @@
 #' @param plot_by The grouping type for the total output plot ("default", "month", "year").
 #' @param pdf Whether to export the plots to a PDF file (default: TRUE).
 #'
-#' @details This function generates a grid of plots and tables showing a value box, data table, relative GPI plot,
-#' and total output plot. The function uses other auxiliary functions such as `relative_gti()` and `total_output()`.
-#'
-#' @import ggpp
+#' @details The function utilizes other auxiliary functions such as relative_gti() and total_output().
 #'
 #' @return A grid of plots and tables showing the value box, data table, relative GPI plot, and total output plot.
 output_display <- function(data = x$data, time = time, date_format = c("%d/%m/%Y"), name = theatre,
@@ -50,14 +47,14 @@ output_display <- function(data = x$data, time = time, date_format = c("%d/%m/%Y
       data <- data %>% dplyr::mutate(time = {{ time }})
     }
     data <- data %>% dplyr::group_by({{ name }}, time) %>%
-      dplyr::summarise(total_emissions = sum(emissions),
-                       total_carbon_price = sum(carbon_price_credit))
+      dplyr::summarise(total_emissions = round(sum(emissions), 2),
+                       total_carbon_price = paste0("$", round(sum(carbon_price_credit)), 2))
     ggp_table <- ggplot2::ggplot() +
       ggplot2::theme_void() +
-      ggplot2::annotate(geom = "table",
-                        x = 1,
-                        y = 1,
-                        label = list(data))
+      ggpp::geom_table(
+        data = data,
+        aes(x = 1, y = 1, label = list(data))
+      )
     return(cowplot::plot_grid(value_box, ggp_table, relative_plot, total_plot, nrow = 4, rel_heights = c(1, 3, 3, 3)))
   }else {
     return_all <- NULL

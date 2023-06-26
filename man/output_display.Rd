@@ -21,7 +21,7 @@ output_display(
 
 \item{time}{The variable representing the time dimension.}
 
-\item{date_format}{The date format for the time variable (optional, default: c("\%d/\%m/\%Y")).}
+\item{date_format}{The date format for the time variable (optional, default: "\%d/\%m/\%Y").}
 
 \item{name}{The variable representing the grouping variable.}
 
@@ -39,9 +39,8 @@ output_display(
 A grid of plots and tables showing the value box, data table, relative GPI plot, and total output plot.
 }
 \description{
-Function to display a grid of plots and tables
+This function generates a grid of plots and tables, including a value box, data table, relative GPI plot, and total output plot.
 }
 \details{
-This function generates a grid of plots and tables showing a value box, data table, relative GPI plot,
-and total output plot. The function uses other auxiliary functions such as \code{relative_gti()} and \code{total_output()}.
+The function utilizes other auxiliary functions such as relative_gti() and total_output().
 }
