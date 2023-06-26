@@ -10,7 +10,7 @@ output_display(
   date_format = c("\%d/\%m/\%Y"),
   name = theatre,
   relative_gpi_val = emissions,
-  gti_by = "default",
+  gti_by = c("default", "month", "year"),
   plot_val = carbon_price_credit,
   plot_by = "default",
   pdf = TRUE

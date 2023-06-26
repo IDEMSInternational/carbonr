@@ -5,7 +5,6 @@
 #' @param values A vector of numeric values to be displayed in the value box.
 #' @param information A vector of strings providing information or labels for the values.
 #' @param icons A vector of Font Awesome unicode symbols to be displayed as icons.
-#' @param color A factor variable specifying the color scheme for the value box.
 #' 
 #' @return A `ggplot2` object with a value box for report use.
 #'
@@ -21,15 +20,17 @@
 #' #gg_value_box(
 #' #  values = c(100, 500, 1000),
 #'#   information = c("Sales", "Revenue", "Customers"),
-#'#   icons = c("\U0000f155", "\U0000f155", "\U0000f0f7"),
-#'#   color = factor(1:3)
+#'#   icons = c("\U0000f155", "\U0000f155", "\U0000f0f7")
 #'# )
 #'
+#' @import emojifont
 # @seealso [ggplot2::geom_tile()], [ggplot2::geom_text()], [ggplot2::geom_label()], [ggplot2::theme_void()]
 #'
 #' @references Modified from Stack Overflow post: https://stackoverflow.com/questions/47105282/valuebox-like-function-for-static-reports
 
-gg_value_box <- function(values, information, icons, color){
+gg_value_box <- function(values, information, icons){
+  requireNamespace("emojifont")
+  
  df <- data.frame(
     x = c(0, 10, 20),
     y = c(rep(6.5, 3)),
@@ -39,7 +40,7 @@ gg_value_box <- function(values, information, icons, color){
     info = information,
     icon = icons,
     font_family = rep("fontawesome-webfont", length(icons)),
-    color = color
+    color = factor(1:3)
   )
   
   ggplot2::ggplot(df, ggplot2::aes(x, y, height = h, width = w, label = info)) +
@@ -59,5 +60,5 @@ gg_value_box <- function(values, information, icons, color){
                               x = x + 1.5, y = y + 0.5), alpha = 0.25
     ) +
     ggplot2::theme_void() +
-    ggplot2::guides(fill = FALSE)
+    ggplot2::guides(fill = "none")
 }

@@ -4,7 +4,7 @@
 \alias{gg_value_box}
 \title{Create a Value Box for Reports}
 \usage{
-gg_value_box(values, information, icons, color)
+gg_value_box(values, information, icons)
 }
 \arguments{
 \item{values}{A vector of numeric values to be displayed in the value box.}
@@ -12,8 +12,6 @@ gg_value_box(values, information, icons, color)
 \item{information}{A vector of strings providing information or labels for the values.}
 
 \item{icons}{A vector of Font Awesome unicode symbols to be displayed as icons.}
-
-\item{color}{A factor variable specifying the color scheme for the value box.}
 }
 \value{
 A \code{ggplot2} object with a value box for report use.
@@ -34,10 +32,8 @@ combined with other plots or elements in a report.
 #gg_value_box(
 #  values = c(100, 500, 1000),
 #   information = c("Sales", "Revenue", "Customers"),
-#   icons = c("\U0000f155", "\U0000f155", "\U0000f0f7"),
-#   color = factor(1:3)
+#   icons = c("\U0000f155", "\U0000f155", "\U0000f0f7")
 # )
-
 
 }
 \references{

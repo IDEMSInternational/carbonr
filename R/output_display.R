@@ -19,15 +19,17 @@
 #'
 #' @return A grid of plots and tables showing the value box, data table, relative GPI plot, and total output plot.
 output_display <- function(data = x$data, time = time, date_format = c("%d/%m/%Y"), name = theatre,
-                           relative_gpi_val = emissions, gti_by = "default",
+                           relative_gpi_val = emissions, gti_by = c("default", "month", "year"),
                            plot_val = carbon_price_credit, plot_by = "default", pdf = TRUE){
   requireNamespace("ggpp")
-  relative_plot <- relative_gti(data = data, time = {{ time }}, date_format = c("%d/%m/%Y"), name = {{ name }},
+  gti_by <- match.arg(gti_by)
+  relative_plot <- relative_gti(data = data, time = {{ time }}, date_format = date_format, name = {{ name }},
                                 val = {{ relative_gpi_val }}, gti_by = gti_by)
   
-  total_plot <- total_output(data = data, time = {{ time }}, date_format = c("%d/%m/%Y"), name = {{ name }},
+  total_plot <- total_output(data = data, time = {{ time }}, date_format = date_format, name = {{ name }},
                              val = {{ plot_val }}, plot_by = plot_by)
   #if (plot_val == carbon_price_credit) total_plot <- total_plot + ggplot2::labs(y = "CPI ($)", x = "Date")
+  
   
   if (pdf){
     value_box <- gg_value_box(
@@ -37,12 +39,25 @@ output_display <- function(data = x$data, time = time, date_format = c("%d/%m/%Y
       information = c("estimated tCO2e",
                "carbon price index",
                "operating theatres"),
-      icons = c("\U0000f06d", "\U0000f155", "\U0000f0f7"),
-      color = factor(1:3)
+      icons = c("\U0000f06d", "\U0000f155", "\U0000f0f7")
       )
 
+    if (!is.null(date_format)) data <- data %>% dplyr::mutate(time = as.Date({{ time }}, format = date_format))
+    if (gti_by == "month"){
+      data <- data %>%
+        dplyr::mutate(time = lubridate::month({{ time }}))
+    } else if (gti_by == "year"){
+      data <- data %>%
+        dplyr::mutate(time = lubridate::year({{ time }}))
+    } else {
+      data <- data %>%
+        dplyr::mutate(time = {{ time }})
+    }
+    data <- data %>% dplyr::group_by({{ name }}, gti_by) %>%
+      dplyr::summarise(total_emissions = sum(emissions),
+                       total_carbon_price = sum(carbon_price_credit))
     ggp_table <- ggplot2::ggplot() +
-      ggplot2::theme_void() +
+      ggplot2::theme_void() 
       ggplot2::annotate(geom = "table",
                         x = 1,
                         y = 1,

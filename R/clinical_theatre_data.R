@@ -40,7 +40,7 @@
 #'                  include_cpi = TRUE,
 #'                  jurisdiction = "Australia",
 #'                  year = 2023,
-#'                  single_sheet = FALSE)
+#'                  single_sheet = TRUE)
 # x <- clinical_theatre_data(clincial_example_df, time = date_yyyy_mm, name = theatre_name,
 # wet_clinical_waste = clinical_waste_kg,
 # wet_clinical_waste_unit = "kg",
@@ -49,7 +49,7 @@
 # electricity_kWh = electricity_kwh,
 # water_supply = water_million_litres,
 # water_unit = "million litres")
-clinical_theatre_data <- function(data, time, date_format, name, wet_clinical_waste = 0, wet_clinical_waste_unit = c("tonnes", "kg"),
+clinical_theatre_data <- function(data, time, date_format = c("%d/%m/%Y"), name, wet_clinical_waste = 0, wet_clinical_waste_unit = c("tonnes", "kg"),
                                   desflurane = 0, sevoflurane = 0, isoflurane = 0, methoxyflurane = 0, N2O = 0, propofol = 0,
                                   water_supply = 0, water_trt = TRUE, water_unit = c("cubic metres", "million litres"),
                                   electricity_kWh = 0, electricity_TD = TRUE, electricity_WTT = TRUE,

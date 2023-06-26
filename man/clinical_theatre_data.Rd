@@ -7,7 +7,7 @@
 clinical_theatre_data(
   data,
   time,
-  date_format,
+  date_format = c("\%d/\%m/\%Y"),
   name,
   wet_clinical_waste = 0,
   wet_clinical_waste_unit = c("tonnes", "kg"),
@@ -236,5 +236,5 @@ x <- clinical_theatre_data(df, time = time, name = theatre,
                  include_cpi = TRUE,
                  jurisdiction = "Australia",
                  year = 2023,
-                 single_sheet = FALSE)
+                 single_sheet = TRUE)
 }
