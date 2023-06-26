@@ -20,8 +20,7 @@
 #' gg_value_box(
 #'   values = c(100, 500, 1000),
 #'   information = c("Sales", "Revenue", "Customers"),
-#'   icons = c("\U0000f155", "\U0000f155", "\U0000f0f7"),
-#'   color = factor(1:3)
+#'   icons = c("\U0000f155", "\U0000f155", "\U0000f0f7")
 #' )
 #' @export
 #'
