@@ -37,27 +37,23 @@ output_display <- function(data = x$data, time = time, date_format = c("%d/%m/%Y
                  paste0("$", round(sum(data$carbon_price_credit), 2)),
                  length(unique(data %>% dplyr::pull({{ name }})))),
       information = c("estimated tCO2e",
-               "carbon price index",
-               "operating theatres"),
+                      "carbon price index",
+                      "operating theatres"),
       icons = c("\U0000f06d", "\U0000f155", "\U0000f0f7")
-      )
-
+    )
     if (!is.null(date_format)) data <- data %>% dplyr::mutate(time = as.Date({{ time }}, format = date_format))
     if (gti_by == "month"){
-      data <- data %>%
-        dplyr::mutate(time = lubridate::month({{ time }}))
+      data <- data %>% dplyr::mutate(time = lubridate::month({{ time }}))
     } else if (gti_by == "year"){
-      data <- data %>%
-        dplyr::mutate(time = lubridate::year({{ time }}))
+      data <- data %>% dplyr::mutate(time = lubridate::year({{ time }}))
     } else {
-      data <- data %>%
-        dplyr::mutate(time = {{ time }})
+      data <- data %>% dplyr::mutate(time = {{ time }})
     }
-    data <- data %>% dplyr::group_by({{ name }}, gti_by) %>%
+    data <- data %>% dplyr::group_by({{ name }}, time) %>%
       dplyr::summarise(total_emissions = sum(emissions),
                        total_carbon_price = sum(carbon_price_credit))
     ggp_table <- ggplot2::ggplot() +
-      ggplot2::theme_void() 
+      ggplot2::theme_void() +
       ggplot2::annotate(geom = "table",
                         x = 1,
                         y = 1,
@@ -65,9 +61,8 @@ output_display <- function(data = x$data, time = time, date_format = c("%d/%m/%Y
     return(cowplot::plot_grid(value_box, ggp_table, relative_plot, total_plot, nrow = 4, rel_heights = c(1, 3, 3, 3)))
   }else {
     return_all <- NULL
-    return_all[[1]] <- data
-    return_all[[2]] <- relative_plot
-    return_all[[3]] <- total_plot
+    return_all[[1]] <- relative_plot
+    return_all[[2]] <- total_plot
     return(return_all)
   }
 }

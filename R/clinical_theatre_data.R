@@ -68,6 +68,8 @@ clinical_theatre_data <- function(data, time, date_format = c("%d/%m/%Y"), name,
                                   electrical_units = c("kg", "tonnes"),
                                   include_cpi = FALSE, jurisdiction = NULL, year = NULL, period = 0, manual_price = NULL,
                                   gti_by = c("default", "month", "year"), overall_by = c("default", "month", "year"), single_sheet = FALSE){
+  gti_by <- match.arg(gti_by)
+  overall_by <- match.arg(overall_by)
   summary_emissions <- data %>%
     dplyr::mutate(emissions = clinical_theatre_emissions(wet_clinical_waste = {{ wet_clinical_waste }}, wet_clinical_waste_unit = wet_clinical_waste_unit,
                                                          desflurane = {{ desflurane }}, sevoflurane = {{ sevoflurane }}, isoflurane = {{ isoflurane }},
