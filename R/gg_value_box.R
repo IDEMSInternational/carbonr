@@ -30,7 +30,7 @@
 #'
 #' @references Modified from Stack Overflow post: https://stackoverflow.com/questions/47105282/valuebox-like-function-for-static-reports
 #'
-gg_value_box <- function(values, information, icons, color){
+gg_value_box <- function(values, information, icons){
  df <- data.frame(
     x = c(0, 10, 20),
     y = c(rep(6.5, 3)),
@@ -40,7 +40,7 @@ gg_value_box <- function(values, information, icons, color){
     info = information,
     icon = icons,
     font_family = rep("fontawesome-webfont", length(icons)),
-    color = color
+    color = factor(1:3)
   )
   
   ggplot2::ggplot(df, ggplot2::aes(x, y, height = h, width = w, label = info)) +

@@ -12,7 +12,7 @@
 #' @param plot_by The grouping type for the total output plot ("default", "month", "year").
 #' @param pdf Whether to export the plots to a PDF file (default: TRUE).
 #'
-#' @details The function utilizes other auxiliary functions such as relative_gti() and total_output().
+#' @details The function utilises other auxiliary functions such as relative_gti() and total_output().
 #'
 #' @return A grid of plots and tables showing the value box, data table, relative GPI plot, and total output plot.
 output_display <- function(data = x$data, time = time, date_format = c("%d/%m/%Y"), name = theatre,

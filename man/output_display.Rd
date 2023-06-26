@@ -42,5 +42,5 @@ A grid of plots and tables showing the value box, data table, relative GPI plot,
 This function generates a grid of plots and tables, including a value box, data table, relative GPI plot, and total output plot.
 }
 \details{
-The function utilizes other auxiliary functions such as relative_gti() and total_output().
+The function utilises other auxiliary functions such as relative_gti() and total_output().
 }

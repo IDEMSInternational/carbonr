@@ -4,7 +4,7 @@
 \alias{gg_value_box}
 \title{Create a Value Box for Reports}
 \usage{
-gg_value_box(values, information, icons, color)
+gg_value_box(values, information, icons)
 }
 \arguments{
 \item{values}{A vector of numeric values to be displayed in the value box.}

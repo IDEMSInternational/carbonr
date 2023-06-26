@@ -7,5 +7,5 @@ data <- data.frame(
   carbon_price_credit = c(10, 15, 20, 25)
 )
 
-test_that("output_display generates correct plots and layout for default settings", {
-})
+# test_that("output_display generates correct plots and layout for default settings", {
+# })
