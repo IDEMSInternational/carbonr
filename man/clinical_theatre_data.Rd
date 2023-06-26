@@ -7,6 +7,7 @@
 clinical_theatre_data(
   data,
   time,
+  date_format,
   name,
   wet_clinical_waste = 0,
   wet_clinical_waste_unit = c("tonnes", "kg"),
@@ -67,13 +68,18 @@ clinical_theatre_data(
   jurisdiction = NULL,
   year = NULL,
   period = 0,
-  manual_price = NULL
+  manual_price = NULL,
+  gti_by = c("default", "month", "year"),
+  overall_by = c("default", "month", "year"),
+  single_sheet = FALSE
 )
 }
 \arguments{
 \item{data}{Data frame containing all data to be used in the emissions calculation}
 
 \item{time}{Variable in \code{data} that corresponds to the time.}
+
+\item{date_format}{The date format for the time variable (optional, default: c("\%d/\%m/\%Y")).}
 
 \item{name}{Variable in \code{data} that corresponds to the theatre name.}
 
@@ -198,6 +204,12 @@ If \code{NULL}, the most recent year available in the CPI data will be used.}
 If \code{1}, the function will use the first period if it is available; if \code{2}, the function will use the second period if it is available. If \code{0}, the function will calculate the mean between the first and second period.}
 
 \item{manual_price}{An option to manually input a carbon price index to override the value in the World Bank Data.}
+
+\item{gti_by}{The grouping type for calculating the GTI ("default", "month", "year").}
+
+\item{overall_by}{The grouping type for the total output plot ("default", "month", "year"). This is a plot of the emissions if \code{include_cpi = FALSE}, otherwise is the CPI value.}
+
+\item{single_sheet}{Whether to give the summaries in a single sheet display, or as a list containing the table and \code{ggplot2} objects.}
 }
 \value{
 Returns two objects. A table containing CO2e emissions for each row of data (and carbon price index in USD if \code{include_cpi} is \code{TRUE}), and a \code{ggplot2} object plotting the CO2e emissions.
@@ -223,5 +235,6 @@ x <- clinical_theatre_data(df, time = time, name = theatre,
                  electricity_kWh = electricity_kwh,
                  include_cpi = TRUE,
                  jurisdiction = "Australia",
-                 year = 2023)
+                 year = 2023,
+                 single_sheet = FALSE)
 }

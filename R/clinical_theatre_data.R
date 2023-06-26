@@ -5,6 +5,7 @@
 #'@inheritParams clinical_theatre_emissions
 #' @param data Data frame containing all data to be used in the emissions calculation
 #' @param time Variable in `data` that corresponds to the time.
+#' @param date_format The date format for the time variable (optional, default: c("%d/%m/%Y")).
 #' @param name Variable in `data` that corresponds to the theatre name.
 #' @param include_cpi Logical variable specifying whether to calculate carbon price credit as well as emissions.
 #' @param jurisdiction A character string specifying the jurisdiction for which the carbon price credit should be calculated. Available jurisdictions can be found by `check_CPI()`.
@@ -13,6 +14,9 @@
 #' @param period An optional numeric value specifying the period within the specified year for which the carbon price credit should be calculated.
 #' If `1`, the function will use the first period if it is available; if `2`, the function will use the second period if it is available. If `0`, the function will calculate the mean between the first and second period.
 #' @param manual_price An option to manually input a carbon price index to override the value in the World Bank Data.
+#' @param gti_by The grouping type for calculating the GTI ("default", "month", "year").
+#' @param overall_by The grouping type for the total output plot ("default", "month", "year"). This is a plot of the emissions if `include_cpi = FALSE`, otherwise is the CPI value.
+#' @param single_sheet Whether to give the summaries in a single sheet display, or as a list containing the table and `ggplot2` objects.
 #' 
 #' @return Returns two objects. A table containing CO2e emissions for each row of data (and carbon price index in USD if `include_cpi` is `TRUE`), and a `ggplot2` object plotting the CO2e emissions.
 #' @export
@@ -35,7 +39,8 @@
 #'                  electricity_kWh = electricity_kwh,
 #'                  include_cpi = TRUE,
 #'                  jurisdiction = "Australia",
-#'                  year = 2023)
+#'                  year = 2023,
+#'                  single_sheet = FALSE)
 # x <- clinical_theatre_data(clincial_example_df, time = date_yyyy_mm, name = theatre_name,
 # wet_clinical_waste = clinical_waste_kg,
 # wet_clinical_waste_unit = "kg",
@@ -44,7 +49,7 @@
 # electricity_kWh = electricity_kwh,
 # water_supply = water_million_litres,
 # water_unit = "million litres")
-clinical_theatre_data <- function(data, time, name, wet_clinical_waste = 0, wet_clinical_waste_unit = c("tonnes", "kg"),
+clinical_theatre_data <- function(data, time, date_format, name, wet_clinical_waste = 0, wet_clinical_waste_unit = c("tonnes", "kg"),
                                   desflurane = 0, sevoflurane = 0, isoflurane = 0, methoxyflurane = 0, N2O = 0, propofol = 0,
                                   water_supply = 0, water_trt = TRUE, water_unit = c("cubic metres", "million litres"),
                                   electricity_kWh = 0, electricity_TD = TRUE, electricity_WTT = TRUE,
@@ -61,7 +66,8 @@ clinical_theatre_data <- function(data, time, name, wet_clinical_waste = 0, wet_
                                   fridges = 0, freezers = 0, electric_waste_disposal = c("Landfill", "Open-loop"),
                                   glass_units = c("kg", "tonnes"), paper_units = c("kg", "tonnes"), plastic_units = c("kg", "tonnes"),
                                   electrical_units = c("kg", "tonnes"),
-                                  include_cpi = FALSE, jurisdiction = NULL, year = NULL, period = 0, manual_price = NULL){
+                                  include_cpi = FALSE, jurisdiction = NULL, year = NULL, period = 0, manual_price = NULL,
+                                  gti_by = c("default", "month", "year"), overall_by = c("default", "month", "year"), single_sheet = FALSE){
   summary_emissions <- data %>%
     dplyr::mutate(emissions = clinical_theatre_emissions(wet_clinical_waste = {{ wet_clinical_waste }}, wet_clinical_waste_unit = wet_clinical_waste_unit,
                                                          desflurane = {{ desflurane }}, sevoflurane = {{ sevoflurane }}, isoflurane = {{ isoflurane }},
@@ -86,10 +92,13 @@ clinical_theatre_data <- function(data, time, name, wet_clinical_waste = 0, wet_
   
   if (include_cpi) summary_emissions <- summary_emissions %>% dplyr::mutate(carbon_price_credit = carbon_price_credit(jurisdiction, year, period, manual_price, emissions))
   
-  summary_plot <- ggplot2::ggplot(summary_emissions, ggplot2::aes(x = {{ time }}, y = emissions)) + ggplot2::geom_point() + ggplot2::facet_wrap(ggplot2::vars({{ name }}))
   return_object <- NULL
   return_object[[1]] <- summary_emissions
-  return_object[[2]] <- summary_plot
-  names(return_object) <- c("data", "ggplot")
+  if (include_cpi) return_object[[2]] <- output_display(data = summary_emissions, time = {{ time }}, date_format = date_format,
+                                                          name = {{ name }}, relative_gpi_val = emissions, gti_by = gti_by,
+                                                          plot_val = carbon_price_credit, plot_by = overall_by, pdf = single_sheet)
+  else return_object[[2]] <- output_display(data = summary_emissions, time = {{ time }}, date_format = date_format,
+                                              name = {{ name }}, relative_gpi_val = emissions, gti_by = gti_by,
+                                              plot_val = emissions, plot_by = overall_by, pdf = single_sheet)
   return(return_object)
 }
