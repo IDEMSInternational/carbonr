@@ -12,8 +12,6 @@ gg_value_box(values, information, icons)
 \item{information}{A vector of strings providing information or labels for the values.}
 
 \item{icons}{A vector of Font Awesome unicode symbols to be displayed as icons.}
-
-\item{color}{A factor variable specifying the color scheme for the value box.}
 }
 \value{
 A \code{ggplot2} object with a value box for report use.

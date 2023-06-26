@@ -5,7 +5,6 @@
 #' @param values A vector of numeric values to be displayed in the value box.
 #' @param information A vector of strings providing information or labels for the values.
 #' @param icons A vector of Font Awesome unicode symbols to be displayed as icons.
-#' @param color A factor variable specifying the color scheme for the value box.
 #' 
 #' @return A `ggplot2` object with a value box for report use.
 #'
@@ -60,5 +59,5 @@ gg_value_box <- function(values, information, icons){
                               x = x + 1.5, y = y + 0.5), alpha = 0.25
     ) +
     ggplot2::theme_void() +
-    ggplot2::guides(fill = FALSE)
+    ggplot2::guides(fill = "none")
 }

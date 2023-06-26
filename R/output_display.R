@@ -53,7 +53,7 @@ output_display <- function(data = x$data, time = time, date_format = c("%d/%m/%Y
       ggplot2::theme_void() +
       ggpp::geom_table(
         data = data,
-        aes(x = 1, y = 1, label = list(data))
+        ggplot2::aes(x = 1, y = 1, label = list(data))
       )
     return(cowplot::plot_grid(value_box, ggp_table, relative_plot, total_plot, nrow = 4, rel_heights = c(1, 3, 3, 3)))
   }else {
