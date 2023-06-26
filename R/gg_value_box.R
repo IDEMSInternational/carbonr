@@ -30,6 +30,8 @@
 #' @references Modified from Stack Overflow post: https://stackoverflow.com/questions/47105282/valuebox-like-function-for-static-reports
 #'
 gg_value_box <- function(values, information, icons){
+  emojifont::load.fontawesome()
+  
  df <- data.frame(
     x = c(0, 10, 20),
     y = c(rep(6.5, 3)),
@@ -54,10 +56,10 @@ gg_value_box <- function(values, information, icons){
     ) +
     ggplot2::coord_fixed() +
     ggplot2::scale_fill_brewer(type = "qual", palette = "Dark2") +
+    ggplot2::theme_void() +
+    ggplot2::guides(fill = "none") +
     ggplot2::geom_text(
       size = 20, ggplot2::aes(label = icon, family = font_family,
                               x = x + 1.5, y = y + 0.5), alpha = 0.25
-    ) +
-    ggplot2::theme_void() +
-    ggplot2::guides(fill = "none")
+    )
 }
