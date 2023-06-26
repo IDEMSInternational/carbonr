@@ -23,12 +23,14 @@
 #'   icons = c("\U0000f155", "\U0000f155", "\U0000f0f7")
 #' )
 #' @export
+#' @import emojifont
 #'
 # @seealso [ggplot2::geom_tile()], [ggplot2::geom_text()], [ggplot2::geom_label()], [ggplot2::theme_void()]
 #'
 #' @references Modified from Stack Overflow post: https://stackoverflow.com/questions/47105282/valuebox-like-function-for-static-reports
 #'
 gg_value_box <- function(values, information, icons){
+  requireNamespace("emojifont")
  df <- data.frame(
     x = c(0, 10, 20),
     y = c(rep(6.5, 3)),
