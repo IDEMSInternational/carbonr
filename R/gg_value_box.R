@@ -17,11 +17,11 @@
 #'
 #' @examples
 #' # Create a value box with custom values and icons
-## gg_value_box(
-##   values = c(100, 500, 1000),
-##   information = c("Sales", "Revenue", "Customers"),
-##   icons = c("\U0000f155", "\U0000f155", "\U0000f0f7")
-## )
+#' gg_value_box(
+#'   values = c(100, 500, 1000),
+#'   information = c("Sales", "Revenue", "Customers"),
+#'   icons = c("\U0000f155", "\U0000f155", "\U0000f0f7")
+#' )
 #' @export
 #' @importFrom emojifont fontawesome
 #'

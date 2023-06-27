@@ -18,7 +18,7 @@
 #' @param overall_by The grouping type for the total output plot ("default", "month", "year"). This is a plot of the emissions if `include_cpi = FALSE`, otherwise is the CPI value.
 #' @param single_sheet Whether to give the summaries in a single sheet display, or as a list containing the table and `ggplot2` objects.
 #' 
-#' @return Returns two objects. A table containing CO2e emissions for each row of data (and carbon price index in USD if `include_cpi` is `TRUE`), and a `ggplot2` object plotting the CO2e emissions.
+#' @return Returns list containing two objects. A table containing CO2e emissions for each row of data (and carbon price index in USD if `include_cpi` is `TRUE`), and a `ggplot2` object plotting the CO2e emissions. The second object is a single sheet containing summaries if `single_sheet = TRUE`. 
 #' @export
 #'
 #' @examples
@@ -40,15 +40,15 @@
 #'                  include_cpi = TRUE,
 #'                  jurisdiction = "Australia",
 #'                  year = 2023,
-#'                  single_sheet = TRUE)
+#'                  single_sheet = FALSE)
 # x <- clinical_theatre_data(clincial_example_df, time = date_yyyy_mm, name = theatre_name,
-# wet_clinical_waste = clinical_waste_kg,
-# wet_clinical_waste_unit = "kg",
-# average = general_waste_kg,
-# plastic_units = "kg",
-# electricity_kWh = electricity_kwh,
-# water_supply = water_million_litres,
-# water_unit = "million litres")
+#  wet_clinical_waste = clinical_waste_kg,
+#  wet_clinical_waste_unit = "kg",
+#  average = general_waste_kg,
+#  plastic_units = "kg",
+#  electricity_kWh = electricity_kwh,
+#  water_supply = water_million_litres,
+#  water_unit = "million litres")
 clinical_theatre_data <- function(data, time, date_format = c("%d/%m/%Y"), name, wet_clinical_waste = 0, wet_clinical_waste_unit = c("tonnes", "kg"),
                                   desflurane = 0, sevoflurane = 0, isoflurane = 0, methoxyflurane = 0, N2O = 0, propofol = 0,
                                   water_supply = 0, water_trt = TRUE, water_unit = c("cubic metres", "million litres"),
@@ -92,15 +92,19 @@ clinical_theatre_data <- function(data, time, date_format = c("%d/%m/%Y"), name,
                                                          fridges = {{ fridges }}, freezers = {{ freezers }}, electric_waste_disposal = electric_waste_disposal, electrical_units = electrical_units)) %>%
     dplyr::select(c({{ time }}, {{ name }}, emissions))
   
-  if (include_cpi) summary_emissions <- summary_emissions %>% dplyr::mutate(carbon_price_credit = carbon_price_credit(jurisdiction, year, period, manual_price, emissions))
+  if (include_cpi) 
   
   return_object <- NULL
+  if (include_cpi) {
+    summary_emissions <- summary_emissions %>% dplyr::mutate(carbon_price_credit = carbon_price_credit(jurisdiction, year, period, manual_price, emissions))
+    return_object[[2]] <- output_display(data = summary_emissions, time = {{ time }}, date_format = date_format,
+                                          name = {{ name }}, relative_gpi_val = emissions, gti_by = gti_by,
+                                          plot_val = carbon_price_credit, plot_by = overall_by, pdf = single_sheet)
+  } else {
+    return_object[[2]] <- output_display(data = summary_emissions, time = {{ time }}, date_format = date_format,
+                                          name = {{ name }}, relative_gpi_val = emissions, gti_by = gti_by,
+                                          plot_val = emissions, plot_by = overall_by, pdf = single_sheet)
+  }
   return_object[[1]] <- summary_emissions
-  if (include_cpi) return_object[[2]] <- output_display(data = summary_emissions, time = {{ time }}, date_format = date_format,
-                                                          name = {{ name }}, relative_gpi_val = emissions, gti_by = gti_by,
-                                                          plot_val = carbon_price_credit, plot_by = overall_by, pdf = single_sheet)
-  else return_object[[2]] <- output_display(data = summary_emissions, time = {{ time }}, date_format = date_format,
-                                              name = {{ name }}, relative_gpi_val = emissions, gti_by = gti_by,
-                                              plot_val = emissions, plot_by = overall_by, pdf = single_sheet)
   return(return_object)
 }

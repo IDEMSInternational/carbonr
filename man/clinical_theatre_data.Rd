@@ -212,7 +212,7 @@ If \code{1}, the function will use the first period if it is available; if \code
 \item{single_sheet}{Whether to give the summaries in a single sheet display, or as a list containing the table and \code{ggplot2} objects.}
 }
 \value{
-Returns two objects. A table containing CO2e emissions for each row of data (and carbon price index in USD if \code{include_cpi} is \code{TRUE}), and a \code{ggplot2} object plotting the CO2e emissions.
+Returns list containing two objects. A table containing CO2e emissions for each row of data (and carbon price index in USD if \code{include_cpi} is \code{TRUE}), and a \code{ggplot2} object plotting the CO2e emissions. The second object is a single sheet containing summaries if \code{single_sheet = TRUE}.
 }
 \description{
 Get the clinical theatre emissions after a data frame is inputted into the function.

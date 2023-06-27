@@ -21,23 +21,36 @@ output_display <- function(data = x$data, time = time, date_format = c("%d/%m/%Y
   requireNamespace("ggpp")
   gti_by <- match.arg(gti_by)
   relative_plot <- relative_gti(data = data, time = {{ time }}, date_format = date_format, name = {{ name }},
-                                val = {{ relative_gpi_val }}, gti_by = gti_by)
-  
+                                val = {{ relative_gpi_val }}, gti_by = gti_by) +
+    ggplot2::labs(x = "Date", y = "Emissions (GTI)") + # todo: check for if this is emissions or not.
+    ggplot2::scale_color_brewer(palette = "Dark2")
+
   total_plot <- total_output(data = data, time = {{ time }}, date_format = date_format, name = {{ name }},
-                             val = {{ plot_val }}, plot_by = plot_by)
-  #if (plot_val == carbon_price_credit) total_plot <- total_plot + ggplot2::labs(y = "CPI ($)", x = "Date")
+                             val = {{ plot_val }}, plot_by = plot_by) +
+    ggplot2::labs(y = "CPI ($)", x = "Date") + # todo: check for if this is CPI or emissions
+    ggplot2::scale_color_brewer(palette = "Dark2")
   
   
   if (pdf){
-    value_box <- gg_value_box(
-      values = c(round(sum(data$emissions), 2),
-                 paste0("$", round(sum(data$carbon_price_credit), 2)),
-                 length(unique(data %>% dplyr::pull({{ name }})))),
-      information = c("estimated tCO2e",
-                      "carbon price index",
-                      "operating theatres"),
-      icons = c("\U0000f06d", "\U0000f155", "\U0000f0f7")
-    )
+    if ("carbon_price_credit" %in% names(data)){
+      value_box <- gg_value_box(
+        values = c(round(sum(data$emissions), 2),
+                   paste0("$", round(sum(data$carbon_price_credit), 2)),
+                   length(unique(data %>% dplyr::pull({{ name }})))),
+        information = c("estimated tCO2e",
+                        "carbon price index",
+                        "operating theatres"),
+        icons = c("\U0000f06d", "\U0000f155", "\U0000f0f7"))
+    } else {
+      value_box <- gg_value_box(
+        values = c(round(sum(data$emissions), 2),
+                   round(mean(data$emissions), 2),
+                   length(unique(data %>% dplyr::pull({{ name }})))),
+        information = c("estimated tCO2e",
+                        "average tCO2e",
+                        "operating theatres"),
+        icons = c("\U0000f06d", "\U0000f06d", "\U0000f0f7"))
+    }
     if (!is.null(date_format)) data <- data %>% dplyr::mutate(time = as.Date({{ time }}, format = date_format))
     if (gti_by == "month"){
       data <- data %>% dplyr::mutate(time = lubridate::month({{ time }}))
@@ -46,9 +59,14 @@ output_display <- function(data = x$data, time = time, date_format = c("%d/%m/%Y
     } else {
       data <- data %>% dplyr::mutate(time = {{ time }})
     }
+    if ("carbon_price_credit" %in% names(data)){
     data <- data %>% dplyr::group_by({{ name }}, time) %>%
       dplyr::summarise(total_emissions = round(sum(emissions), 2),
                        total_carbon_price = paste0("$", round(sum(carbon_price_credit)), 2))
+    } else {
+      data <- data %>% dplyr::group_by({{ name }}, time) %>%
+        dplyr::summarise(total_emissions = round(sum(emissions), 2))
+    }
     ggp_table <- ggplot2::ggplot() +
       ggplot2::theme_void() +
       ggpp::geom_table(
@@ -56,7 +74,7 @@ output_display <- function(data = x$data, time = time, date_format = c("%d/%m/%Y
         ggplot2::aes(x = 1, y = 1, label = list(data))
       )
     return(cowplot::plot_grid(value_box, ggp_table, relative_plot, total_plot, nrow = 4, rel_heights = c(1, 3, 3, 3)))
-  }else {
+  } else {
     return_all <- NULL
     return_all[[1]] <- relative_plot
     return_all[[2]] <- total_plot
