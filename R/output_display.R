@@ -20,19 +20,24 @@ output_display <- function(data = x$data, time = time, date_format = c("%d/%m/%Y
                            plot_val = carbon_price_credit, plot_by = "default", pdf = TRUE){
   requireNamespace("ggpp")
   gti_by <- match.arg(gti_by)
+  var_name <- deparse(substitute(relative_gpi_val))
+  var_name_2 <- deparse(substitute(plot_val))
   relative_plot <- relative_gti(data = data, time = {{ time }}, date_format = date_format, name = {{ name }},
                                 val = {{ relative_gpi_val }}, gti_by = gti_by) +
-    ggplot2::labs(x = "Date", y = "Emissions (GTI)") + # todo: check for if this is emissions or not.
     ggplot2::scale_color_brewer(palette = "Dark2")
+  
+  if (var_name == "carbon_price_credit") relative_plot <- relative_plot + ggplot2::labs(x = "Date", y = "GTI of CPI ($)")
+  else relative_plot <- relative_plot + ggplot2::labs(x = "Date", y = paste0(var_name, " (GTI)"))
 
   total_plot <- total_output(data = data, time = {{ time }}, date_format = date_format, name = {{ name }},
                              val = {{ plot_val }}, plot_by = plot_by) +
-    ggplot2::labs(y = "CPI ($)", x = "Date") + # todo: check for if this is CPI or emissions
     ggplot2::scale_color_brewer(palette = "Dark2")
-  
+  if (var_name_2 == "carbon_price_credit") total_plot <- total_plot + ggplot2::labs(x = "Date", y = "CPI ($)")
+  else total_plot <- total_plot + ggplot2::labs(x = "Date", y = var_name_2)
   
   if (pdf){
     if ("carbon_price_credit" %in% names(data)){
+      print("AA")
       value_box <- gg_value_box(
         values = c(round(sum(data$emissions), 2),
                    paste0("$", round(sum(data$carbon_price_credit), 2)),
@@ -42,6 +47,7 @@ output_display <- function(data = x$data, time = time, date_format = c("%d/%m/%Y
                         "operating theatres"),
         icons = c("\U0000f06d", "\U0000f155", "\U0000f0f7"))
     } else {
+      print("BB")
       value_box <- gg_value_box(
         values = c(round(sum(data$emissions), 2),
                    round(mean(data$emissions), 2),

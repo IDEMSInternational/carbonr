@@ -236,5 +236,5 @@ x <- clinical_theatre_data(df, time = time, name = theatre,
                  include_cpi = TRUE,
                  jurisdiction = "Australia",
                  year = 2023,
-                 single_sheet = TRUE)
+                 single_sheet = FALSE)
 }

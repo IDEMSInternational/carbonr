@@ -36,11 +36,11 @@ total_output <- function(data = x$data, time = time, date_format = c("%d/%m/%Y")
   data <- data %>%
     dplyr::group_by({{ name }}, time) %>%
     dplyr::summarise(val = sum( {{ val }}))
-  
-  return(ggplot2::ggplot(data, ggplot2::aes(x = {{ time }}, y = val,
-                                     group = {{ name }}, colour = {{ name }})) +
+  gg_object <- ggplot2::ggplot(data, ggplot2::aes(x = {{ time }}, y = val,
+                                                  group = {{ name }}, colour = {{ name }})) +
     ggplot2::geom_point() +
     ggplot2::geom_line() +
     ggplot2::facet_wrap(ggplot2::vars({{ name }})) +
-    ggplot2::theme_bw())
+    ggplot2::theme_bw()
+  return(gg_object)
 }

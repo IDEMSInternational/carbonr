@@ -32,9 +32,11 @@ relative_gti <- function(data = data, time = time, date_format = c("%d/%m/%Y"), 
     dplyr::summarise(val = sum( {{ val }})) %>%
     dplyr::mutate(lead_val = dplyr::lag(val, default = val[1])) %>%
     dplyr::mutate(pct_change = (val/lead_val))
-  ggplot2::ggplot(data, ggplot2::aes(x = time, y = pct_change, group = {{ name }}, colour = {{ name }})) +
+  gg_object <- ggplot2::ggplot(data, ggplot2::aes(x = time, y = pct_change, group = {{ name }}, colour = {{ name }})) +
     ggplot2::geom_point() +
     ggplot2::geom_line() +
     ggplot2::facet_wrap(ggplot2::vars({{ name }})) +
     ggplot2::theme_bw()
+return(gg_object)
+  
 }

@@ -91,10 +91,10 @@ clinical_theatre_data <- function(data, time, date_format = c("%d/%m/%Y"), name,
                                                          PS_WD = {{ PS_WD }}, PVC_WD = {{ PVC_WD }}, plastic_waste_disposal = plastic_waste_disposal, plastic_units = plastic_units,
                                                          fridges = {{ fridges }}, freezers = {{ freezers }}, electric_waste_disposal = electric_waste_disposal, electrical_units = electrical_units)) %>%
     dplyr::select(c({{ time }}, {{ name }}, emissions))
-  
   return_object <- NULL
   if (include_cpi) {
-    return_object[[1]] <- summary_emissions %>% dplyr::mutate(carbon_price_credit = carbon_price_credit(jurisdiction, year, period, manual_price, emissions))
+    summary_emissions <- summary_emissions %>% dplyr::mutate(carbon_price_credit = carbon_price_credit(jurisdiction, year, period, manual_price, emissions))
+    return_object[[1]] <- summary_emissions
     return_object[[2]] <- output_display(data = summary_emissions, time = {{ time }}, date_format = date_format,
                                           name = {{ name }}, relative_gpi_val = emissions, gti_by = gti_by,
                                           plot_val = carbon_price_credit, plot_by = overall_by, pdf = single_sheet)
