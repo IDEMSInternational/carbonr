@@ -14,7 +14,8 @@ output <- (clinical_theatre_data(df, time = time,
                                wet_clinical_waste_unit = "kg",
                                average = general_waste,
                                plastic_units = "kg",
-                               electricity_kWh = electricity_kwh))[[1]]
+                               electricity_kWh = electricity_kwh,
+                               include_cpi = FALSE))[[1]]
 
 df1 <- df[6,]
 output_1 <- with(df1, clinical_theatre_emissions(wet_clinical_waste = clinical_waste,
