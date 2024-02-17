@@ -37,7 +37,6 @@ output_display <- function(data = x$data, time = time, date_format = c("%d/%m/%Y
   
   if (pdf){
     if ("carbon_price_credit" %in% names(data)){
-      print("AA")
       value_box <- gg_value_box(
         values = c(round(sum(data$emissions), 2),
                    paste0("$", round(sum(data$carbon_price_credit), 2)),
@@ -47,7 +46,6 @@ output_display <- function(data = x$data, time = time, date_format = c("%d/%m/%Y
                         "operating theatres"),
         icons = c("\U0000f06d", "\U0000f155", "\U0000f0f7"))
     } else {
-      print("BB")
       value_box <- gg_value_box(
         values = c(round(sum(data$emissions), 2),
                    round(mean(data$emissions), 2),

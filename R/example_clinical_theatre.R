@@ -1,0 +1,16 @@
+#' Clinical Theatre Data
+#'
+#' This dataset contains activities within a clinical theatre setting related to healthcare services or medical supplies. It is structured to facilitate analysis of healthcare operations, costs, and estimate CO2e emissions.
+#'
+#' @format A data frame with 4,386 rows and 6 columns, including:
+#' \describe{
+#'   \item{time}{The date of transaction or activity in DDMMYYYY format.}
+#'   \item{prices}{The cost associated with each transaction or activity in AUD, related to services provided or medical supplies used.}
+#'   \item{quantities}{The amount or volume of a product or service provided, indicating the number of items used or procedures performed.}
+#'   \item{prodID}{A unique identifier for each type of product or service, such as medical supplies, medications, or surgical procedures.}
+#'   \item{retID}{A code identifying the department, supplier, or healthcare provider involved in the transaction, or the entity receiving the product or service.}
+#'   \item{description}{Categorises the clinical theatre activities into medical specialties or types of procedures, with 'ent' (Ear, Nose, and Throat), 'colorectal', 'hbt' (hematology or blood treatment), 'ortho' (orthopedics), 'paedsurg' (pediatric surgery), and 'gensurg' (general surgery).}
+#' }
+#' @details The dataset provides an overview of clinical theatre operations.
+#' @source [Your source here, if applicable]
+"example_clinical_theatre"

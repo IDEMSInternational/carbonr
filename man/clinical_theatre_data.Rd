@@ -209,7 +209,8 @@ If \code{1}, the function will use the first period if it is available; if \code
 
 \item{overall_by}{The grouping type for the total output plot ("default", "month", "year"). This is a plot of the emissions if \code{include_cpi = FALSE}, otherwise is the CPI value.}
 
-\item{single_sheet}{Whether to give the summaries in a single sheet display, or as a list containing the table and \code{ggplot2} objects.}
+\item{single_sheet}{Options are \code{NULL}, \code{TRUE} or \code{FALSE}. This is whether to give the summaries in a single sheet display, or as a list containing the table and \code{ggplot2} objects.
+If \code{NULL} then no graphical output is given.}
 }
 \value{
 Returns list containing two objects. A table containing CO2e emissions for each row of data (and carbon price index in USD if \code{include_cpi} is \code{TRUE}), and a \code{ggplot2} object plotting the CO2e emissions. The second object is a single sheet containing summaries if \code{single_sheet = TRUE}.

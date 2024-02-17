@@ -16,7 +16,8 @@
 #' @param manual_price An option to manually input a carbon price index to override the value in the World Bank Data.
 #' @param gti_by The grouping type for calculating the GTI ("default", "month", "year").
 #' @param overall_by The grouping type for the total output plot ("default", "month", "year"). This is a plot of the emissions if `include_cpi = FALSE`, otherwise is the CPI value.
-#' @param single_sheet Whether to give the summaries in a single sheet display, or as a list containing the table and `ggplot2` objects.
+#' @param single_sheet Options are `NULL`, `TRUE` or `FALSE`. This is whether to give the summaries in a single sheet display, or as a list containing the table and `ggplot2` objects.
+#' If `NULL` then no graphical output is given. 
 #' 
 #' @return Returns list containing two objects. A table containing CO2e emissions for each row of data (and carbon price index in USD if `include_cpi` is `TRUE`), and a `ggplot2` object plotting the CO2e emissions. The second object is a single sheet containing summaries if `single_sheet = TRUE`. 
 #' @export
@@ -94,15 +95,23 @@ clinical_theatre_data <- function(data, time, date_format = c("%d/%m/%Y"), name,
   return_object <- NULL
   if (include_cpi) {
     summary_emissions <- summary_emissions %>% dplyr::mutate(carbon_price_credit = carbon_price_credit(jurisdiction, year, period, manual_price, emissions))
-    return_object[[1]] <- summary_emissions
-    return_object[[2]] <- output_display(data = summary_emissions, time = {{ time }}, date_format = date_format,
-                                          name = {{ name }}, relative_gpi_val = emissions, gti_by = gti_by,
-                                          plot_val = carbon_price_credit, plot_by = overall_by, pdf = single_sheet)
+    if (!is.null(single_sheet)){
+      return_object[[1]] <- summary_emissions
+      return_object[[2]] <- output_display(data = summary_emissions, time = {{ time }}, date_format = date_format,
+                                           name = {{ name }}, relative_gpi_val = emissions, gti_by = gti_by,
+                                           plot_val = carbon_price_credit, plot_by = overall_by, pdf = single_sheet)
+    } else {
+      return_object <- summary_emissions
+    }
   } else {
-    return_object[[1]] <- summary_emissions
-    return_object[[2]] <- output_display(data = summary_emissions, time = {{ time }}, date_format = date_format,
-                                          name = {{ name }}, relative_gpi_val = emissions, gti_by = gti_by,
-                                          plot_val = emissions, plot_by = overall_by, pdf = single_sheet)
+    if (!is.null(single_sheet)){
+      return_object[[1]] <- summary_emissions
+      return_object[[2]] <- output_display(data = summary_emissions, time = {{ time }}, date_format = date_format,
+                                           name = {{ name }}, relative_gpi_val = emissions, gti_by = gti_by,
+                                           plot_val = emissions, plot_by = overall_by, pdf = single_sheet)
+    } else {
+      return_object <- summary_emissions
+    }
   }
   return(return_object)
 }
