@@ -15,9 +15,6 @@ A data frame with 4,386 rows and 6 columns, including:
 \item{description}{Categorises the clinical theatre activities into medical specialties or types of procedures, with 'ent' (Ear, Nose, and Throat), 'colorectal', 'hbt' (hematology or blood treatment), 'ortho' (orthopedics), 'paedsurg' (pediatric surgery), and 'gensurg' (general surgery).}
 }
 }
-\source{
-\link{Your source here, if applicable}
-}
 \usage{
 example_clinical_theatre
 }

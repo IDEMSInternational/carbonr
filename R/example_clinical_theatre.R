@@ -12,5 +12,4 @@
 #'   \item{description}{Categorises the clinical theatre activities into medical specialties or types of procedures, with 'ent' (Ear, Nose, and Throat), 'colorectal', 'hbt' (hematology or blood treatment), 'ortho' (orthopedics), 'paedsurg' (pediatric surgery), and 'gensurg' (general surgery).}
 #' }
 #' @details The dataset provides an overview of clinical theatre operations.
-#' @source [Your source here, if applicable]
 "example_clinical_theatre"
