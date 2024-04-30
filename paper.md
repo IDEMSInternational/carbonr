@@ -15,9 +15,9 @@ tags:
 - environmental strategies
 authors:
   - name: Lily Clements
-  - orcid: 0000-0001-8864-0552
-  - equal-contrib: true
-  - affiliation: "1"
+    orcid: 0000-0001-8864-0552
+    equal-contrib: true
+    affiliation: "1"
 affiliations:
   - name: IDEMS International
     index: 1
