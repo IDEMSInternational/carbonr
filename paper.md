@@ -19,7 +19,7 @@ bibliography: paper.bib
   
 # Summary
   
-The `carbonr` package provides a user-friendly, open-source tool for calculating carbon-equivalent emissions based on various sources, primarily the UK Government’s greenhouse gas reporting guidelines [ref].
+The `carbonr` package provides a user-friendly, open-source tool for calculating carbon-equivalent emissions based on various sources, primarily the UK Government’s greenhouse gas reporting guidelines [@ukgov_greenhouse_gas_reporting_2023].
 
 Designed for flexibility and ease of use, it enables users from different sectors to estimate emissions from travel, construction, office environments, and, more recently, clinical settings, thereby aiding in informed decision-making for environmental impact reduction.
 
@@ -27,7 +27,7 @@ Designed for flexibility and ease of use, it enables users from different sector
 
 Climate change and environmental sustainability are pressing global challenges [ref]. Accurate estimation of carbon emissions is important for organisations aiming to understand and mitigate their environmental impact. Despite the significance, there was a notable absence of open-source tools tailored for this purpose. This meant that current solutions may not be reproducible, transparent, adaptable, or offer collaboration.
 
-The "carbonr" package fills this gap by providing an open-source solution in R, hosted on GitHub. `carbonr` aims to offer reliable, reproducible estimates to emission levels - ensuring results can be saved over time, as well as inviting critiques on the current code and estimates to help it to continually improve. In addition, by being transparent with the code, `carbonr` can help provide the ability for users to adjust emission factors and methodologies to suit specific contexts, enhancing the accuracy and relevance of the outputs. Finally, GitHub facilitates engagement and contributions from the global community to help enrich the package through diverse insights and expertise.
+The `carbonr` package fills this gap by providing an open-source solution in R, hosted on GitHub. `carbonr` aims to offer reliable, reproducible estimates to emission levels - ensuring results can be saved over time, as well as inviting critiques on the current code and estimates to help it to continually improve. In addition, by being transparent with the code, `carbonr` can help provide the ability for users to adjust emission factors and methodologies to suit specific contexts, enhancing the accuracy and relevance of the outputs. Finally, GitHub facilitates engagement and contributions from the global community to help enrich the package through diverse insights and expertise.
 
 Furthermore, `carbonr` integrates a user-friendly Shiny interface, broadening accessibility beyond those with extensive technical skills to include any user interested in understanding and managing carbon emissions. This feature underscores our commitment to making carbon estimation as straightforward and inclusive as possible.
 
@@ -96,7 +96,7 @@ multiple_ind %>%
 # Future Goals
 As `carbonr` continues to evolve, we aim to enhance its functionality to accommodate the processing of annual data from companies or individuals. This would allow the software to provide comprehensive emission reports, complete with detailed graphics and tailored data tables. Such features would enable users to track and analyse emissions trends over time, providing more informed environmental strategies.
 
-Initiated through collaboration on GitHub, `carbonr` now includes capabilities for estimating emissions specific to operating theatres. Looking ahead, we remain committed to refining `carbonr` through ongoing community-driven development. We welcome contributions that can help extend the software’s functionality, improve its accuracy, and adapt it to broader contexts and needs.
+Initiated through collaboration on GitHub, `carbonr` now includes capabilities for estimating emissions specific to operating theatres [@ma2024green]. Looking ahead, we remain committed to refining `carbonr` through ongoing community-driven development. We welcome contributions that can help extend the software’s functionality, improve its accuracy, and adapt it to broader contexts and needs.
 
 We aim to continually adapt `carbonr` to meet emerging challenges and opportunities in environmental analysis.
 

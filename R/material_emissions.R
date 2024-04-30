@@ -127,7 +127,7 @@ material_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
     dplyr::filter(`Level 3` == "Glass") %>%
     dplyr::filter(`Column Text`== glass_waste_disposal) %>%
     dplyr::pull(value)
-  material_emissions <- glass*MU_glass_values[1] + glass_WD*WD_glass_values[2] +
+  material_emissions <- glass*MU_glass_values[1] + glass_WD*WD_glass_values[1] +
     industrial_waste*WD_ind_values[1]
   if (glass_units == "kg") material_emissions <- material_emissions * 0.001
   return(paper_emissions + metal_emissions + plastic_emissions + electrical_emissions + construction_emissions + material_emissions)

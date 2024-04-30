@@ -23,7 +23,7 @@ status](https://www.r-pkg.org/badges/version/carbonr)](https://CRAN.R-project.or
 carbonr is a package in R to conveniently calculate carbon-equivalent
 emissions. The emissions values in the calculations are from the [UK
 Government report
-(2022)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2022)
+(2023)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023)
 whereever available. For more specific functions related to operating
 theatre waste, alternative sources are used given in the References
 section. Carbon credit prices are additionally available in the
@@ -159,7 +159,7 @@ code. These distances are calculated using the Haversine formula:
 
 ``` r
 airplane_emissions("YVR", "YTZ")
-#> [1] 0.7210839
+#> [1] 0.9876006
 ```
 
 A similar approach can be performed for ferry emissions. For example, to
@@ -189,7 +189,7 @@ code:
 
 ``` r
 ferry_emissions("POR", "BOY", round_trip = TRUE)
-#> [1] 4.422754
+#> [1] 4.42413
 ```
 
 For the UK we can calculate emissions for a train journey. Like with
@@ -227,7 +227,7 @@ Then we can estimate the overall tCO2e emissions for the journey:
 
 ``` r
 rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
-#> [1] 0.02303694
+#> [1] 0.02304686
 ```
 
 We can use a data frame to read through the data easier in general. For
@@ -249,15 +249,15 @@ multiple_ind %>%
 
 | ID    | rail_from            | rail_to    | air_from | air_to | air_via | plane_emissions | train_emissions | total_emissions |
 |:------|:---------------------|:-----------|:---------|:-------|:--------|----------------:|----------------:|----------------:|
-| Clint | Bristol Temple Meads | Paddington | LHR      | KIS    | NBO     |        1.526127 |       0.0074019 |        1.533529 |
-| Zara  | Bristol Temple Meads | Paddington | LHR      | LAX    | ORL     |        2.253014 |       0.0074019 |        2.260416 |
+| Clint | Bristol Temple Meads | Paddington | LHR      | KIS    | NBO     |        2.090193 |       0.0074051 |        2.097598 |
+| Zara  | Bristol Temple Meads | Paddington | LHR      | LAX    | ORL     |        3.085740 |       0.0074051 |        3.093146 |
 
 Additional emissions can be calculated as well. For example, office
 emissions
 
 ``` r
 office_emissions(specify = TRUE, electricity_kWh = 255.2, water_supply = 85, heat_kWh = 8764)
-#> [1] 0.002230256
+#> [1] 0.002345161
 ```
 
 Alternatively, more advance emissions can be given with other functions,
@@ -315,12 +315,12 @@ clinical_theatre_data(df, time = time, name = theatre,
 
 | time       | theatre | emissions | carbon_price_credit |
 |:-----------|:--------|----------:|--------------------:|
-| 10/04/2000 | A       | 0.2990340 |            3.181279 |
-| 10/04/2000 | B       | 0.2792765 |            2.971089 |
-| 11/04/2000 | A       | 0.3119999 |            3.319217 |
-| 11/04/2000 | B       | 0.2698696 |            2.871013 |
-| 12/04/2000 | A       | 0.3186125 |            3.389565 |
-| 12/04/2000 | B       | 0.2189492 |            2.329296 |
+| 10/04/2000 | A       |        NA |                  NA |
+| 10/04/2000 | B       |        NA |                  NA |
+| 11/04/2000 | A       |        NA |                  NA |
+| 11/04/2000 | B       |        NA |                  NA |
+| 12/04/2000 | A       |        NA |                  NA |
+| 12/04/2000 | B       |        NA |                  NA |
 
 ## Shiny App
 
@@ -354,18 +354,17 @@ graphs.
 
 ### Sources:
 
-\[1\] UK government 2022 report. See
-<https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/990675/2022-ghg-conversion-factors-methodology.pdf>
-<https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2022>
+\[1\] UK government 2023 report. See
+<https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023>
 
 Note emissions for flights in the code uses values from direct effects
 only. Radiative forcing = TRUE will give indirect and direct effects.
-(multiplys by 1.891). See “business travel - air” sheet of gov.uk excel
+(multiplies by 1.891). See “business travel - air” sheet of gov.uk excel
 sheet linked above.
 
 \[2\] Radiative forcing as 1.891 is from www.carbonfund.org
 
-\[3\] For Clinically-based emissions, we expanded beyond the 2022
+\[3\] For Clinically-based emissions, we expanded beyond the 2023
 Government Report since there were not estimates available.
 
 anaesthetic emissions from:
