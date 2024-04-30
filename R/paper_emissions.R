@@ -45,10 +45,10 @@ paper_emissions <- function(board = 0, mixed = 0, paper = 0,
     dplyr::filter(`Level 1` == "Waste disposal") %>%
     dplyr::filter(`Level 2` == "Paper") %>%
     dplyr::filter(`Column Text` == waste_disposal)
-  emission_values <- MU$`GHG Conversion Factor 2022`
-  WD_values <- WD$`GHG Conversion Factor 2022`
+  emission_values <- MU$value
+  WD_values <- WD$value
   
-  emission_values <- MU$`GHG Conversion Factor 2022`
+  emission_values <- MU$value
   paper_emissions <- board*emission_values[1] + mixed*emission_values[2] + paper*emission_values[3] +
     board_WD*WD_values[1] + mixed_WD*WD_values[2] + paper_WD*WD_values[3]
   if (units == "kg") paper_emissions <- paper_emissions * 0.001

@@ -56,8 +56,8 @@ metal_emissions <- function(aluminuim_cans = 0, aluminuim_foil = 0, mixed_cans =
     dplyr::mutate(`Level 3` = ifelse(`Level 2` == "Metal",
                               gsub(".*: ", "", `Level 3`),
                               `Level 3`))
-  emission_values <- MU$`GHG Conversion Factor 2022`
-  WD_values <- WD$`GHG Conversion Factor 2022`
+  emission_values <- MU$value
+  WD_values <- WD$value
   metal_emissions <- aluminuim_cans*emission_values[1] + aluminuim_foil*emission_values[1] + mixed_cans*emission_values[2] +
     scrap*emission_values[3] + steel_cans*emission_values[4] +
     aluminuim_cans_WD*WD_values[1] + aluminuim_foil_WD*WD_values[1] + mixed_cans_WD*WD_values[2] +

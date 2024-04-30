@@ -41,7 +41,7 @@ office_emissions <- function(specify = FALSE, office_num = 1, WFH_num = 0, WFH_h
     if (WFH_num == 0){ WFH_num = 1 }
     if (WFH_hours == 0){ WFH_hours = 1 }
     uk_office_WFH <- uk_gov_data %>% dplyr::filter(`Level 1` %in% c("Homeworking"))
-    WFH_emissions <- (uk_office_WFH %>% dplyr::filter(`Level 2` %in% WFH_type))$`GHG Conversion Factor 2022`
+    WFH_emissions <- (uk_office_WFH %>% dplyr::filter(`Level 2` %in% WFH_type))$value
     if (length(WFH_type) > 1) { WFH_emissions <- sum(WFH_emissions) }
     WFH_emissions <- WFH_emissions*WFH_num*WFH_hours
   } else {

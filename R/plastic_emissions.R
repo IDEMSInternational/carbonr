@@ -71,7 +71,7 @@ plastic_emissions <- function(average = 0, average_film = 0, average_rigid = 0, 
   checkmate::assert_numeric(PVC_WD, lower = 0)
   
   # set as kg not tonnes
-  uk_gov_data <- uk_gov_data %>% dplyr::mutate(`GHG Conversion Factor 2022` = `GHG Conversion Factor 2022`/1000)
+  uk_gov_data <- uk_gov_data %>% dplyr::mutate(value = value/1000)
   MU <- uk_gov_data %>%
     dplyr::filter(`Level 2` == "Plastic") %>%
     dplyr::filter(`Column Text` == "Primary material production") %>%
@@ -86,8 +86,8 @@ plastic_emissions <- function(average = 0, average_film = 0, average_rigid = 0, 
     dplyr::filter(`Level 1` == "Waste disposal") %>%
     dplyr::filter(`Level 2` == "Plastic") %>%
     dplyr::filter(`Column Text` == waste_disposal)
-  emission_values <- MU$`GHG Conversion Factor 2022`
-  WD_values <- WD$`GHG Conversion Factor 2022`
+  emission_values <- MU$value
+  WD_values <- WD$value
   
   plastic_emissions <- average*emission_values[1] + average_film*emission_values[2] + average_rigid*emission_values[3] +
     HDPE*emission_values[4] + LDPE*emission_values[5] + LLDPE*emission_values[5] + PET*emission_values[6] +

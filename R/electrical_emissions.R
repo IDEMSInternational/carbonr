@@ -68,8 +68,8 @@ electrical_emissions <- function(fridges = 0, freezers = 0, large = 0, IT = 0, s
     dplyr::filter(`Level 1` == "Waste disposal") %>%
     dplyr::filter(`Level 2` == "Electrical items") %>%
     dplyr::filter(`Column Text` == waste_disposal)
-  emission_values <- MU$`GHG Conversion Factor 2022`
-  WD_values <- WD$`GHG Conversion Factor 2022`
+  emission_values <- MU$value
+  WD_values <- WD$value
   electrical_emissions <- fridges*emission_values[1] + freezers*emission_values[1] + large*emission_values[2] +
     IT*emission_values[3] + small*emission_values[4] + alkaline_batteries*emission_values[5] +
     LiIon_batteries*emission_values[6] + NiMh_batteries*emission_values[7] +

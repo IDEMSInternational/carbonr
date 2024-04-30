@@ -86,15 +86,15 @@ ferry_emissions <- function(from, to, via = NULL, type = c("Foot", "Car", "Avera
   # convert to km
   distance <- distance * 1.609
   
-  uk_gov_data_ferry <- uk_gov_data %>% dplyr::filter(`Level 1` %in% c("Business travel- sea", "WTT- business travel (sea)"))
+  uk_gov_data_ferry <- uk_gov_data %>% dplyr::filter(`Level 1` %in% c("Business travel- sea", "WTT- business travel (sea)", "WTT- business travel- sea"))
   uk_gov_data_ferry_WTT <- uk_gov_data_ferry %>% dplyr::filter(`Level 2` == "WTT- ferry")
   uk_gov_data_ferry <- uk_gov_data_ferry %>% dplyr::filter(`Level 2` == "Ferry")
   
   uk_gov_data_ferry <- uk_gov_data_ferry %>% dplyr::filter(grepl(type, `Level 3`))
   uk_gov_data_ferry_WTT <- uk_gov_data_ferry_WTT %>% dplyr::filter(grepl(type, `Level 3`))
   
-  t_mile <- uk_gov_data_ferry$`GHG Conversion Factor 2022`
-  if (include_WTT) t_mile <- t_mile + uk_gov_data_ferry_WTT$`GHG Conversion Factor 2022`
+  t_mile <- uk_gov_data_ferry$value
+  if (include_WTT) t_mile <- t_mile + uk_gov_data_ferry_WTT$value
   
   emissions <- distance*t_mile*num_people*times_journey
   

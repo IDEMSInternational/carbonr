@@ -53,7 +53,8 @@ vehicle_emissions <- function(distance, units = c("miles", "km"), num = 1,
     dplyr::filter(`Level 1` %in% c("Business travel- land",
                                    "UK electricity for EVs",
                                    "UK electricity T&D for EVs",
-                                   "WTT- pass vehs & travel (land)"))
+                                   "WTT- pass vehs & travel (land)",
+                                   "WTT- pass vehs & travel- land"))
   
   uk_gov_data_cars <- uk_gov_data_cars %>%
     dplyr::mutate(`Level 2` = ifelse(`Level 2` %in% c("Cars (by size)", "Cars (by market segment)"),
@@ -90,10 +91,10 @@ vehicle_emissions <- function(distance, units = c("miles", "km"), num = 1,
     t_mile <- t_mile %>% dplyr::filter(`Column Text` == {{ fuel }})
   }
   
-  base_emission <- (t_mile %>% dplyr::filter(`Level 1` == "Business travel- land"))$`GHG Conversion Factor 2022`
+  base_emission <- (t_mile %>% dplyr::filter(`Level 1` == "Business travel- land"))$`value`
   
   if (include_WTT){
-    base_emission <- base_emission + (t_mile %>% dplyr::filter(`Level 1` == "WTT- pass vehs & travel (land)"))$`GHG Conversion Factor 2022`
+    base_emission <- base_emission + (t_mile %>% dplyr::filter(`Level 1` %in% c("WTT- pass vehs & travel (land)", "WTT- pass vehs & travel- land")))$`value`
   }
   
   # TODO: car and motorbike have an option for owned_by_org to be TRUE 
@@ -102,10 +103,10 @@ vehicle_emissions <- function(distance, units = c("miles", "km"), num = 1,
   #}
   if (fuel %in% c("Plug-in Hybrid Electric Vehicle", "Battery Electric Vehicle")){
     if (include_electricity){
-      base_emission <- base_emission + (t_mile %>% dplyr::filter(`Level 1` == "UK electricity for EVs"))$`GHG Conversion Factor 2022`
+      base_emission <- base_emission + (t_mile %>% dplyr::filter(`Level 1` == "UK electricity for EVs"))$`value`
     }
     if (TD){
-      base_emission <- base_emission + (t_mile %>% dplyr::filter(`Level 1` == "UK electricity T&D for EVs"))$`GHG Conversion Factor 2022`
+      base_emission <- base_emission + (t_mile %>% dplyr::filter(`Level 1` == "UK electricity T&D for EVs"))$`value`
     }
   }
   emissions <- distance * base_emission * num

@@ -100,14 +100,14 @@ construction_emissions <- function(aggregates = 0, average = 0, asbestos = 0, as
 
   emission_values <- uk_gov_data %>%
     dplyr::filter(`Level 2` == "Construction") %>%
-    dplyr::mutate(`GHG Conversion Factor 2022` = ifelse(`Level 3` == "Soils", 0.9847084, `GHG Conversion Factor 2022`)) %>%
+    dplyr::mutate(value = ifelse(`Level 3` == "Soils", 0.9847084, value)) %>%
     dplyr::filter(`Column Text` == "Primary material production") %>%
-    dplyr::pull(`GHG Conversion Factor 2022`)
+    dplyr::pull(value)
   WD_values <- uk_gov_data %>%
     dplyr::filter(`Level 1` == "Waste disposal") %>%
     dplyr::filter(`Level 2` == "Construction") %>%
     dplyr::filter(`Column Text` == waste_disposal) %>%
-    dplyr::pull(`GHG Conversion Factor 2022`) %>%
+    dplyr::pull(value) %>%
     tidyr::replace_na(0)
   
   construction_emissions <- aggregates*emission_values[1] + average*emission_values[2] + asbestos*emission_values[3] +

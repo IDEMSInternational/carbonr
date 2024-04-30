@@ -111,20 +111,20 @@ household_emissions <- function(glass = 0, clothing = 0, food = 0, drink = 0, co
   emission_values <- uk_gov_data %>%
     dplyr::filter(`Level 2` %in% c("Organic", "Other")) %>%
     dplyr::filter(`Column Text` == "Primary material production") %>%
-    dplyr::pull(`GHG Conversion Factor 2022`)
+    dplyr::pull(value)
   WD_compost_values <- uk_gov_data %>%
     dplyr::filter(`Level 2` %in% c("Refuse")) %>%
     dplyr::filter(`Column Text` == compost_waste_disposal) %>%
-    dplyr::pull(`GHG Conversion Factor 2022`)
+    dplyr::pull(value)
   WD_hh_values <- uk_gov_data %>%
     dplyr::filter(`Level 3` == c("Household residual waste")) %>%
     dplyr::filter(`Column Text` == hh_waste_disposal) %>%
-    dplyr::pull(`GHG Conversion Factor 2022`)
+    dplyr::pull(value)
   WD_gcb_values <- uk_gov_data %>%
     dplyr::filter(`Level 1` == "Waste disposal") %>%
     dplyr::filter(`Level 2` == c("Other")) %>%
     dplyr::filter(`Column Text` == gcb_waste_disposal) %>%
-    dplyr::pull(`GHG Conversion Factor 2022`)
+    dplyr::pull(value)
     hh_emissions <- glass*emission_values[2] + clothing*emission_values[3] + food*emission_values[4] +
       books_WD*WD_gcb_values[1] + glass_WD*WD_gcb_values[2] +  clothing_WD*WD_gcb_values[3] +
     drink*emission_values[4] + compost_from_garden*emission_values[5] +

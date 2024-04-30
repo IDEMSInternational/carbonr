@@ -82,8 +82,8 @@ rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey =
   distance <- distance * 1.609 # convert to KM
   uk_gov_data_rail <- uk_gov_data %>% dplyr::filter(`Level 3` == "National rail")
   
-  emissions <- (uk_gov_data_rail %>% dplyr::filter(`Level 2` == "Rail"))$`GHG Conversion Factor 2022`
-  if (include_WTT){ emissions <- emissions + (uk_gov_data_rail %>% dplyr::filter(`Level 2` == "WTT- rail"))$`GHG Conversion Factor 2022` }
+  emissions <- (uk_gov_data_rail %>% dplyr::filter(`Level 2` == "Rail"))$value
+  if (include_WTT){ emissions <- emissions + (uk_gov_data_rail %>% dplyr::filter(`Level 2` == "WTT- rail"))$value }
   emissions <- emissions*distance*num_people*times_journey
   if (round_trip){
     emissions <- 2*emissions

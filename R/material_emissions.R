@@ -118,15 +118,15 @@ material_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
   WD_ind_values <- uk_gov_data %>%
     dplyr::filter(`Level 3` == c("Commercial and industrial waste")) %>%
     dplyr::filter(`Column Text` == industrial_waste_disposal) %>%
-    dplyr::pull(`GHG Conversion Factor 2022`)
+    dplyr::pull(value)
   MU_glass_values <- uk_gov_data %>%
     dplyr::filter(`Level 3` == "Glass") %>%
     dplyr::filter(`Column Text` %in% c("Primary material production")) %>%
-    dplyr::pull(`GHG Conversion Factor 2022`)
+    dplyr::pull(value)
   WD_glass_values <- uk_gov_data %>%
     dplyr::filter(`Level 3` == "Glass") %>%
     dplyr::filter(`Column Text`== glass_waste_disposal) %>%
-    dplyr::pull(`GHG Conversion Factor 2022`)
+    dplyr::pull(value)
   material_emissions <- glass*MU_glass_values[1] + glass_WD*WD_glass_values[2] +
     industrial_waste*WD_ind_values[1]
   if (glass_units == "kg") material_emissions <- material_emissions * 0.001

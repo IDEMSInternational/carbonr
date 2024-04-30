@@ -17,7 +17,7 @@ hotel_emissions <- function(location = "UK", nights = 1, rooms = 1){
   
   uk_gov_data_hotel <- uk_gov_data %>%
     dplyr::filter(`Level 1` == "Hotel stay") %>%
-    dplyr::filter(!is.na(`GHG Conversion Factor 2022`))
+    dplyr::filter(!is.na(value))
   
   row <- which(uk_gov_data_hotel$`Level 3` == location)
   if (length(row) == 0) {
@@ -30,7 +30,7 @@ hotel_emissions <- function(location = "UK", nights = 1, rooms = 1){
       emissions <- hotel_df$CO2e[row]
     } 
   } else {
-    emissions <- uk_gov_data_hotel$`GHG Conversion Factor 2022`[row]
+    emissions <- uk_gov_data_hotel$value[row]
   }
 emissions <- emissions * nights * rooms
 return(emissions)
