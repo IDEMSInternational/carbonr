@@ -15,9 +15,9 @@ tags:
 - environmental strategies
 authors:
   - name: Lily Clements
-  - orcid: 0000-0001-8864-0552
-  - equal-contrib: true
-  - affiliation: "1"
+    orcid: 0000-0001-8864-0552
+    equal-contrib: true
+    affiliation: "1"
 affiliations:
   - name: IDEMS International
     index: 1
@@ -86,20 +86,12 @@ multiple_ind %>%
                                                  rail_to)) %>%
   dplyr::mutate(total_emissions = plane_emissions + train_emissions)
 ```
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
-multiple_ind <- tibble::tribble(~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
-                                "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
-                                "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
-multiple_ind %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(plane_emissions = airplane_emissions(air_from,
-                                                     air_to,
-                                                     air_via)) %>%
-  dplyr::mutate(train_emissions = rail_emissions(rail_from,
-                                                 rail_to)) %>%
-  dplyr::mutate(total_emissions = plane_emissions + train_emissions) %>%
-  knitr::kable()
-```
+
+| ID  | rail_from            | rail_to    | air_from | air_to | air_via | plane_emissions | train_emissions | total_emissions |
+|-----|----------------------|-----------:|:--------:|--------|--------:|-----------------|-----------------|-----------------------|
+Clint	| Bristol Temple Meads | Paddington |	LHR	     | KIS	  | NBO	    | 2.090193        | 0.007405063     |	 2.097598 |
+Zara	| Bristol Temple Meads | Paddington	| LHR	     | LAX    |	ORL	    | 3.085741        |	0.007405063     |  3.093146 |
+
 
 # Future Goals
 As `carbonr` continues to evolve, we aim to enhance its functionality to accommodate the processing of annual data from companies or individuals. This would allow the software to provide comprehensive emission reports, complete with detailed graphics and tailored data tables. Such features would enable users to track and analyse emissions trends over time, providing more informed environmental strategies.
