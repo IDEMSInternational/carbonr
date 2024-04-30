@@ -15,9 +15,9 @@ tags:
 - environmental strategies
 authors:
   - name: Lily Clements
-    orcid: 0000-0001-8864-0552
-    equal-contrib: true
-    affiliation: "1"
+  - orcid: 0000-0001-8864-0552
+  - equal-contrib: true
+  - affiliation: "1"
 affiliations:
   - name: IDEMS International
     index: 1
@@ -52,18 +52,18 @@ library(carbonr)
 ```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
 airport_finder(name = "heathrow")
 ```
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
-library(magrittr)
-airport_finder(name = "heathrow") %>%
-  knitr::kable()
-```
+| Name                     | City    | Country        | IATA |
+|-------------------------:|:-------:|---------------:|------|
+| London Heathrow Airport  | London  | United Kingdom | LHR  |
+
 ```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
 airport_finder(city = "nairobi")
 ```
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
-airport_finder(city = "nairobi") %>%
-  knitr::kable()
-```
+| Name                               | City    | Country        | IATA |
+|-----------------------------------:|:-------:|---------------:|------|
+|Nairobi Wilson Airport	             | Nairobi | Kenya          | WIL  |	
+|Moi Air Base	                       | Nairobi | Kenya	        | \\N	 |
+|Jomo Kenyatta International Airport | Nairobi | Kenya	        | NBO  |
 
 These codes can then be used to calculate the airplane emissions:
   
