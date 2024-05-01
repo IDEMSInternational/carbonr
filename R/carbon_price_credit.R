@@ -29,6 +29,9 @@ carbon_price_credit <- function(jurisdiction = NULL, year = NULL, period = 0, ma
     stop("One of jurisdiction or manual_price need to be provided")
   } else {
     our_cpi <- cpi_data %>% dplyr::filter(Jurisdiction == jurisdiction)
+    if (nrow(our_cpi) == 0){
+      stop(paste(jurisdiction, "is not a valid Jurisdiction. Valid jurisdictions are:", paste0(unique(cpi_data$Jurisdiction), collapse = ", ")))
+    }
     if (!is.null(year)){
       our_cpi <- our_cpi %>% dplyr::filter(Year == year)
       if (nrow(our_cpi) == 0) {
