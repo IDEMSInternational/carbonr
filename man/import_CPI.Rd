@@ -4,11 +4,7 @@
 \alias{import_CPI}
 \title{Import CPI data from an Excel file}
 \usage{
-import_CPI(
-  path = "C:/Users/lclem/Downloads/CPI_Data_DashboardExtract.xlsx",
-  sheet = "Data_Price",
-  skip = 2
-)
+import_CPI(path, sheet = "Data_Price", skip = 2)
 }
 \arguments{
 \item{path}{A character string specifying the file path of the Excel file.}

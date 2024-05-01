@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' #cpi_data <- import_CPI()
-import_CPI <- function(path = "C:/Users/lclem/Downloads/CPI_Data_DashboardExtract.xlsx", sheet = "Data_Price", skip = 2){
+import_CPI <- function(path, sheet = "Data_Price", skip = 2){
   data <- readxl::read_excel(path, sheet = sheet, skip = skip)
   data <- data %>%
     dplyr::filter(`Instrument Type` == "ETS") %>% 
