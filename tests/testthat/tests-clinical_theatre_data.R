@@ -24,6 +24,21 @@ output_1 <- with(df1, clinical_theatre_emissions(wet_clinical_waste = clinical_w
                                                  plastic_units = "kg",
                                                  electricity_kWh = electricity_kwh))
 
+output_with_cpi <- (clinical_theatre_data(df, time = time,
+                                 name = theatre,
+                                 wet_clinical_waste = clinical_waste,
+                                 wet_clinical_waste_unit = "kg",
+                                 average = general_waste,
+                                 plastic_units = "kg",
+                                 electricity_kWh = electricity_kwh,
+                                 include_cpi = TRUE,
+                                 jurisdiction = "United Kingdom",
+                                 year = 2023))[[1]]
+
 test_that("reads in correct row of data", {
   expect_equal(output[6,3], output_1)
+})
+
+test_that("reads in jurisdiction", {
+  expect_equal(names(output_with_cpi), c("time", "theatre", "emissions", "carbon_price_credit"))
 })
