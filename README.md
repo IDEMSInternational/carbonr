@@ -354,9 +354,10 @@ graphs.
 
 ### Sources:
 
-\[1\] For the UK Government Report: Department for Energy Security and
-Net Zero. (2023). Greenhouse Gas Reporting: Conversion Factors 2023.
-Retrieved from
+\[1\] For the UK Government Report:
+
+Department for Energy Security and Net Zero. (2023). Greenhouse Gas
+Reporting: Conversion Factors 2023. Retrieved from
 <https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023>.
 Published on 7 June 2023, last updated on 28 June 2023.
 
@@ -370,19 +371,26 @@ sheet linked above.
 \[3\] For Clinically-based emissions, we expanded beyond the 2023
 Government Report since there were not estimates available.
 
-Anaesthetic emissions from Varughese, S. and Ahmed, R., 2021.
-Environmental and occupational considerations of anesthesia: a narrative
-review and update. Anesthesia & Analgesia, 133(4), pp.826-835; McGain,
-F., Muret, J., Lawson, C. and Sherman, J.D., 2020. Environmental
+Anaesthetic emissions from
+
+Varughese, S. and Ahmed, R., 2021. Environmental and occupational
+considerations of anesthesia: a narrative review and update. Anesthesia
+& Analgesia, 133(4), pp.826-835;
+
+McGain, F., Muret, J., Lawson, C. and Sherman, J.D., 2020. Environmental
 sustainability in anaesthesia and critical care. British Journal of
-Anaesthesia, 125(5), pp.680-692. Wyssusek, K., Chan, K.L., Eames, G. and
-Whately, Y., 2022. Greenhouse gas reduction in anaesthesia practice: a
-departmental environmental strategy. BMJ Open Quality, 11(3), p.e001867.
+Anaesthesia, 125(5), pp.680-692;
+
+Wyssusek, K., Chan, K.L., Eames, G. and Whately, Y., 2022. Greenhouse
+gas reduction in anaesthesia practice: a departmental environmental
+strategy. BMJ Open Quality, 11(3), p.e001867;
+
 Sherman, J., Le, C., Lamers, V. and Eckelman, M., 2012. Life cycle
 greenhouse gas emissions of anesthetic drugs. Anesthesia & Analgesia,
 114(5), pp.1086-1090.
 
-Clinical wet waste from (p32): Department of Climate Change, Energy, the
-Environment and Water. (2022). National Greenhouse Accounts Factors:
-2022 \[Brochure\]. Retrieved from
+Clinical wet waste from (p32):
+
+Department of Climate Change, Energy, the Environment and Water. (2022).
+National Greenhouse Accounts Factors: 2022 \[Brochure\]. Retrieved from
 <https://www.dcceew.gov.au/climate-change/publications/national-greenhouse-accounts-factors-2022>.
