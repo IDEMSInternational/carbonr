@@ -315,12 +315,12 @@ clinical_theatre_data(df, time = time, name = theatre,
 
 | time       | theatre | emissions | carbon_price_credit |
 |:-----------|:--------|----------:|--------------------:|
-| 10/04/2000 | A       |        NA |                  NA |
-| 10/04/2000 | B       |        NA |                  NA |
-| 11/04/2000 | A       |        NA |                  NA |
-| 11/04/2000 | B       |        NA |                  NA |
-| 12/04/2000 | A       |        NA |                  NA |
-| 12/04/2000 | B       |        NA |                  NA |
+| 10/04/2000 | A       | 0.2994651 |            3.185865 |
+| 10/04/2000 | B       | 0.2799792 |            2.978564 |
+| 11/04/2000 | A       | 0.3122287 |            3.321652 |
+| 11/04/2000 | B       | 0.2705084 |            2.877809 |
+| 12/04/2000 | A       | 0.3191129 |            3.394888 |
+| 12/04/2000 | B       | 0.2199980 |            2.340453 |
 
 ## Shiny App
 
@@ -354,11 +354,14 @@ graphs.
 
 ### Sources:
 
-\[1\] UK government 2023 report. See
-<https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023>
+\[1\] For the UK Government Report: Department for Energy Security and
+Net Zero. (2023). Greenhouse Gas Reporting: Conversion Factors 2023.
+Retrieved from
+<https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023>.
+Published on 7 June 2023, last updated on 28 June 2023.
 
 Note emissions for flights in the code uses values from direct effects
-only. Radiative forcing = TRUE will give indirect and direct effects.
+only. `Radiative forcing = TRUE` will give indirect and direct effects.
 (multiplies by 1.891). See “business travel - air” sheet of gov.uk excel
 sheet linked above.
 
@@ -367,11 +370,19 @@ sheet linked above.
 \[3\] For Clinically-based emissions, we expanded beyond the 2023
 Government Report since there were not estimates available.
 
-anaesthetic emissions from:
-<https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8415729>;
-<https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7421303/>;
-<https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9413181/>;
-<https://journals.lww.com/anesthesia-analgesia/Fulltext/2012/05000/Life_Cycle_Greenhouse_Gas_Emissions_of_Anesthetic.25.aspx>
+Anaesthetic emissions from Varughese, S. and Ahmed, R., 2021.
+Environmental and occupational considerations of anesthesia: a narrative
+review and update. Anesthesia & Analgesia, 133(4), pp.826-835; McGain,
+F., Muret, J., Lawson, C. and Sherman, J.D., 2020. Environmental
+sustainability in anaesthesia and critical care. British Journal of
+Anaesthesia, 125(5), pp.680-692. Wyssusek, K., Chan, K.L., Eames, G. and
+Whately, Y., 2022. Greenhouse gas reduction in anaesthesia practice: a
+departmental environmental strategy. BMJ Open Quality, 11(3), p.e001867.
+Sherman, J., Le, C., Lamers, V. and Eckelman, M., 2012. Life cycle
+greenhouse gas emissions of anesthetic drugs. Anesthesia & Analgesia,
+114(5), pp.1086-1090.
 
-clinical_wet_waste: p32 of
-<https://www.dcceew.gov.au/climate-change/publications/national-greenhouse-accounts-factors-2022>
+Clinical wet waste from (p32): Department of Climate Change, Energy, the
+Environment and Water. (2022). National Greenhouse Accounts Factors:
+2022 \[Brochure\]. Retrieved from
+<https://www.dcceew.gov.au/climate-change/publications/national-greenhouse-accounts-factors-2022>.
