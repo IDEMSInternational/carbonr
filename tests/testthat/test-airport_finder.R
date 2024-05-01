@@ -10,5 +10,5 @@ test_that("correct output", {
   expect_equal(finder_typo$City, "Exeter")
   expect_equal(finder_typo$IATA, "EXT")
   expect_equal(finder_port$Name, "Las Heras Airport")
-  expect_identical(length(airport_finder(city = "Nairobi")), 4)
+  expect_equal(class(airport_finder(city = "Nairobi")), c("tbl_df", "tbl", "data.frame"))
 })
