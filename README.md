@@ -366,7 +366,10 @@ only. `Radiative forcing = TRUE` will give indirect and direct effects.
 (multiplies by 1.891). See “business travel - air” sheet of gov.uk excel
 sheet linked above.
 
-\[2\] Radiative forcing as 1.891 is from www.carbonfund.org
+\[2\] Radiative forcing as 1.891:
+
+DEFRA, 2016. Government GHG conversion factors for company reporting:
+Methodology paper for emission factors.
 
 \[3\] For Clinically-based emissions, we expanded beyond the 2023
 Government Report since there were not estimates available.
