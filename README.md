@@ -42,7 +42,7 @@ You can install the development version of carbonr from
 devtools::install_github("IDEMSInternational/carbonr")
 ```
 
-## Aims of carbonR
+## Aims of carbonr
 
 In 2021, work began on the carbonr package in R with the aim of
 addressing the following challenges and improving the estimation of
@@ -92,7 +92,7 @@ By addressing these challenges and incorporating these improvements, the
 carbonr package aims to provide a reliable, accessible, and customisable
 solution for estimating and offsetting carbon-equivalent emissions.
 
-## Functions in CarbonR
+## Functions in carbonr
 
 carbonr is a package in R to conveniently calculate carbon-equivalent
 emissions. Currently, emission estimates relate to travel, materials,
