@@ -64,19 +64,9 @@ library(dplyr)
 # Finding the airport code for London Heathrow
 airport_finder(name = "Heathrow")
 ```
-| Header 1        | Header 2   | Header 3 | Header 4 |
-|-----------------|------------|----------|----------|
-| row 1, column 1 | column 2   | column 3 | column 4 |
-| row 2           | cells span columns   ||          |
-| row 3           | cells      | - body  |          |
-| row 4           |            | - elements |       |
-|                 |            | - here  |          |
-| **Footer**      |            |          |          |
-
-# ...
 
 | Name            | City    | Country        | IATA |
-+:===============:+:=======:+:==============:+:====:+
+|:---------------:|:-------:|:--------------:|:----:|
 | London Heathrow | London  | United Kingdom | LHR  |
 | Airport         |         |                |      |
 
@@ -86,18 +76,16 @@ airport_finder(name = "Heathrow")
 carbonr::airport_finder(city = "Nairobi")
 ```
 
-+-----------------+---------+----------------+------+
 | Name            | City    | Country        | IATA |
-+:===============:+:=======:+:==============:+:====:+
+|:---------------:|:-------:|:--------------:|:----:|
 | Nairobi Wilson  | Nairobi | Kenya          | WIL  |
 | Airport         |         |                |      |
-+-----------------+---------+----------------+------+
+|-----------------|---------|----------------|------|
 | Moi Air Base    | Nairobi | Kenya          | N/A  |
-+-----------------+---------+----------------+------+
+|-----------------|---------|----------------|------|
 | Jomo Kenyatta   | Nairobi | Kenya          | NBO  |
 | International   |         |                |      |
 | Airport         |         |                |      |
-+-----------------+---------+----------------+------+
 
 Using these codes, calculate the emissions for a round-trip journey:
 
@@ -125,18 +113,16 @@ multiple_ind %>%
   dplyr::mutate(total_emissions = plane_emissions + train_emissions)
 ```
 
-+-------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
 | ID    | Rail from | Rail to   | Air from  | Air to    | Air via   | Air       | Rail      | Total     |
 |       |           |           |           |           |           | emissions | emissions | emissions |
-+:=====:+:=========:+:=========:+:=========:+:=========:+:=========:+:=========:+:=========:+:=========:+
+|:-----:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Clint | Bristol   |Paddington | LHR       | KIS       | NBO       | 2.091     | 0.007     | 2.098     |
 |       | Temple    |           |           |           |           |           |           |           |
 |       | Meads     |           |           |           |           |           |           |           |
-+-------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
+|:-----:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 | Zara  | Bristol   |Paddington | LHR       | LAX       | ORL       | 3.086     | 0.007     | 3.093     |
 |       | Temple    |           |           |           |           |           |           |           |
 |       | Meads     |           |           |           |           |           |           |           |
-+-------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+-----------+
 
 # Future Goals
 The ongoing development of `carbonr` is focused on enhancing its utility and sustainability as a key research tool. We are committed to the following multiple objectives. 
