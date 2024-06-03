@@ -106,7 +106,7 @@ multiple_ind %>%
   dplyr::mutate(total_emissions = plane_emissions + train_emissions)
 ```
 
-| ID  | Rail from            | Rail to  | Air from | Air to | Air via | Air emissions | Rail emissions | Total Emissions |
+| ID  | Rail from            | Rail to  | Air from | Air to | Air via | Air emissions | Rail emissions | Total emissions |
 |-----|----------------------|----------|----------|--------|---------|-----------------|-----------------|-----------------|
 | Clint | Bristol Temple Meads | Paddington | LHR     | KIS    | NBO     | 2.091        | 0.007     | 2.098        |
 | Zara  | Bristol Temple Meads | Paddington | LHR     | LAX    | ORL     | 3.086        | 0.007     | 3.093        |
