@@ -112,7 +112,7 @@ multiple_ind %>%
 | Zara  | Bristol Temple Meads | Paddington | LHR     | LAX    | ORL     | 3.086        | 0.007     | 3.093        |
 
 # Future Goals
-The ongoing development of `carbonr` is focused on enhancing its utility and sustainability as a key research tool. We are committed to the following multiple objectives. 
+The ongoing development of `carbonr` is focused on enhancing its utility and sustainability as a key research tool. We are committed to multiple objectives. 
 
 First, we aim to expand `carbonr`'s capabilities to process annual data from both companies and individuals, enabling detailed emissions reporting with advanced visualisations and tailored data tables. This feature would support researchers in tracking temporal trends and assessing long-term environmental strategies.
 
