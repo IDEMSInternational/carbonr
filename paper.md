@@ -65,12 +65,10 @@ library(dplyr)
 airport_finder(name = "Heathrow")
 ```
 
-+-----------------+---------+----------------+------+
 | Name            | City    | Country        | IATA |
 +:===============:+:=======:+:==============:+:====:+
 | London Heathrow | London  | United Kingdom | LHR  |
 | Airport         |         |                |      |
-+-----------------+---------+----------------+------+
 
 
 ```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
