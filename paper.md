@@ -15,87 +15,111 @@ tags:
 - environmental strategies
 authors:
   - name: Lily Clements
-    orcid: 0000-0001-8864-0552
-    equal-contrib: true
-    affiliation: "1"
+  - orcid: 0000-0001-8864-0552
+  - affiliation: "1"
 affiliations:
   - name: IDEMS International
     index: 1
-date: 30 April 2024
+date: 29 April 2024
 bibliography: paper.bib
 
 ---
   
 # Summary
-  
 The `carbonr` package provides a user-friendly, open-source tool for calculating carbon-equivalent emissions based on various sources, primarily the UK Government’s greenhouse gas reporting guidelines [@ukgov_greenhouse_gas_reporting_2023].
 
 Designed for flexibility and ease of use, `carbonr` enables users from different sectors to estimate emissions from travel, construction, office environments, and, more recently, clinical settings, thereby aiding in informed decision-making for environmental impact reduction.
 
-# Statement of need
-Climate change and environmental sustainability are pressing global challenges [@WHO2023]. Accurately estimating carbon emissions is important for organisations that aim to understand and mitigate their environmental impact. Despite the significance of this task, there has been a notable lack of open-source tools, which can affect the reproducibility, transparency, and adaptability of existing solutions.
+# Statement of Need
+Climate change and environmental sustainability are pressing global challenges that require sophisticated methods for assessing and mitigating carbon emissions across various sectors [@WHO2023]. Traditional tools for carbon accounting often lack flexibility, transparency, and/or accessibility. These limitations can hamper scientific advancements and the widespread adoption of best practices accounting for in carbon emissions.
 
-The `carbonr` package aims to fill this gap by providing an open-source solution in R, hosted on GitHub. It aims to deliver reliable and reproducible emission estimates, ensuring that results can be reviewed over time. This invites ongoing critique and enhancement of both the code and the estimates, helping `carbonr` to continually improve.
-`carbonr` can offer the flexibility to adjust emission factors and methodologies to suit specific contexts, thereby enhancing the accuracy and relevance of its outputs. By being hosted on GitHub, `carbonr` encourages global community engagement and contributions, enriching the tool with diverse insights and expertise.
+To address these issues, `carbonr` offers an open-source solution that improves the reproducibility of carbon emission calculations and enhances the understanding of these emissions within the research community. Key features of `carbonr` include its simplicity, user-friendly Shiny interface, and adaptability to different sector needs, making it accessible to a broader audience.
 
-The emission calculations are primarily based on the UK Government’s greenhouse gas reporting guidelines [@ukgov_greenhouse_gas_reporting_2023]. Key features of `carbonr` include its simplicity and the integration of a user-friendly Shiny interface, which broadens its accessibility beyond technically skilled users to others interested in estimating their carbon emissions. This approach underscores our commitment to making carbon estimation as straightforward and inclusive as possible.
+By being hosted on GitHub, `carbonr` encourages global community engagement. This collaborative environment not only keeps the tool up-to-date but also allows it to be tailored to specific sectors. A notable enhancement in the application of `carbonr` is its role in assessing emissions from operating theatres, which are significant contributors to hospital carbon footprints. In a collaborative initiative hosted on GitHub, `carbonr` was adapted to include a set of functions that calculate carbon emissions specifically for operating theatres [@ma2024green].
+
+Furthermore, the open-source nature of `carbonr` allows for ongoing verification and comparison of emissions data, this is important for accurate environmental impact assessments.
+
+The emission calculations of `carbonr` are primarily based on the UK Government’s greenhouse gas reporting guidelines [@ukgov_greenhouse_gas_reporting_2023]. The integration of a straightforward Shiny interface broadens its usability beyond technically skilled users to anyone interested in carbon management, reflecting our commitment to making carbon estimation as inclusive and user-friendly as possible.
+
+By bridging these gaps, `carbonr` not only facilitates precise and comprehensive emission calculations, but also promotes a deeper understanding of emissions across different sectors. Its ongoing development and adaptability highlight its potential to significantly influence both research and practical applications in environmental sustainability, ensuring it remains relevant and effective in the face of evolving challenges.
 
 # Usage
 With `carbonr`, users can estimate emissions for various activities such as air travel, hotel stays, and construction work using straightforward functions like `airplane_emissions()` or `construction_emissions()`. 
 
-## Examples
-The package is designed to complement other R tools. The documentation includes examples demonstrating how to apply `carbonr` for common tasks like estimating travel emissions or assessing the environmental impact of operating theatres. For instance, consider calculating the round-trip emissions for a journey from London Heathrow to Kisumu, Kenya, via Nairobi. You can find the IATA codes by the `airport_finder` function. For example:
-  
-```{r, message = FALSE, warning = FALSE}
+
+The `carbonr` package complements other R tools by providing functions to estimate and analyse emissions from various activities such as air travel, hotel stays, and construction work. Below are detailed examples demonstrating common uses in estimating travel emissions
+
+### Estimating Travel Emissions
+
+First, use the `airport_finder` function to lookup IATA codes for airports. Here's how you find the code for London Heathrow and Nairobi airports:
+
+```{r, message = FALSE, warning = FALSE, eval = TRUE, include = FALSE}
 library(carbonr)
+library(dplyr)
 ```
-```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
-airport_finder(name = "heathrow")
+
+```{r, message = FALSE, warning = FALSE, eval = FALSE, include=TRUE}
+library(carbonr)
+library(dplyr)
+# Finding the airport code for London Heathrow
+airport_finder(name = "Heathrow")
 ```
+
 | Name                     | City    | Country        | IATA |
 |-------------------------:|:-------:|---------------:|------|
 | London Heathrow Airport  | London  | United Kingdom | LHR  |
 
 ```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
-airport_finder(city = "nairobi")
+# Finding the airport codes for airports in Nairobi
+carbonr::airport_finder(city = "Nairobi")
 ```
+
 | Name                               | City    | Country        | IATA |
 |-----------------------------------:|:-------:|---------------:|------|
-|Nairobi Wilson Airport	             | Nairobi | Kenya          | WIL  |	
-|Moi Air Base	                       | Nairobi | Kenya	        | \\N	 |
-|Jomo Kenyatta International Airport | Nairobi | Kenya	        | NBO  |
+| Nairobi Wilson Airport             | Nairobi | Kenya          | WIL  | 
+| Moi Air Base                       | Nairobi | Kenya          | N/A  |
+| Jomo Kenyatta International Airport | Nairobi | Kenya          | NBO  |
 
-These codes can then be used to calculate the airplane emissions:
-  
-```{r, message = FALSE, warning = FALSE}
+Using these codes, calculate the emissions for a round-trip journey:
+
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+# Calculating emissions for a round-trip flight
 airplane_emissions(from = "LHR", to = "KIS", via = "NBO")
 ```
 
-Users can also analyse emissions data sets, integrating information for multiple travellers or journey types. For example,
+### Analysing Emissions Data Sets
+
+For a more comprehensive analysis, integrate information for multiple travellers and journey types:
 
 ```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
-multiple_ind <- tibble::tribble(~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
-                                "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
-                                "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
+# Example dataset of multiple individuals' travel details
+multiple_ind <- tibble::tribble(
+  ~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
+  "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
+  "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL"
+)
+
 multiple_ind %>%
   dplyr::rowwise() %>%
-  dplyr::mutate(plane_emissions = airplane_emissions(air_from,
-                                                     air_to,
-                                                     air_via)) %>%
-  dplyr::mutate(train_emissions = rail_emissions(rail_from,
-                                                 rail_to)) %>%
+  dplyr::mutate(plane_emissions = airplane_emissions(air_from, air_to, air_via)) %>%
+  dplyr::mutate(train_emissions = rail_emissions(rail_from, rail_to)) %>%
   dplyr::mutate(total_emissions = plane_emissions + train_emissions)
 ```
 
-| ID  | rail_from            | rail_to    | air_from | air_to | air_via | plane_emissions | train_emissions | total_emissions |
-|-----|----------------------|-----------:|:--------:|--------|--------:|-----------------|-----------------|-----------------------|
-Clint	| Bristol Temple Meads | Paddington |	LHR	     | KIS	  | NBO	    | 2.090193        | 0.007405063     |	 2.097598 |
-Zara	| Bristol Temple Meads | Paddington	| LHR	     | LAX    |	ORL	    | 3.085741        |	0.007405063     |  3.093146 |
-
+| ID  | Rail from            | Rail to  | Air from | Air to | Air via | Air emissions | Rail emissions | Total Emissions |
+|-----|----------------------|----------|----------|--------|---------|-----------------|-----------------|-----------------|
+| Clint | Bristol Temple Meads | Paddington | LHR     | KIS    | NBO     | 2.091        | 0.007     | 2.098        |
+| Zara  | Bristol Temple Meads | Paddington | LHR     | LAX    | ORL     | 3.086        | 0.007     | 3.093        |
 
 # Future Goals
-As `carbonr` continues to evolve, we aim to enhance its functionality to accommodate the processing of annual data from companies or individuals. This would allow the software to provide comprehensive emission reports, complete with detailed graphics and tailored data tables. Such features would enable users to track and analyse emissions trends over time, providing more informed environmental strategies.
+The ongoing development of `carbonr` is focused on enhancing its utility and sustainability as a key research tool. We are committed to the following multiple objectives. 
 
-Initiated through collaboration on GitHub, `carbonr` now includes capabilities for estimating emissions specific to operating theatres [@ma2024green]. Looking ahead, we remain committed to refining `carbonr` through ongoing community-driven development. We welcome contributions that can help extend the software’s functionality, improve its accuracy, and adapt it to broader contexts and needs.
+First, we aim to expand `carbonr`'s capabilities to process annual data from both companies and individuals, enabling detailed emissions reporting with advanced visualisations and tailored data tables. This feature would support researchers in tracking temporal trends and assessing long-term environmental strategies.
+
+Futhermore, reflecting on successful collaborations, such as the one that led to the inclusion of operating theatre emissions [@ma2024green], we encourage the community to actively participate in `carbonr`'s evolution. Our GitHub platform is open for researchers, developers, and environmental practitioners to contribute insights, refine methodologies, and address emerging challenges.
+
+We plan to regularly update `carbonr` by integrating the latest research findings and environmental reporting standards. Our release cycle includes bi-annual updates to maintain relevance and accuracy, supporting both practical application and scientific research.
+
+By integrating these changes, we hope for `carbonr` to both remain relevant as a practical tool and to grow as a research tool. This can contribute to the scientific community’s efforts to combat climate change through better data understanding and informed policy-making.
 
 # References
