@@ -91,54 +91,8 @@ medical activities:
 All functions return carbon-equivalent emissions in tonnes. A Shiny app
 is available via `shiny_emissions()` for a GUI-based calculation.
 
-## Usage
-
-Below are some small examples demonstrating how to use the `carbonr`
-package functions. More comprehensive examples can be found in the
-vignette.
-
-``` r
-library(carbonr)
-```
-
-**Calculating Airplane Emissions**
-
-Find the IATA codes for Vancouver and Toronto:
-
-``` r
-airport_finder(name = "Vancouver")
-```
-
-| Name                                  | City      | Country | IATA |
-|:--------------------------------------|:----------|:--------|:-----|
-| Vancouver International Airport       | Vancouver | Canada  | YVR  |
-| Vancouver Harbour Water Aerodrome     | Vancouver | Canada  | CXH  |
-| Vancouver International Seaplane Base | Vancouver | Canada  |      |
-
-``` r
-airport_finder(name = "Toronto")
-```
-
-| Name                                     | City    | Country | IATA |
-|:-----------------------------------------|:--------|:--------|:-----|
-| Billy Bishop Toronto City Centre Airport | Toronto | Canada  | YTZ  |
-| Toronto/Oshawa Executive Airport         | Oshawa  | Canada  | YOO  |
-
-Calculate emissions for a flight between these cities:
-
-``` r
-airplane_emissions("YVR", "YTZ")
-#> [1] 0.9876006
-```
-
-**Office Emissions**
-
-Calculate emissions for office usage:
-
-``` r
-office_emissions(specify = TRUE, electricity_kWh = 255.2, water_supply = 85, heat_kWh = 8764)
-#> [1] 0.002345161
-```
+Some examples demonstrating how to use the `carbonr` package functions
+can be found in the vignette.
 
 ## Additional Features
 

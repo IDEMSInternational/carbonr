@@ -89,47 +89,7 @@ These functions are specific to calculating emissions from clinical and medical 
 
 All functions return carbon-equivalent emissions in tonnes. A Shiny app is available via `shiny_emissions()` for a GUI-based calculation.
 
-## Usage
-
-Below are some small examples demonstrating how to use the `carbonr` package functions. More comprehensive examples can be found in the vignette.
-
-```{r, message = FALSE, warning = FALSE}
-library(carbonr)
-```
-
-**Calculating Airplane Emissions**
-
-Find the IATA codes for Vancouver and Toronto:
-
-```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
-airport_finder(name = "Vancouver")
-```
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
-airport_finder(name = "Vancouver") %>%
-  knitr::kable()
-```
-```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
-airport_finder(name = "Toronto")
-```
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
-airport_finder(name = "Toronto") %>%
-  knitr::kable()
-```
-
-Calculate emissions for a flight between these cities:
-
-```{r, message = FALSE, warning = FALSE}
-airplane_emissions("YVR", "YTZ")
-```
-
-
-**Office Emissions**
-
-Calculate emissions for office usage:
-
-```{r, message = FALSE, warning = FALSE}
-office_emissions(specify = TRUE, electricity_kWh = 255.2, water_supply = 85, heat_kWh = 8764)
-```
+Some examples demonstrating how to use the `carbonr` package functions can be found in the vignette.
 
 ## Additional Features
 
