@@ -14,10 +14,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(carbonr)
-```
-
 ## Overview
 
 `carbonr` is a package in R to conveniently calculate carbon-equivalent emissions.
