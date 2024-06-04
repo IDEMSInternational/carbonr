@@ -56,48 +56,48 @@ devtools::install_github("IDEMSInternational/carbonr")
 These functions estimate emissions based on general activities, making them easier to use without detailed knowledge of specific inputs:
 
 **Travel-Related Emissions**
-  - `airplane_emissions()`
-  - `ferry_emissions()`
-  - `rail_emissions()`
-  - `land_emissions()`
-  - `vehicle_emissions()`
+ - `airplane_emissions()`
+ - `ferry_emissions()`
+ - `rail_emissions()`
+ - `land_emissions()`
+ - `vehicle_emissions()`
 
 **Accommodation-Related Emissions**
-  - `hotel_emissions()`
-  - `building_emissions()`
-  - `office_emissions()`
-  - `household_emissions()`
+ - `hotel_emissions()`
+ - `building_emissions()`
+ - `office_emissions()`
+ - `household_emissions()`
 
 #### Raw Input-Based Emissions
 These functions allow for more precise calculations by inputting specific values, such as the quantity of materials used:
 
 **Material-Related Emissions**
-  - `construction_emissions()`
-  - `electrical_emissions()`
-  - `material_emissions()`
-  - `metal_emissions()`
-  - `paper_emissions()`
-  - `plastic_emissions()`
-  - `raw_fuels()`
+ - `construction_emissions()`
+ - `electrical_emissions()`
+ - `material_emissions()`
+ - `metal_emissions()`
+ - `paper_emissions()`
+ - `plastic_emissions()`
+ - `raw_fuels()`
 
 #### Clinical Emissions
 Functions specific to calculating emissions from clinical and medical activities:
 
-- `anaesthetic_emissions()`
-- `clinical_emissions()`
-- `clinical_theatre_data()`
+ - `anaesthetic_emissions()`
+ - `clinical_emissions()`
+ - `clinical_theatre_data()`
 
 All functions return carbon-equivalent emissions in tonnes. A Shiny app is available via `shiny_emissions()` for a GUI-based calculation.
 
 ## Usage
 
-Below are examples demonstrating how to use the `carbonr` package functions:
+Below are some small examples demonstrating how to use the `carbonr` package functions. More comprehensive examples can be found in the vignette.
 
 ```{r, message = FALSE, warning = FALSE}
 library(carbonr)
 ```
 
-### Example 1: Calculating Airplane Emissions
+**Calculating Airplane Emissions**
 Find the IATA codes for Vancouver and Toronto:
 
 ```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
@@ -121,39 +121,8 @@ Calculate emissions for a flight between these cities:
 airplane_emissions("YVR", "YTZ")
 ```
 
-### Example 2: Emissions for Multiple Individuals
 
-Create a data frame for multiple journeys:
-
-```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
-multiple_ind <- tibble::tribble(~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
-                        "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
-                        "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
-multiple_ind %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(plane_emissions = airplane_emissions(air_from,
-                                              air_to,
-                                              air_via)) %>%
-  dplyr::mutate(train_emissions = rail_emissions(rail_from,
-                                          rail_to)) %>%
-  dplyr::mutate(total_emissions = plane_emissions + train_emissions)
-```
-```{r, message = FALSE, warning = FALSE, echo = FALSE}
-multiple_ind <- tibble::tribble(~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
-                        "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
-                        "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
-multiple_ind %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(plane_emissions = airplane_emissions(air_from,
-                                              air_to,
-                                              air_via)) %>%
-  dplyr::mutate(train_emissions = rail_emissions(rail_from,
-                                          rail_to)) %>%
-  dplyr::mutate(total_emissions = plane_emissions + train_emissions) %>%
-  knitr::kable()
-```
-
-### Example 3: Office Emissions
+**Office Emissions**
 
 Calculate emissions for office usage:
 
@@ -161,15 +130,15 @@ Calculate emissions for office usage:
 office_emissions(specify = TRUE, electricity_kWh = 255.2, water_supply = 85, heat_kWh = 8764)
 ```
 
-## Beyond the Emissions Available in the 2023 UK Report
+## Additional Features
+
+**Beyond the Emissions Available in the 2023 UK Report**
 
 Additional functions are available for emissions not covered in the UK Government report, such as those related to operating theatre waste. Further details on using the operating theatre waste functions are provided in the vignette.
 
-### Carbon Credit Prices
-
 The `carbon_credit_price()` function provides values based on [World Bank data](https://carbonpricingdashboard.worldbank.org/).
 
-## Shiny App
+**Shiny App**
 
 An interactive calculator using Shiny can be accessed by the `shiny_emissions()` function. This calculator uses some of the functions in the `carbonr` package: 
 

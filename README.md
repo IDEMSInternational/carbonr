@@ -82,16 +82,16 @@ is available via `shiny_emissions()` for a GUI-based calculation.
 
 ## Usage
 
-Below are examples demonstrating how to use the `carbonr` package
-functions:
+Below are some small examples demonstrating how to use the `carbonr`
+package functions. More comprehensive examples can be found in the
+vignette.
 
 ``` r
 library(carbonr)
 ```
 
-### Example 1: Calculating Airplane Emissions
-
-Find the IATA codes for Vancouver and Toronto:
+**Calculating Airplane Emissions** Find the IATA codes for Vancouver and
+Toronto:
 
 ``` r
 airport_finder(name = "Vancouver")
@@ -119,30 +119,7 @@ airplane_emissions("YVR", "YTZ")
 #> [1] 0.9876006
 ```
 
-### Example 2: Emissions for Multiple Individuals
-
-Create a data frame for multiple journeys:
-
-``` r
-multiple_ind <- tibble::tribble(~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
-                        "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
-                        "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
-multiple_ind %>%
-  dplyr::rowwise() %>%
-  dplyr::mutate(plane_emissions = airplane_emissions(air_from,
-                                              air_to,
-                                              air_via)) %>%
-  dplyr::mutate(train_emissions = rail_emissions(rail_from,
-                                          rail_to)) %>%
-  dplyr::mutate(total_emissions = plane_emissions + train_emissions)
-```
-
-| ID    | rail_from            | rail_to    | air_from | air_to | air_via | plane_emissions | train_emissions | total_emissions |
-|:------|:---------------------|:-----------|:---------|:-------|:--------|----------------:|----------------:|----------------:|
-| Clint | Bristol Temple Meads | Paddington | LHR      | KIS    | NBO     |        2.090193 |       0.0074051 |        2.097598 |
-| Zara  | Bristol Temple Meads | Paddington | LHR      | LAX    | ORL     |        3.085740 |       0.0074051 |        3.093146 |
-
-### Example 3: Office Emissions
+**Office Emissions**
 
 Calculate emissions for office usage:
 
@@ -151,19 +128,19 @@ office_emissions(specify = TRUE, electricity_kWh = 255.2, water_supply = 85, hea
 #> [1] 0.002345161
 ```
 
-## Beyond the Emissions Available in the 2023 UK Report
+## Additional Features
+
+**Beyond the Emissions Available in the 2023 UK Report**
 
 Additional functions are available for emissions not covered in the UK
 Government report, such as those related to operating theatre waste.
 Further details on using the operating theatre waste functions are
 provided in the vignette.
 
-### Carbon Credit Prices
-
 The `carbon_credit_price()` function provides values based on [World
 Bank data](https://carbonpricingdashboard.worldbank.org/).
 
-## Shiny App
+**Shiny App**
 
 An interactive calculator using Shiny can be accessed by the
 `shiny_emissions()` function. This calculator uses some of the functions
