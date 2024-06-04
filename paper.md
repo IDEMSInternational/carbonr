@@ -1,26 +1,27 @@
 ---
 title: 'carbonr: An R Package for Estimating Carbon-Equivalent Emissions'
 tags:
-- R
-- carbon emissions
-- open-source
-- environmental impact
-- greenhouse gas reporting
-- climate change
-- sustainability
-- reproducibility
-- transparency
-- Shiny
-- emissions data
-- environmental strategies
+  - R
+  - carbon emissions
+  - open-source
+  - environmental impact
+  - greenhouse gas reporting
+  - climate change
+  - sustainability
+  - reproducibility
+  - transparency
+  - Shiny
+  - emissions data
+  - environmental strategies
+  - calculate
 authors:
   - name: Lily Clements
-  - affiliation: 1
-  - orcid: 0000-0001-8864-0552
+    orcid: 0000-0001-8864-0552
+    affiliation: 1
 affiliations:
-  - name: IDEMS International
-    index: 1
-date: 29 April 2024
+ - name: IDEMS International
+   index: 1
+date: 4th June
 bibliography: paper.bib
 
 ---
