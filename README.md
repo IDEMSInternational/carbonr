@@ -52,22 +52,33 @@ for calculating carbon-equivalent emissions. It aims to:
 These functions estimate emissions based on general activities, making
 them easier to use without detailed knowledge of specific inputs:
 
-**Travel-Related Emissions** - `airplane_emissions()` -
-`ferry_emissions()` - `rail_emissions()` - `land_emissions()` -
-`vehicle_emissions()`
+**Travel-Related Emissions**
 
-**Accommodation-Related Emissions** - `hotel_emissions()` -
-`building_emissions()` - `office_emissions()` - `household_emissions()`
+- `airplane_emissions()`
+- `ferry_emissions()`
+- `rail_emissions()`
+- `land_emissions()`
+- `vehicle_emissions()`
+
+**Accommodation-Related Emissions**
+
+- `hotel_emissions()`
+- `building_emissions()`
+- `office_emissions()`
+- `household_emissions()`
 
 #### Raw Input-Based Emissions
 
 These functions allow for more precise calculations by inputting
 specific values, such as the quantity of materials used:
 
-**Material-Related Emissions** - `construction_emissions()` -
-`electrical_emissions()` - `material_emissions()` -
-`metal_emissions()` - `paper_emissions()` - `plastic_emissions()` -
-`raw_fuels()`
+- `construction_emissions()`
+- `electrical_emissions()`
+- `material_emissions()`
+- `metal_emissions()`
+- `paper_emissions()`
+- `plastic_emissions()`
+- `raw_fuels()`
 
 #### Clinical Emissions
 

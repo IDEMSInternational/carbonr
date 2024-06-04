@@ -56,6 +56,7 @@ devtools::install_github("IDEMSInternational/carbonr")
 These functions estimate emissions based on general activities, making them easier to use without detailed knowledge of specific inputs:
 
 **Travel-Related Emissions**
+
  - `airplane_emissions()`
  - `ferry_emissions()`
  - `rail_emissions()`
@@ -63,6 +64,7 @@ These functions estimate emissions based on general activities, making them easi
  - `vehicle_emissions()`
 
 **Accommodation-Related Emissions**
+
  - `hotel_emissions()`
  - `building_emissions()`
  - `office_emissions()`
@@ -71,7 +73,6 @@ These functions estimate emissions based on general activities, making them easi
 #### Raw Input-Based Emissions
 These functions allow for more precise calculations by inputting specific values, such as the quantity of materials used:
 
-**Material-Related Emissions**
  - `construction_emissions()`
  - `electrical_emissions()`
  - `material_emissions()`
