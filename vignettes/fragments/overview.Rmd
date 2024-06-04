@@ -1,0 +1,134 @@
+## Overview
+
+carbonr is a package in R to conveniently calculate carbon-equivalent emissions.
+
+The emissions values in the calculations are mostly from the [UK Government report (2023)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023) when available.
+
+
+## Motivation
+`carbonr` aims to provide a reliable and reproducible approach to calculating emissions levels, ensuring that the results can be saved, edited, and redistributed easily. Further, `carbonr` aims to be transparent in its calculations and values applied. This has the bonus of allowing for flexibility and customisation in estimating carbon-equivalent emissions.
+
+The vision for `carbonr` is to expand and become more comprehensive. We invite contributions from the community to extend the package's functionality, build additional features, and transform it into a more robust tool for estimating carbon-equivalent emissions. Similarly, we invite open discussions and contribution to capture different perspectives and enhancing the functionality of the package.
+
+Finally, `carbonr` aims to make the estimation of carbon-equivalent emissions more accessible by offering a user-friendly front-end interface using Shiny. This ensures that the tools are easier to use, even for individuals with limited programming experience.
+
+## Installation
+
+You can install the development version of carbonr from [GitHub](https://github.com/):
+
+```{r, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("IDEMSInternational/carbonr")
+```
+
+## Usage
+
+The main function in `naflex` is `na_omit_if`. 
+
+When wrapped around a vector in a summary function, `na_omit_if` ensures that the summary value is calculated when the checks pass, and returns `NA` if not. The example below shows how to calculate the `mean`, conditionally on the proportion of missing values.
+
+```{r}
+library(naflex)
+
+x <- c(1, 3, NA, NA, 3, 2, NA, 5, 8, 7)
+
+# Calculate if 30% or less missing values
+mean(na_omit_if(x, prop = 0.3))
+# Calculate if 20% or less missing values
+mean(na_omit_if(x, prop = 0.2))
+```
+
+Four types of checks are available:
+
+1. `prop`: the maximum proportion (0 to 1) of missing values allowed
+2. `n`: the maximum number of missing values allowed
+3. `consec`: the maximum number of consecutive missing values allowed, and
+4. `n_non`: the minimum number of non-missing values required.
+
+If multiple checks are specified, all checks must pass for missing values to be removed. For example, although there are less than 4 missing values in `x`, there are two consecutive missing values, hence the `consec = 1` check fails in the example below the result is `NA`.
+
+```{r}
+# Calculate if 4 or less missing values and 1 or less consecutive missing values 
+mean(na_omit_if(x, n = 4, consec = 1))
+```
+The use of `%>%` ("pipe") from `magrittr` can be used to make the code look clearer and more familiar. The beginning of the line is now the same as standard R and it moves `na_omit_if` after `x` which then appears more like an option within the function, like `na.rm`, which is how you might think about `na_omit_if` conceptually in this case.
+
+```{r, warning = FALSE}
+require(magrittr)
+
+sum(x %>% na_omit_if(prop = 0.25))
+```
+
+Note that you should not use `na_omit_if` with `na.rm = TRUE` in the summary function since this will always remove missing values so the checks are essentially ignored.
+
+## How `naflex` works & more details
+
+`na_omit_if` works by removing the missing values from `x` if the checks pass, and leaving `x` unmodified otherwise.
+
+```{r}
+# Missing values removed
+na_omit_if(x, n = 4)
+```
+`na_omit_if` can be thought of like an extension of `stats::na.omit` and if missing values are removed, an `na.action` attribute and `omit` class are added for consistency with `stats::na.omit`.
+
+```{r}
+# Missing values not removed, x is unmodified
+na_omit_if(x, n = 2)
+```
+A further set of four `na_omit_if_*` functions are provided for doing the same thing but restricted to a single check e.g. `na_omit_if_n(x, 2)`.
+
+`na_check` has the same parameters as `na_omit_if` but returns a logical indicating whether the checks pass. It is used internally in `na_omit_if` and may also be a useful helper function. 
+
+```{r}
+if (na_check(x, n = 4, consec = 1)) "NA checks pass" else "NA checks fail"
+```
+
+A set a four `na_check_*` functions are also provided for doing the same thing restricted to a single check e.g. `na_check_prop(x, 0.2)`
+
+Finally, `naflex` provides a set of helper functions for calculating missing value properties used in these checks.
+
+```{r}
+na_prop(x)
+na_n(x)
+na_consec(x)
+na_non_na(x)
+```
+
+## Compared to base R
+
+In base R, this functionality can often be achieved using a combination of `ifelse`, `is.na`, `rle` and the option `na.rm = TRUE`.`naflex` aims to simplify, shorten and standardise this process for users.
+
+For example, the equivalent of:
+
+```{r}
+mean(na_omit_if(x, n = 4, prop = 0.2))
+```
+
+in base R is:
+
+```{r}
+ifelse(sum(is.na(x)) <= 4 && mean(is.na(x)) <= 0.2, mean(x, na.rm = TRUE), NA)
+```
+
+The check for longest sequence of consecutive missing values is more complex and requires clever use of the `rle` function. For example,
+
+```{r}
+mean(na_omit_if(x, consec = 5))
+```
+
+is equivalent to:
+
+```{r}
+r <- rle(is.na(x))
+m <- r$lengths[r$values]
+ifelse(max(m) <= 5, mean(x, na.rm = TRUE), NA)
+```
+
+
+## Theatre Waste Functions
+There are additional more specific functions related to operating theatre waste, alternative sources are used given in the References section.
+
+Carbon credit prices are additionally available in the `carbon_credit_price` function where values are based on the [World Bank data](https://carbonpricingdashboard.worldbank.org/). The jurisdiction and year available for that jurisdiction can be found in the `check_CPI()` function.
+
+## References
+<sup id="f1">1</sup> <a href="https://library.wmo.int/index.php?lvl=notice_display&id=20130#.XljKS84zZnI" target="_blank">WMO Guidelines on the Calculation of Climate Normals</a> [↩](#a1)

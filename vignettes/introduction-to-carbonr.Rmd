@@ -1,0 +1,11 @@
+---
+title: "Introduction to carbonr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{introduction-to-carbonr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r child="fragments/overview.Rmd"}
+```

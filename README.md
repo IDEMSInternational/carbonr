@@ -49,48 +49,24 @@ addressing the following challenges and improving the estimation of
 carbon-equivalent emissions. This came after a review of current
 approaches to estimate carbon-equivalent emissions.
 
-**Reproducibility:** The carbonr package seeks to provide a reliable and
-reproducible approach to calculating emissions levels, ensuring that the
-results can be saved, edited, and redistributed easily.
+`carbonr` aims to provide a reliable and reproducible approach to
+calculating emissions levels, ensuring that the results can be saved,
+edited, and redistributed easily. Further, `carbonr` aims to be
+transparent in its calculations and values applied. This has the bonus
+of allowing for flexibility and customisation in estimating
+carbon-equivalent emissions.
 
-**Open Source:** R is an open-source language, which means that the
-carbonr package benefits from the collaborative nature of the R
-community. This allows for open discussions and contributions on
-platforms like GitHub, capturing different perspectives and enhancing
-the functionality of the package.
+The vision for `carbonr` is to expand and become more comprehensive. We
+invite contributions from the community to extend the package’s
+functionality, build additional features, and transform it into a more
+robust tool for estimating carbon-equivalent emissions. Similarly, we
+invite open discussions and contribution to capture different
+perspectives and enhancing the functionality of the package.
 
-**Transparency and Flexibility:** The carbonr package aims for
-transparency to provide the ability to amend emissions values and tailor
-them to specific environments and contexts. This allows for greater
-flexibility and customisation in estimating emissions.
-
-**Cost-effective:** The carbonr package being open source eliminates the
-need for users to incur additional costs. This makes it a cost-effective
-solution for estimating carbon-equivalent emissions.
-
-**Accessibility:** The carbonr package aims to make the estimation of
-carbon-equivalent emissions more accessible by offering a user-friendly
-front-end interface using Shiny. This ensures that the tools are easier
-to use, even for individuals with limited programming experience.
-
-**Informed Decision Making:** The carbonr package includes a feature
-where users can estimate their carbon credit price calculations. By
-incorporating carbon credit price calculations, the package equips users
-with the information to estimate the financial implications associated
-with their carbon emissions. This feature, we hope, empowers users to
-make informed decisions and take appropriate actions in mitigating their
-environmental impact.
-
-**Expansion and Collaboration:** Although currently a small stand-alone
-package used within IDEMS International, the vision for carbonr is to
-expand and become more comprehensive. The creators invite contributions
-from the community to extend the package’s functionality, build
-additional features, and transform it into a more robust tool for
-estimating carbon-equivalent emissions.
-
-By addressing these challenges and incorporating these improvements, the
-carbonr package aims to provide a reliable, accessible, and customisable
-solution for estimating and offsetting carbon-equivalent emissions.
+Finally, `carbonr` aims to make the estimation of carbon-equivalent
+emissions more accessible by offering a user-friendly front-end
+interface using Shiny. This ensures that the tools are easier to use,
+even for individuals with limited programming experience.
 
 ## Functions in carbonr
 
