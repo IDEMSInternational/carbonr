@@ -1,9 +1,8 @@
 ## Overview
 
-carbonr is a package in R to conveniently calculate carbon-equivalent emissions.
+`carbonr` is a package in R to conveniently calculate carbon-equivalent emissions.
 
-The emissions values in the calculations are mostly from the [UK Government report (2023)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023) when available.
-
+The emissions values in the calculations are mostly from the [UK Government report (2023)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023) when available. It is specified where the calculations have come from if they are not from the UK Government report (2023).
 
 ## Motivation
 `carbonr` aims to provide a reliable and reproducible approach to calculating emissions levels, ensuring that the results can be saved, edited, and redistributed easily. Further, `carbonr` aims to be transparent in its calculations and values applied. This has the bonus of allowing for flexibility and customisation in estimating carbon-equivalent emissions.
@@ -22,113 +21,242 @@ devtools::install_github("IDEMSInternational/carbonr")
 ```
 
 ## Usage
+Currently in `carbonr`, you can calculate your emissions from raw materials, such as raw fuels, paper, or metal emissions, or you can calculate from different categories such as flights, overall office or household estimated emissions, or vehicles. There are additional options relating specifically to operating theatres as well. Functions include:
 
-The main function in `naflex` is `na_omit_if`. 
+* `airplane_emissions()`
+* `ferry_emissions()`
+* `rail_emissions()`
+* `land_emissions()`
+* `vehicle_emissions()`
+* `hotel_emissions()`
+* `building_emissions()`
+* `office_emissions()`
+* `household_emissions()`
+* `construction_emissions()`
+* `electrical_emissions()`
+* `material_emissions()`
+* `metal_emissions()`
+* `paper_emissions()`
+* `plastic_emissions()`
+* `raw_fuels()`
+* `anaesthetic_emissions()`
+* `clinical_emissions()`
+* `clinical_theatre_data()`
 
-When wrapped around a vector in a summary function, `na_omit_if` ensures that the summary value is calculated when the checks pass, and returns `NA` if not. The example below shows how to calculate the `mean`, conditionally on the proportion of missing values.
+These all return carbon-equivalent emissions in tonnes.
 
-```{r}
-library(naflex)
+A shiny app is also available by `shiny_emissions()` to calculate carbon-equivalent emissions with a GUI.
 
-x <- c(1, 3, NA, NA, 3, 2, NA, 5, 8, 7)
+We give some small examples in using the functions in `carbonr()`.
 
-# Calculate if 30% or less missing values
-mean(na_omit_if(x, prop = 0.3))
-# Calculate if 20% or less missing values
-mean(na_omit_if(x, prop = 0.2))
+```{r, message = FALSE, warning = FALSE}
+library(carbonr)
 ```
 
-Four types of checks are available:
+To calculate emissions for a flight between Vancouver and Toronto, we first want to find the name of the airports. We do this using the `airport_finder()` function:
 
-1. `prop`: the maximum proportion (0 to 1) of missing values allowed
-2. `n`: the maximum number of missing values allowed
-3. `consec`: the maximum number of consecutive missing values allowed, and
-4. `n_non`: the minimum number of non-missing values required.
-
-If multiple checks are specified, all checks must pass for missing values to be removed. For example, although there are less than 4 missing values in `x`, there are two consecutive missing values, hence the `consec = 1` check fails in the example below the result is `NA`.
-
-```{r}
-# Calculate if 4 or less missing values and 1 or less consecutive missing values 
-mean(na_omit_if(x, n = 4, consec = 1))
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+airport_finder(name = "Vancouver")
 ```
-The use of `%>%` ("pipe") from `magrittr` can be used to make the code look clearer and more familiar. The beginning of the line is now the same as standard R and it moves `na_omit_if` after `x` which then appears more like an option within the function, like `na.rm`, which is how you might think about `na_omit_if` conceptually in this case.
-
-```{r, warning = FALSE}
-require(magrittr)
-
-sum(x %>% na_omit_if(prop = 0.25))
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+airport_finder(name = "Vancouver") %>%
+  knitr::kable()
+```
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+airport_finder(name = "Toronto")
+```
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+airport_finder(name = "Toronto") %>%
+  knitr::kable()
 ```
 
-Note that you should not use `na_omit_if` with `na.rm = TRUE` in the summary function since this will always remove missing values so the checks are essentially ignored.
-
-## How `naflex` works & more details
-
-`na_omit_if` works by removing the missing values from `x` if the checks pass, and leaving `x` unmodified otherwise.
-
-```{r}
-# Missing values removed
-na_omit_if(x, n = 4)
-```
-`na_omit_if` can be thought of like an extension of `stats::na.omit` and if missing values are removed, an `na.action` attribute and `omit` class are added for consistency with `stats::na.omit`.
-
-```{r}
-# Missing values not removed, x is unmodified
-na_omit_if(x, n = 2)
-```
-A further set of four `na_omit_if_*` functions are provided for doing the same thing but restricted to a single check e.g. `na_omit_if_n(x, 2)`.
-
-`na_check` has the same parameters as `na_omit_if` but returns a logical indicating whether the checks pass. It is used internally in `na_omit_if` and may also be a useful helper function. 
-
-```{r}
-if (na_check(x, n = 4, consec = 1)) "NA checks pass" else "NA checks fail"
+Now we can find the overall emission value using the appropriate IATA code. These distances are calculated using the Haversine formula:
+```{r, message = FALSE, warning = FALSE}
+airplane_emissions("YVR", "YTZ")
 ```
 
-A set a four `na_check_*` functions are also provided for doing the same thing restricted to a single check e.g. `na_check_prop(x, 0.2)`
-
-Finally, `naflex` provides a set of helper functions for calculating missing value properties used in these checks.
-
-```{r}
-na_prop(x)
-na_n(x)
-na_consec(x)
-na_non_na(x)
+A similar approach can be performed for ferry emissions. For example, to calculate emissions for a round trip ferry from Melbourne to New York, we first find the appropriate seaport code with the `seaport_finder()` function:
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+seaport_finder(country = "Australia", city = "Melbourne")
+```
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+seaport_finder(country = "Australia", city = "Melbourne") %>%
+  knitr::kable()
+```
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+seaport_finder(country = "US", city = "New York")
+```
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+seaport_finder(country = "US", city = "New York") %>%
+  knitr::kable()
 ```
 
-## Compared to base R
-
-In base R, this functionality can often be achieved using a combination of `ifelse`, `is.na`, `rle` and the option `na.rm = TRUE`.`naflex` aims to simplify, shorten and standardise this process for users.
-
-For example, the equivalent of:
-
-```{r}
-mean(na_omit_if(x, n = 4, prop = 0.2))
+Now we can find the overall emission value using the appropriate seaport code:
+```{r, message = FALSE, warning = FALSE}
+ferry_emissions("POR", "BOY", round_trip = TRUE)
 ```
 
-in base R is:
+For the UK we can calculate emissions for a train journey. Like with `airplane_emissions()` and `ferry_emissions()`, the distances are calculated using the Haversine formula - this is calculated as the crow flies. As before, we first find the stations. As always, for a more accurate estimation we can include via points:
 
-```{r}
-ifelse(sum(is.na(x)) <= 4 && mean(is.na(x)) <= 0.2, mean(x, na.rm = TRUE), NA)
+To calculate emissions for a train journey from Bristol Temple Meads to Edinburgh Waverley, via Birmingham New Street. We can use a data frame and `purrr::map()` to read through the data easier:
+
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+multiple_ind <- tibble::tribble(~ID, ~station,
+                        "From", "Bristol",
+                        "To", "Edinburgh",
+                        "Via", "Birmingham")
+purrr::map(.x = multiple_ind$station, .f = ~rail_finder(.x)) %>%
+  dplyr::bind_rows()
+```
+```{r, message = FALSE, warning = FALSE, echo=FALSE}
+multiple_ind <- tibble::tribble(~ID, ~station,
+                        "From", "Bristol",
+                        "To", "Edinburgh",
+                        "Via", "Birmingham")
+purrr::map(.x = multiple_ind$station, .f = ~rail_finder(.x)) %>%
+  dplyr::bind_rows() %>%
+  knitr::kable()
 ```
 
-The check for longest sequence of consecutive missing values is more complex and requires clever use of the `rle` function. For example,
-
-```{r}
-mean(na_omit_if(x, consec = 5))
+Then we can estimate the overall tCO2e emissions for the journey:
+```{r, message = FALSE, warning = FALSE}
+rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
 ```
 
-is equivalent to:
-
-```{r}
-r <- rle(is.na(x))
-m <- r$lengths[r$values]
-ifelse(max(m) <= 5, mean(x, na.rm = TRUE), NA)
+We can use a data frame to read through the data easier in general. For example, if we had data for multiple individuals, or journeys:
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+multiple_ind <- tibble::tribble(~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
+                        "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
+                        "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
+multiple_ind %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(plane_emissions = airplane_emissions(air_from,
+                                              air_to,
+                                              air_via)) %>%
+  dplyr::mutate(train_emissions = rail_emissions(rail_from,
+                                          rail_to)) %>%
+  dplyr::mutate(total_emissions = plane_emissions + train_emissions)
+```
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+multiple_ind <- tibble::tribble(~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
+                        "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
+                        "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
+multiple_ind %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(plane_emissions = airplane_emissions(air_from,
+                                              air_to,
+                                              air_via)) %>%
+  dplyr::mutate(train_emissions = rail_emissions(rail_from,
+                                          rail_to)) %>%
+  dplyr::mutate(total_emissions = plane_emissions + train_emissions) %>%
+  knitr::kable()
 ```
 
+Additional emissions can be calculated as well. For example, office emissions
+```{r, message = FALSE, warning = FALSE}
+office_emissions(specify = TRUE, electricity_kWh = 255.2, water_supply = 85, heat_kWh = 8764)
+```
 
-## Theatre Waste Functions
-There are additional more specific functions related to operating theatre waste, alternative sources are used given in the References section.
+Alternatively, more advance emissions can be given with other functions, such as the `material_emissions()`, `construction_emissions()`, and `raw_fuels()` functions.
 
-Carbon credit prices are additionally available in the `carbon_credit_price` function where values are based on the [World Bank data](https://carbonpricingdashboard.worldbank.org/). The jurisdiction and year available for that jurisdiction can be found in the `check_CPI()` function.
+### Operating Theatre Emissions
+Upon request, we have introduced the estimation of CO2e emissions specifically for operating theatres. We walk through a small example to demonstrate this function.
+
+To begin, we'll create a dummy data frame of clinical data. The data frame will serve as a representative sample of the information typically found in operating theatres. It could include various parameters such as the anaesthetic type (desflurane, isoflurane), the wet clinical waste in kg, the electricity in kWh, and general waste in kg. 
+
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+df <- data.frame(time = c("10/04/2000", "10/04/2000", "11/04/2000", "11/04/2000", "12/04/2000", "12/04/2000"),
+theatre = rep(c("A", "B"), times = 3),
+desflurane = c(30, 0, 25, 0, 28, 0),
+isoflurane = c(0, 37, 0, 30, 0, 35),
+clinical_waste = c(80, 90, 80, 100, 120, 110),
+electricity_kwh = c(100, 110, 90, 100, 100, 110),
+general_waste = c(65, 55, 70, 50, 60, 30))
+```
+```{r, message = FALSE, warning = FALSE, echo=FALSE}
+data.frame(time = c("10/04/2000", "10/04/2000", "11/04/2000", "11/04/2000", "12/04/2000", "12/04/2000"),
+theatre = rep(c("A", "B"), times = 3),
+desflurane = c(30, 28, 25, 0, 0, 0),
+isoflurane = c(0, 0, 0, 30, 37, 35),
+clinical_waste = c(80, 90, 80, 100, 120, 110),
+electricity_kwh = c(100, 110, 90, 100, 100, 110),
+general_waste = c(65, 55, 70, 50, 60, 30)) %>%
+  knitr::kable()
+```
+
+After creating the dummy data frame of clinical data, we can obtain the CO2e emissions and the carbon price index by the `clinical_theatre_data` function. This information can be conveniently presented in a table format:
+
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+# get emissions and CPI (carbon price index)
+clinical_theatre_data(df, time = time, name = theatre,
+                  wet_clinical_waste = clinical_waste,
+                  wet_clinical_waste_unit = "kg",
+                  average = general_waste,
+                  plastic_units = "kg",
+                  electricity_kWh = electricity_kwh,
+                  include_cpi = TRUE,
+                  jurisdiction = "Australia",
+                  year = 2023)
+```
+```{r, message = FALSE, warning = FALSE, echo=FALSE}
+# get emissions and CPI (carbon price index)
+df <- data.frame(time = c("10/04/2000", "10/04/2000", "11/04/2000", "11/04/2000", "12/04/2000", "12/04/2000"),
+theatre = rep(c("A", "B"), times = 3),
+desflurane = c(30, 0, 25, 0, 28, 0),
+isoflurane = c(0, 37, 0, 30, 0, 35),
+clinical_waste = c(80, 90, 80, 100, 120, 110),
+electricity_kwh = c(100, 110, 90, 100, 100, 110),
+general_waste = c(65, 55, 70, 50, 60, 30))
+results <- clinical_theatre_data(df, time = time, name = theatre,
+                  wet_clinical_waste = clinical_waste,
+                  wet_clinical_waste_unit = "kg",
+                  average = general_waste,
+                  plastic_units = "kg",
+                  electricity_kWh = electricity_kwh,
+                  include_cpi = TRUE,
+                  jurisdiction = "Australia",
+                  year = 2023)
+results[[1]] %>% knitr::kable()
+```
+
+## Shiny App
+
+An interactive calculator using Shiny can be accessed by the `shiny_emissions()` function. This calculator uses some of the functions in the `carbonr` package: 
+```{r, eval = FALSE}
+shiny_emissions()
+```
+
+<img src='man/figures/shiny_example.png' align="center" height="400"/>
 
 ## References
-<sup id="f1">1</sup> <a href="https://library.wmo.int/index.php?lvl=notice_display&id=20130#.XljKS84zZnI" target="_blank">WMO Guidelines on the Calculation of Climate Normals</a> [↩](#a1)
+
+### Other online calculators:
+* https://carbonfund.org/calculation-methods/
+* https://www.carbonfootprint.com/calculatorfaqs.html
+
+### Sources:
+[1] For the UK Government Report:
+
+Department for Energy Security and Net Zero. (2023). Greenhouse Gas Reporting: Conversion Factors 2023. Retrieved from https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023. Published on 7 June 2023, last updated on 28 June 2023.
+
+Note emissions for flights in the code uses values from direct effects only. `Radiative forcing = TRUE` will give indirect and direct effects. (multiplies by 1.891).
+See "business travel - air" sheet of gov.uk excel sheet linked above.
+
+[2] Radiative forcing as 1.891:
+
+DEFRA, 2016. Government GHG conversion factors for company reporting: Methodology paper for emission factors.
+
+[3] For Clinically-based emissions, we expanded beyond the 2023 Government Report since there were not estimates available.
+
+Anaesthetic emissions from
+
+Varughese, S. and Ahmed, R., 2021. Environmental and occupational considerations of anesthesia: a narrative review and update. Anesthesia & Analgesia, 133(4), pp.826-835;
+
+McGain, F., Muret, J., Lawson, C. and Sherman, J.D., 2020. Environmental sustainability in anaesthesia and critical care. British Journal of Anaesthesia, 125(5), pp.680-692;
+
+Wyssusek, K., Chan, K.L., Eames, G. and Whately, Y., 2022. Greenhouse gas reduction in anaesthesia practice: a departmental environmental strategy. BMJ Open Quality, 11(3), p.e001867;
+
+Sherman, J., Le, C., Lamers, V. and Eckelman, M., 2012. Life cycle greenhouse gas emissions of anesthetic drugs. Anesthesia & Analgesia, 114(5), pp.1086-1090.
+
+For Clinical Wet Waste:
+Department of Climate Change, Energy, the Environment and Water. (2022). National Greenhouse Accounts Factors: 2022 (p32) [Brochure]. Retrieved from https://www.dcceew.gov.au/climate-change/publications/national-greenhouse-accounts-factors-2022

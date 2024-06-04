@@ -24,13 +24,7 @@ carbonr is a package in R to conveniently calculate carbon-equivalent
 emissions. The emissions values in the calculations are from the [UK
 Government report
 (2023)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023)
-whereever available. For more specific functions related to operating
-theatre waste, alternative sources are used given in the References
-section. Carbon credit prices are additionally available in the
-`carbon_credit_price` function where values are based on the [World Bank
-data](https://carbonpricingdashboard.worldbank.org/). The jurisdiction
-and year available for that jurisdiction can be found in the
-`check_CPI()` function.
+whereever available.
 
 ## Installation
 
@@ -44,7 +38,7 @@ devtools::install_github("IDEMSInternational/carbonr")
 
 ## Aims of carbonr
 
-In 2021, work began on the carbonr package in R with the aim of
+In 2021, work began on the `carbonr` package in R with the aim of
 addressing the following challenges and improving the estimation of
 carbon-equivalent emissions. This came after a review of current
 approaches to estimate carbon-equivalent emissions.
@@ -68,11 +62,10 @@ emissions more accessible by offering a user-friendly front-end
 interface using Shiny. This ensures that the tools are easier to use,
 even for individuals with limited programming experience.
 
-## Functions in carbonr
+## Functions in `carbonr`
 
-carbonr is a package in R to conveniently calculate carbon-equivalent
-emissions. Currently, emission estimates relate to travel, materials,
-day-to-day, and clinically based.
+Currently, emission estimates relate to travel, materials, day-to-day,
+and clinically based.
 
 - `airplane_emissions()`
 - `ferry_emissions()`
@@ -101,7 +94,8 @@ carbon-equivalent emissions with a GUI.
 
 ## Usage
 
-We give some small examples in using the functions in `carbonr()`
+We give some small examples in using the functions in `carbonr()`.
+Further, more comprehensive, examples are available in the vignette.
 
 ``` r
 library(carbonr)
@@ -138,74 +132,6 @@ airplane_emissions("YVR", "YTZ")
 #> [1] 0.9876006
 ```
 
-A similar approach can be performed for ferry emissions. For example, to
-calculate emissions for a round trip ferry from Melbourne to New York,
-we first find the appropriate seaport code with the `seaport_finder()`
-function:
-
-``` r
-seaport_finder(country = "Australia", city = "Melbourne")
-```
-
-| country   | city                       | country_code | port_code | latitude | longitude |
-|:----------|:---------------------------|:-------------|:----------|---------:|----------:|
-| Australia | Point Henry Pier/Melbourne | AU           | PHP       |   -38.07 |    144.26 |
-| Australia | Port Melbourne             | AU           | POR       |   -37.50 |    144.56 |
-
-``` r
-seaport_finder(country = "US", city = "New York")
-```
-
-| country       | city              | country_code | port_code | latitude | longitude |
-|:--------------|:------------------|:-------------|:----------|---------:|----------:|
-| United States | Brooklyn/New York | US           | BOY       |    40.44 |    -73.56 |
-
-Now we can find the overall emission value using the appropriate seaport
-code:
-
-``` r
-ferry_emissions("POR", "BOY", round_trip = TRUE)
-#> [1] 4.42413
-```
-
-For the UK we can calculate emissions for a train journey. Like with
-`airplane_emissions()` and `ferry_emissions()`, the distances are
-calculated using the Haversine formula - this is calculated as the crow
-flies. As before, we first find the stations. As always, for a more
-accurate estimation we can include via points:
-
-To calculate emissions for a train journey from Bristol Temple Meads to
-Edinburgh Waverley, via Birmingham New Street. We can use a data frame
-and `purrr::map()` to read through the data easier:
-
-``` r
-multiple_ind <- tibble::tribble(~ID, ~station,
-                        "From", "Bristol",
-                        "To", "Edinburgh",
-                        "Via", "Birmingham")
-purrr::map(.x = multiple_ind$station, .f = ~rail_finder(.x)) %>%
-  dplyr::bind_rows()
-```
-
-| station_code | station                  | region        | county                | district              | latitude | longitude |
-|:-------------|:-------------------------|:--------------|:----------------------|:----------------------|---------:|----------:|
-| BPW          | Bristol Parkway          | South West    | South Gloucestershire | South Gloucestershire | 51.51380 | -2.542163 |
-| BRI          | Bristol Temple Meads     | South West    | Bristol City Of       | Bristol City Of       | 51.44914 | -2.581315 |
-| EDB          | Edinburgh                | Scotland      | Edinburgh City Of     | Edinburgh City Of     | 55.95239 | -3.188228 |
-| EDP          | Edinburgh Park           | Scotland      | Edinburgh City Of     | Edinburgh City Of     | 55.92755 | -3.307664 |
-| BBS          | Birmingham Bordesley     | West Midlands | West Midlands         | Birmingham            | 52.47187 | -1.877769 |
-| BHI          | Birmingham International | West Midlands | West Midlands         | Solihull              | 52.45081 | -1.725857 |
-| BHM          | Birmingham New Street    | West Midlands | West Midlands         | Birmingham            | 52.47782 | -1.900205 |
-| BMO          | Birmingham Moor Street   | West Midlands | West Midlands         | Birmingham            | 52.47908 | -1.892473 |
-| BSW          | Birmingham Snow Hill     | West Midlands | West Midlands         | Birmingham            | 52.48335 | -1.899088 |
-
-Then we can estimate the overall tCO2e emissions for the journey:
-
-``` r
-rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
-#> [1] 0.02304686
-```
-
 We can use a data frame to read through the data easier in general. For
 example, if we had data for multiple individuals, or journeys:
 
@@ -240,63 +166,23 @@ Alternatively, more advance emissions can be given with other functions,
 such as the `material_emissions()`, `construction_emissions()`, and
 `raw_fuels()` functions.
 
-## Operating Theatre Emissions
+### Beyond the Emissions Available in the 2023 UK Report
 
-Upon request, we have introduced the estimation of CO2e emissions
-specifically for operating theatres. We walk through a small example to
-demonstrate this function.
+There are additional more specific functions related to calculating
+emissions that are not covered in the [UK Government report
+(2023)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023).
 
-To begin, we’ll create a dummy data frame of clinical data. The data
-frame will serve as a representative sample of the information typically
-found in operating theatres. It could include various parameters such as
-the anaesthetic type (desflurane, isoflurane), the wet clinical waste in
-kg, the electricity in kWh, and general waste in kg.
+One large set of these relate to operating theatre waste. Usage on this
+are outlined in the vignette. Alternative sources are used to calculate
+this set of emissions. The discussions in creating these emissions can
+be found under issues, and the sources to calculate the emissions can be
+found in the References section.
 
-``` r
-df <- data.frame(time = c("10/04/2000", "10/04/2000", "11/04/2000", "11/04/2000", "12/04/2000", "12/04/2000"),
-theatre = rep(c("A", "B"), times = 3),
-desflurane = c(30, 0, 25, 0, 28, 0),
-isoflurane = c(0, 37, 0, 30, 0, 35),
-clinical_waste = c(80, 90, 80, 100, 120, 110),
-electricity_kwh = c(100, 110, 90, 100, 100, 110),
-general_waste = c(65, 55, 70, 50, 60, 30))
-```
-
-| time       | theatre | desflurane | isoflurane | clinical_waste | electricity_kwh | general_waste |
-|:-----------|:--------|-----------:|-----------:|---------------:|----------------:|--------------:|
-| 10/04/2000 | A       |         30 |          0 |             80 |             100 |            65 |
-| 10/04/2000 | B       |         28 |          0 |             90 |             110 |            55 |
-| 11/04/2000 | A       |         25 |          0 |             80 |              90 |            70 |
-| 11/04/2000 | B       |          0 |         30 |            100 |             100 |            50 |
-| 12/04/2000 | A       |          0 |         37 |            120 |             100 |            60 |
-| 12/04/2000 | B       |          0 |         35 |            110 |             110 |            30 |
-
-After creating the dummy data frame of clinical data, we can obtain the
-CO2e emissions and the carbon price index by the `clinical_theatre_data`
-function. This information can be conveniently presented in a table
-format:
-
-``` r
-# get emissions and CPI (carbon price index)
-clinical_theatre_data(df, time = time, name = theatre,
-                  wet_clinical_waste = clinical_waste,
-                  wet_clinical_waste_unit = "kg",
-                  average = general_waste,
-                  plastic_units = "kg",
-                  electricity_kWh = electricity_kwh,
-                  include_cpi = TRUE,
-                  jurisdiction = "Australia",
-                  year = 2023)
-```
-
-| time       | theatre | emissions | carbon_price_credit |
-|:-----------|:--------|----------:|--------------------:|
-| 10/04/2000 | A       | 0.2994651 |            3.185865 |
-| 10/04/2000 | B       | 0.2799792 |            2.978564 |
-| 11/04/2000 | A       | 0.3122287 |            3.321652 |
-| 11/04/2000 | B       | 0.2705084 |            2.877809 |
-| 12/04/2000 | A       | 0.3191129 |            3.394888 |
-| 12/04/2000 | B       | 0.2199980 |            2.340453 |
+Carbon credit prices are additionally available in the
+`carbon_credit_price()` function where values are based on the [World
+Bank data](https://carbonpricingdashboard.worldbank.org/). The
+jurisdiction and year available for that jurisdiction can be found in
+the `check_CPI()` function.
 
 ## Shiny App
 
@@ -350,7 +236,7 @@ Methodology paper for emission factors.
 \[3\] For Clinically-based emissions, we expanded beyond the 2023
 Government Report since there were not estimates available.
 
-Anaesthetic emissions from
+Anaesthetic emissions from:
 
 Varughese, S. and Ahmed, R., 2021. Environmental and occupational
 considerations of anesthesia: a narrative review and update. Anesthesia
@@ -368,8 +254,7 @@ Sherman, J., Le, C., Lamers, V. and Eckelman, M., 2012. Life cycle
 greenhouse gas emissions of anesthetic drugs. Anesthesia & Analgesia,
 114(5), pp.1086-1090.
 
-Clinical wet waste from (p32):
-
-Department of Climate Change, Energy, the Environment and Water. (2022).
-National Greenhouse Accounts Factors: 2022 \[Brochure\]. Retrieved from
+Clinical wet waste emissions from: Department of Climate Change, Energy,
+the Environment and Water. (2022). National Greenhouse Accounts Factors:
+2022 (p32) \[Brochure\]. Retrieved from
 <https://www.dcceew.gov.au/climate-change/publications/national-greenhouse-accounts-factors-2022>.
