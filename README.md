@@ -47,9 +47,8 @@ for calculating carbon-equivalent emissions. It aims to:
 
 ## Functions in `carbonr`
 
-#### General Overall Emissions
-
-These functions estimate emissions based on general activities, making
+There are different types of functions in `carbonr`. There are travel
+and accommodation based estimates based on general activities, making
 them easier to use without detailed knowledge of specific inputs:
 
 **Travel-Related Emissions**
@@ -82,8 +81,8 @@ specific values, such as the quantity of materials used:
 
 #### Clinical Emissions
 
-Functions specific to calculating emissions from clinical and medical
-activities:
+These functions are specific to calculating emissions from clinical and
+medical activities:
 
 - `anaesthetic_emissions()`
 - `clinical_emissions()`
@@ -102,8 +101,9 @@ vignette.
 library(carbonr)
 ```
 
-**Calculating Airplane Emissions** Find the IATA codes for Vancouver and
-Toronto:
+**Calculating Airplane Emissions**
+
+Find the IATA codes for Vancouver and Toronto:
 
 ``` r
 airport_finder(name = "Vancouver")
@@ -174,13 +174,13 @@ Planned features include:
 
 ## References
 
-### Other Online Calculators:
+#### Other Online Calculators:
 
 - [Carbonfund.org](https://carbonfund.org/calculation-methods/)
 - [Carbon Footprint
   Calculator](https://www.carbonfootprint.com/calculatorfaqs.html)
 
-### Sources:
+#### Sources
 
 1.  UK Government Report: Department for Energy Security and Net Zero.
     (2023). [Greenhouse Gas Reporting: Conversion Factors

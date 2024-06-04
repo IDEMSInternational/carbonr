@@ -52,8 +52,7 @@ devtools::install_github("IDEMSInternational/carbonr")
 
 ## Functions in `carbonr`
 
-#### General Overall Emissions
-These functions estimate emissions based on general activities, making them easier to use without detailed knowledge of specific inputs:
+There are different types of functions in `carbonr`. There are travel and accommodation based estimates based on general activities, making them easier to use without detailed knowledge of specific inputs:
 
 **Travel-Related Emissions**
 
@@ -82,7 +81,7 @@ These functions allow for more precise calculations by inputting specific values
  - `raw_fuels()`
 
 #### Clinical Emissions
-Functions specific to calculating emissions from clinical and medical activities:
+These functions are specific to calculating emissions from clinical and medical activities:
 
  - `anaesthetic_emissions()`
  - `clinical_emissions()`
@@ -99,6 +98,7 @@ library(carbonr)
 ```
 
 **Calculating Airplane Emissions**
+
 Find the IATA codes for Vancouver and Toronto:
 
 ```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
@@ -158,11 +158,11 @@ Planned features include:
 
 ## References
 
-### Other Online Calculators:
+#### Other Online Calculators:
 - [Carbonfund.org](https://carbonfund.org/calculation-methods/)
 - [Carbon Footprint Calculator](https://www.carbonfootprint.com/calculatorfaqs.html)
 
-### Sources:
+#### Sources
 1. UK Government Report: Department for Energy Security and Net Zero. (2023). [Greenhouse Gas Reporting: Conversion Factors 2023](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023).
 
 2. Radiative Forcing Factor: DEFRA, 2016. Government GHG conversion factors for company reporting.
