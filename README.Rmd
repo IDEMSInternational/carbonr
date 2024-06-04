@@ -45,7 +45,7 @@ devtools::install_github("IDEMSInternational/carbonr")
 
 `carbonr` was developed to provide a reliable and reproducible method for calculating carbon-equivalent emissions. It aims to:
 
- - Ensure transparency and flexibility in emissions calculations.
+ - Ensure transparency, flexibility, and reproducibility in emissions calculations.
  - Facilitate easy saving, editing, and redistribution of results.
  - Encourage community contributions to extend functionality.
  - Provide a user-friendly interface through Shiny for users with limited programming experience.
