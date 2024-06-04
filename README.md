@@ -36,12 +36,13 @@ devtools::install_github("IDEMSInternational/carbonr")
 ## Aims of carbonr
 
 `carbonr` was developed to provide a reliable and reproducible method
-for calculating carbon-equivalent emissions. It aims to: - Ensure
-transparency and flexibility in emissions calculations. - Facilitate
-easy saving, editing, and redistribution of results. - Encourage
-community contributions to extend functionality. - Provide a
-user-friendly interface through Shiny for users with limited programming
-experience.
+for calculating carbon-equivalent emissions. It aims to:
+
+- Ensure transparency and flexibility in emissions calculations.
+- Facilitate easy saving, editing, and redistribution of results.
+- Encourage community contributions to extend functionality.
+- Provide a user-friendly interface through Shiny for users with limited
+  programming experience.
 
 ## Functions in `carbonr`
 
@@ -50,31 +51,22 @@ experience.
 These functions estimate emissions based on general activities, making
 them easier to use without detailed knowledge of specific inputs:
 
-- **Travel-Related Emissions**
-  - `airplane_emissions()`
-  - `ferry_emissions()`
-  - `rail_emissions()`
-  - `land_emissions()`
-  - `vehicle_emissions()`
-- **Accommodation-Related Emissions**
-  - `hotel_emissions()`
-  - `building_emissions()`
-  - `office_emissions()`
-  - `household_emissions()`
+**Travel-Related Emissions** - `airplane_emissions()` -
+`ferry_emissions()` - `rail_emissions()` - `land_emissions()` -
+`vehicle_emissions()`
+
+**Accommodation-Related Emissions** - `hotel_emissions()` -
+`building_emissions()` - `office_emissions()` - `household_emissions()`
 
 #### Raw Input-Based Emissions
 
 These functions allow for more precise calculations by inputting
 specific values, such as the quantity of materials used:
 
-- **Material-Related Emissions**
-  - `construction_emissions()`
-  - `electrical_emissions()`
-  - `material_emissions()`
-  - `metal_emissions()`
-  - `paper_emissions()`
-  - `plastic_emissions()`
-  - `raw_fuels()`
+**Material-Related Emissions** - `construction_emissions()` -
+`electrical_emissions()` - `material_emissions()` -
+`metal_emissions()` - `paper_emissions()` - `plastic_emissions()` -
+`raw_fuels()`
 
 #### Clinical Emissions
 
@@ -185,9 +177,11 @@ shiny_emissions()
 
 ## For the Future
 
-Planned features include: - Data integration for office emissions from
-accounting records. - Comprehensive reporting tools with summary
-statistics, tables, and graphs.
+Planned features include:
+
+- Data integration for office emissions from accounting records.
+- Comprehensive reporting tools with summary statistics, tables, and
+  graphs.
 
 ## References
 
