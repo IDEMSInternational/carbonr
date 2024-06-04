@@ -151,10 +151,12 @@ shiny_emissions()
 
 ## For the Future
 
-Planned features include:
+As well as those outlined in the "issues", planned features include:
 
- - Data integration for office emissions from accounting records.
+ - Data integration from data sets. For example, office emissions from accounting records.
  - Comprehensive reporting tools with summary statistics, tables, and graphs.
+ - Open to further collaborations to contribute new emissions, insights, and methodologies.
+ - Continual updates to integrate the latest research.
 
 ## References
 
