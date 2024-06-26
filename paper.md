@@ -57,11 +57,7 @@ First, use the `airport_finder` function to lookup IATA codes for airports. Here
 ```
 library(carbonr)
 library(dplyr)
-```
 
-```
-library(carbonr)
-library(dplyr)
 # Finding the airport code for London Heathrow
 airport_finder(name = "Heathrow")
 ```
