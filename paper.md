@@ -54,12 +54,12 @@ The `carbonr` package complements other R tools by providing functions to estima
 
 First, use the `airport_finder` function to lookup IATA codes for airports. Here's how you find the code for London Heathrow and Nairobi airports:
 
-```{r, message = FALSE, warning = FALSE, eval = TRUE, include = FALSE}
+```
 library(carbonr)
 library(dplyr)
 ```
 
-```{r, message = FALSE, warning = FALSE, eval = FALSE, include=TRUE}
+```
 library(carbonr)
 library(dplyr)
 # Finding the airport code for London Heathrow
@@ -70,7 +70,7 @@ airport_finder(name = "Heathrow")
 |:------------------------:|:-------:|:--------------:|:----:|
 | London Heathrow Airport  | London  | United Kingdom | LHR  |
 
-```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+```
 # Finding the airport codes for airports in Nairobi
 carbonr::airport_finder(city = "Nairobi")
 ```
@@ -83,7 +83,7 @@ carbonr::airport_finder(city = "Nairobi")
 
 Using these codes, calculate the emissions for a round-trip journey:
 
-```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+```
 # Calculating emissions for a round-trip flight
 airplane_emissions(from = "LHR", to = "KIS", via = "NBO")
 ```
@@ -92,7 +92,7 @@ airplane_emissions(from = "LHR", to = "KIS", via = "NBO")
 
 For a more comprehensive analysis, integrate information for multiple travellers and journey types:
 
-```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+```
 # Example dataset of multiple individuals' travel details
 multiple_ind <- tibble::tribble(
   ~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
