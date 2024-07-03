@@ -32,7 +32,7 @@ The `carbonr` package provides a user-friendly, open-source tool for calculating
 Designed for flexibility and ease of use, `carbonr` enables users from different sectors to estimate emissions from travel, construction, office environments, and, more recently, clinical settings, thereby aiding in informed decision-making for environmental impact reduction.
 
 # Statement of Need
-Climate change and environmental sustainability are pressing global challenges that require sophisticated methods for assessing and mitigating carbon emissions across various sectors [@WHO2023]. Traditional tools for carbon accounting often lack flexibility, transparency, and/or accessibility. These limitations can hamper scientific advancements and the widespread adoption of best practices accounting for in carbon emissions.
+Climate change and environmental sustainability are pressing global challenges that require sophisticated methods for assessing and mitigating carbon emissions across various sectors [@WHO2021]. Traditional tools for carbon accounting often lack flexibility, transparency, and/or accessibility. These limitations can hamper scientific advancements and the widespread adoption of best practices accounting for in carbon emissions.
 
 To address these issues, `carbonr` offers an open-source solution that improves the reproducibility of carbon emission calculations and enhances the understanding of these emissions within the research community. Key features of `carbonr` include its simplicity, user-friendly Shiny interface, and adaptability to different sector needs, making it accessible to a broader audience.
 
