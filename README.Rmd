@@ -118,6 +118,18 @@ As well as those outlined in the "issues", planned features include:
  - Open to further collaborations to contribute new emissions, insights, and methodologies.
  - Continual updates to integrate the latest research.
 
+## Contributing, Reporting Issues, and Seeking Support
+
+We welcome contributions from the community to enhance the `carbonr` package. If you would like to contribute, please follow these guidelines:
+
+- **Contribute to the software**: If you wish to contribute new features, fix bugs, or improve the documentation, please fork the repository, create a new branch for your changes, and submit a pull request. Ensure that your code follows the existing style and include tests where applicable.
+
+- **Report issues or problems**: If you encounter any bugs or have suggestions for improvements, please open an issue in the [GitHub repository](https://github.com/IDEMSInternational/carbonr/issues). Provide as much detail as possible, including steps to reproduce the issue if applicable.
+
+- **Seek support**: For any questions or help with using `carbonr`, you can reach out by opening a discussion in the [GitHub Discussions](https://github.com/IDEMSInternational/carbonr/discussions).
+
+Your feedback and contributions are invaluable in helping us improve and maintain the package.
+
 ## References
 
 #### Other Online Calculators:
