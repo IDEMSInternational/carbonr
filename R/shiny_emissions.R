@@ -291,7 +291,7 @@ shiny_emissions <- function(){
                                                                                                                                       "Units for water:",
                                                                                                                                       c("cubic metres",
                                                                                                                                         "million litres"),
-                                                                                                                                        width = "20%")),
+                                                                                                                                      width = "20%")),
                                                                                                                  shiny::splitLayout(shiny::verbatimTextOutput("office_emissions"),
                                                                                                                                     htmltools::h6("tonnes"),
                                                                                                                                     shiny::actionButton("add_office", "Add to Table", class="btn-success"), 
@@ -338,12 +338,19 @@ shiny_emissions <- function(){
     
     # via input options
     K_plane <- shiny::reactive({ input$flightvia })
-    output$flightvia_input <- shiny::renderUI({ add_inputs(numeric_input = K_plane(),  label = "Airport:", value = "airport IATA code") })
+    output$flightvia_input <- shiny::renderUI({
+      if(K_plane() > 0) {
+        lapply(1:K_plane(), function(i) {
+          shiny::textInput(inputId = paste0("via_", i), label = paste0("Via ", i, ":"), value = "")
+        })
+      }
+    })
     carbon_calc <- shiny::reactive({
       if (input$flightvia == 0){
         C_P <- NULL
       } else {
         C_P <- sapply(1:K_plane(), function(i) {input[[paste0("via_",i)]]})
+        C_P <- unlist(C_P)
       }
       airplane_emissions(from = input$flightfrom, to = input$flightto, via = C_P, class = input$flightclass, num_people = input$numberflying, radiative_force = input$radiative, round_trip = input$roundtrip_plane, include_WTT = input$secondary_plane)
     })
@@ -356,12 +363,20 @@ shiny_emissions <- function(){
     
     # via input options
     K_train <- shiny::reactive({ input$trainvia })
-    output$trainvia_input <- shiny::renderUI({ add_inputs(numeric_input = K_train(),  label = "Station:", value = "station name") })
+    output$trainvia_input <- shiny::renderUI({
+      if(K_train() > 0) {
+        lapply(1:K_train(), function(i) {
+          shiny::textInput(inputId = paste0("via_", i), label = paste0("Via ", i, ":"), value = "")
+        })
+      }
+    })
+    
     train_carbon_calc <- shiny::reactive({
       if (input$trainvia == 0){
         C <- NULL
       } else {
-        C <- sapply(1:K_train(), function(i) {input[[paste0("via1_",i)]]})
+        C <- sapply(1:K_train(), function(i) {input[[paste0("via_", i)]]})
+        C <- unlist(C)
       }
       rail_emissions(from = input$trainfrom, to = input$trainto, via = C, num_people = input$numbertrain, times_journey = input$timestrain, round_trip = input$roundtrip_train, include_WTT = input$secondary_train)
     })
