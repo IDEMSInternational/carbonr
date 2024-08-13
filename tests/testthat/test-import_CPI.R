@@ -6,7 +6,7 @@ library(stringr)
 # Assuming you have a test Excel file located in your test directory called "test_CPI_Data.xlsx"
 path_to_test_file <- "testdata/CPI_Data_DashboardExtract.xlsx"
 
-test_data <- import_CPI(path = path_to_test_file, sheet = "Data_Price", skip = 2)
+test_data <- suppressWarnings(import_CPI(path = path_to_test_file, sheet = "Data_Price", skip = 2))
 
 test_that("import_CPI returns a dataframe with correct structure and data", {
   # Check if the output is a dataframe
