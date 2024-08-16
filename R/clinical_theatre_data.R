@@ -24,7 +24,6 @@
 #'
 #' @examples
 #' # Example with dummy data
-#' 
 #' df <- data.frame(time = c("10/04/2000", "10/04/2000", "11/04/2000",
 #'                           "11/04/2000", "12/04/2000", "12/04/2000"),
 #' theatre = rep(c("A", "B"), times = 3),
@@ -43,15 +42,6 @@
 #'                  jurisdiction = "Australia",
 #'                  year = 2023,
 #'                  single_sheet = FALSE)
-# x <- clinical_theatre_data(clincial_example_df, time = date_yyyy_mm,
-#'                           name = theatre_name,
-#  wet_clinical_waste = clinical_waste_kg,
-#  wet_clinical_waste_unit = "kg",
-#  average = general_waste_kg,
-#  plastic_units = "kg",
-#  electricity_kWh = electricity_kwh,
-#  water_supply = water_million_litres,
-#  water_unit = "million litres")
 clinical_theatre_data <- function(data, time, date_format = c("%d/%m/%Y"), name, wet_clinical_waste = 0, wet_clinical_waste_unit = c("tonnes", "kg"),
                                   desflurane = 0, sevoflurane = 0, isoflurane = 0, methoxyflurane = 0, N2O = 0, propofol = 0,
                                   water_supply = 0, water_trt = TRUE, water_unit = c("cubic metres", "million litres"),
@@ -117,3 +107,4 @@ clinical_theatre_data <- function(data, time, date_format = c("%d/%m/%Y"), name,
   }
   return(return_object)
 }
+
