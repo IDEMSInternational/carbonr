@@ -124,5 +124,6 @@ If one of these is used for a value that does not provide it, then an \code{"NA"
 construction_emissions()
 
 #Calculate construction emissions with specified quantities
-construction_emissions(aggregates = 1000, concrete = 500, wood = 2000, units = "kg", waste_disposal = "Landfill")
+construction_emissions(aggregates = 1000, concrete = 500, wood = 2000,
+                       units = "kg", waste_disposal = "Landfill")
 }

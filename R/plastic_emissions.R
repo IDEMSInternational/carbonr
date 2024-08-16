@@ -38,8 +38,10 @@
 #' # Calculate plastic emissions using default values
 #' plastic_emissions()
 #'
-#' # Calculate plastic emissions with specific quantities and waste disposal method
-#' plastic_emissions(average = 100, HDPE = 50, PET = 25, waste_disposal = "Combustion", units = "tonnes")
+#' # Calculate plastic emissions with specific quantities and waste disposal
+#' # method
+#' plastic_emissions(average = 100, HDPE = 50, PET = 25,
+#'                   waste_disposal = "Combustion", units = "tonnes")
 plastic_emissions <- function(average = 0, average_film = 0, average_rigid = 0, HDPE = 0,
                                LDPE = 0, LLDPE = 0, PET = 0, PP = 0, PS = 0, PVC = 0,
                               average_WD = 0, average_film_WD = 0, average_rigid_WD = 0, HDPE_WD = 0,

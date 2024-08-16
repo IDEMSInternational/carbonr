@@ -16,7 +16,8 @@
 #' @export
 #'
 #' @examples
-#' # Calculate carbon price credit for the United Kingdom in the year 2000, period 2, and CO2e value of 100
+#' # Calculate carbon price credit for the United Kingdom in the year 2000,
+#' # period 2, and CO2e value of 100
 #' carbon_price_credit("United Kingdom", 2022, 2, co2e_val = 100)
 #' 
 #' # Or manually enter a value

@@ -32,7 +32,7 @@
 gg_value_box <- function(values, information, icons){
   emojifont::load.fontawesome()
   
- df <- data.frame(
+  df <- data.frame(
     x = c(0, 10, 20),
     y = c(rep(6.5, 3)),
     h = rep(4.25, 3),
@@ -44,8 +44,8 @@ gg_value_box <- function(values, information, icons){
     color = factor(1:3)
   )
   
-  ggplot2::ggplot(df, ggplot2::aes(x, y, height = h, width = w, label = info)) +
-    ggplot2::geom_tile(ggplot2::aes(fill = color)) +
+  ggplot2::ggplot(df, ggplot2::aes(x = x, y = y, height = h, width = w, label = info, fill = color)) +
+    ggplot2::geom_tile() +
     ggplot2::geom_text(
       color = "white", fontface = "bold", size = 10,
       ggplot2::aes(label = value, x = x - 2.9, y = y + 1), hjust = 0

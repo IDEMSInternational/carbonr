@@ -31,8 +31,10 @@
 #' # Calculate electrical emissions using default values
 #' electrical_emissions()
 #'
-#' # Calculate electrical emissions with specific quantities and waste disposal method
-#' electrical_emissions(fridges = 10, IT = 5, alkaline_batteries = 100, waste_disposal = "Open-loop", units = "tonnes")
+#' # Calculate electrical emissions with specific quantities and waste disposal
+#' # method
+#' electrical_emissions(fridges = 10, IT = 5, alkaline_batteries = 100,
+#'                      waste_disposal = "Open-loop", units = "tonnes")
 electrical_emissions <- function(fridges = 0, freezers = 0, large = 0, IT = 0, small = 0,
                                 alkaline_batteries = 0, LiIon_batteries = 0, NiMh_batteries = 0,
                                 fridges_WD = 0, freezers_WD = 0, large_WD = 0, IT_WD = 0,

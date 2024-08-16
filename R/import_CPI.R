@@ -15,20 +15,22 @@
 import_CPI <- function(path, sheet = "Data_Price", skip = 2){
   data <- readxl::read_excel(path, sheet = sheet, skip = skip)
   data <- data %>%
-    dplyr::filter(`Instrument Type` == "ETS") %>% 
-    dplyr::select(-c(tidyr::starts_with("Price_label_"), tidyr::ends_with("Instrument_Type"), `Name of the initiative`, `Instrument Type`))%>%
+    dplyr::filter(.data$`Instrument Type` == "ETS") %>% 
+    dplyr::select(-c(tidyr::starts_with("Price_label_"), tidyr::ends_with("Instrument_Type"), .data$`Name of the initiative`, .data$`Instrument Type`)) %>%
     tidyr::pivot_longer(cols = tidyselect::starts_with("Price_rate_"), names_to = "Year", values_to = "Price ($)") %>%
-    dplyr::mutate(Year = sub(".*Price_rate_", "", Year))
+    dplyr::mutate(Year = sub(".*Price_rate_", "", .data$Year))
+  
   year_time <- stringr::str_split(data$Year, "_", simplify = TRUE)
+  
   data <- data %>%
     dplyr::mutate(Period = as.numeric(year_time[,1])) %>%
     dplyr::mutate(Year = as.numeric(year_time[,2])) %>%
-    dplyr::select(c(Jurisdiction = `Jurisdiction Covered`, Period, Year, `Price ($)`)) %>%
-    dplyr::mutate(`Price ($)` = as.numeric(`Price ($)`)) %>%
-    dplyr::group_by(Jurisdiction) %>%
-    tidyr::fill(`Price ($)`) %>%
-    dplyr::filter(!is.na(`Price ($)`)) %>%
-    tidyr::separate_rows(Jurisdiction, sep=", ", convert = TRUE)
-  # repeat rows if a comma
+    dplyr::select(c(Jurisdiction = .data$`Jurisdiction Covered`, .data$Period, .data$Year, `Price ($)`)) %>%
+    dplyr::mutate(`Price ($)` = as.numeric(.data$`Price ($)`)) %>%
+    dplyr::group_by(.data$Jurisdiction) %>%
+    tidyr::fill(.data$`Price ($)`) %>%
+    dplyr::filter(!is.na(.data$`Price ($)`)) %>%
+    tidyr::separate_rows(.data$Jurisdiction, sep=", ", convert = TRUE)
+  
   return(data)
 }

@@ -27,6 +27,7 @@ Imports:
     magrittr,
     readxl,
     rlang,
+    purrr,
     shiny,
     shinydashboard,
     sp,
