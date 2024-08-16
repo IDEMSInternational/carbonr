@@ -180,5 +180,7 @@ Returns CO2e emissions in tonnes.
 Calculate carbon-equivalent emissions following an operating theatre
 }
 \examples{
-clinical_theatre_emissions(wet_clinical_waste = 100)
+\dontrun{
+  clinical_theatre_emissions(wet_clinical_waste = 100)
+}
 }
