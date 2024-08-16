@@ -59,7 +59,8 @@
 #' construction_emissions()
 #' 
 #' #Calculate construction emissions with specified quantities
-#' construction_emissions(aggregates = 1000, concrete = 500, wood = 2000, units = "kg", waste_disposal = "Landfill")
+#' construction_emissions(aggregates = 1000, concrete = 500, wood = 2000,
+#'                        units = "kg", waste_disposal = "Landfill")
 construction_emissions <- function(aggregates = 0, average = 0, asbestos = 0, asphalt = 0, bricks = 0,
                                    concrete = 0, insulation = 0, metals = 0, soils = 0, mineral_oil = 0,
                                    plasterboard = 0, tyres = 0, wood = 0,

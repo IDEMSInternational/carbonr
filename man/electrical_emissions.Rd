@@ -74,6 +74,8 @@ This function calculates the emissions produced from different electrical items 
 # Calculate electrical emissions using default values
 electrical_emissions()
 
-# Calculate electrical emissions with specific quantities and waste disposal method
-electrical_emissions(fridges = 10, IT = 5, alkaline_batteries = 100, waste_disposal = "Open-loop", units = "tonnes")
+# Calculate electrical emissions with specific quantities and waste disposal
+# method
+electrical_emissions(fridges = 10, IT = 5, alkaline_batteries = 100,
+                     waste_disposal = "Open-loop", units = "tonnes")
 }

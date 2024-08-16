@@ -15,8 +15,11 @@
 #' @details The distances are calculated using the "airport_distance" function from the "airportr" package. This means that the distances between locations uses the Haversine formula. This is calculated as the crow flies.
 #' @examples # Calculate emissions for a flight between Vancouver (YVR) and Toronto (YYZ)
 #' airplane_emissions("YVR", "YYZ")
-#' @examples # Calculate emissions for a flight between London Heathrow (LHR) and Kisumu Airport (KIS), with layovers in Amsterdam (AMS) and Nairobi (NBO), flying in Economy class
-#' airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"), class = "Economy class")
+#' @examples # Calculate emissions for a flight between London Heathrow (LHR)
+#' # and Kisumu Airport (KIS), with layovers in Amsterdam (AMS) and Nairobi
+#' # (NBO), flying in Economy class.
+#' airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"),
+#'                    class = "Economy class")
 airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_force = TRUE, include_WTT = TRUE, round_trip = FALSE, class = c("Average passenger", "Economy class", "Business class", "Premium economy class", "First class")) {
   checkmate::assert_string(from)
   checkmate::assert_string(to)

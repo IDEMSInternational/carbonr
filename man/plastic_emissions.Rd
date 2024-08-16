@@ -89,6 +89,8 @@ This function calculates the emissions produced from different plastic sources b
 # Calculate plastic emissions using default values
 plastic_emissions()
 
-# Calculate plastic emissions with specific quantities and waste disposal method
-plastic_emissions(average = 100, HDPE = 50, PET = 25, waste_disposal = "Combustion", units = "tonnes")
+# Calculate plastic emissions with specific quantities and waste disposal
+# method
+plastic_emissions(average = 100, HDPE = 50, PET = 25,
+                  waste_disposal = "Combustion", units = "tonnes")
 }

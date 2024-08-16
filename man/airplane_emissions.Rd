@@ -45,6 +45,9 @@ The distances are calculated using the "airport_distance" function from the "air
 \examples{
 # Calculate emissions for a flight between Vancouver (YVR) and Toronto (YYZ)
 airplane_emissions("YVR", "YYZ")
-# Calculate emissions for a flight between London Heathrow (LHR) and Kisumu Airport (KIS), with layovers in Amsterdam (AMS) and Nairobi (NBO), flying in Economy class
-airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"), class = "Economy class")
+# Calculate emissions for a flight between London Heathrow (LHR)
+# and Kisumu Airport (KIS), with layovers in Amsterdam (AMS) and Nairobi
+# (NBO), flying in Economy class.
+airplane_emissions("LHR", "KIS", via = c("AMS", "NBO"),
+                   class = "Economy class")
 }

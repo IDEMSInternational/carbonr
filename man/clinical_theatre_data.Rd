@@ -221,7 +221,8 @@ Get the clinical theatre emissions after a data frame is inputted into the funct
 \examples{
 # Example with dummy data
 
-df <- data.frame(time = c("10/04/2000", "10/04/2000", "11/04/2000", "11/04/2000", "12/04/2000", "12/04/2000"),
+df <- data.frame(time = c("10/04/2000", "10/04/2000", "11/04/2000",
+                          "11/04/2000", "12/04/2000", "12/04/2000"),
 theatre = rep(c("A", "B"), times = 3),
 clinical_waste = c(80, 90, 80, 100, 120, 110),
 electricity_kwh = c(100, 110, 90, 100, 100, 110),
@@ -238,4 +239,5 @@ x <- clinical_theatre_data(df, time = time, name = theatre,
                  jurisdiction = "Australia",
                  year = 2023,
                  single_sheet = FALSE)
+                          name = theatre_name,
 }

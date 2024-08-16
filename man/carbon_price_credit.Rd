@@ -35,7 +35,8 @@ It uses CPI (Carbon Price Index) data to determine the carbon price for the spec
 The carbon price credit is calculated by multiplying the CO2e value by the corresponding carbon price.
 }
 \examples{
-# Calculate carbon price credit for the United Kingdom in the year 2000, period 2, and CO2e value of 100
+# Calculate carbon price credit for the United Kingdom in the year 2000,
+# period 2, and CO2e value of 100
 carbon_price_credit("United Kingdom", 2022, 2, co2e_val = 100)
 
 # Or manually enter a value
