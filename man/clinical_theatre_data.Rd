@@ -220,7 +220,6 @@ Get the clinical theatre emissions after a data frame is inputted into the funct
 }
 \examples{
 # Example with dummy data
-
 df <- data.frame(time = c("10/04/2000", "10/04/2000", "11/04/2000",
                           "11/04/2000", "12/04/2000", "12/04/2000"),
 theatre = rep(c("A", "B"), times = 3),
@@ -239,5 +238,4 @@ x <- clinical_theatre_data(df, time = time, name = theatre,
                  jurisdiction = "Australia",
                  year = 2023,
                  single_sheet = FALSE)
-                          name = theatre_name,
 }
