@@ -44,7 +44,7 @@ gg_value_box <- function(values, information, icons){
     color = factor(1:3)
   )
   
-  ggplot2::ggplot(df, ggplot2::aes(x = x, y = y, height = h, width = w, label = info, fill = color)) +
+  ggplot2::ggplot(df, ggplot2::aes(x = x, y = y, height = h, width = w, label = info, fill = .data$color)) +
     ggplot2::geom_tile() +
     ggplot2::geom_text(
       color = "white", fontface = "bold", size = 10,

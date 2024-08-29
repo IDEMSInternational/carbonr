@@ -12,7 +12,9 @@
 #' @export
 #'
 #' @examples
-#' clinical_theatre_emissions(wet_clinical_waste = 100)
+#' \dontrun{
+#'   clinical_theatre_emissions(wet_clinical_waste = 100)
+#' }
 clinical_theatre_emissions <- function(wet_clinical_waste, wet_clinical_waste_unit = c("tonnes", "kg"),
                                        desflurane = 0, sevoflurane = 0, isoflurane = 0, methoxyflurane = 0, N2O = 0, propofol = 0,
                                        water_supply = 0, water_trt = TRUE, water_unit = c("cubic metres", "million litres"),
