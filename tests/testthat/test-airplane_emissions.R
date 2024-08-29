@@ -1,4 +1,3 @@
-library(airportr)
 library(carbonr)
 
 # load airport data
