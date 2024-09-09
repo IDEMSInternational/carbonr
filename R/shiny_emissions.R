@@ -341,7 +341,7 @@ shiny_emissions <- function(){
     output$flightvia_input <- shiny::renderUI({
       if(K_plane() > 0) {
         lapply(1:K_plane(), function(i) {
-          shiny::textInput(inputId = paste0("via_", i), label = paste0("Via ", i, ":"), value = "")
+          shiny::textInput(inputId = paste0("viap_", i), label = paste0("Via ", i, ":"), value = "")
         })
       }
     })
@@ -349,7 +349,7 @@ shiny_emissions <- function(){
       if (input$flightvia == 0){
         C_P <- NULL
       } else {
-        C_P <- sapply(1:K_plane(), function(i) {input[[paste0("via_",i)]]})
+        C_P <- sapply(1:K_plane(), function(i) {input[[paste0("viap_",i)]]})
         C_P <- unlist(C_P)
       }
       airplane_emissions(from = input$flightfrom, to = input$flightto, via = C_P, class = input$flightclass, num_people = input$numberflying, radiative_force = input$radiative, round_trip = input$roundtrip_plane, include_WTT = input$secondary_plane)
@@ -366,7 +366,7 @@ shiny_emissions <- function(){
     output$trainvia_input <- shiny::renderUI({
       if(K_train() > 0) {
         lapply(1:K_train(), function(i) {
-          shiny::textInput(inputId = paste0("via_", i), label = paste0("Via ", i, ":"), value = "")
+          shiny::textInput(inputId = paste0("viat_", i), label = paste0("Via ", i, ":"), value = "")
         })
       }
     })
@@ -375,7 +375,7 @@ shiny_emissions <- function(){
       if (input$trainvia == 0){
         C <- NULL
       } else {
-        C <- sapply(1:K_train(), function(i) {input[[paste0("via_", i)]]})
+        C <- sapply(1:K_train(), function(i) {input[[paste0("viat_", i)]]})
         C <- unlist(C)
       }
       rail_emissions(from = input$trainfrom, to = input$trainto, via = C, num_people = input$numbertrain, times_journey = input$timestrain, round_trip = input$roundtrip_train, include_WTT = input$secondary_train)
@@ -393,12 +393,23 @@ shiny_emissions <- function(){
     
     # via input options
     K_ferry <- shiny::reactive({ input$ferryvia })
-    output$ferryvia_input <- shiny::renderUI({ add_inputs(numeric_input = K_ferry(),  label = "Station:", value = "station name") })
+    output$ferryvia_input <- shiny::renderUI({ 
+      
+      if(K_ferry() > 0) {
+        lapply(1:K_ferry(), function(i) {
+          shiny::textInput(inputId = paste0("viaf_", i),
+                           label = paste0("Via ", i, ":"),
+                           value = "")
+        })
+      }
+    })
+    
     ferry_carbon_calc <- shiny::reactive({
       if (input$ferryvia == 0){
         C <- NULL
       } else {
-        C <- sapply(1:K_ferry(), function(i) {input[[paste0("via1_",i)]]})
+        C <- sapply(1:K_ferry(), function(i) {input[[paste0("viaf_",i)]]})
+        C <- unlist(C)
       }
       ferry_emissions(from = input$ferryfrom, to = input$ferryto, via = C, num_people = input$numberferry, times_journey = input$timesferry, round_trip = input$roundtrip_ferry, include_WTT = input$secondary_ferry, type = input$typeferry)
     })
