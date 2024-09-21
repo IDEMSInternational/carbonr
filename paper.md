@@ -46,9 +46,7 @@ In addition, the open-source nature of `carbonr` allows for ongoing verification
 While primarily based on UK guidelines [@ukgov_greenhouse_gas_reporting_2023], the open-source nature of `carbonr` allows for customisation with local data, broadening its applicability. `carbonr` not only facilitates precise and comprehensive emission calculations, but also promotes a deeper understanding of emissions across different sectors. Its ongoing development and adaptability highlight its potential to significantly influence both research and practical applications in environmental sustainability, ensuring it remains relevant and effective in the face of evolving challenges.
 
 # Usage
-With `carbonr`, users can estimate emissions for various activities such as air travel, hotel stays, and construction work using straightforward functions like `airplane_emissions()` or `construction_emissions()`. 
-
-The `carbonr` package complements other R tools by providing functions to estimate and analyse emissions from various activities such as air travel, hotel stays, and construction work. Below are detailed examples demonstrating common uses in estimating travel emissions
+With `carbonr`, users can estimate emissions for various activities such as air travel, hotel stays, and construction work using straightforward functions like `airplane_emissions()` or `construction_emissions()`. Below are examples demonstrating common uses in estimating travel emissions
 
 ### Estimating Travel Emissions
 
@@ -59,7 +57,7 @@ library(carbonr)
 library(dplyr)
 
 # Finding the airport code for London Heathrow
-airport_finder(name = "Heathrow")
+carbonr::airport_finder(name = "Heathrow")
 ```
 
 | Name                     | City    | Country        | IATA |
@@ -81,7 +79,7 @@ Using these codes, calculate the emissions for a round-trip journey:
 
 ```
 # Calculating emissions for a round-trip flight
-airplane_emissions(from = "LHR", to = "KIS", via = "NBO")
+carbonr::airplane_emissions(from = "LHR", to = "KIS", via = "NBO")
 ```
 
 This calculation follows UK Government guidelines [@ukgov_greenhouse_gas_reporting_2023], which takes the total fuel consumption and divides by the number of passengers. Following these guidelines, in `carbonr` you can specify multiple passengers, which multiplies the emissions accordingly, and adjust for factors like travel class, reflecting the space occupied.
