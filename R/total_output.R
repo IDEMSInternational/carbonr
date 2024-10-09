@@ -15,10 +15,6 @@
 #' (grouping variable and time dimension). It then summarises the specified variable (CPI or emissions) using the sum function.
 #' The resulting data is used to create a line plot showing the total output over time, with each group represented
 #' by a different color. The plot can be grouped by the default grouping, month, or year, based on the plot_by parameter.
-#'
-#' @examples # todo
-#'
-#' @keywords total output, plot, grouping
 total_output <- function(data = x$data, time = time, date_format = c("%d/%m/%Y"), name = theatre,
                         val = carbon_price_credit, plot_by = c("default", "month", "year")){
   plot_by <- match.arg(plot_by)

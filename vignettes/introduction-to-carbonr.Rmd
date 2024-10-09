@@ -245,7 +245,7 @@ shiny_emissions()
 ## References
 
 #### Other Online Calculators:
-- [Carbonfund.org](https://carbonfund.org/calculation-methods/)
+- [Carbonfund.org](https://shop.climeco.com/individual/individual-emissions-calculator/)
 - [Carbon Footprint Calculator](https://www.carbonfootprint.com/calculatorfaqs.html)
 
 #### Sources
