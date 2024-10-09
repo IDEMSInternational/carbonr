@@ -159,7 +159,7 @@ maintain the package.
 
 #### Other Online Calculators:
 
-- [Carbonfund.org](https://carbonfund.org/calculation-methods/)
+- [Carbonfund.org](https://shop.climeco.com/individual/individual-emissions-calculator/)
 - [Carbon Footprint
   Calculator](https://www.carbonfootprint.com/calculatorfaqs.html)
 
@@ -190,7 +190,6 @@ Sherman, J., Le, C., Lamers, V. and Eckelman, M., 2012. Life cycle
 greenhouse gas emissions of anesthetic drugs. Anesthesia & Analgesia,
 114(5), pp.1086-1090.
 
-4.  Clinical Wet Waste Emissions: Department of Climate Change, Energy,
-    the Environment and Water. (2022). [National Greenhouse Accounts
-    Factors:
-    2022](https://www.dcceew.gov.au/climate-change/publications/national-greenhouse-accounts-factors-2022).
+4.  Department of Climate Change, Energy, the Environment and Water
+    (DCCEEW). National Greenhouse Accounts Factors: 2022. Australian
+    Government, 2022.
