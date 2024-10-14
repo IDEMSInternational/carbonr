@@ -59,6 +59,7 @@ A function that calculates CO2e emissions on a journey on land.
 \examples{
 # Emissions for a 100 mile car journey
  vehicle_emissions(distance = 100)
+
 # Emissions for a 100 mile motorbike journey where the motorbike is 500+cc
  vehicle_emissions(distance = 100, vehicle = "Motorbike", bike_type = "Large")
 }

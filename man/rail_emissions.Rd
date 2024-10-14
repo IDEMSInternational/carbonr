@@ -39,10 +39,12 @@ A function that calculates CO2e emissions between train stations in the UK.
 The distances are calculated using the Haversine formula. This is calculated as the crow flies. As a result, inputting the "via" journeys will make for a more reliable function.
 }
 \examples{
-# Emissions for a train journey between Southampton Central and Manchester Piccadilly Station
+# Emissions for a train journey between Southampton Central and
+# Manchester Piccadilly Station
 rail_emissions("Southampton Central", "Manchester Piccadilly")
-# Emissions for a train journey between Bristol Temple Meads and London Paddington
-# via Bath, Swindon, and Reading
+
+# Emissions for a train journey between Bristol Temple Meads and
+# London Paddington via Bath, Swindon, and Reading
 # Use the \code{rail_finder} function to find the name of London Paddington
 rail_finder(region = "London")
 # Then calculate emissions

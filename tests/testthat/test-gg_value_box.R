@@ -1,5 +1,3 @@
-library(testthat)
-
 # Define test cases
 test_that("gg_value_box creates value box plot correctly", {
   # Test case 1: Check if the function returns a ggplot object

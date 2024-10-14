@@ -1,7 +1,5 @@
 context("airport finder")
 
-library(carbonr)
-
 test_that("correct output", {
   # load station data
   finder_typo <- airport_finder(name = "Exter", country = "United Kingdom")

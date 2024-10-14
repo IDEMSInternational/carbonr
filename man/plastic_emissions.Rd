@@ -85,7 +85,6 @@ The calculated plastic emissions as a numeric value in tonnes.
 This function calculates the emissions produced from different plastic sources based on the specified inputs. It considers emissions from primary material production and waste disposal of plastic materials.
 }
 \examples{
-
 # Calculate plastic emissions using default values
 plastic_emissions()
 

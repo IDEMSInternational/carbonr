@@ -1,5 +1,3 @@
-library(carbonr)
-
 # create some dummy data
 df <- data.frame(time = c("10/04/2000", "10/04/2000", "11/04/2000", "11/04/2000", "12/04/2000", "12/04/2000"),
                  theatre = rep(c("A", "B"), times = 3),

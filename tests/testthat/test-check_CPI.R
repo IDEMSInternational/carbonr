@@ -1,8 +1,3 @@
-library(carbonr)
-
-# Load the dataset or create a dummy dataset for testing
-#data(cpi_data)
-
 # Start writing tests using testthat syntax
 test_that("check_CPI returns correct jurisdictions", {
   # Test for check_CPI() without specifying jurisdiction

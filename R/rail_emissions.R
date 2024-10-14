@@ -11,14 +11,16 @@
 #' @return Returns CO2e emissions in tonnes for the train journey.
 #' @details The distances are calculated using the Haversine formula. This is calculated as the crow flies. As a result, inputting the "via" journeys will make for a more reliable function.
 #' @export
-#' @examples # Emissions for a train journey between Southampton Central and Manchester Piccadilly Station
-#' @examples rail_emissions("Southampton Central", "Manchester Piccadilly")
-#' @examples # Emissions for a train journey between Bristol Temple Meads and London Paddington
-#' @examples # via Bath, Swindon, and Reading
+#' @examples # Emissions for a train journey between Southampton Central and
+#' # Manchester Piccadilly Station
+#' rail_emissions("Southampton Central", "Manchester Piccadilly")
+#' 
+#' # Emissions for a train journey between Bristol Temple Meads and
+#' # London Paddington via Bath, Swindon, and Reading
 #' # Use the \code{rail_finder} function to find the name of London Paddington
 #' rail_finder(region = "London")
 #' # Then calculate emissions
-#' @examples rail_emissions("Bristol Temple Meads", "Paddington", via = c("Bath Spa",
+#' rail_emissions("Bristol Temple Meads", "Paddington", via = c("Bath Spa",
 #' "Swindon", "Reading"))
 rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey = 1, include_WTT = TRUE, round_trip = FALSE){
   data("stations", envir = environment())
@@ -33,13 +35,13 @@ rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey =
   
   if (!(from) %in% c(stations$station)){
     station_names <- agrep(data.frame(from), stations$station, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
-    stop(print(from), " is not a name in the data frame. Did you mean: ",
+    stop(from, " is not a name in the data frame. Did you mean: ",
          paste0((data.frame(stations) %>% dplyr::filter(station %in% station_names))$station, sep = ", ")
          )
   }
   if (!(to) %in% c(stations$station)){
     station_names <- agrep(data.frame(to), stations$station, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
-    stop(print(to), " is not a name in the data frame. Did you mean: ",
+    stop(to, " is not a name in the data frame. Did you mean: ",
          paste0((data.frame(stations) %>% dplyr::filter(station %in% station_names))$station, sep = ", ")
     )
   } # mention station_names data set to check station names
@@ -48,7 +50,7 @@ rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey =
     via_x <- via[i]
     if (!(via_x) %in% c(stations$station)){
       station_names <- agrep(data.frame(via_x), stations$station, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
-      stop(print(via_x), " is not a name in the data frame. Did you mean: ",
+      stop(via_x, " is not a name in the data frame. Did you mean: ",
            paste0((data.frame(stations) %>% dplyr::filter(station %in% station_names))$station, sep = ", ")
       )
     }

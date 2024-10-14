@@ -1,5 +1,3 @@
-library(carbonr)
-
 # load airport data
 data("airports")
 airports <- airports %>% dplyr::select(c(Name, City, IATA))
