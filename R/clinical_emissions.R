@@ -12,8 +12,10 @@
 #' @export
 #'
 #' @examples
-#' # clinical theatre emissions for the default options, with 100kg of wet clinical waste
-#' clinical_theatre_emissions(wet_clinical_waste = 100, wet_clinical_waste_unit = "kg")
+#' \donttest{
+#'  # clinical theatre emissions for the default options, with 100kg of wet clinical waste
+#'  clinical_theatre_emissions(wet_clinical_waste = 100, wet_clinical_waste_unit = "kg")
+#' }
 clinical_theatre_emissions <- function(wet_clinical_waste, wet_clinical_waste_unit = c("tonnes", "kg"),
                                        desflurane = 0, sevoflurane = 0, isoflurane = 0, methoxyflurane = 0, N2O = 0, propofol = 0,
                                        water_supply = 0, water_trt = TRUE, water_unit = c("cubic metres", "million litres"),

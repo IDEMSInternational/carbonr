@@ -180,6 +180,8 @@ Returns CO2e emissions in tonnes.
 Calculate carbon-equivalent emissions following an operating theatre
 }
 \examples{
-# clinical theatre emissions for the default options, with 100kg of wet clinical waste
-clinical_theatre_emissions(wet_clinical_waste = 100, wet_clinical_waste_unit = "kg")
+\donttest{
+ # clinical theatre emissions for the default options, with 100kg of wet clinical waste
+ clinical_theatre_emissions(wet_clinical_waste = 100, wet_clinical_waste_unit = "kg")
+}
 }

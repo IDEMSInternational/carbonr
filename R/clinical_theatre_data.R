@@ -23,6 +23,7 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' # Example with dummy data
 #' df <- data.frame(time = c("10/04/2000", "10/04/2000", "11/04/2000",
 #'                           "11/04/2000", "12/04/2000", "12/04/2000"),
@@ -42,6 +43,7 @@
 #'                  jurisdiction = "Australia",
 #'                  year = 2023,
 #'                  single_sheet = FALSE)
+#' }
 clinical_theatre_data <- function(data, time, date_format = c("%d/%m/%Y"), name, wet_clinical_waste = 0, wet_clinical_waste_unit = c("tonnes", "kg"),
                                   desflurane = 0, sevoflurane = 0, isoflurane = 0, methoxyflurane = 0, N2O = 0, propofol = 0,
                                   water_supply = 0, water_trt = TRUE, water_unit = c("cubic metres", "million litres"),

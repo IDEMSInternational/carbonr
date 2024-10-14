@@ -219,6 +219,7 @@ Returns list containing two objects. A table containing CO2e emissions for each 
 Get the clinical theatre emissions after a data frame is inputted into the function.
 }
 \examples{
+\donttest{
 # Example with dummy data
 df <- data.frame(time = c("10/04/2000", "10/04/2000", "11/04/2000",
                           "11/04/2000", "12/04/2000", "12/04/2000"),
@@ -238,4 +239,5 @@ clinical_theatre_data(df, time = time, name = theatre,
                  jurisdiction = "Australia",
                  year = 2023,
                  single_sheet = FALSE)
+}
 }
