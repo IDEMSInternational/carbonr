@@ -18,7 +18,6 @@
 #' @param metal_waste_disposal Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Landfill"`, `"Open-loop"`. Default is "Closed-loop". See `details` for more information.
 #' @param glass_waste_disposal Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Landfill"`, `"Open-loop"`. Default is "Closed-loop". See `details` for more information.
 #' @param paper_waste_disposal Character vector specifying the waste disposal method for paper to use for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Composting"`, `"Landfill"`. Default is `"Closed-loop"`. See `details` for more information.
-#' @param plastic_waste_disposal Character vector specifying the waste disposal method for plastic to use for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Landfill"`, `"Open-loop"`. Default is `"Closed-loop"`. See `details` for more information.
 #' @param electric_waste_disposal Character vector specifying the waste disposal method for electrical items to use for calculating emissions. Possible values: `"Landfill"`, `"Open-loop"`. Default is `"Landfill"`. See `details` for more information.
 #' @param construction_waste_disposal Character vector specifying the waste disposal method for electrical items to use for calculating emissions. Options are, `"Closed-loop"`, `"Combustion"`, `"Composting"`, `"Landfill"`,
 #' `"Open-loop"`. Default is `"Closed-loop"`.
@@ -66,7 +65,6 @@ material_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
                                paper_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),
                                average_WD = 0, average_film_WD = 0, average_rigid_WD = 0, HDPE_WD = 0,
                                LDPE_WD = 0, LLDPE_WD = 0, PET_WD = 0, PP_WD = 0, PS_WD = 0, PVC_WD = 0,
-                               plastic_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
                                fridges_WD = 0, freezers_WD = 0, large_electrical_WD = 0, IT_WD = 0,
                                small_electrical_WD = 0, alkaline_batteries_WD = 0, LiIon_batteries_WD = 0,
                                NiMh_batteries_WD = 0, electric_waste_disposal = c("Landfill", "Open-loop"),
@@ -100,7 +98,7 @@ material_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
                                          HDPE = HDPE, LDPE = LDPE, LLDPE = LLDPE, PET = PET, PP = PP, PS = PS, PVC = PVC,
                                          average_WD = average_WD, average_film_WD = average_film_WD, average_rigid_WD = average_rigid_WD,
                                          HDPE_WD = HDPE_WD, LDPE_WD = LDPE_WD, LLDPE_WD = LLDPE_WD, PET_WD = PET_WD, PP_WD = PP_WD,
-                                         PS_WD = PS_WD, PVC_WD = PVC_WD, waste_disposal = plastic_waste_disposal, units = plastic_units)
+                                         PS_WD = PS_WD, PVC_WD = PVC_WD, units = plastic_units)
   electrical_emissions <- electrical_emissions(fridges = fridges, freezers = freezers, large = large_electrical, IT = IT,
                                                small = small_electrical, alkaline_batteries = alkaline_batteries,
                                                LiIon_batteries = LiIon_batteries, NiMh_batteries = NiMh_batteries,

@@ -177,8 +177,6 @@ clinical_theatre_data(
 
 \item{PVC_WD}{Numeric value indicating the weight of PVC plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{plastic_waste_disposal}{Character vector specifying the waste disposal method for plastic to use for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Landfill"}, \code{"Open-loop"}. Default is \code{"Closed-loop"}. See \code{details} for more information.}
-
 \item{fridges}{Numeric value indicating the weight of fridges. Default is \code{0}.}
 
 \item{freezers}{Numeric value indicating the weight of freezers. Default is \code{0}.}
