@@ -37,7 +37,7 @@ airport_finder <- function(name, city, country, IATA_code, distance = 0.1, ignor
   }
   if (!missing(country)){
     airport_country <- agrep(data.frame(country), airport_filter$Country, ignore.case = ignore.case, max.distance = distance, value = TRUE)
-    airport_filter <- airport_filter %>% dplyr::filter(.data$Country %in% airport_country)
+    airport_filter <- airport_filter %>% dplyr::filter(Country %in% airport_country)
   }
   if(!missing(IATA_code)){
     airport_IATA <- agrep(data.frame(IATA_code), airport_filter$IATA, ignore.case = ignore.case, max.distance = 0, value = TRUE)
