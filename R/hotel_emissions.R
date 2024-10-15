@@ -1,8 +1,8 @@
 #' Calculate CO2e emissions from a hotel stay
 #' 
-#' @description Indirect emissions from a stay at a hotel. Values to calculate emissions are from UK government 2022 report.
+#' @description Indirect emissions from a stay at a hotel. Values to calculate emissions are from UK government 2024 report.
 #'
-#' @param location Location of the hotel stay. Current accepted locations are `"UK"`, `"UK (London)"` `"Argentina"`, `"Australia"`, `"Austria"`, `"Belgium"`, `"Brazil"`, `"Canada"`, `"Chile"`, `"China"`, `"Colombia"`, `"Costa Rica"`, `"Czechia"`, `"Egypt"`, `"Fiji"`, `"France"`, `"Germany"`,  `"Greece"`, `"Hong Kong, China"`, `"India"`, `"Indonesia"`, `"Ireland"`, `"Israel"`, `"Italy"`, `"Japan"`, `"Jordan"`, `"Korea"`, `"Macau"`, `"Malaysia"`, `"Maldives"`, `"Mexico"`, `"Netherlands"`, `"New Zealand"`, `"Oman"`, `"Panama"`, `"Peru"`, `"Philippines"`, `"Poland"`, `"Portugal"`, `"Qatar"`, `"Romania"`, `"Russia"`, `"Saudi Arabia"`, `"Singapore"`, `"Slovakia"`, `"South Africa"`, `"Spain"`, `"Switzerland"`, `"Taiwan"`, `"Thailand"`, `"Turkey"`, `"United Arab Emirates"`, `"United States"`, `"Vietnam"`.
+#' @param location Location of the hotel stay. Current accepted locations are `"UK"`, `"UK (London)"`, `"Australia"`, `"Belgium"`, `"Brazil"`, `"Canada"`, `"Chile"`, `"China"`, `"Colombia"`, `"Costa Rica"`, `"Egypt"`, `"France"`, `"Germany"`, `"Hong Kong, China"`, `"India"`, `"Indonesia"`, `"Italy"`, `"Japan"`, `"Jordan"`, `"Korea"`, `"Malaysia"`, `"Maldives"`, `"Mexico"`, `"Netherlands"`, `"Oman"`, `"Philippines"`, `"Portugal"`, `"Qatar"`, `"Russia"`, `"Saudi Arabia"`, `"Singapore"`, `"South Africa"`, `"Spain"`, `"Switzerland"`, `"Thailand"`, `"Turkey"`, `"United Arab Emirates"`, `"United States"`, `"Vietnam"`.
 #' @param nights Number of nights stayed in the hotel.
 #' @param rooms Number of rooms used in the hotel.
 #'
@@ -21,16 +21,10 @@ hotel_emissions <- function(location = "UK", nights = 1, rooms = 1){
   
   row <- which(uk_gov_data_hotel$`Level 3` == location)
   if (length(row) == 0) {
-    row <- which(hotel_df$Country == location)
-    if (length(row) == 0) {
       hotel_names <- agrep(data.frame(location), uk_gov_data_hotel$`Level 3`, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
-      hotel_names_1 <- agrep(data.frame(location), hotel_df$Country, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
-      stop("location not recognised. Did you mean: ", paste(hotel_names, hotel_names_1, ", "), ". Consider using 'Average'.")
-    } else {
-      emissions <- hotel_df$CO2e[row]
-    } 
+      stop("location not recognised. Available options are: ", paste0(hotel_df$Country, ", "))
   } else {
-    emissions <- uk_gov_data_hotel$value[row]
+    emissions <- uk_gov_data_hotel$value[row] * 0.001
   }
 emissions <- emissions * nights * rooms
 return(emissions)
