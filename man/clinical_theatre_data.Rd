@@ -56,7 +56,6 @@ clinical_theatre_data(
   PP_WD = 0,
   PS_WD = 0,
   PVC_WD = 0,
-  plastic_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
   fridges = 0,
   freezers = 0,
   electric_waste_disposal = c("Landfill", "Open-loop"),
