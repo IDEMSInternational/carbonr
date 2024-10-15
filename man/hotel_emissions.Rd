@@ -20,6 +20,6 @@ Tonnes of CO2e emissions for a stay in a hotel.
 Indirect emissions from a stay at a hotel. Values to calculate emissions are from UK government 2024 report.
 }
 \examples{
-# Emissions for a two night stay in Fiji.
-hotel_emissions(location = "Fiji", nights = 2)
+# Emissions for a two night stay in Australia.
+hotel_emissions(location = "Australia", nights = 2)
 }

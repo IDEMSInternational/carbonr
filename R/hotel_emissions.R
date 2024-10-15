@@ -9,8 +9,8 @@
 #' @return Tonnes of CO2e emissions for a stay in a hotel.
 #' @export
 #'
-#' @examples # Emissions for a two night stay in Fiji.
-#' hotel_emissions(location = "Fiji", nights = 2)
+#' @examples # Emissions for a two night stay in Australia.
+#' hotel_emissions(location = "Australia", nights = 2)
 hotel_emissions <- function(location = "UK", nights = 1, rooms = 1){
   checkmate::assert_count(nights)
   checkmate::assert_count(rooms)
@@ -22,7 +22,11 @@ hotel_emissions <- function(location = "UK", nights = 1, rooms = 1){
   row <- which(uk_gov_data_hotel$`Level 3` == location)
   if (length(row) == 0) {
       hotel_names <- agrep(data.frame(location), uk_gov_data_hotel$`Level 3`, ignore.case = TRUE, max.distance = 0.1, value = TRUE)
-      stop("location not recognised. Available options are: ", paste0(hotel_df$Country, ", "))
+      if (length(hotel_names) == 0) {
+        stop("location not recognised. Available options are: ", paste0(uk_gov_data_hotel$`Level 3`, ", "))
+      } else {
+        stop("location not recognised. Did you mean: ", paste0(hotel_names, ", "), "?")
+      }
   } else {
     emissions <- uk_gov_data_hotel$value[row] * 0.001
   }

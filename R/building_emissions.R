@@ -34,8 +34,7 @@ building_emissions <- function(water_supply = 0, water_trt = TRUE,
   checkmate::assert_numeric(electricity_kWh, lower = 0)
   checkmate::assert_numeric(heat_kWh, lower = 0)
   water_unit <- match.arg(water_unit)
-  uk_gov_data <- uk_gov_data %>% dplyr::filter(`GHG/Unit` == "kg CO2e")
-  
+
   # Water supply and treatment
   #if (water_supply > 0){
   uk_water <- uk_gov_data %>% dplyr::filter(`Level 1` %in% c("Water supply", "Water treatment"))

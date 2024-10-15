@@ -25,7 +25,7 @@ airport_finder <- function(name, city, country, IATA_code, distance = 0.1, ignor
   if (!missing(IATA_code)){ checkmate::assert_string(IATA_code) }
   checkmate::assert_numeric(distance, lower = 0)
   checkmate::assert_logical(ignore.case)
-  airport_filter <- airportr::airports %>% dplyr::select(c(.data$Name, .data$City, .data$Country, .data$IATA))
+  airport_filter <- airportr::airports %>% dplyr::select(c(Name, City, Country, IATA))
 
   if (!missing(name)){
     airport_names <- agrep(data.frame(name), airport_filter$Name, ignore.case = ignore.case, max.distance = distance, value = TRUE)

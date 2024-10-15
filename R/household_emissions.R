@@ -27,7 +27,6 @@
 #' @param compost_waste_disposal Character value specifying the waste disposal method for compost waste (options: `"Anaerobic digestion"`, `"Combustion"`, `"Composting"`, `"Landfill"`). Default is `"Anaerobic digestion"`. See `details` for more information.
 #' @param metal_waste_disposal Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: "Closed-loop", "Combustion", "Landfill", "Open-loop". Default is "Closed-loop". See `details` for more information.
 #' @param paper_waste_disposal Character vector specifying the waste disposal method for paper to use for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Composting"`, `"Landfill"`. Default is `"Closed-loop"`. See `details` for more information.
-#' @param plastic_waste_disposal Character vector specifying the waste disposal method for plastic to use for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Landfill"`, `"Open-loop"`. Default is `"Closed-loop"`. See `details` for more information.
 #' @param electric_waste_disposal Character vector specifying the waste disposal method for electrical items to use for calculating emissions. Possible values: `"Landfill"`, `"Open-loop"`. Default is `"Landfill"`. See `details` for more information.
 #' @param units Character vector specifying the units of the emissions output. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
 #'
@@ -64,7 +63,6 @@ household_emissions <- function(glass = 0, clothing = 0, food = 0, drink = 0, co
                                 paper_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),
                                 average_WD = 0, average_film_WD = 0, average_rigid_WD = 0, HDPE_WD = 0,
                                 LDPE_WD = 0, LLDPE_WD = 0, PET_WD = 0, PP_WD = 0, PS_WD = 0, PVC_WD = 0,
-                                plastic_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
                                 fridges_WD = 0, freezers_WD = 0, large_electrical_WD = 0, IT_WD = 0,
                                 small_electrical_WD = 0, alkaline_batteries_WD = 0, LiIon_batteries_WD = 0,
                                 NiMh_batteries_WD = 0, electric_waste_disposal = c("Landfill", "Open-loop"),
@@ -101,7 +99,7 @@ household_emissions <- function(glass = 0, clothing = 0, food = 0, drink = 0, co
                                          HDPE = HDPE, LDPE = LDPE, LLDPE = LLDPE, PET = PET, PP = PP, PS = PS, PVC = PVC,
                                          average_WD = average_WD, average_film_WD = average_film_WD, average_rigid_WD = average_rigid_WD,
                                          HDPE_WD = HDPE_WD, LDPE_WD = LDPE_WD, LLDPE_WD = LLDPE_WD, PET_WD = PET_WD, PP_WD = PP_WD,
-                                         PS_WD = PS_WD, PVC_WD = PVC_WD, waste_disposal = plastic_waste_disposal, units = units)
+                                         PS_WD = PS_WD, PVC_WD = PVC_WD, units = units)
   electrical_emissions <- electrical_emissions(fridges = fridges, freezers = freezers, large = large_electrical, IT = IT,
                                                small = small_electrical, alkaline_batteries = alkaline_batteries,
                                                LiIon_batteries = LiIon_batteries, NiMh_batteries = NiMh_batteries,
@@ -126,10 +124,10 @@ household_emissions <- function(glass = 0, clothing = 0, food = 0, drink = 0, co
     dplyr::filter(`Column Text` == gcb_waste_disposal) %>%
     dplyr::pull(value)
     hh_emissions <- glass*emission_values[2] + clothing*emission_values[3] + food*emission_values[4] +
-      books_WD*WD_gcb_values[1] + glass_WD*WD_gcb_values[2] +  clothing_WD*WD_gcb_values[3] +
     drink*emission_values[4] + compost_from_garden*emission_values[5] +
     compost_from_food_and_garden*emission_values[6] +
-    food_WD*WD_compost_values[2] + 
+      books_WD*WD_gcb_values[1] + glass_WD*WD_gcb_values[2] +  clothing_WD*WD_gcb_values[3] +
+      food_WD*WD_compost_values[2] + 
     drink_WD*WD_compost_values[2] + 
     compost_from_garden_WD*WD_compost_values[3] +
       compost_from_food_and_garden_WD*WD_compost_values[4] +
