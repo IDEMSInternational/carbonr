@@ -25,7 +25,6 @@ plastic_emissions(
   PP_WD = 0,
   PS_WD = 0,
   PVC_WD = 0,
-  waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
   units = c("kg", "tonnes")
 )
 }
@@ -70,12 +69,6 @@ plastic_emissions(
 
 \item{PVC_WD}{Numeric value indicating the weight of PVC plastic disposed of using waste disposal methods. Default is \code{0}.}
 
-\item{waste_disposal}{Character vector specifying the waste disposal method to use for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Landfill"}, \code{"Open-loop"}. Default is \code{"Closed-loop"}.
-\code{"Open-loop"} is the process of recycling material into other products.
-\code{"Closed-loop"} is the process of recycling material back into the same product.
-\code{"Combustion"} energy is recovered from the waste through incineration and subsequent generation of electricity.
-\code{"Landfill"} the product goes to landfill after use.}
-
 \item{units}{Character vector specifying the units of the emissions output. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
 }
 \value{
@@ -90,6 +83,5 @@ plastic_emissions()
 
 # Calculate plastic emissions with specific quantities and waste disposal
 # method
-plastic_emissions(average = 100, HDPE = 50, PET = 25,
-                  waste_disposal = "Combustion", units = "tonnes")
+plastic_emissions(average = 100, HDPE = 50, PET = 25, units = "tonnes")
 }
