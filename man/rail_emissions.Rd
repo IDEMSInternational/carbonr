@@ -22,7 +22,7 @@ rail_emissions(
 
 \item{via}{Optional. Takes a vector containing the stations the train travels via.}
 
-\item{distance}{Distance travelled in KM (default \code{0}. Ignored if values are given in \code{from} and \code{to})}
+\item{distance}{Distance travelled in kilometres (default \code{0}. Ignored if values are given in \code{from} and \code{to}).}
 
 \item{num_people}{Number of people taking the journey. Takes a single numerical value.}
 

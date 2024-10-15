@@ -6,7 +6,11 @@
 #' @param units Units for the distance travelled. Options are `"km"` or `"miles"`.
 #' @param num Number of vehicles used.
 #' @param vehicle Vehicle used for the journey. Options are `"Cars"`, `"Motorbike"`.
-#' @param fuel Fuel type used for the journey. For car, `"Petrol"`, `"Diesel"`, `"Unknown"`, `"Battery Electric Vehicle"`, `"Plug-in Hybrid Electric Vehicle"` are options. ##' `"hybrid electric"` and `"battery electric"` account for electricity kWh emissions. 
+#' @param fuel Fuel type used for the journey. For car, `"Petrol"`, `"Diesel"`, `"Unknown"`, `"Battery Electric Vehicle"`, `"Plug-in Hybrid Electric Vehicle"` are options.
+#' Additionally `"Hybrid"` is an option if the car_type is one of `"Average car", "Small car", "Medium car", "Large car",`.
+#' Additionally `"CNG"` and `"LPG"` are options if the car_type is one of `"Average car", "Medium car", "Large car",`.
+#' Note that `"Plug-in Hybrid Electric Vehicle"` does not give values if `car_type == "Mini"`
+#' `"hybrid electric"` and `"battery electric"` account for electricity kWh emissions. 
 #' @param car_type Size/type of vehicle for car.
 #' Options are `c("Average car", "Small car", "Medium car", "Large car",`
 #' `"Mini", "Supermini", "Lower medium", "Upper medium", "Executive",`
@@ -31,8 +35,7 @@
 
 vehicle_emissions <- function(distance, units = c("miles", "km"), num = 1,
                               vehicle = c("Cars", "Motorbike"),
-                              fuel = c("Petrol", "Diesel", "Unknown", "Battery Electric Vehicle", "Plug-in Hybrid Electric Vehicle"),
-                              # TODO Hybrid is also allowed if car size is given (not car type)
+                              fuel = c("Petrol", "Diesel", "Unknown", "Battery Electric Vehicle", "Plug-in Hybrid Electric Vehicle", "Hybrid", "CNG", "LPG"),
                               car_type = c("Average car", "Small car", "Medium car", "Large car",
                                            "Mini", "Supermini", "Lower medium", "Upper medium", "Executive",
                                            "Luxury", "Sports", "Dual purpose 4X4", "MPV"),
