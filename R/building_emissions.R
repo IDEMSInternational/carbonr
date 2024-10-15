@@ -34,6 +34,7 @@ building_emissions <- function(water_supply = 0, water_trt = TRUE,
   checkmate::assert_numeric(electricity_kWh, lower = 0)
   checkmate::assert_numeric(heat_kWh, lower = 0)
   water_unit <- match.arg(water_unit)
+  uk_gov_data <- uk_gov_data %>% dplyr::filter(`GHG/Unit` == "kg CO2e")
   
   # Water supply and treatment
   #if (water_supply > 0){
@@ -44,9 +45,6 @@ building_emissions <- function(water_supply = 0, water_trt = TRUE,
   } else {
     water_emissions <- sum(uk_water) * water_supply
   }
-  #} else {
-  #  water_emissions <- 0
-  #}
   
   # Electricity
   # if (electricity_kWh > 0){
@@ -77,18 +75,12 @@ building_emissions <- function(water_supply = 0, water_trt = TRUE,
   # }
   
   # Heat and steam
-  # if (heat_kWh > 0){
   uk_heat <- uk_gov_data %>%
     dplyr::filter(`Level 1` %in% c("Heat and steam", "WTT- heat and steam", "Transmission and distribution")) %>%
     dplyr::filter(!`Level 3` %in% c("District heat and steam"))
   if (heat_TD) {
-    if (heat_WTT){
-      uk_heat_TD <- sum((uk_heat %>%
-                           dplyr::filter(`Level 2` %in% c("Distribution - district heat & steam", "WTT- heat and steam")))$`value`)
-    } else {
       uk_heat_TD <- (uk_heat %>%
                        dplyr::filter(`Level 2` %in% c("Distribution - district heat & steam")))$value
-    }
   } else {
     uk_heat_TD <- 0
   }
@@ -99,10 +91,7 @@ building_emissions <- function(water_supply = 0, water_trt = TRUE,
     uk_heat_WTT <- 0
   }
   heat_emissions <- heat_kWh*((uk_heat %>% dplyr::filter(`Level 1` == c("Heat and steam")))$value +
-                                uk_heat_TD + uk_heat_WTT)  
-  # } else {
-  #   heat_emissions <- 0
-  # }
+                                uk_heat_TD + uk_heat_WTT) 
   building_emissions <- (water_emissions + electricity_emissions + heat_emissions)
   return(building_emissions * 0.001) 
 }
