@@ -10,7 +10,7 @@ vehicle_emissions(
   num = 1,
   vehicle = c("Cars", "Motorbike"),
   fuel = c("Petrol", "Diesel", "Unknown", "Battery Electric Vehicle",
-    "Plug-in Hybrid Electric Vehicle"),
+    "Plug-in Hybrid Electric Vehicle", "Hybrid", "CNG", "LPG"),
   car_type = c("Average car", "Small car", "Medium car", "Large car", "Mini",
     "Supermini", "Lower medium", "Upper medium", "Executive", "Luxury", "Sports",
     "Dual purpose 4X4", "MPV"),
@@ -30,7 +30,11 @@ vehicle_emissions(
 
 \item{vehicle}{Vehicle used for the journey. Options are \code{"Cars"}, \code{"Motorbike"}.}
 
-\item{fuel}{Fuel type used for the journey. For car, \code{"Petrol"}, \code{"Diesel"}, \code{"Unknown"}, \code{"Battery Electric Vehicle"}, \code{"Plug-in Hybrid Electric Vehicle"} are options. ##' \code{"hybrid electric"} and \code{"battery electric"} account for electricity kWh emissions.}
+\item{fuel}{Fuel type used for the journey. For car, \code{"Petrol"}, \code{"Diesel"}, \code{"Unknown"}, \code{"Battery Electric Vehicle"}, \code{"Plug-in Hybrid Electric Vehicle"} are options.
+Additionally \code{"Hybrid"} is an option if the car_type is one of \verb{"Average car", "Small car", "Medium car", "Large car",}.
+Additionally \code{"CNG"} and \code{"LPG"} are options if the car_type is one of \verb{"Average car", "Medium car", "Large car",}.
+Note that \code{"Plug-in Hybrid Electric Vehicle"} does not give values if \code{car_type == "Mini"}
+\code{"hybrid electric"} and \code{"battery electric"} account for electricity kWh emissions.}
 
 \item{car_type}{Size/type of vehicle for car.
 Options are \verb{c("Average car", "Small car", "Medium car", "Large car",}

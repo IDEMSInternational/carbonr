@@ -30,7 +30,6 @@ clinical_theatre_emissions <- function(wet_clinical_waste, wet_clinical_waste_un
                                        paper_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),
                                        average_WD = 0, average_film_WD = 0, average_rigid_WD = 0, HDPE_WD = 0,
                                        LDPE_WD = 0, LLDPE_WD = 0, PET_WD = 0, PP_WD = 0, PS_WD = 0, PVC_WD = 0,
-                                       plastic_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
                                        glass_units = c("kg", "tonnes"), paper_units = c("kg", "tonnes"), plastic_units = c("kg", "tonnes")){
   
   checkmate::assert_numeric(wet_clinical_waste, lower = 0)
@@ -51,7 +50,7 @@ clinical_theatre_emissions <- function(wet_clinical_waste, wet_clinical_waste_un
                                         HDPE = HDPE, LDPE = LDPE, LLDPE = LLDPE, PET = PET, PP = PP, PS = PS, PVC = PVC,
                                         average_WD = average_WD, average_film_WD = average_film_WD, average_rigid_WD = average_rigid_WD,
                                         HDPE_WD = HDPE_WD, LDPE_WD = LDPE_WD, LLDPE_WD = LLDPE_WD, PET_WD = PET_WD, PP_WD = PP_WD,
-                                        PS_WD = PS_WD, PVC_WD = PVC_WD, plastic_waste_disposal = plastic_waste_disposal, plastic_units = plastic_units,
+                                        PS_WD = PS_WD, PVC_WD = PVC_WD, plastic_units = plastic_units,
                                         fridges = fridges, freezers = freezers,
                                         electric_waste_disposal = electric_waste_disposal, electrical_units = electrical_units) # in tonnes
   

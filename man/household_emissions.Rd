@@ -69,7 +69,6 @@ household_emissions(
   PP_WD = 0,
   PS_WD = 0,
   PVC_WD = 0,
-  plastic_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
   fridges_WD = 0,
   freezers_WD = 0,
   large_electrical_WD = 0,
@@ -208,8 +207,6 @@ household_emissions(
 \item{PS_WD}{Numeric value indicating the weight of PS plastic disposed of using waste disposal methods. Default is \code{0}.}
 
 \item{PVC_WD}{Numeric value indicating the weight of PVC plastic disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{plastic_waste_disposal}{Character vector specifying the waste disposal method for plastic to use for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Landfill"}, \code{"Open-loop"}. Default is \code{"Closed-loop"}. See \code{details} for more information.}
 
 \item{fridges_WD}{Numeric value indicating the weight of fridges disposed of using waste disposal methods. Default is \code{0}.}
 

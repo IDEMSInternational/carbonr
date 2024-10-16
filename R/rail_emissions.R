@@ -7,7 +7,7 @@
 #' @param times_journey Number of times the journey is taken.
 #' @param include_WTT logical. Recommended \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.
 #' @param round_trip Whether the journey is one-way or return.
-# @param class Class travelled in. Options are ...
+#' @param distance Distance travelled in kilometres (default `0`. Ignored if values are given in `from` and `to`).
 #' @return Returns CO2e emissions in tonnes for the train journey.
 #' @details The distances are calculated using the Haversine formula. This is calculated as the crow flies. As a result, inputting the "via" journeys will make for a more reliable function.
 #' @export
@@ -22,66 +22,74 @@
 #' # Then calculate emissions
 #' rail_emissions("Bristol Temple Meads", "Paddington", via = c("Bath Spa",
 #' "Swindon", "Reading"))
-rail_emissions <- function(from, to, via = NULL, num_people = 1, times_journey = 1, include_WTT = TRUE, round_trip = FALSE){
+#' 
+#' # Alternatively state the distance of a journey
+#' rail_emissions(distance = 100)
+rail_emissions <- function(from = NULL, to = NULL, via = NULL, distance = 0, num_people = 1, times_journey = 1, include_WTT = TRUE, round_trip = FALSE){
   data("stations", envir = environment())
   
-  checkmate::assert_string(from)
-  checkmate::assert_string(to)
+  checkmate::assert_string(from, null.ok = TRUE)
+  checkmate::assert_string(to, null.ok = TRUE)
   if (!is.null(via)) { checkmate::assert_character(via) }
   checkmate::assert_count(num_people)
   checkmate::assert_count(times_journey)
   checkmate::assert_logical(include_WTT)
   checkmate::assert_logical(round_trip)
   
-  if (!(from) %in% c(stations$station)){
-    station_names <- agrep(data.frame(from), stations$station, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
-    stop(from, " is not a name in the data frame. Did you mean: ",
-         paste0((data.frame(stations) %>% dplyr::filter(station %in% station_names))$station, sep = ", ")
-         )
-  }
-  if (!(to) %in% c(stations$station)){
-    station_names <- agrep(data.frame(to), stations$station, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
-    stop(to, " is not a name in the data frame. Did you mean: ",
-         paste0((data.frame(stations) %>% dplyr::filter(station %in% station_names))$station, sep = ", ")
-    )
-  } # mention station_names data set to check station names
-  if (!is.null(via)){
-    for (i in 1:length(via)){
-    via_x <- via[i]
-    if (!(via_x) %in% c(stations$station)){
-      station_names <- agrep(data.frame(via_x), stations$station, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
-      stop(via_x, " is not a name in the data frame. Did you mean: ",
+  if (!is.null(from) & !is.null(to)){
+    if (!(from) %in% c(stations$station)){
+      station_names <- agrep(data.frame(from), stations$station, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
+      stop(from, " is not a name in the data frame. Did you mean: ",
            paste0((data.frame(stations) %>% dplyr::filter(station %in% station_names))$station, sep = ", ")
       )
     }
+    if (!(to) %in% c(stations$station)){
+      station_names <- agrep(data.frame(to), stations$station, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
+      stop(to, " is not a name in the data frame. Did you mean: ",
+           paste0((data.frame(stations) %>% dplyr::filter(station %in% station_names))$station, sep = ", ")
+      )
+    } # mention station_names data set to check station names
+    if (!is.null(via)){
+      for (i in 1:length(via)){
+        via_x <- via[i]
+        if (!(via_x) %in% c(stations$station)){
+          station_names <- agrep(data.frame(via_x), stations$station, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
+          stop(via_x, " is not a name in the data frame. Did you mean: ",
+               paste0((data.frame(stations) %>% dplyr::filter(station %in% station_names))$station, sep = ", ")
+          )
+        }
+      }
     }
-  }
-  
-  stations$id <- 1:nrow(stations)
-  i <- which(stations$station == {{ from }})
-  j <- which(stations$station == {{ to }})
-  k <- stations[match({{ via }}, stations$station), ]$id # to keep order
-  
-  latitude_from <- stations$latitude[i]
-  longitude_from <- stations$longitude[i]
-  latitude_to <- stations$latitude[j]
-  longitude_to <- stations$longitude[j]
-  latitude_via <- stations$latitude[k]
-  longitude_via <- stations$longitude[k]
-  
-  lats <- c(latitude_from, latitude_via, latitude_to)
-  longs <- c(longitude_from, longitude_via, longitude_to)
-  
-  if (length(lats) == 2) {
-    distance <- mapply(FUN = distance_calc, lat1 = lats[1], lat2 = lats[2], long1 = longs[1], long2 = longs[2])
+    
+    stations$id <- 1:nrow(stations)
+    i <- which(stations$station == {{ from }})
+    j <- which(stations$station == {{ to }})
+    k <- stations[match({{ via }}, stations$station), ]$id # to keep order
+    
+    latitude_from <- stations$latitude[i]
+    longitude_from <- stations$longitude[i]
+    latitude_to <- stations$latitude[j]
+    longitude_to <- stations$longitude[j]
+    latitude_via <- stations$latitude[k]
+    longitude_via <- stations$longitude[k]
+    
+    lats <- c(latitude_from, latitude_via, latitude_to)
+    longs <- c(longitude_from, longitude_via, longitude_to)
+    
+    if (length(lats) == 2) {
+      distance <- mapply(FUN = distance_calc, lat1 = lats[1], lat2 = lats[2], long1 = longs[1], long2 = longs[2])
+    } else {
+      distance1 <- NULL
+      for (m in 2:length(lats)-1){
+        distance1[m] <- mapply(FUN = distance_calc, lat1 = lats[m], lat2 = lats[m+1], long1 = longs[m], long2 = longs[m+1])
+      }
+      distance <- sum(distance1)
+    }
+    distance <- distance * 1.609 # convert to KM
   } else {
-    distance1 <- NULL
-    for (m in 2:length(lats)-1){
-      distance1[m] <- mapply(FUN = distance_calc, lat1 = lats[m], lat2 = lats[m+1], long1 = longs[m], long2 = longs[m+1])
-    }
-    distance <- sum(distance1)
+    distance <- distance
   }
-  distance <- distance * 1.609 # convert to KM
+  
   uk_gov_data_rail <- uk_gov_data %>% dplyr::filter(`Level 3` == "National rail")
   
   emissions <- (uk_gov_data_rail %>% dplyr::filter(`Level 2` == "Rail"))$value

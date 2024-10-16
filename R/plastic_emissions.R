@@ -22,11 +22,6 @@
 #' @param PP_WD Numeric value indicating the weight of PP plastic disposed of using waste disposal methods. Default is `0`.
 #' @param PS_WD Numeric value indicating the weight of PS plastic disposed of using waste disposal methods. Default is `0`.
 #' @param PVC_WD Numeric value indicating the weight of PVC plastic disposed of using waste disposal methods. Default is `0`.
-#' @param waste_disposal Character vector specifying the waste disposal method to use for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Landfill"`, `"Open-loop"`. Default is `"Closed-loop"`.
-#' `"Open-loop"` is the process of recycling material into other products.
-#' `"Closed-loop"` is the process of recycling material back into the same product.
-#' `"Combustion"` energy is recovered from the waste through incineration and subsequent generation of electricity.
-#' `"Landfill"` the product goes to landfill after use.
 #' @param units Character vector specifying the units of the emissions output. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
 #'
 #' @return The calculated plastic emissions as a numeric value in tonnes.
@@ -39,16 +34,13 @@
 #'
 #' # Calculate plastic emissions with specific quantities and waste disposal
 #' # method
-#' plastic_emissions(average = 100, HDPE = 50, PET = 25,
-#'                   waste_disposal = "Combustion", units = "tonnes")
+#' plastic_emissions(average = 100, HDPE = 50, PET = 25, units = "tonnes")
 plastic_emissions <- function(average = 0, average_film = 0, average_rigid = 0, HDPE = 0,
                                LDPE = 0, LLDPE = 0, PET = 0, PP = 0, PS = 0, PVC = 0,
                               average_WD = 0, average_film_WD = 0, average_rigid_WD = 0, HDPE_WD = 0,
                               LDPE_WD = 0, LLDPE_WD = 0, PET_WD = 0, PP_WD = 0, PS_WD = 0, PVC_WD = 0,
-                              waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
                               units = c("kg", "tonnes")){
   
-  waste_disposal <- match.arg(waste_disposal)
   units <- match.arg(units)
   checkmate::assert_numeric(average, lower = 0)
   checkmate::assert_numeric(average_film, lower = 0)
@@ -86,7 +78,7 @@ plastic_emissions <- function(average = 0, average_film = 0, average_rigid = 0, 
   WD <- uk_gov_data %>%
     dplyr::filter(`Level 1` == "Waste disposal") %>%
     dplyr::filter(`Level 2` == "Plastic") %>%
-    dplyr::filter(`Column Text` == waste_disposal)
+    dplyr::filter(`Column Text` == "Closed-loop")
   emission_values <- MU$value
   WD_values <- WD$value
   

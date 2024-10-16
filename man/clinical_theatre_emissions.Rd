@@ -56,7 +56,6 @@ clinical_theatre_emissions(
   PP_WD = 0,
   PS_WD = 0,
   PVC_WD = 0,
-  plastic_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
   glass_units = c("kg", "tonnes"),
   paper_units = c("kg", "tonnes"),
   plastic_units = c("kg", "tonnes")
@@ -164,8 +163,6 @@ clinical_theatre_emissions(
 \item{PS_WD}{Numeric value indicating the weight of PS plastic disposed of using waste disposal methods. Default is \code{0}.}
 
 \item{PVC_WD}{Numeric value indicating the weight of PVC plastic disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{plastic_waste_disposal}{Character vector specifying the waste disposal method for plastic to use for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Landfill"}, \code{"Open-loop"}. Default is \code{"Closed-loop"}. See \code{details} for more information.}
 
 \item{glass_units}{Character vector specifying the units of the emissions related to glass. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
 

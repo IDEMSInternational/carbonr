@@ -22,7 +22,7 @@ status](https://www.r-pkg.org/badges/version/carbonr)](https://CRAN.R-project.or
 
 `carbonr` is an R package designed to conveniently calculate
 carbon-equivalent emissions using data from the [UK Government report
-(2023)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023).
+(2024)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024).
 
 ## Installation
 
@@ -169,10 +169,14 @@ maintain the package.
     (2023). [Greenhouse Gas Reporting: Conversion Factors
     2023](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023).
 
-2.  Radiative Forcing Factor: DEFRA, 2016. Government GHG conversion
+2.  UK Government Report: Department for Energy Security and Net Zero.
+    (2024). [Greenhouse Gas Reporting: Conversion Factors
+    2024](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024).
+
+3.  Radiative Forcing Factor: DEFRA, 2016. Government GHG conversion
     factors for company reporting.
 
-3.  Clinical Anaesthetic Emissions: Various sources including -
+4.  Clinical Anaesthetic Emissions: Various sources including -
 
 Varughese, S. and Ahmed, R., 2021. Environmental and occupational
 considerations of anesthesia: a narrative review and update. Anesthesia
@@ -190,6 +194,6 @@ Sherman, J., Le, C., Lamers, V. and Eckelman, M., 2012. Life cycle
 greenhouse gas emissions of anesthetic drugs. Anesthesia & Analgesia,
 114(5), pp.1086-1090.
 
-4.  Department of Climate Change, Energy, the Environment and Water
+5.  Department of Climate Change, Energy, the Environment and Water
     (DCCEEW). National Greenhouse Accounts Factors: 2022. Australian
     Government, 2022.

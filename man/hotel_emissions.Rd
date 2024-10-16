@@ -7,7 +7,7 @@
 hotel_emissions(location = "UK", nights = 1, rooms = 1)
 }
 \arguments{
-\item{location}{Location of the hotel stay. Current accepted locations are \code{"UK"}, \code{"UK (London)"} \code{"Argentina"}, \code{"Australia"}, \code{"Austria"}, \code{"Belgium"}, \code{"Brazil"}, \code{"Canada"}, \code{"Chile"}, \code{"China"}, \code{"Colombia"}, \code{"Costa Rica"}, \code{"Czechia"}, \code{"Egypt"}, \code{"Fiji"}, \code{"France"}, \code{"Germany"},  \code{"Greece"}, \code{"Hong Kong, China"}, \code{"India"}, \code{"Indonesia"}, \code{"Ireland"}, \code{"Israel"}, \code{"Italy"}, \code{"Japan"}, \code{"Jordan"}, \code{"Korea"}, \code{"Macau"}, \code{"Malaysia"}, \code{"Maldives"}, \code{"Mexico"}, \code{"Netherlands"}, \code{"New Zealand"}, \code{"Oman"}, \code{"Panama"}, \code{"Peru"}, \code{"Philippines"}, \code{"Poland"}, \code{"Portugal"}, \code{"Qatar"}, \code{"Romania"}, \code{"Russia"}, \code{"Saudi Arabia"}, \code{"Singapore"}, \code{"Slovakia"}, \code{"South Africa"}, \code{"Spain"}, \code{"Switzerland"}, \code{"Taiwan"}, \code{"Thailand"}, \code{"Turkey"}, \code{"United Arab Emirates"}, \code{"United States"}, \code{"Vietnam"}.}
+\item{location}{Location of the hotel stay. Current accepted locations are \code{"UK"}, \code{"UK (London)"}, \code{"Australia"}, \code{"Belgium"}, \code{"Brazil"}, \code{"Canada"}, \code{"Chile"}, \code{"China"}, \code{"Colombia"}, \code{"Costa Rica"}, \code{"Egypt"}, \code{"France"}, \code{"Germany"}, \code{"Hong Kong, China"}, \code{"India"}, \code{"Indonesia"}, \code{"Italy"}, \code{"Japan"}, \code{"Jordan"}, \code{"Korea"}, \code{"Malaysia"}, \code{"Maldives"}, \code{"Mexico"}, \code{"Netherlands"}, \code{"Oman"}, \code{"Philippines"}, \code{"Portugal"}, \code{"Qatar"}, \code{"Russia"}, \code{"Saudi Arabia"}, \code{"Singapore"}, \code{"South Africa"}, \code{"Spain"}, \code{"Switzerland"}, \code{"Thailand"}, \code{"Turkey"}, \code{"United Arab Emirates"}, \code{"United States"}, \code{"Vietnam"}.}
 
 \item{nights}{Number of nights stayed in the hotel.}
 
@@ -17,9 +17,9 @@ hotel_emissions(location = "UK", nights = 1, rooms = 1)
 Tonnes of CO2e emissions for a stay in a hotel.
 }
 \description{
-Indirect emissions from a stay at a hotel. Values to calculate emissions are from UK government 2022 report.
+Indirect emissions from a stay at a hotel. Values to calculate emissions are from UK government 2024 report.
 }
 \examples{
-# Emissions for a two night stay in Fiji.
-hotel_emissions(location = "Fiji", nights = 2)
+# Emissions for a two night stay in Australia.
+hotel_emissions(location = "Australia", nights = 2)
 }
