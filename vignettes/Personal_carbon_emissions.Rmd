@@ -1,0 +1,245 @@
+---
+title: "Introduction to carbonr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Personal Carbon Emissions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Personal Carbon Emissions with carbonr
+
+### Introduction
+Personal carbon emissions refer to the total amount of greenhouse gases, primarily carbon dioxide (CO₂), that an individual is responsible for emitting directly and indirectly through their daily activities.The carbonr package in R provides a convenient way to calculate these emissions.
+The emissions values used in these calculations primarily derive from the [UK Government report (2023)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023), where available. If calculations are based on sources other than the UK Government report, it will be specified accordingly.
+
+### Motivation
+The aim of calculating Personal Carbon Emissions is to provide a reliable and reproducible method for assessing individual carbon footprints. This ensures that results can be easily saved, edited, and redistributed, fostering transparency and accuracy in carbon emission reporting.
+
+### Installation
+To install the development version of carbonr, you can use the following commands to download it from [GitHub](https://github.com/):
+
+```{r install_package, eval = FALSE}
+# Uncomment the following line if you haven't installed devtools yet
+# install.packages("devtools")
+devtools::install_github("IDEMSInternational/carbonr")
+```
+
+Once installed, load the carbonr package with the following command:
+```{r, eval=FALSE}
+library(carbonr)
+library(knitr)
+library(rmarkdown)
+```
+
+### Usage
+The carbonr package allows users to calculate personal emissions from various sources, including travel-related activities, building energy use, and household emissions. For personal emissions, we consider the following categories:
+```
+*Travel-Related Emissions*:
+
+airplane_emissions() Calculates emissions from air travel.
+ferry_emissions() Estimates emissions from ferry travel
+land_emissions() Computes emissions from land-based travel.
+rail_emissions() Determines emissions from rail travel.
+vehicle_emissions() Assesses emissions from personal vehicle use.
+
+*Household Emissions*:
+household_emissions() Estimates emissions from household activities.
+
+*Building Emissions*:
+building_emissions() Calculates emissions associated with building energy use.
+```
+
+These all return carbon-equivalent emissions in tonnes.
+
+A shiny app is also available by shiny_emissions() to calculate carbon-equivalent emissions with a GUI.
+
+We give some small examples in using the functions in `carbonr()`.
+We started by Travel related Emissions:
+1.`airplane_emissions()`
+To calculate emissions for a flight between Nairobi and Kisumu, we first want to find the name of the airports. We do this using the `airport_finder()` function:
+
+```{r load_tidyverse, message = FALSE, warning = FALSE}
+library(tidyverse)
+```
+
+
+```{r find_airport_nairobi, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+airport_finder(name = "Nairobi")
+ %>%
+  knitr::kable()
+```
+
+
+
+```{r get_airport_kisumu, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+airport_finder(name = "Kisumu")
+ %>%
+  knitr::kable()
+
+```
+
+Now we can find the overall emission value using the appropriate IATA code. These distances are calculated using the Haversine formula:
+
+```{r airplane_emissions_chunk, message = FALSE, warning = FALSE}
+result <- carbonr::airplane_emissions("NBO", "KIS")  
+knitr::kable(result)
+```
+A similar approach can be performed for ferry emissions. For example, to calculate emissions for a round trip ferry from Melbourne to New York, we first find the appropriate seaport code with the `seaport_finder()` function:
+```{r mombasa_findsea, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+seaport_finder(city = "Shimoni")
+%>%
+ knitr::kable()
+```
+
+```{r mogadishu_findsea, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+seaport_finder(city = "Giohar")
+%>%
+ knitr::kable()
+```
+
+# Ensure the seaports data is loaded
+```{r load_seaports, message = FALSE, warning = FALSE}
+data("seaports", package = "carbonr")
+```
+
+Now we can find the overall emission value using the appropriate seaport code:
+```{r ferry_example, message = FALSE, warning = FALSE}
+result <-carbonr::ferry_emissions("SMN", "GHR", round_trip = TRUE)
+knitr::kable(result)
+```
+
+For the UK we can calculate emissions for a train journey. Like with `airplane_emissions()` and `ferry_emissions()`, the distances are calculated using the Haversine formula - this is calculated as the crow flies. As before, we first find the stations. As always, for a more accurate estimation we can include via points:
+
+To calculate emissions for a train journey from Bristol Temple Meads to Edinburgh Waverley, via Birmingham New Street. We can use a data frame and `purrr::map()` to read through the data easier:
+```{r load_stations, message = FALSE, warning = FALSE}
+data("stations", package = "carbonr")
+```
+
+```{r multiple_example, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+multiple_ind <- tibble::tribble(~ID, ~station,
+                        "From", "Bristol",
+                        "To", "Edinburgh",
+                        "Via", "Birmingham")
+purrr::map(.x = multiple_ind$station, .f = ~rail_finder(.x)) %>%
+  dplyr::bind_rows()
+```
+```{r multiple_eg, message = FALSE, warning = FALSE, echo=FALSE}
+multiple_ind <- tibble::tribble(~ID, ~station,
+                        "From", "Bristol",
+                        "To", "Edinburgh",
+                        "Via", "Birmingham")
+purrr::map(.x = multiple_ind$station, .f = ~carbonr::rail_finder(.x)) %>%
+  dplyr::bind_rows() %>%
+  knitr::kable()
+```
+
+Then we can estimate the overall tCO2e emissions for the journey:
+```{r rail_em, message = FALSE, warning = FALSE}
+result <- carbonr::rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
+knitr::kable(result)
+```
+
+We can use a data frame to read through the data easier in general. For example, if we had data for multiple individuals, or journeys:
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+multiple_ind <- tibble::tribble(~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
+                        "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
+                        "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
+multiple_ind %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(plane_emissions = carbonr::airplane_emissions(air_from,
+                                              air_to,
+                                              air_via)) %>%
+  dplyr::mutate(train_emissions = carbonr::rail_emissions(rail_from,
+                                          rail_to)) %>%
+  dplyr::mutate(total_emissions = plane_emissions + train_emissions)
+```
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+multiple_ind <- tibble::tribble(~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
+                        "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
+                        "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
+multiple_ind %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(plane_emissions = carbonr::airplane_emissions(air_from,
+                                              air_to,
+                                              air_via)) %>%
+  dplyr::mutate(train_emissions = carbonr::rail_emissions(rail_from,
+                                          rail_to)) %>%
+  dplyr::mutate(total_emissions = plane_emissions + train_emissions) %>%
+  knitr::kable()
+```
+
+### Land Emissions
+For land-based travel, we use the `land_emissions()` function. This allows you to calculate emissions based on vehicle type and fuel type.
+
+```{r land_emissions_example, message = FALSE, warning = FALSE}
+result<-carbonr::land_emissions(distance = 100, vehicle = "Bus", fuel = "Petrol")
+knitr::kable(result)
+```
+### Vehicle Emissions
+
+The `vehicle_emissions()` function estimates emissions from personal vehicle use based on distance, fuel type, and fuel consumption.
+
+```{r vehicle_emissions_example, message = FALSE, warning = FALSE}
+result <- carbonr::vehicle_emissions(distance = 150, fuel = "Petrol", car_type = "Dual purpose 4X4" )
+knitr::kable(result)
+```
+
+Additional emissions can be calculated as well. For example, household and building emissions
+### Household Emissions
+The `household_emissions()` is used to estimate carbon-equivalent emissions based on household energy use. It allows users to input various types of energy sources, such as electricity or gas, and calculates the emissions based on the consumption levels provided.
+
+# Input Parameters
+energy_type: This parameter defines the type of energy source used (e.g., "electricity", "gas", "oil").
+consumption: The amount of energy consumed, typically measured in kilowatt-hours (kWh) for electricity or cubic meters for gas.
+emission_factor: A factor that converts the energy usage into carbon-equivalent emissions. This factor is based on standard values but can be customized in some cases.
+
+```{r household_emissions_example, message = FALSE, warning = FALSE}
+result <- carbonr::household_emissions(compost_waste_disposal = "Combustion", fridges = 113 , units = "kg")
+knitr::kable(result)
+```
+
+### Building Emissions
+The `building_emissions()`calculates carbon-equivalent emissions based on energy consumption in a building. The function considers various energy sources, such as electricity, natural gas, and oil, and returns emissions in tonnes of CO₂-equivalent.
+# Input Parameters
+electricity: The amount of electricity consumed in kilowatt-hours (kWh).
+natural_gas: The amount of natural gas consumed in cubic meters (m³).
+oil: The amount of oil consumed in liters (L).
+other_fuel: The amount of any other type of fuel consumed (optional).
+
+
+```{r building_emissions_example, message = FALSE, warning = FALSE}
+result <- carbonr::building_emissions(electricity_kWh = 500, water_supply = 1000, water_unit = "cubic metres")
+knitr::kable(result)
+```
+## Shiny App
+
+An interactive calculator using Shiny can be accessed by the `shiny_emissions()` function. This calculator uses some of the functions in the `carbonr` package: 
+```{r, eval = FALSE}
+shiny_emissions()
+```
+
+## References
+
+#### Other Online Calculators:
+- [Carbonfund.org](https://carbonfund.org/calculation-methods/)
+- [Carbon Footprint Calculator](https://www.carbonfootprint.com/calculatorfaqs.html)
+
+#### Sources
+1. UK Government Report: Department for Energy Security and Net Zero. (2023). [Greenhouse Gas Reporting: Conversion Factors 2023](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023).
+
+2. Radiative Forcing Factor: DEFRA, 2016. Government GHG conversion factors for company reporting.
+
+3. Clinical Anaesthetic Emissions: Various sources including -
+
+Varughese, S. and Ahmed, R., 2021. Environmental and occupational considerations of anesthesia: a narrative review and update. Anesthesia & Analgesia, 133(4), pp.826-835;
+
+McGain, F., Muret, J., Lawson, C. and Sherman, J.D., 2020. Environmental sustainability in anaesthesia and critical care. British Journal of Anaesthesia, 125(5), pp.680-692;
+
+Wyssusek, K., Chan, K.L., Eames, G. and Whately, Y., 2022. Greenhouse gas reduction in anaesthesia practice: a departmental environmental strategy. BMJ Open Quality, 11(3), p.e001867;
+
+Sherman, J., Le, C., Lamers, V. and Eckelman, M., 2012. Life cycle greenhouse gas emissions of anesthetic drugs. Anesthesia & Analgesia, 114(5), pp.1086-1090.
+
+4. Clinical Wet Waste Emissions: Department of Climate Change, Energy, the Environment and Water. (2022). [National Greenhouse Accounts Factors: 2022](https://www.dcceew.gov.au/climate-change/publications/national-greenhouse-accounts-factors-2022).
+
+
