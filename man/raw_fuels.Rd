@@ -288,20 +288,32 @@ raw_fuels(
 \item{landfill_gas_units}{units that the biogas is given in. Options are \code{"tonnes"}, \code{"kwh"}.}
 }
 \value{
-CO2e emissions in tonnes
+A data frame with calculated emissions in tonnes of CO2e for each type of fuel input.
 }
 \description{
 Raw Fuels Emissions
 }
 \details{
-Gas fuels: butane, CNG, LPG, LNG, natural_gas, natural_gas_mineral, other_petroleum_gas, propane.
-Liquid fuels:
-Solid fuels:
+This function calculates CO2e emissions from a wide variety of fuels, considering different unit conversions for each type of fuel. It supports the calculation of emissions from commonly used fuels such as diesel, petrol, natural gas, and biodiesel, as well as more specific fuels like aviation fuel, marine fuel, and landfill gas.
+
+Unit conversions are done internally based on the specified units for each type of fuel (e.g., kWh, litres, tonnes). The function is useful for assessing the carbon footprint associated with different fuel sources over a specified time period.
 }
 \examples{
-# TODO
+# Calculate emissions for 100 litres of diesel and 500 kWh of natural gas:
+raw_fuels(
+  diesel = 100, diesel_units = "litres",
+  natural_gas = 500, natural_gas_units = "kwh",
+)
+
+# Calculate emissions for 10 tonnes of aviation fuel:
+raw_fuels(
+  aviation_fuel = 10, aviation_fuel_units = "tonnes",
+)
 
 }
 \references{
-Descriptions from 2021 UK Government Report: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021
+\itemize{
+\item DEFRA Conversion Factors for Greenhouse Gas (GHG) Reporting: https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting
+\item Descriptions from 2021 UK Government Report: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021
+}
 }

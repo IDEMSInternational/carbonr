@@ -1,8 +1,3 @@
-library(readxl)
-library(dplyr)
-library(tidyr)
-library(stringr)
-
 # Assuming you have a test Excel file located in your test directory called "test_CPI_Data.xlsx"
 path_to_test_file <- "testdata/CPI_Data_DashboardExtract.xlsx"
 

@@ -1,5 +1,3 @@
-library(carbonr)
-
 test_that("correct calculations when editing number of people", {
   expect_equal(10*raw_fuels(propane = 1000), raw_fuels(propane = 1000, num_people = 10))
 })

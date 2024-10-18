@@ -1,4 +1,7 @@
-^.*\.Rproj$
-^\.Rproj\.user$
+^LICENSE\.md$
 ^\.github$
 ^README\.Rmd$
+^.*\.Rproj$
+^\.Rproj\.user$
+^doc$
+^Meta$

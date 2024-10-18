@@ -12,7 +12,26 @@
 #' @return A ggplot2 object showing the relative GTI (Growth to Index) over time.
 #' @export
 #'
-#' @examples # TODO
+#' @examples
+#' # Example dataset
+#' emission_data <- data.frame(
+#'   theatre = c("Theatre A", "Theatre A", "Theatre B", "Theatre B", "Theatre A", "Theatre B"),
+#'   emissions = c(200, 250, 150, 180, 300, 220),
+#'   date = c("01/01/2023", "01/02/2023", "01/01/2023", "01/02/2023", "01/03/2023", "01/03/2023")
+#'   )
+#'   
+#' # Using the relative_gti function
+#' relative_gti_plot <- relative_gti(
+#'   data = emission_data,
+#'   time = date,
+#'   date_format = "%d/%m/%Y",  # Date format used in the dataset
+#'   name = theatre,
+#'   val = emissions,
+#'   gti_by = "default"  # Calculating based on default time period
+#' )
+#' 
+#' # Plot the relative GTI
+#' print(relative_gti_plot)
 relative_gti <- function(data = data, time = time, date_format = c("%d/%m/%Y"), name = theatre,
                          val = emissions, gti_by = c("default", "month", "year")){
   gti_by <- match.arg(gti_by)
@@ -37,6 +56,6 @@ relative_gti <- function(data = data, time = time, date_format = c("%d/%m/%Y"), 
     ggplot2::geom_line() +
     ggplot2::facet_wrap(ggplot2::vars({{ name }})) +
     ggplot2::theme_bw()
-return(gg_object)
+  return(gg_object)
   
 }

@@ -24,6 +24,5 @@
 #'   \item{Type}{Type of airport (e.g., large airport, medium airport, small airport)}
 #'   \item{Source}{Source of data, generally sourced from OurAirports}
 #' }
-#' @source \url{https://openflights.org/data.html}
 #' @source \url{https://cran.r-project.org/package=airportr}
 "airports"

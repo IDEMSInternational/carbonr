@@ -33,5 +33,23 @@ A ggplot2 object showing the relative GTI (Growth to Index) over time.
 Calculate and plot the relative growth to index (GTI) over time
 }
 \examples{
-# TODO
+# Example dataset
+emission_data <- data.frame(
+  theatre = c("Theatre A", "Theatre A", "Theatre B", "Theatre B", "Theatre A", "Theatre B"),
+  emissions = c(200, 250, 150, 180, 300, 220),
+  date = c("01/01/2023", "01/02/2023", "01/01/2023", "01/02/2023", "01/03/2023", "01/03/2023")
+  )
+  
+# Using the relative_gti function
+relative_gti_plot <- relative_gti(
+  data = emission_data,
+  time = date,
+  date_format = "\%d/\%m/\%Y",  # Date format used in the dataset
+  name = theatre,
+  val = emissions,
+  gti_by = "default"  # Calculating based on default time period
+)
+
+# Plot the relative GTI
+print(relative_gti_plot)
 }

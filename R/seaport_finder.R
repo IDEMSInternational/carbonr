@@ -12,6 +12,7 @@
 #'
 #' @examples # Look up the city of Aberdeen to find the port_code for it
 #' seaport_finder(city = "Aberdeen")
+#' 
 #' # Search for a country and city and it finds matches
 #' seaport_finder(country = "United", city = "borunemouth", ignore.case = TRUE)
 

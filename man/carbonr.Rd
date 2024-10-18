@@ -3,14 +3,15 @@
 \docType{package}
 \name{carbonr}
 \alias{carbonr}
-\title{\code{carbonr-package} package}
+\alias{carbonr-package}
+\title{carbonr: Calculate Carbon-Equivalent Emissions}
 \description{
-Here
+The \code{carbonr} package provides a flexible tool for calculating carbon-equivalent emissions.
 }
 \seealso{
-here
 See the README on \href{https://github.com/IDEMSInternational/carbonr/blob/main/README.md}{GitHub}
 }
 \author{
-here
+\strong{Maintainer}: Lily Clements \email{lily@idems.international} (\href{https://orcid.org/0000-0001-8864-0552}{ORCID})
+
 }

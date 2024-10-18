@@ -1,5 +1,3 @@
-library(carbonr)
-
 test_that("correct calculations when editing distance", {
   expect_equal(10*vehicle_emissions(distance = 1), vehicle_emissions(distance = 10))
 })

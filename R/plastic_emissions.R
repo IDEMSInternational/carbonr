@@ -34,7 +34,6 @@
 #' @export
 #'
 #' @examples
-#'
 #' # Calculate plastic emissions using default values
 #' plastic_emissions()
 #'

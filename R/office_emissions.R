@@ -23,7 +23,6 @@
 #'                  heat_kWh = 100, water_supply = 100, water_trt = FALSE)
 #' 
 #' @references Descriptions from 2022 UK Government Report: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2022
-
 office_emissions <- function(specify = FALSE, office_num = 1, WFH_num = 0, WFH_hours = 0,
                              WFH_type = c("Office Equipment", "Heating"), 
                              water_supply = 0, water_trt = TRUE, water_unit = c("cubic metres", "million litres"),

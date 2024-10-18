@@ -22,6 +22,3 @@ It imports data from an Excel file containing CPI (Carbon Price Index) data.
 It filters the data for ETS (Emissions Trading Scheme) instruments, performs necessary transformations,
 and returns a processed data frame.
 }
-\examples{
-#cpi_data <- import_CPI()
-}

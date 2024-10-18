@@ -9,9 +9,6 @@
 #' @param sheet A character string specifying the name of the sheet in the Excel file to read data from.
 #' @param skip An integer specifying the number of rows to skip while reading the Excel sheet.
 #' @return A processed data frame containing CPI data.
-#'
-#' @examples
-#' #cpi_data <- import_CPI()
 import_CPI <- function(path, sheet = "Data_Price", skip = 2){
   data <- readxl::read_excel(path, sheet = sheet, skip = skip)
   data <- data %>%

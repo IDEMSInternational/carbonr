@@ -25,7 +25,8 @@
 #'
 #' @examples # Emissions for a 100 mile car journey
 #'  vehicle_emissions(distance = 100)
-#' @examples # Emissions for a 100 mile motorbike journey where the motorbike is 500+cc
+#'
+#' # Emissions for a 100 mile motorbike journey where the motorbike is 500+cc
 #'  vehicle_emissions(distance = 100, vehicle = "Motorbike", bike_type = "Large")
 
 vehicle_emissions <- function(distance, units = c("miles", "km"), num = 1,

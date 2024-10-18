@@ -1,5 +1,3 @@
-library(carbonr)
-
 test_that("changing units value alters calculation for water supply", {
   expect_gt(building_emissions(water_supply = 300, water_unit = "million litres"), building_emissions(water_supply = 300))
   expect_gt(building_emissions(water_supply = 300), building_emissions(water_supply = 300, water_trt = FALSE))

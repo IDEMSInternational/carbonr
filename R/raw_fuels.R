@@ -93,23 +93,29 @@
 #' @param grass_units units that the biomass is given in. Options are `"tonnes"`, `"kwh"`.
 #' @param biogas_units units that the biogas is given in. Options are `"tonnes"`, `"kwh"`.
 #' @param landfill_gas_units units that the biogas is given in. Options are `"tonnes"`, `"kwh"`.
-#'
-#' @details Gas fuels: butane, CNG, LPG, LNG, natural_gas, natural_gas_mineral, other_petroleum_gas, propane.
-#' Liquid fuels:
-#' Solid fuels: 
 #' 
+#' @details This function calculates CO2e emissions from a wide variety of fuels, considering different unit conversions for each type of fuel. It supports the calculation of emissions from commonly used fuels such as diesel, petrol, natural gas, and biodiesel, as well as more specific fuels like aviation fuel, marine fuel, and landfill gas. 
 #' 
-#' @return CO2e emissions in tonnes
+#' Unit conversions are done internally based on the specified units for each type of fuel (e.g., kWh, litres, tonnes). The function is useful for assessing the carbon footprint associated with different fuel sources over a specified time period.
+#' 
+#' @return A data frame with calculated emissions in tonnes of CO2e for each type of fuel input.
 #' @export
-#'
-#' @examples # TODO
 #' 
-#' @references Descriptions from 2021 UK Government Report: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021
-# also: 
-# CO2e from water per cubic meters
-# supply: 0.149
-# trt (scope 3): 0.272
-
+#' @references 
+#' - DEFRA Conversion Factors for Greenhouse Gas (GHG) Reporting: https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting
+#' - Descriptions from 2021 UK Government Report: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021
+#' @examples
+#' # Calculate emissions for 100 litres of diesel and 500 kWh of natural gas:
+#' raw_fuels(
+#'   diesel = 100, diesel_units = "litres",
+#'   natural_gas = 500, natural_gas_units = "kwh",
+#' )
+#'
+#' # Calculate emissions for 10 tonnes of aviation fuel:
+#' raw_fuels(
+#'   aviation_fuel = 10, aviation_fuel_units = "tonnes",
+#' )
+#' 
 raw_fuels <- function(num_people = 1, butane = 0,CNG = 0,LPG = 0,LNG = 0,natural_gas = 0,natural_gas_mineral = 0,other_petroleum_gas = 0,propane = 0,
                       aviation = 0,aviation_fuel = 0,burning_oil = 0,diesel = 0,diesel_mineral = 0,fuel_oil = 0,gas_oil = 0,lubricants = 0,
                       naptha = 0,petrol_biofuel = 0,petrol_mineral = 0,residual_oil = 0,distillate = 0,refinery_miscellaneous = 0,

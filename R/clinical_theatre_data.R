@@ -23,14 +23,14 @@
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' # Example with dummy data
-#' \dontrun{
 #' df <- data.frame(time = c("10/04/2000", "10/04/2000", "11/04/2000",
 #'                           "11/04/2000", "12/04/2000", "12/04/2000"),
-#' theatre = rep(c("A", "B"), times = 3),
-#' clinical_waste = c(80, 90, 80, 100, 120, 110),
-#' electricity_kwh = c(100, 110, 90, 100, 100, 110),
-#' general_waste = c(65, 55, 70, 50, 60, 30))
+#'                  theatre = rep(c("A", "B"), times = 3),
+#'                  clinical_waste = c(80, 90, 80, 100, 120, 110),
+#'                  electricity_kwh = c(100, 110, 90, 100, 100, 110),
+#'                  general_waste = c(65, 55, 70, 50, 60, 30))
 #' 
 #' clinical_theatre_data(df, time = time, name = theatre,
 #'                  wet_clinical_waste = clinical_waste,

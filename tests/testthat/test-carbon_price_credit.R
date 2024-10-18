@@ -1,6 +1,3 @@
-# Load required libraries
-library(carbonr)
-
 test_that("carbon_price_credit handles invalid input correctly", {
   # Test case 2: Check if an warning is thrown when both jurisdiction and manual_value are given
   expect_warning(carbon_price_credit("Australia", manual_price = 100, co2e_val = 50))

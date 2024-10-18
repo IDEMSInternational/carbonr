@@ -315,5 +315,7 @@ Material (and waste) emissions
 \code{"Anaerobic digestion"} energy is recovered from the waste through anaerobic digestion.
 }
 \examples{
-material_emissions(glass = 100, glass_WD = 10, glass_units = "kg")
+\donttest{
+  material_emissions(glass = 100, glass_WD = 10, glass_units = "kg")
+}
 }

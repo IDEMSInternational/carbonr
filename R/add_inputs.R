@@ -10,6 +10,7 @@
 #' @export
 #'
 #' @examples
+#' if(interactive()) {
 #' ui <- shinydashboard::dashboardPage(header = shinydashboard::dashboardHeader(),
 #'                                     sidebar = shinydashboard::dashboardSidebar(),
 #'                                     shinydashboard::dashboardBody(
@@ -26,8 +27,8 @@
 #'                                                       label = "New Box:",
 #'                                                       value = "textbox") })
 #' }
-#' ## NOT RUN ##
-#' # shiny::shinyApp(ui, server)
+#' shiny::shinyApp(ui, server)
+#' }
 add_inputs <- function(numeric_input, label, value){
   if (numeric_input == 0){
     L_P = 0

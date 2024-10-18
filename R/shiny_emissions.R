@@ -1,12 +1,11 @@
-#' Run Shiny App to Calculate Carbon Emissions
-#' @description Runs a GUI to the functions in the carbonr package to calculate carbon-equivalent emissions.
+#' Run 'shiny' App to Calculate Carbon Emissions
+#' @description Runs a GUI to the functions in the 'carbonr' package to calculate carbon-equivalent emissions.
 #'
-#' @return Shiny app to calculate carbon-equivalent emissions
+#' @return 'shiny' app to calculate carbon-equivalent emissions
 #' @export
 #'
 #' @examples 
-#' ## NOT RUN ##
-#' # shiny_emissions()
+#' if(interactive()){shiny_emissions()}
 shiny_emissions <- function(){
   df <- shiny::reactiveValues(data = data.frame(y=NULL))
   ui <- shinydashboard::dashboardPage(skin = "green",

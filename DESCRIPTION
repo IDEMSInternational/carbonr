@@ -1,10 +1,10 @@
 Package: carbonr
-Title: Calculate carbon-equivalent emissions.
+Title: Calculate Carbon-Equivalent Emissions
 Version: 0.2.1
 Authors@R: 
     person("Lily", "Clements", , "lily@idems.international", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-8864-0552"))
-Description: Provides a flexible tool for calculating carbon-equivalent emissions. Mostly using data from the UK Government's Greenhouse Gas Conversion Factors report <https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023>, it facilitates transparent emissions calculations for various sectors, including travel, accommodation, and clinical activities. The package is designed for easy integration into R workflows, with additional support for Shiny applications and community-driven extensions.
+Description: Provides a flexible tool for calculating carbon-equivalent emissions. Mostly using data from the UK Government's Greenhouse Gas Conversion Factors report <https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023>, it facilitates transparent emissions calculations for various sectors, including travel, accommodation, and clinical activities. The package is designed for easy integration into R workflows, with additional support for 'shiny' applications and community-driven extensions.
 License: LGPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

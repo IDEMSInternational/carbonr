@@ -20,6 +20,7 @@ Returns textInput for use in the \code{shiny_emissions()} function.
 For use in the \code{shiny_emissions()} function. Adding an unknown quantity of textInputs.
 }
 \examples{
+if(interactive()) {
 ui <- shinydashboard::dashboardPage(header = shinydashboard::dashboardHeader(),
                                     sidebar = shinydashboard::dashboardSidebar(),
                                     shinydashboard::dashboardBody(
@@ -36,6 +37,6 @@ server <- function(input, output) {
                                                       label = "New Box:",
                                                       value = "textbox") })
 }
-## NOT RUN ##
-# shiny::shinyApp(ui, server)
+shiny::shinyApp(ui, server)
+}
 }

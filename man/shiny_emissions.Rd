@@ -2,17 +2,16 @@
 % Please edit documentation in R/shiny_emissions.R
 \name{shiny_emissions}
 \alias{shiny_emissions}
-\title{Run Shiny App to Calculate Carbon Emissions}
+\title{Run 'shiny' App to Calculate Carbon Emissions}
 \usage{
 shiny_emissions()
 }
 \value{
-Shiny app to calculate carbon-equivalent emissions
+'shiny' app to calculate carbon-equivalent emissions
 }
 \description{
-Runs a GUI to the functions in the carbonr package to calculate carbon-equivalent emissions.
+Runs a GUI to the functions in the 'carbonr' package to calculate carbon-equivalent emissions.
 }
 \examples{
-## NOT RUN ##
-# shiny_emissions()
+if(interactive()){shiny_emissions()}
 }

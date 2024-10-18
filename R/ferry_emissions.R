@@ -15,7 +15,7 @@
 #' @export
 #'
 #' @examples # Emissions for a ferry journey between Belfast and New York City
-#' @examples seaport_finder(city = "Belfast")
+#' seaport_finder(city = "Belfast")
 #' seaport_finder(city = "New York")
 #' ferry_emissions(from = "BEL", to = "BOY")
 ferry_emissions <- function(from, to, via = NULL, type = c("Foot", "Car", "Average"), num_people = 1, times_journey = 1, include_WTT = TRUE, round_trip = FALSE){
@@ -32,14 +32,14 @@ ferry_emissions <- function(from, to, via = NULL, type = c("Foot", "Car", "Avera
   
   if (!(from) %in% c(seaports$port_code)){
     port_codes <- agrep(data.frame(from), seaports$port_code, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
-    stop(print(from), " is not a port code in the data frame. Did you mean: ",
+    stop(from, " is not a port code in the data frame. Did you mean: ",
          paste0((data.frame(seaports) %>% dplyr::filter(port_code %in% port_codes))$port_code, sep = ", "),
          "\n Otherwise find port code in `seaport_finder` function"
     )
   }
   if (!(to) %in% c(seaports$port_code)){
     port_codes <- agrep(data.frame(to), seaports$port_code, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
-    stop(print(to), " is not a port code in the data frame. Did you mean: ",
+    stop(to, " is not a port code in the data frame. Did you mean: ",
          paste0((data.frame(seaports) %>% dplyr::filter(port_code %in% port_codes))$port_code, sep = ", "),
          "\n Otherwise find port code in `seaport_finder` function"
     )
@@ -49,7 +49,7 @@ ferry_emissions <- function(from, to, via = NULL, type = c("Foot", "Car", "Avera
       via_x <- via[i]
       if (!(via_x) %in% c(seaports$port_code)){
         port_codes <- agrep(data.frame(via_x), seaports$port_code, ignore.case = TRUE, max.distance = 0.15, value = TRUE)
-        stop(print(via_x), " is not a port code in the data frame. Did you mean: ",
+        stop(via_x, " is not a port code in the data frame. Did you mean: ",
              paste0((data.frame(seaports) %>% dplyr::filter(port_code %in% port_codes))$port_code, sep = ", "),
              "\n Otherwise find port code in `seaport_finder` function"
         )

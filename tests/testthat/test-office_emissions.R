@@ -1,5 +1,3 @@
-library(carbonr)
-
 test_that("correct calculations when editing hours WFH", {
   expect_equal(10*office_emissions(specify = TRUE, WFH_hours = 1), office_emissions(specify = TRUE, WFH_hours = 10))
   expect_equal(office_emissions(specify = TRUE, WFH_hours = 1, WFH_num = 10), office_emissions(specify = TRUE, WFH_hours = 10))
