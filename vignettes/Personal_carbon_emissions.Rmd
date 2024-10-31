@@ -189,6 +189,8 @@ Additional emissions can be calculated as well. For example, household and build
 ### Household Emissions
 The `household_emissions()` is used to estimate carbon-equivalent emissions based on household energy use. It allows users to input various types of energy sources, such as electricity or gas, and calculates the emissions based on the consumption levels provided.
 
+
+
 # Input Parameters
 energy_type: This parameter defines the type of energy source used (e.g., "electricity", "gas", "oil").
 consumption: The amount of energy consumed, typically measured in kilowatt-hours (kWh) for electricity or cubic meters for gas.
