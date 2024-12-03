@@ -28,7 +28,7 @@ The following examples demonstrate how to use the `clinical_theatre_emissions` f
 
 To use this function, first load the required package:
 
-```r
+```{r}
 # Load necessary packages for this vignette
 library(carbonr)
 library(dplyr)
@@ -70,7 +70,7 @@ example_data %>%
     electricity_kWh = electricity_kWh,
     heat_kWh = heat_kWh,
     water_supply = water_supply,
-    water_unit = "cubic metres"))
+    water_unit = "cubic metres")
 )
 ```
 
@@ -82,8 +82,8 @@ example_data %>%
     electricity_kWh = electricity_kWh,
     heat_kWh = heat_kWh,
     water_supply = water_supply,
-    water_unit = "cubic metres"))
-) %>% knitr::kable()
+    water_unit = "cubic metres")) %>%
+  knitr::kable()
 ```
 
 ### Example 2: Including Anaesthetic Gases
