@@ -11,24 +11,24 @@ paper_emissions(
   board_WD = 0,
   mixed_WD = 0,
   paper_WD = 0,
-  waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),
+  paper_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),
   units = c("kg", "tonnes")
 )
 }
 \arguments{
-\item{board}{Numeric value indicating the weight of paperboard. Default is \code{0}.}
+\item{board}{Numeric value indicating the weight of paperboard purchased. Default is \code{0}.}
 
-\item{mixed}{Numeric value indicating the weight of mixed paper. Default is \code{0}.}
+\item{mixed}{Numeric value indicating the weight of mixed paper purchased. Default is \code{0}.}
 
-\item{paper}{Numeric value indicating the weight of paper. Default is \code{0}.}
+\item{paper}{Numeric value indicating the weight of paper purchased. Default is \code{0}.}
 
-\item{board_WD}{Numeric value indicating the weight of paperboard disposed of using waste disposal methods. Default is \code{0}.}
+\item{board_WD}{Numeric value indicating the weight of paperboard disposed of using the waste disposal method given in \code{paper_waste_disposal}. Default is \code{0}.}
 
-\item{mixed_WD}{Numeric value indicating the weight of mixed paper disposed of using waste disposal methods. Default is \code{0}.}
+\item{mixed_WD}{Numeric value indicating the weight of mixed paper disposed of using the waste disposal method given in \code{paper_waste_disposal}. Default is \code{0}.}
 
-\item{paper_WD}{Numeric value indicating the weight of paper disposed of using waste disposal methods. Default is \code{0}.}
+\item{paper_WD}{Numeric value indicating the weight of paper disposed of using the waste disposal method given in \code{paper_waste_disposal}. Default is \code{0}.}
 
-\item{waste_disposal}{Character vector specifying the waste disposal method to use for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Composting"}, \code{"Landfill"}. Default is \code{"Closed-loop"}.
+\item{paper_waste_disposal}{Character vector specifying the waste disposal method to use for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Composting"}, \code{"Landfill"}. Default is \code{"Closed-loop"}. See details for more information on these different options.
 \code{"Closed-loop"} is the process of recycling material back into the same product.
 \code{"Combustion"} energy is recovered from the waste through incineration and subsequent generation of electricity.
 \code{"Compost"} CO2e emitted as a result of composting a waste stream.
@@ -41,6 +41,19 @@ The function returns the calculated paper emissions as a numeric value in tonnes
 }
 \description{
 This function calculates the emissions produced from different paper sources based on the specified inputs. It considers emissions from primary material production and waste disposal of paper materials.
+}
+\details{
+\code{paper_waste_disposal} methods:
+\code{"Closed-loop"} is the process of recycling material back into the same product.
+\code{"Combustion"} energy is recovered from the waste through incineration and subsequent generation of electricity.
+\code{"Composting"} CO2e emitted as a result of composting a waste stream.
+\code{"Landfill"} the product goes to landfill after use.
+
+Note on the Material Use and Waste Disposal from the Government UK Report 2024:
+"Material use conversion factors should be used only to report on procured products and materials based on their origin (that is, comprised of primary material or recycled materials). The factors are not suitable for quantifying the benefits of collecting products or materials for recycling."
+"The conversion factors presented for material consumption cover \link{...} emissions from the point of raw material extraction through to the point at which a finished good is manufactured and provided for sale. Therefore, commercial enterprises may use these factors to estimate the impact of goods they procure. Organisations involved in manufacturing goods using these materials should note that if they separately report emissions associated with their energy use in forming products with these materials, there is potential for double counting. As many of the data sources used in preparing the tables are confidential, we cannot publish a more detailed breakdown."
+
+"Waste-disposal figures should be used for Greenhouse Gas Protocol reporting of Scope 3 emissions associated with end-of-life disposal of different materials. With the exception of landfill, these figures only cover emissions from the collection of materials and delivery to the point of treatment or disposal. They do not cover the environmental impact of different waste management options."
 }
 \examples{
 paper_emissions(board = 10, board_WD = 10, paper = 100, paper_WD = 100, units = "kg")

@@ -25,49 +25,52 @@ plastic_emissions(
   PP_WD = 0,
   PS_WD = 0,
   PVC_WD = 0,
+  plastic_waste_disposal = c("Landfill", "Open-loop", "Closed-loop", "Combustion"),
   units = c("kg", "tonnes")
 )
 }
 \arguments{
-\item{average}{Numeric value indicating the weight of average plastic. Default is \code{0}.}
+\item{average}{Numeric value indicating the weight of an overall average plastic purchased. Default is \code{0}.}
 
-\item{average_film}{Numeric value indicating the weight of average film plastic. Default is \code{0}.}
+\item{average_film}{Numeric value indicating the weight of average film plastic purchased. Default is \code{0}.}
 
-\item{average_rigid}{Numeric value indicating the weight of average rigid plastic. Default is \code{0}.}
+\item{average_rigid}{Numeric value indicating the weight of average rigid plastic purchased. Default is \code{0}.}
 
-\item{HDPE}{Numeric value indicating the weight of HDPE plastic. Default is \code{0}.}
+\item{HDPE}{Numeric value indicating the weight of HDPE plastic purchased. Default is \code{0}.}
 
-\item{LDPE}{Numeric value indicating the weight of LDPE plastic. Default is \code{0}.}
+\item{LDPE}{Numeric value indicating the weight of LDPE plastic purchased. Default is \code{0}.}
 
-\item{LLDPE}{Numeric value indicating the weight of LLDPE plastic. Default is \code{0}.}
+\item{LLDPE}{Numeric value indicating the weight of LLDPE plastic purchased. Default is \code{0}.}
 
-\item{PET}{Numeric value indicating the weight of PET plastic. Default is \code{0}.}
+\item{PET}{Numeric value indicating the weight of PET plastic purchased. Default is \code{0}.}
 
-\item{PP}{Numeric value indicating the weight of PP plastic. Default is \code{0}.}
+\item{PP}{Numeric value indicating the weight of PP plastic purchased. Default is \code{0}.}
 
-\item{PS}{Numeric value indicating the weight of PS plastic. Default is \code{0}.}
+\item{PS}{Numeric value indicating the weight of PS plastic purchased. Default is \code{0}.}
 
-\item{PVC}{Numeric value indicating the weight of PVC plastic. Default is \code{0}.}
+\item{PVC}{Numeric value indicating the weight of PVC plastic purchased. Default is \code{0}.}
 
-\item{average_WD}{Numeric value indicating the weight of average plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{average_WD}{Numeric value indicating the weight of average plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{average_film_WD}{Numeric value indicating the weight of average film plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{average_film_WD}{Numeric value indicating the weight of average film plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{average_rigid_WD}{Numeric value indicating the weight of average rigid plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{average_rigid_WD}{Numeric value indicating the weight of average rigid plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{HDPE_WD}{Numeric value indicating the weight of HDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{HDPE_WD}{Numeric value indicating the weight of HDPE plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{LDPE_WD}{Numeric value indicating the weight of LDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{LDPE_WD}{Numeric value indicating the weight of LDPE plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{LLDPE_WD}{Numeric value indicating the weight of LLDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{LLDPE_WD}{Numeric value indicating the weight of LLDPE plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{PET_WD}{Numeric value indicating the weight of PET plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{PET_WD}{Numeric value indicating the weight of PET plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{PP_WD}{Numeric value indicating the weight of PP plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{PP_WD}{Numeric value indicating the weight of PP plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{PS_WD}{Numeric value indicating the weight of PS plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{PS_WD}{Numeric value indicating the weight of PS plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{PVC_WD}{Numeric value indicating the weight of PVC plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{PVC_WD}{Numeric value indicating the weight of PVC plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
+
+\item{plastic_waste_disposal}{Character vector specifying the waste disposal method to use for calculating emissions. Possible values: "Landfill", "Open-loop", "Closed-loop", "Combustion". Default is "Landfill". More information is given under details.}
 
 \item{units}{Character vector specifying the units of the emissions output. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
 }
@@ -76,6 +79,13 @@ The calculated plastic emissions as a numeric value in tonnes.
 }
 \description{
 This function calculates the emissions produced from different plastic sources based on the specified inputs. It considers emissions from primary material production and waste disposal of plastic materials.
+}
+\details{
+The different \code{plastic_waste_disposal} methods are:
+\code{"Landfill"} the product goes to landfill after use.
+\code{"Open-loop"} is the process of recycling material into other products.
+\code{"Closed-loop"} is the process of recycling material back into the same product.
+\code{"Combustion"} energy is recovered from the waste through incineration and subsequent generation of electricity.
 }
 \examples{
 # Calculate plastic emissions using default values

@@ -2,8 +2,8 @@
 % Please edit documentation in R/carbonr.R
 \docType{package}
 \name{carbonr}
-\alias{carbonr}
 \alias{carbonr-package}
+\alias{carbonr}
 \title{carbonr: Calculate Carbon-Equivalent Emissions}
 \description{
 The \code{carbonr} package provides a flexible tool for calculating carbon-equivalent emissions.
