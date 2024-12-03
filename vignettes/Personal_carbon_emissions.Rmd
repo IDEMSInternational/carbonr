@@ -199,38 +199,43 @@ We can get a more accurate picture by giving more precise measurements.
 
 ```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
 # Create a data frame of the estimates with sources
-# Create a data frame of the estimates
 average_disposal <- data.frame(
   Category = c(
-    "Glass", "Clothing", "Food", "Paper", 
-    "Aluminium Cans", "Aluminium Foil", "Steel Cans", "PET (Plastic Bottles)",
-    "HDPE (Plastic Containers)", "Other Plastics (Mixed)", "Large Electrical Items",
-    "Small Electrical Items", "Batteries Alkaline", "Batteries LiIon",
-    "Residual waste"
+    "Glass", "Clothing", "Disposed Clothing", "Food", "Paper", "Plastic",
+    "Small Electrical Items", "Batteries Alkaline (bought)", "Batteries Alkaline (disposed)",
+    "Aluminium Cans (bought)", "Aluminium Cans (disposed)", "Residual waste"
   ),
   Estimated_Average_Disposal_kg_per_year = c(
-    125, 12.6, 341, 450, 5, 2, 10, 20, 15, 30, 20, 10, 1, 0.5, 200
+    125, 26.7, 10.8, 237.4, 450, 520, 5.57,
+    1.932, 0.720, 5.1, 5.1, 516.53
   ),
   Notes = c(
     "Bottles, jars, and glass containers.",
-    "Textiles and old garments.",
+    "New clothing purchased.",
+    "Textiles and old garments disposed.",
     "Includes food scraps and leftovers.",
     "Newspapers, magazines, and office paper.",
-    "Soda cans and other aluminium beverage containers.",
-    "Used foil sheets and wraps.",
-    "Food cans and metal containers.",
-    "Soda, water, and other PET containers.",
-    "Milk bottles, detergent containers.",
     "Non-recyclable or mixed plastic types.",
-    "Appliances like washing machines, dishwashers (infrequent).",
     "Gadgets, small appliances, and electronics.",
     "Household AA/AAA and other alkaline batteries.",
-    "Rechargeable batteries from devices.",
-    "Residual waste"
+    "Household AA/AAA and other alkaline batteries.",
+    "Soda cans and other aluminium beverage containers.",
+    "Soda cans and other aluminium beverage containers.",
+    "Any collected household waste that is not sent for reuse, recycling, or composting."
   ),
   Source = c(
-    "The average UK household uses approximately 500 glass bottles and jars annually (3.1). Given that one tonne of glass equates to about 4,000 bottles and jars, this translates to an estimated 125 kilograms of glass waste per household per year.", "In the UK, approximately 350,000 tonnes of clothing are discarded into landfills annually (3.2). With an estimated 27.8 million households in the UK, this equates to an average of about 12.6kg of clothing waste per household per year", "WRAP, 3.3, (food and drink can be given together in the values)", "In the UK, approximately 12.5 million tonnes of paper are used annually. Despite a commendable recycling rate of 71% for household paper waste, around 5 million tonnes still end up in landfills each year, accounting for 40% of all landfill waste (3.4). Given that there are approximately 27.8 million households in the UK, this translates to an average of about 450 kilograms of paper usage per household per year.", "Defra", "Defra", "Defra", "Statista", "Statista", "Statista",
-    "Defra", "Defra", "Defra", "Defra", "Defra"
+    "Average UK household uses approximately 500 glass bottles and jars annually (3.1). Given that one tonne of glass equates to about 4,000 bottles and jars, this translates to an estimated 125 kilograms of glass waste per household per year (Busy Bins, 2020).",
+    "Average of 26.7kg of new clothes each year (Recycle More)",
+    "300,000 tonnes disposed yearly approximately in the UK, or 10.8kg per household (Recycle More)",
+    "Estimated 6.6 million tonnes of food waste yearly, which is 237.4kg per household (Recycle More)",
+    "In the UK, approximately 12.5 million tonnes of paper are used annually. This is an average of about 450kg per household per year (Recycle More)",
+    "Over 1447000 tonnes of plastic packaging consumed by households. Over 27.8 million households, this is approx. 520g bought and disposed (Recycle More)",
+    "Approximately 155,000 tonnes of domestic electrical waste are disposed each year. This is approximately 5.57kg of electrical waste per household each year (Recycle More)",
+    "Every person in the UK uses about 21 batteries a year. A household of four uses 84. At 23g a battery, this is 1.932kg per household (Recycle More)",
+    "20,000 tonnes of batteries are sent to landfill site in the UK each year, which is approximately 0.720kg per household. (Recycle More)",
+    "An estimated 340 aluminium drink cans are consumed per household each year. At 15g a can, it is 5.1 kg consumed, and 5.1kg disposed (Recycle More)",
+    "An estimated 340 aluminium drink cans are consumed per household each year. At 15g a can, it is 5.1 kg consumed, and 5.1kg disposed (Recycle More)",
+    "From DEFRA via LG Inform (DEFRA, 2024)"
   )
 )
 ```
@@ -240,35 +245,41 @@ average_disposal <- data.frame(
 # Create a data frame of the estimates
 average_disposal <- data.frame(
   Category = c(
-    "Glass", "Clothing", "Food", "Paper", 
-    "Aluminium Cans", "Aluminium Foil", "Steel Cans", "PET (Plastic Bottles)",
-    "HDPE (Plastic Containers)", "Other Plastics (Mixed)", "Large Electrical Items",
-    "Small Electrical Items", "Batteries Alkaline", "Batteries LiIon",
-    "Residual waste"
+    "Glass", "Clothing", "Disposed Clothing", "Food", "Paper", "Plastic",
+    "Small Electrical Items", "Batteries Alkaline (bought)", "Batteries Alkaline (disposed)",
+    "Aluminium Cans (bought)", "Aluminium Cans (disposed)", "Residual waste"
   ),
   Estimated_Average_Disposal_kg_per_year = c(
-    125, 12.6, 341, 450, 5, 2, 10, 20, 15, 30, 20, 10, 1, 0.5, 200
+    125, 26.7, 10.8, 237.4, 450, 520, 5.57,
+    1.932, 0.720, 5.1, 5.1, 516.53
   ),
   Notes = c(
     "Bottles, jars, and glass containers.",
-    "Textiles and old garments.",
+    "New clothing purchased.",
+    "Textiles and old garments disposed.",
     "Includes food scraps and leftovers.",
     "Newspapers, magazines, and office paper.",
-    "Soda cans and other aluminium beverage containers.",
-    "Used foil sheets and wraps.",
-    "Food cans and metal containers.",
-    "Soda, water, and other PET containers.",
-    "Milk bottles, detergent containers.",
     "Non-recyclable or mixed plastic types.",
-    "Appliances like washing machines, dishwashers (infrequent).",
     "Gadgets, small appliances, and electronics.",
     "Household AA/AAA and other alkaline batteries.",
-    "Rechargeable batteries from devices.",
-    "Residual waste"
+    "Household AA/AAA and other alkaline batteries.",
+    "Soda cans and other aluminium beverage containers.",
+    "Soda cans and other aluminium beverage containers.",
+    "Any collected household waste that is not sent for reuse, recycling, or composting."
   ),
   Source = c(
-    "The average UK household uses approximately 500 glass bottles and jars annually (3.1). Given that one tonne of glass equates to about 4,000 bottles and jars, this translates to an estimated 125 kilograms of glass waste per household per year.", "In the UK, approximately 350,000 tonnes of clothing are discarded into landfills annually (3.2). With an estimated 27.8 million households in the UK, this equates to an average of about 12.6kg of clothing waste per household per year", "WRAP, 3.3, (food and drink can be given together in the values)", "In the UK, approximately 12.5 million tonnes of paper are used annually. Despite a commendable recycling rate of 71% for household paper waste, around 5 million tonnes still end up in landfills each year, accounting for 40% of all landfill waste (3.4). Given that there are approximately 27.8 million households in the UK, this translates to an average of about 450 kilograms of paper usage per household per year.", "Defra", "Defra", "Defra", "Statista", "Statista", "Statista",
-    "Defra", "Defra", "Defra", "Defra", "Defra"
+    "Average UK household uses approximately 500 glass bottles and jars annually (3.1). Given that one tonne of glass equates to about 4,000 bottles and jars, this translates to an estimated 125 kilograms of glass waste per household per year (Busy Bins, 2020).",
+    "Average of 26.7kg of new clothes each year (Recycle More)",
+    "300,000 tonnes disposed yearly approximately in the UK, or 10.8kg per household (Recycle More)",
+    "Estimated 6.6 million tonnes of food waste yearly, which is 237.4kg per household (Recycle More)",
+    "In the UK, approximately 12.5 million tonnes of paper are used annually. This is an average of about 450kg per household per year (Recycle More)",
+    "Over 1447000 tonnes of plastic packaging consumed by households. Over 27.8 million households, this is approx. 520g bought and disposed (Recycle More)",
+    "Approximately 155,000 tonnes of domestic electrical waste are disposed each year. This is approximately 5.57kg of electrical waste per household each year (Recycle More)",
+    "Every person in the UK uses about 21 batteries a year. A household of four uses 84. At 23g a battery, this is 1.932kg per household (Recycle More)",
+    "20,000 tonnes of batteries are sent to landfill site in the UK each year, which is approximately 0.720kg per household. (Recycle More)",
+    "An estimated 340 aluminium drink cans are consumed per household each year. At 15g a can, it is 5.1 kg consumed, and 5.1kg disposed (Recycle More)",
+    "An estimated 340 aluminium drink cans are consumed per household each year. At 15g a can, it is 5.1 kg consumed, and 5.1kg disposed (Recycle More)",
+    "From DEFRA via LG Inform (DEFRA, 2024)"
   )
 )
 
@@ -284,22 +295,17 @@ average_disposal %>%
     dplyr::select(-c(Notes, Source)) %>%
     tidyr::pivot_wider(names_from = Category, values_from = Estimated_Average_Disposal_kg_per_year) %>%
     mutate(emissions = household_emissions(glass_WD = Glass,
-                                           clothing_WD = Clothing,
+                                           clothing = Clothing,
+                                           clothing_WD = `Disposed Clothing`,
                                            gcb_waste_disposal = "Closed-loop",
                                            food_WD = Food,
                                            paper_WD = Paper,
-                                           aluminuim_cans_WD = `Aluminium Cans`,
-                                           aluminuim_foil_WD = `Aluminium Foil`,
-                                           steel_cans_WD = `Steel Cans`,
-                                           PET_WD = `PET (Plastic Bottles)`,
-                                           average_WD = `Other Plastics (Mixed)`,
-                                           HDPE_WD = `HDPE (Plastic Containers)`,
-                                           plastic_waste_disposal = "Landfill",
-                                           large_electrical_WD = `Large Electrical Items`,
+                                           average_WD = Plastic,
                                            small_electrical_WD = `Small Electrical Items`,
-                                           electric_waste_disposal = "Landfill",
-                                           alkaline_batteries_WD = `Batteries Alkaline`,
-                                           LiIon_batteries_WD = `Batteries LiIon`,
+                                           alkaline_batteries = `Batteries Alkaline (bought)`,
+                                           alkaline_batteries_WD = `Batteries Alkaline (disposed)`,
+                                           aluminuim_cans = `Aluminium Cans (bought)`,
+                                           aluminuim_cans_WD = `Aluminium Cans (disposed)`,
                                            household_residual_waste = `Residual waste`,
                                            hh_waste_disposal = "Landfill",
                                            units = "kg")) %>%
@@ -327,21 +333,8 @@ shiny_emissions()
 
 2. Radiative Forcing Factor: DEFRA, 2016. Government GHG conversion factors for company reporting.
 
-3. On the Household waste measurements
-
-3.1 [Business Waste](https://www.businesswaste.co.uk/your-waste/glass-recycling/glass-waste-facts-and-statistics/)
-3.2 WRAP, ‘Valuing our clothes: the evidence base’ (2012), p.2
-3.3 [WRAP, 2022](https://www.wrap.ngo/resources/report/household-food-and-drink-waste-united-kingdom-2021-22)
-3.4 [](https://www.cladcodecking.co.uk/blog/post/uk-recycling-facts-and-statistics)
-
-
-
- "Glass", "Clothing", "Food", "Drink", "Compost from Garden",
-    "Compost from Food and Garden", "Paper", "Mixed Paper",
-    "Aluminium Cans", "Aluminium Foil", "Steel Cans", "PET (Plastic Bottles)",
-    "HDPE (Plastic Containers)", "Other Plastics (Mixed)", "Large Electrical Items",
-    "Small Electrical Items", "Batteries (Alkaline)", "Batteries (Li-Ion/NiMH)",
-    "Residual waste"
-    
-    
-(Defra: Residual Waste)[https://lginform.local.gov.uk/reports/lgastandard?mod-area=E92000001&mod-group=AllRegions_England&mod-metric=45&mod-type=namedComparisonGroup]
+3. On the Household waste measurements:
+[Busy Bins](https://busybins.co.uk/blog/glass-recycling-guide.)
+WRAP, ‘Valuing our clothes: the evidence base’ (2012), p.2
+[Recycle More](https://www.recycle-more.co.uk/what-can-i-recycle/recycling-facts)
+[DEFRA, 2024](https://lginform.local.gov.uk/reports/lgastandard?mod-area=E92000001&mod-group=AllRegions_England&mod-metric=45&mod-type=namedComparisonGroup)
