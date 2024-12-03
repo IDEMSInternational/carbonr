@@ -5,9 +5,10 @@
 \title{Calculate CO2e emissions from a train journey}
 \usage{
 rail_emissions(
-  from,
-  to,
+  from = NULL,
+  to = NULL,
   via = NULL,
+  distance = 0,
   num_people = 1,
   times_journey = 1,
   include_WTT = TRUE,
@@ -20,6 +21,8 @@ rail_emissions(
 \item{to}{Station arriving to}
 
 \item{via}{Optional. Takes a vector containing the stations the train travels via.}
+
+\item{distance}{Distance travelled in kilometres (default \code{0}. Ignored if values are given in \code{from} and \code{to}).}
 
 \item{num_people}{Number of people taking the journey. Takes a single numerical value.}
 
@@ -50,4 +53,7 @@ rail_finder(region = "London")
 # Then calculate emissions
 rail_emissions("Bristol Temple Meads", "Paddington", via = c("Bath Spa",
 "Swindon", "Reading"))
+
+# Alternatively state the distance of a journey
+rail_emissions(distance = 100)
 }

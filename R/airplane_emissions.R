@@ -62,14 +62,22 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
   # Retrieve relevant data
   uk_gov_data_air <- uk_gov_data %>%
     # 2022 report says (air), 2023 says - air
-    dplyr::filter(`Level 1` %in% c("Business travel- air", "WTT- business travel (air)", "WTT- business travel- air")) %>%
+    dplyr::filter(`Level 1` %in% c("Business travel- air", "WTT- business travel (air)", "WTT- business travel- air"))
+  
+  if(radiative_force){
+    uk_gov_data_air <- uk_gov_data %>%
     dplyr::filter(`Column Text` == "With RF")
+  } else {
+    uk_gov_data_air <- uk_gov_data %>%
+      dplyr::filter(`Column Text` == "Without RF")
+  }
   uk_gov_data_air_WTT <-  uk_gov_data_air %>%
     dplyr::filter(`Level 2` == "WTT- flights")
   uk_gov_data_air <-  uk_gov_data_air %>%
     dplyr::filter(`Level 2` == "Flights")
   
   # Determine flight category based on distance (short-haul or long-haul)
+  # Could check if to/from UK to give "Domestic, to/from UK"
   if (km < 2050) {
     uk_gov_data_air <- uk_gov_data_air %>% dplyr::filter(`Level 3` == "Short-haul, to/from UK")
     uk_gov_data_air_WTT <- uk_gov_data_air_WTT %>% dplyr::filter(`Level 3` == "Short-haul, to/from UK")
@@ -83,7 +91,6 @@ airplane_emissions <- function(from, to, via = NULL, num_people = 1, radiative_f
   
   # Perform emissions calculation
   co2_emitted <- km * uk_gov_data_air$`value`
-  if (!radiative_force) co2_emitted <- co2_emitted * 0.5286915
   if (include_WTT) co2_emitted <- co2_emitted + (km * num_people * uk_gov_data_air_WTT$`value`)
   if (round_trip) co2_emitted <- co2_emitted * 2
   

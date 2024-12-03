@@ -249,7 +249,7 @@ shiny_emissions()
 - [Carbon Footprint Calculator](https://www.carbonfootprint.com/calculatorfaqs.html)
 
 #### Sources
-1. UK Government Report: Department for Energy Security and Net Zero. (2023). [Greenhouse Gas Reporting: Conversion Factors 2023](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023).
+1. UK Government Report: Department for Energy Security and Net Zero. (2024). [Greenhouse Gas Reporting: Conversion Factors 2024](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024).
 
 2. Radiative Forcing Factor: DEFRA, 2016. Government GHG conversion factors for company reporting.
 
