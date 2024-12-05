@@ -6,7 +6,7 @@
 \usage{
 household_emissions(
   household_residual_waste = 0,
-  hh_waste_disposal = c("Combustion", "Landfill"),
+  hh_waste_disposal = c("Landfill", "Combustion"),
   glass = 0,
   clothing = 0,
   glass_WD = 0,
@@ -78,7 +78,7 @@ household_emissions(
   PP_WD = 0,
   PS_WD = 0,
   PVC_WD = 0,
-  plastic_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
+  plastic_waste_disposal = c("Landfill", "Open-loop", "Closed-loop", "Combustion"),
   units = c("kg", "tonnes")
 )
 }

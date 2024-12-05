@@ -42,7 +42,7 @@
 #'
 #' @examples
 #' household_emissions(glass = 100, clothing = 10, glass_WD = 10, units = "kg")
-household_emissions <- function(household_residual_waste = 0, hh_waste_disposal = c("Combustion", "Landfill"),
+household_emissions <- function(household_residual_waste = 0, hh_waste_disposal = c("Landfill", "Combustion"),
   glass = 0, clothing = 0, glass_WD = 0, clothing_WD = 0,books_WD = 0, gcb_waste_disposal = c("Closed-loop", "Combustion", "Landfill"),
   food = 0, drink = 0, compost_from_garden = 0, compost_from_food_and_garden = 0, food_WD = 0, drink_WD = 0, compost_from_garden_WD = 0,
   compost_from_food_and_garden_WD = 0, compost_waste_disposal = c("Anaerobic digestion", "Combustion", "Composting", "Landfill"),
@@ -55,7 +55,7 @@ household_emissions <- function(household_residual_waste = 0, hh_waste_disposal 
   metal_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
   average = 0, average_film = 0, average_rigid = 0, HDPE = 0, LDPE = 0, LLDPE = 0, PET = 0, PP = 0, PS = 0, PVC = 0,
   average_WD = 0, average_film_WD = 0, average_rigid_WD = 0, HDPE_WD = 0, LDPE_WD = 0, LLDPE_WD = 0, PET_WD = 0, PP_WD = 0, PS_WD = 0, PVC_WD = 0,
-  plastic_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
+  plastic_waste_disposal = c("Landfill", "Open-loop", "Closed-loop", "Combustion"),
   
   units = c("kg", "tonnes")){
   
