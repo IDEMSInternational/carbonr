@@ -15,44 +15,57 @@ metal_emissions(
   mixed_cans_WD = 0,
   scrap_WD = 0,
   steel_cans_WD = 0,
-  waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
+  metal_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
   units = c("kg", "tonnes")
 )
 }
 \arguments{
-\item{aluminuim_cans}{Numeric value indicating the weight of aluminum cans. Default is \code{0}.}
+\item{aluminuim_cans}{Numeric value indicating the weight of aluminum cans purchased. Default is \code{0}.}
 
-\item{aluminuim_foil}{Numeric value indicating the weight of aluminum foil. Default is \code{0}.}
+\item{aluminuim_foil}{Numeric value indicating the weight of aluminum foil purchased. Default is \code{0}.}
 
-\item{mixed_cans}{Numeric value indicating the weight of mixed metal cans. Default is \code{0}.}
+\item{mixed_cans}{Numeric value indicating the weight of mixed metal cans purchased. Default is \code{0}.}
 
-\item{scrap}{Numeric value indicating the weight of metal scrap. Default is \code{0}.}
+\item{scrap}{Numeric value indicating the weight of metal scrap purchased. Default is \code{0}.}
 
-\item{steel_cans}{Numeric value indicating the weight of steel cans. Default is \code{0}.}
+\item{steel_cans}{Numeric value indicating the weight of steel cans purchased. Default is \code{0}.}
 
-\item{aluminuim_cans_WD}{Numeric value indicating the weight of aluminum cans disposed of using waste disposal methods. Default is \code{0}.}
+\item{aluminuim_cans_WD}{Numeric value indicating the weight of aluminum cans disposed of using the waste disposal method in \code{metal_waste_disposal}. Default is \code{0}.}
 
-\item{aluminuim_foil_WD}{Numeric value indicating the weight of aluminum foil disposed of using waste disposal methods. Default is \code{0}.}
+\item{aluminuim_foil_WD}{Numeric value indicating the weight of aluminum foil disposed of using the waste disposal method in \code{metal_waste_disposal}. Default is \code{0}.}
 
-\item{mixed_cans_WD}{Numeric value indicating the weight of mixed metal cans disposed of using waste disposal methods. Default is \code{0}.}
+\item{mixed_cans_WD}{Numeric value indicating the weight of mixed metal cans disposed of using the waste disposal method in \code{metal_waste_disposal}. Default is \code{0}.}
 
-\item{scrap_WD}{Numeric value indicating the weight of metal scrap disposed of using waste disposal methods. Default is \code{0}.}
+\item{scrap_WD}{Numeric value indicating the weight of metal scrap disposed of using the waste disposal method in \code{metal_waste_disposal}. Default is \code{0}.}
 
-\item{steel_cans_WD}{Numeric value indicating the weight of steel cans disposed of using waste disposal methods. Default is \code{0}.}
+\item{steel_cans_WD}{Numeric value indicating the weight of steel cans disposed of using the waste disposal method in \code{metal_waste_disposal}. Default is \code{0}.}
 
-\item{waste_disposal}{Character vector specifying the waste disposal method to use for calculating emissions. Possible values: "Closed-loop", "Combustion", "Landfill", "Open-loop". Default is "Closed-loop".
+\item{metal_waste_disposal}{Character vector specifying the waste disposal method to use for calculating emissions. Possible values: "Closed-loop", "Combustion", "Landfill", "Open-loop". Default is "Closed-loop". See details for more information on the different methods.
 \code{"Open-loop"} is the process of recycling material into other products.
 \code{"Closed-loop"} is the process of recycling material back into the same product.
 \code{"Combustion"} energy is recovered from the waste through incineration and subsequent generation of electricity.
 \code{"Landfill"} the product goes to landfill after use.}
 
-\item{units}{Character vector specifying the units of the emissions output. Possible values: "kg", "tonnes". Default is "kg".}
+\item{units}{Character vector specifying the units of the emissions. Possible values: "kg", "tonnes". Default is "kg".}
 }
 \value{
 The function returns the calculated CO2-equivalent emissions as a numeric value in tonnes.
 }
 \description{
 This function calculates the emissions produced from different metal sources based on the specified inputs. It considers emissions from primary material production and waste disposal of various metal types.
+}
+\details{
+\code{metal_waste_disposal} methods:
+\code{"Open-loop"} is the process of recycling material into other products.
+\code{"Closed-loop"} is the process of recycling material back into the same product (often this value is the same as that of \code{Open-loop}.)
+\code{"Combustion"} energy is recovered from the waste through incineration and subsequent generation of electricity.
+\code{"Landfill"} the product goes to landfill after use.
+
+Note on the Material Use and Waste Disposal from the Government UK Report 2024:
+"Material use conversion factors should be used only to report on procured products and materials based on their origin (that is, comprised of primary material or recycled materials). The factors are not suitable for quantifying the benefits of collecting products or materials for recycling."
+"The conversion factors presented for material consumption cover \link{...} emissions from the point of raw material extraction through to the point at which a finished good is manufactured and provided for sale. Therefore, commercial enterprises may use these factors to estimate the impact of goods they procure. Organisations involved in manufacturing goods using these materials should note that if they separately report emissions associated with their energy use in forming products with these materials, there is potential for double counting. As many of the data sources used in preparing the tables are confidential, we cannot publish a more detailed breakdown."
+
+"Waste-disposal figures should be used for Greenhouse Gas Protocol reporting of Scope 3 emissions associated with end-of-life disposal of different materials. With the exception of landfill, these figures only cover emissions from the collection of materials and delivery to the point of treatment or disposal. They do not cover the environmental impact of different waste management options."
 }
 \examples{
 metal_emissions(aluminuim_cans = 1.4, units = "tonnes")

@@ -2,13 +2,13 @@
 #'
 #' @description This function calculates the emissions produced from different paper sources based on the specified inputs. It considers emissions from primary material production and waste disposal of paper materials.
 #' 
-#' @param board Numeric value indicating the weight of paperboard. Default is `0`.
-#' @param mixed Numeric value indicating the weight of mixed paper. Default is `0`.
-#' @param paper Numeric value indicating the weight of paper. Default is `0`.
-#' @param board_WD Numeric value indicating the weight of paperboard disposed of using waste disposal methods. Default is `0`.
-#' @param mixed_WD Numeric value indicating the weight of mixed paper disposed of using waste disposal methods. Default is `0`.
-#' @param paper_WD Numeric value indicating the weight of paper disposed of using waste disposal methods. Default is `0`.
-#' @param waste_disposal Character vector specifying the waste disposal method to use for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Composting"`, `"Landfill"`. Default is `"Closed-loop"`.
+#' @param board Numeric value indicating the weight of paperboard purchased. Default is `0`.
+#' @param mixed Numeric value indicating the weight of mixed paper purchased. Default is `0`.
+#' @param paper Numeric value indicating the weight of paper purchased. Default is `0`.
+#' @param board_WD Numeric value indicating the weight of paperboard disposed of using the waste disposal method given in `paper_waste_disposal`. Default is `0`.
+#' @param mixed_WD Numeric value indicating the weight of mixed paper disposed of using the waste disposal method given in `paper_waste_disposal`. Default is `0`.
+#' @param paper_WD Numeric value indicating the weight of paper disposed of using the waste disposal method given in `paper_waste_disposal`. Default is `0`.
+#' @param paper_waste_disposal Character vector specifying the waste disposal method to use for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Composting"`, `"Landfill"`. Default is `"Closed-loop"`. See details for more information on these different options.
 #' `"Closed-loop"` is the process of recycling material back into the same product.
 #' `"Combustion"` energy is recovered from the waste through incineration and subsequent generation of electricity.
 #' `"Compost"` CO2e emitted as a result of composting a waste stream.
@@ -17,15 +17,27 @@
 #'
 #' @return The function returns the calculated paper emissions as a numeric value in tonnes.
 #' @export
+#' 
+#' @details `paper_waste_disposal` methods:
+#' `"Closed-loop"` is the process of recycling material back into the same product.
+#' `"Combustion"` energy is recovered from the waste through incineration and subsequent generation of electricity.
+#' `"Composting"` CO2e emitted as a result of composting a waste stream.
+#' `"Landfill"` the product goes to landfill after use.
+#' 
+#' Note on the Material Use and Waste Disposal from the Government UK Report 2024:
+#' "Material use conversion factors should be used only to report on procured products and materials based on their origin (that is, comprised of primary material or recycled materials). The factors are not suitable for quantifying the benefits of collecting products or materials for recycling."
+#' "The conversion factors presented for material consumption cover [...] emissions from the point of raw material extraction through to the point at which a finished good is manufactured and provided for sale. Therefore, commercial enterprises may use these factors to estimate the impact of goods they procure. Organisations involved in manufacturing goods using these materials should note that if they separately report emissions associated with their energy use in forming products with these materials, there is potential for double counting. As many of the data sources used in preparing the tables are confidential, we cannot publish a more detailed breakdown."
+#' 
+#' "Waste-disposal figures should be used for Greenhouse Gas Protocol reporting of Scope 3 emissions associated with end-of-life disposal of different materials. With the exception of landfill, these figures only cover emissions from the collection of materials and delivery to the point of treatment or disposal. They do not cover the environmental impact of different waste management options."
 #'
 #' @examples
 #' paper_emissions(board = 10, board_WD = 10, paper = 100, paper_WD = 100, units = "kg")
 paper_emissions <- function(board = 0, mixed = 0, paper = 0,
                             board_WD = 0, mixed_WD = 0, paper_WD = 0,
-                            waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),
+                            paper_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),
                             units = c("kg", "tonnes")){
   
-  waste_disposal <- match.arg(waste_disposal)
+  paper_waste_disposal <- match.arg(paper_waste_disposal)
   units <- match.arg(units)
   checkmate::assert_numeric(board, lower = 0)
   checkmate::assert_numeric(mixed, lower = 0)
@@ -44,7 +56,7 @@ paper_emissions <- function(board = 0, mixed = 0, paper = 0,
   WD <- uk_gov_data %>%
     dplyr::filter(`Level 1` == "Waste disposal") %>%
     dplyr::filter(`Level 2` == "Paper") %>%
-    dplyr::filter(`Column Text` == waste_disposal)
+    dplyr::filter(`Column Text` == paper_waste_disposal)
   emission_values <- MU$value
   WD_values <- WD$value
   

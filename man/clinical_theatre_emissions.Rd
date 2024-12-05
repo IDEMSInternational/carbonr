@@ -98,45 +98,45 @@ clinical_theatre_emissions(
 
 \item{glass}{Numeric value representing the amount of glass. Default is \code{0}.}
 
-\item{board}{Numeric value indicating the weight of paperboard. Default is \code{0}.}
+\item{board}{Numeric value indicating the weight of paperboard purchased. Default is \code{0}.}
 
-\item{mixed}{Numeric value indicating the weight of mixed paper. Default is \code{0}.}
+\item{mixed}{Numeric value indicating the weight of mixed paper purchased. Default is \code{0}.}
 
-\item{paper}{Numeric value indicating the weight of paper. Default is \code{0}.}
+\item{paper}{Numeric value indicating the weight of paper purchased. Default is \code{0}.}
 
-\item{average}{Numeric value indicating the weight of average plastic. Default is \code{0}.}
+\item{average}{Numeric value indicating the weight of an overall average plastic purchased. Default is \code{0}.}
 
-\item{average_film}{Numeric value indicating the weight of average film plastic. Default is \code{0}.}
+\item{average_film}{Numeric value indicating the weight of average film plastic purchased. Default is \code{0}.}
 
-\item{average_rigid}{Numeric value indicating the weight of average rigid plastic. Default is \code{0}.}
+\item{average_rigid}{Numeric value indicating the weight of average rigid plastic purchased. Default is \code{0}.}
 
-\item{HDPE}{Numeric value indicating the weight of HDPE plastic. Default is \code{0}.}
+\item{HDPE}{Numeric value indicating the weight of HDPE plastic purchased. Default is \code{0}.}
 
-\item{LDPE}{Numeric value indicating the weight of LDPE plastic. Default is \code{0}.}
+\item{LDPE}{Numeric value indicating the weight of LDPE plastic purchased. Default is \code{0}.}
 
-\item{LLDPE}{Numeric value indicating the weight of LLDPE plastic. Default is \code{0}.}
+\item{LLDPE}{Numeric value indicating the weight of LLDPE plastic purchased. Default is \code{0}.}
 
-\item{PET}{Numeric value indicating the weight of PET plastic. Default is \code{0}.}
+\item{PET}{Numeric value indicating the weight of PET plastic purchased. Default is \code{0}.}
 
-\item{PP}{Numeric value indicating the weight of PP plastic. Default is \code{0}.}
+\item{PP}{Numeric value indicating the weight of PP plastic purchased. Default is \code{0}.}
 
-\item{PS}{Numeric value indicating the weight of PS plastic. Default is \code{0}.}
+\item{PS}{Numeric value indicating the weight of PS plastic purchased. Default is \code{0}.}
 
-\item{PVC}{Numeric value indicating the weight of PVC plastic. Default is \code{0}.}
+\item{PVC}{Numeric value indicating the weight of PVC plastic purchased. Default is \code{0}.}
 
 \item{glass_WD}{Numeric value representing the amount of glass waste with disposal. Default is \code{0}.}
 
 \item{glass_waste_disposal}{Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Landfill"}, \code{"Open-loop"}. Default is "Closed-loop". See \code{details} for more information.}
 
-\item{board_WD}{Numeric value indicating the weight of paperboard disposed of using waste disposal methods. Default is \code{0}.}
+\item{board_WD}{Numeric value indicating the weight of paperboard disposed of using the waste disposal method given in \code{paper_waste_disposal}. Default is \code{0}.}
 
-\item{mixed_WD}{Numeric value indicating the weight of mixed paper disposed of using waste disposal methods. Default is \code{0}.}
+\item{mixed_WD}{Numeric value indicating the weight of mixed paper disposed of using the waste disposal method given in \code{paper_waste_disposal}. Default is \code{0}.}
 
-\item{paper_WD}{Numeric value indicating the weight of paper disposed of using waste disposal methods. Default is \code{0}.}
+\item{paper_WD}{Numeric value indicating the weight of paper disposed of using the waste disposal method given in \code{paper_waste_disposal}. Default is \code{0}.}
 
-\item{fridges}{Numeric value indicating the weight of fridges. Default is \code{0}.}
+\item{fridges}{Numeric value indicating the weight of fridges purchased. Default is \code{0}.}
 
-\item{freezers}{Numeric value indicating the weight of freezers. Default is \code{0}.}
+\item{freezers}{Numeric value indicating the weight of freezers purchased. Default is \code{0}.}
 
 \item{electric_waste_disposal}{Character vector specifying the waste disposal method for electrical items to use for calculating emissions. Possible values: \code{"Landfill"}, \code{"Open-loop"}. Default is \code{"Landfill"}. See \code{details} for more information.}
 
@@ -144,25 +144,25 @@ clinical_theatre_emissions(
 
 \item{paper_waste_disposal}{Character vector specifying the waste disposal method for paper to use for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Composting"}, \code{"Landfill"}. Default is \code{"Closed-loop"}. See \code{details} for more information.}
 
-\item{average_WD}{Numeric value indicating the weight of average plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{average_WD}{Numeric value indicating the weight of average plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{average_film_WD}{Numeric value indicating the weight of average film plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{average_film_WD}{Numeric value indicating the weight of average film plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{average_rigid_WD}{Numeric value indicating the weight of average rigid plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{average_rigid_WD}{Numeric value indicating the weight of average rigid plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{HDPE_WD}{Numeric value indicating the weight of HDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{HDPE_WD}{Numeric value indicating the weight of HDPE plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{LDPE_WD}{Numeric value indicating the weight of LDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{LDPE_WD}{Numeric value indicating the weight of LDPE plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{LLDPE_WD}{Numeric value indicating the weight of LLDPE plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{LLDPE_WD}{Numeric value indicating the weight of LLDPE plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{PET_WD}{Numeric value indicating the weight of PET plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{PET_WD}{Numeric value indicating the weight of PET plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{PP_WD}{Numeric value indicating the weight of PP plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{PP_WD}{Numeric value indicating the weight of PP plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{PS_WD}{Numeric value indicating the weight of PS plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{PS_WD}{Numeric value indicating the weight of PS plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
-\item{PVC_WD}{Numeric value indicating the weight of PVC plastic disposed of using waste disposal methods. Default is \code{0}.}
+\item{PVC_WD}{Numeric value indicating the weight of PVC plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
 
 \item{glass_units}{Character vector specifying the units of the emissions related to glass. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
 
