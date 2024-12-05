@@ -90,21 +90,21 @@ material_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
                                      mixed_cans = mixed_cans, scrap = scrap, steel_cans = steel_cans,
                                      aluminuim_cans_WD = aluminuim_cans_WD, aluminuim_foil_WD = aluminuim_foil_WD,
                                      mixed_cans_WD = mixed_cans_WD, scrap_WD = scrap_WD, steel_cans_WD = steel_cans_WD,
-                                     waste_disposal = metal_waste_disposal, units = metal_units)
+                                     metal_waste_disposal = metal_waste_disposal, units = metal_units)
   paper_emissions <- paper_emissions(board = board, mixed = mixed, paper = paper,
                                      board_WD = board_WD, mixed_WD = mixed_WD, paper_WD = paper_WD,
-                                     waste_disposal = paper_waste_disposal, units = paper_units)
+                                     paper_waste_disposal = paper_waste_disposal, units = paper_units)
   plastic_emissions <- plastic_emissions(average = average, average_film = average_film, average_rigid = average_rigid,
                                          HDPE = HDPE, LDPE = LDPE, LLDPE = LLDPE, PET = PET, PP = PP, PS = PS, PVC = PVC,
                                          average_WD = average_WD, average_film_WD = average_film_WD, average_rigid_WD = average_rigid_WD,
                                          HDPE_WD = HDPE_WD, LDPE_WD = LDPE_WD, LLDPE_WD = LLDPE_WD, PET_WD = PET_WD, PP_WD = PP_WD,
                                          PS_WD = PS_WD, PVC_WD = PVC_WD, units = plastic_units)
-  electrical_emissions <- electrical_emissions(fridges = fridges, freezers = freezers, large = large_electrical, IT = IT,
-                                               small = small_electrical, alkaline_batteries = alkaline_batteries,
+  electrical_emissions <- electrical_emissions(fridges = fridges, freezers = freezers, large_electrical = large_electrical, IT = IT,
+                                               small_electrical = small_electrical, alkaline_batteries = alkaline_batteries,
                                                LiIon_batteries = LiIon_batteries, NiMh_batteries = NiMh_batteries,
-                                               fridges_WD = fridges_WD, freezers_WD = freezers_WD, large_WD = large_electrical_WD, IT_WD = IT_WD,
-                                               small_WD = small_electrical_WD, alkaline_batteries_WD = alkaline_batteries_WD, LiIon_batteries_WD = LiIon_batteries_WD,
-                                               NiMh_batteries_WD = NiMh_batteries_WD, waste_disposal = electric_waste_disposal, units = electrical_units)
+                                               fridges_WD = fridges_WD, freezers_WD = freezers_WD, large_electrical_WD = large_electrical_WD, IT_WD = IT_WD,
+                                               small_electrical_WD = small_electrical_WD, alkaline_batteries_WD = alkaline_batteries_WD, LiIon_batteries_WD = LiIon_batteries_WD,
+                                               NiMh_batteries_WD = NiMh_batteries_WD, electric_waste_disposal = electric_waste_disposal, units = electrical_units)
   construction_emissions <- construction_emissions(aggregates = aggregates, average = construction_average, asbestos = asbestos, asphalt = asphalt, 
                                                    bricks = bricks, concrete = concrete, insulation = insulation, metals = metals, soils = soils,
                                                    mineral_oil = mineral_oil, plasterboard = plasterboard, tyres = tyres, wood = wood,
