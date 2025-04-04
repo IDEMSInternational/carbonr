@@ -1,0 +1,125 @@
+---
+title: "Clinical Emissions Vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Clinical Emissions Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Calculating Clinical Theatre Emissions
+
+This vignette provides an overview of the `clinical_theatre_emissions` function, guiding users through calculating CO₂-equivalent emissions for various clinical resources in an operating theatre, such as clinical waste, utilities, and materials. This function is designed to offer flexibility for different units and waste types, making it adaptable to various clinical settings.
+
+### Overview of Parameters
+
+The `clinical_theatre_emissions` function includes a wide range of parameters to capture emissions across clinical activities. Here’s a breakdown of the main categories:
+
+- **Clinical Waste**: Accounts for wet clinical waste typically incinerated in a clinical setting. The input can be in kilograms or tonnes to ensure flexibility for different data sources.
+- **Anaesthetic Gases**: Emissions from various gases commonly used in surgical procedures, such as desflurane, sevoflurane, and nitrous oxide (N₂O).
+- **Utilities**: Includes water usage (in cubic meters or million liters), electricity (kWh), and heating (kWh). Each utility parameter offers options to adjust for transmission and distribution losses (TD) and well-to-tank (WTT) factors to capture indirect emissions.
+- **Materials**: Includes emissions from material waste, including glass, paper, and plastic. This category allows for waste disposal types, such as recycling or landfill, to assess the environmental impact of different disposal methods.
+
+## Examples
+
+The following examples demonstrate how to use the `clinical_theatre_emissions` function in different scenarios.
+
+### Load the Package
+
+To use this function, first load the required package:
+
+```{r}
+# Load necessary packages for this vignette
+library(carbonr)
+library(dplyr)
+```
+
+### Example 1: Basic Calculation with Default Values
+
+In this example, we calculate emissions for clinical waste, water supply, electricity, and heat with default values. This example is useful for a straightforward scenario without specific anaesthetic gases or waste types.
+
+In this calculation, `wet_clinical_waste` is provided in kilograms (150 kg). We use cubic metres as the unit for `water_supply`, and the electricity and heating inputs are provided in kWh. This setup calculates the emissions from basic clinical waste and utility usage.
+
+```{r example_data, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+# Create an example data frame, called example_data.
+example_data <- data.frame(
+  wet_clinical_waste = 150,  # 150 kg of wet clinical waste
+  water_supply = 100,        # 100 cubic meters of water
+  electricity_kWh = 500,     # 500 kWh of electricity
+  heat_kWh = 200             # 200 kWh of heating
+)
+example_data
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+example_data <- data.frame(
+  wet_clinical_waste = 150,  # 150 kg of wet clinical waste
+  water_supply = 100,        # 100 cubic meters of water
+  electricity_kWh = 500,     # 500 kWh of electricity
+  heat_kWh = 200             # 200 kWh of heating
+)
+example_data %>% knitr::kable()
+```
+
+```{r emissions, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+# We can call our example_data frame to get the values
+example_data %>%
+  dplyr::mutate(emissions = clinical_theatre_emissions(
+    wet_clinical_waste = wet_clinical_waste,
+    wet_clinical_waste_unit = "kg",
+    electricity_kWh = electricity_kWh,
+    heat_kWh = heat_kWh,
+    water_supply = water_supply,
+    water_unit = "cubic metres")
+)
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+example_data %>%
+  dplyr::mutate(emissions = clinical_theatre_emissions(
+    wet_clinical_waste = wet_clinical_waste,
+    wet_clinical_waste_unit = "kg",
+    electricity_kWh = electricity_kWh,
+    heat_kWh = heat_kWh,
+    water_supply = water_supply,
+    water_unit = "cubic metres")) %>%
+  knitr::kable()
+```
+
+### Example 2: Including Anaesthetic Gases
+
+This example includes emissions from anaesthetic gases along with clinical waste, electricity, heating, and water. Adding anaesthetic gases can give a more comprehensive view of the emissions, particularly in settings with significant use of these gases.
+
+This example demonstrates emissions including anaesthetic gases - specifically, desflurane, sevoflurane, and N₂O. These gases have high greenhouse gas potential, so their inclusion can significantly affect total emissions in a clinical setting where they are frequently used.
+
+```{r emissions_with_gases, eval=FALSE}
+# We do not have to call from a data frame. For example, here we just input the values
+emissions_with_gases <- clinical_theatre_emissions(
+  wet_clinical_waste = 150,           # Wet clinical waste in kg
+  wet_clinical_waste_unit = "kg",
+  desflurane = 10,                     # 10 liters of desflurane
+  sevoflurane = 5,                     # 5 liters of sevoflurane
+  N2O = 100,                           # 100 liters of N₂O
+  electricity_kWh = 500,
+  heat_kWh = 200,
+  water_supply = 100
+)
+print(emissions_with_gases)
+```
+
+### Example 3: Reducing Waste and Emissions
+
+This example shows how reduced resource usage affects emissions. Reductions in clinical waste, water, electricity, and heat are used to model a more sustainable scenario.
+
+In this, `wet_clinical_waste` is significantly reduced to 0.1 tonnes, demonstrating the effect of minimised clinical waste on emissions. This example also shows the impact of reduced utility usage, providing insights into how efficient resource management can decrease the environmental footprint of clinical operations.
+
+```{r reduced_emissions, eval=FALSE}
+reduced_emissions <- clinical_theatre_emissions(
+  wet_clinical_waste = 0.1,            # Clinical waste in tonnes
+  wet_clinical_waste_unit = "tonnes",
+  electricity_kWh = 300,               # Reduced electricity
+  heat_kWh = 100,                      # Reduced heating
+  water_supply = 50                    # Reduced water
+)
+print(reduced_emissions)
+```

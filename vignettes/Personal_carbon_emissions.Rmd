@@ -1,0 +1,340 @@
+---
+title: "Introduction to carbonr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Personal Carbon Emissions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Personal Carbon Emissions with carbonr
+
+### Introduction
+Personal carbon emissions refer to the total amount of greenhouse gases, primarily carbon dioxide (CO₂), that an individual is responsible for emitting directly and indirectly through their daily activities. The `carbonr` package in R provides a convenient way to calculate these emissions.
+
+The emissions values used in these calculations primarily derive from the [UK Government report (2024)](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024), where available. If calculations are based on sources other than the UK Government report, it will be specified accordingly.
+
+The aim of calculating Personal Carbon Emissions is to provide a reliable and reproducible method for assessing individual carbon footprints. This ensures that results can be easily saved, edited, and redistributed, fostering transparency and accuracy in carbon emission reporting.
+
+### Installation
+To install the development version of `carbonr`, you can use the following commands to download it from [GitHub](https://github.com/):
+
+```{r install_package, eval = FALSE}
+# Uncomment the following line if you haven't installed devtools yet
+# install.packages("devtools")
+devtools::install_github("IDEMSInternational/carbonr")
+```
+
+Once installed, load the `carbonr` package with the following command:
+```{r}
+library(carbonr)
+library(dplyr)
+```
+
+### Usage
+The `carbonr` package allows users to calculate personal emissions from various sources, including travel-related activities, building energy use, and household emissions. For personal emissions, we consider the following categories:
+
+*Travel-Related Emissions*:
+
+airplane_emissions() Calculates emissions from air travel.
+ferry_emissions() Estimates emissions from ferry travel
+land_emissions() Computes emissions from land-based travel.
+rail_emissions() Determines emissions from rail travel.
+vehicle_emissions() Assesses emissions from personal vehicle use.
+
+*Household Emissions*:
+household_emissions() Estimates emissions from household activities.
+
+*Building Emissions*:
+building_emissions() Calculates emissions associated with building energy use.
+
+These all return carbon-equivalent emissions in tonnes.
+
+A shiny app is also available by `shiny_emissions()` to calculate carbon-equivalent emissions with a GUI.
+
+We give some small examples in using the functions in `carbonr()`. We start by Travel related Emissions.
+
+#### Travel-Related Emissions
+To calculate emissions for a flight between Nairobi and Kisumu, we first want to find the name of the airports. We do this using the `airport_finder()` function:
+
+Using the `carbonr` package, we can calculate emissions for a flight between Nairobi and Kisumu by first finding the airport codes.
+
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+ airport_finder(name = "Nairobi")
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+airport_finder(name = "Nairobi") %>%
+  knitr::kable()
+```
+
+```{r find_airport_kisumu, eval=FALSE, message=FALSE, warning=FALSE}
+ airport_finder(name = "Kisumu")
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+airport_finder(name = "Kisumu") %>%
+  knitr::kable()
+```
+
+Now we can find the overall emission value using the appropriate IATA code. These distances are calculated using the Haversine formula:
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+carbonr::airplane_emissions("NBO", "KIS")  
+```
+
+A similar approach can be performed for ferry emissions. For example, to calculate emissions for a round trip ferry from Shimoni to Giohar, we first find the appropriate seaport code with the `seaport_finder()` function:
+
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+ seaport_finder(city = "Shimoni")
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+seaport_finder(city = "Shimoni") %>%
+  knitr::kable()
+```
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+ seaport_finder(city = "Giohar")
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+seaport_finder(city = "Giohar") %>%
+  knitr::kable()
+```
+
+Now we can find the overall emission value using the appropriate seaport code:
+
+```{r ferry_example, message = FALSE, warning = FALSE}
+carbonr::ferry_emissions("SMN", "GHR", round_trip = TRUE)
+```
+
+For the UK we can calculate emissions for a train journey. Like with `airplane_emissions()` and `ferry_emissions()`, the distances are calculated using the Haversine formula - this is calculated as the crow flies. As before, we first find the stations. As always, for a more accurate estimation we can include via points:
+
+To calculate emissions for a train journey from Bristol Temple Meads to Edinburgh Waverley, via Birmingham New Street. We can use a data frame and `purrr::map()` to read through the data easier:
+```{r load_stations, message = FALSE, warning = FALSE}
+data("stations", package = "carbonr")
+```
+
+```{r multiple_example, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+multiple_ind <- tibble::tribble(~ID, ~station,
+                        "From", "Bristol",
+                        "To", "Edinburgh",
+                        "Via", "Birmingham")
+purrr::map(.x = multiple_ind$station, .f = ~rail_finder(.x)) %>%
+  dplyr::bind_rows()
+```
+```{r multiple_eg, message = FALSE, warning = FALSE, echo=FALSE}
+multiple_ind <- tibble::tribble(~ID, ~station,
+                        "From", "Bristol",
+                        "To", "Edinburgh",
+                        "Via", "Birmingham")
+purrr::map(.x = multiple_ind$station, .f = ~carbonr::rail_finder(.x)) %>%
+  dplyr::bind_rows() %>%
+  knitr::kable()
+```
+
+Then we can estimate the overall tCO2e emissions for the journey:
+```{r rail_em, message = FALSE, warning = FALSE}
+result <- carbonr::rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
+knitr::kable(result)
+```
+
+We can use a data frame to read through the data easier in general. For example, if we had data for multiple individuals, or journeys:
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+multiple_ind <- tibble::tribble(~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
+                        "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
+                        "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
+multiple_ind %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(plane_emissions = carbonr::airplane_emissions(air_from,
+                                              air_to,
+                                              air_via)) %>%
+  dplyr::mutate(train_emissions = carbonr::rail_emissions(rail_from,
+                                          rail_to)) %>%
+  dplyr::mutate(total_emissions = plane_emissions + train_emissions)
+```
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+multiple_ind <- tibble::tribble(~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
+                        "Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
+                        "Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL")
+multiple_ind %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(plane_emissions = carbonr::airplane_emissions(air_from,
+                                              air_to,
+                                              air_via)) %>%
+  dplyr::mutate(train_emissions = carbonr::rail_emissions(rail_from,
+                                          rail_to)) %>%
+  dplyr::mutate(total_emissions = plane_emissions + train_emissions) %>%
+  knitr::kable()
+```
+
+For land-based travel, we use the `land_emissions()` function. This allows you to calculate emissions based on vehicle type and fuel type.
+
+```{r land_emissions_example, message = FALSE, warning = FALSE}
+result<-carbonr::land_emissions(distance = 100, vehicle = "Bus", fuel = "Petrol")
+knitr::kable(result)
+```
+
+The `vehicle_emissions()` function estimates emissions from personal vehicle use based on distance, fuel type, and fuel consumption.
+
+```{r vehicle_emissions_example, message = FALSE, warning = FALSE}
+result <- carbonr::vehicle_emissions(distance = 150, fuel = "Petrol", car_type = "Dual purpose 4X4" )
+knitr::kable(result)
+```
+
+#### Household Emissions
+
+Additional emissions can be calculated as well. For example, household and building emissions. The `household_emissions()` is used to estimate carbon-equivalent emissions based on household energy use. It allows users to input various types of energy sources, such as electricity or gas, and calculates the emissions based on the consumption levels provided.
+
+We can find the [total household waste per 1000 households](https://lginform.local.gov.uk/reports/lgastandard?mod-metric=19664&mod-area=E92000001&mod-group=AllRegions_England&mod-type=namedComparisonGroup&mod-period=1) in the UK is 947 tonnes. This is 0.947 tonnes per household. Using the `household_emissions()` function, we can find the average CO2-equivalent emissions of total household waste in a year.
+
+```{r, message = FALSE, warning = FALSE, eval=TRUE, include=TRUE}
+household_emissions(household_residual_waste = 0.947,
+                    hh_waste_disposal = "Landfill",
+                    units = "tonnes")
+```
+
+We can get a more accurate picture by giving more precise measurements.
+
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+# Create a data frame of the estimates with sources
+average_disposal <- data.frame(
+  Category = c(
+    "Glass", "Clothing", "Disposed Clothing", "Food", "Paper", "Plastic",
+    "Small Electrical Items", "Batteries Alkaline (bought)", "Batteries Alkaline (disposed)",
+    "Aluminium Cans (bought)", "Aluminium Cans (disposed)", "Residual waste"
+  ),
+  Estimated_Average_Disposal_kg_per_year = c(
+    125, 26.7, 10.8, 237.4, 450, 520, 5.57,
+    1.932, 0.720, 5.1, 5.1, 516.53
+  ),
+  Notes = c(
+    "Bottles, jars, and glass containers.",
+    "New clothing purchased.",
+    "Textiles and old garments disposed.",
+    "Includes food scraps and leftovers.",
+    "Newspapers, magazines, and office paper.",
+    "Non-recyclable or mixed plastic types.",
+    "Gadgets, small appliances, and electronics.",
+    "Household AA/AAA and other alkaline batteries.",
+    "Household AA/AAA and other alkaline batteries.",
+    "Soda cans and other aluminium beverage containers.",
+    "Soda cans and other aluminium beverage containers.",
+    "Any collected household waste that is not sent for reuse, recycling, or composting."
+  ),
+  Source = c(
+    "Average UK household uses approximately 500 glass bottles and jars annually (3.1). Given that one tonne of glass equates to about 4,000 bottles and jars, this translates to an estimated 125 kilograms of glass waste per household per year (Busy Bins, 2020).",
+    "Average of 26.7kg of new clothes each year (Recycle More)",
+    "300,000 tonnes disposed yearly approximately in the UK, or 10.8kg per household (Recycle More)",
+    "Estimated 6.6 million tonnes of food waste yearly, which is 237.4kg per household (Recycle More)",
+    "In the UK, approximately 12.5 million tonnes of paper are used annually. This is an average of about 450kg per household per year (Recycle More)",
+    "Over 1447000 tonnes of plastic packaging consumed by households. Over 27.8 million households, this is approx. 520g bought and disposed (Recycle More)",
+    "Approximately 155,000 tonnes of domestic electrical waste are disposed each year. This is approximately 5.57kg of electrical waste per household each year (Recycle More)",
+    "Every person in the UK uses about 21 batteries a year. A household of four uses 84. At 23g a battery, this is 1.932kg per household (Recycle More)",
+    "20,000 tonnes of batteries are sent to landfill site in the UK each year, which is approximately 0.720kg per household. (Recycle More)",
+    "An estimated 340 aluminium drink cans are consumed per household each year. At 15g a can, it is 5.1 kg consumed, and 5.1kg disposed (Recycle More)",
+    "An estimated 340 aluminium drink cans are consumed per household each year. At 15g a can, it is 5.1 kg consumed, and 5.1kg disposed (Recycle More)",
+    "From DEFRA via LG Inform (DEFRA, 2024)"
+  )
+)
+```
+
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+# Create a data frame of the estimates
+average_disposal <- data.frame(
+  Category = c(
+    "Glass", "Clothing", "Disposed Clothing", "Food", "Paper", "Plastic",
+    "Small Electrical Items", "Batteries Alkaline (bought)", "Batteries Alkaline (disposed)",
+    "Aluminium Cans (bought)", "Aluminium Cans (disposed)", "Residual waste"
+  ),
+  Estimated_Average_Disposal_kg_per_year = c(
+    125, 26.7, 10.8, 237.4, 450, 520, 5.57,
+    1.932, 0.720, 5.1, 5.1, 516.53
+  ),
+  Notes = c(
+    "Bottles, jars, and glass containers.",
+    "New clothing purchased.",
+    "Textiles and old garments disposed.",
+    "Includes food scraps and leftovers.",
+    "Newspapers, magazines, and office paper.",
+    "Non-recyclable or mixed plastic types.",
+    "Gadgets, small appliances, and electronics.",
+    "Household AA/AAA and other alkaline batteries.",
+    "Household AA/AAA and other alkaline batteries.",
+    "Soda cans and other aluminium beverage containers.",
+    "Soda cans and other aluminium beverage containers.",
+    "Any collected household waste that is not sent for reuse, recycling, or composting."
+  ),
+  Source = c(
+    "Average UK household uses approximately 500 glass bottles and jars annually (3.1). Given that one tonne of glass equates to about 4,000 bottles and jars, this translates to an estimated 125 kilograms of glass waste per household per year (Busy Bins, 2020).",
+    "Average of 26.7kg of new clothes each year (Recycle More)",
+    "300,000 tonnes disposed yearly approximately in the UK, or 10.8kg per household (Recycle More)",
+    "Estimated 6.6 million tonnes of food waste yearly, which is 237.4kg per household (Recycle More)",
+    "In the UK, approximately 12.5 million tonnes of paper are used annually. This is an average of about 450kg per household per year (Recycle More)",
+    "Over 1447000 tonnes of plastic packaging consumed by households. Over 27.8 million households, this is approx. 520g bought and disposed (Recycle More)",
+    "Approximately 155,000 tonnes of domestic electrical waste are disposed each year. This is approximately 5.57kg of electrical waste per household each year (Recycle More)",
+    "Every person in the UK uses about 21 batteries a year. A household of four uses 84. At 23g a battery, this is 1.932kg per household (Recycle More)",
+    "20,000 tonnes of batteries are sent to landfill site in the UK each year, which is approximately 0.720kg per household. (Recycle More)",
+    "An estimated 340 aluminium drink cans are consumed per household each year. At 15g a can, it is 5.1 kg consumed, and 5.1kg disposed (Recycle More)",
+    "An estimated 340 aluminium drink cans are consumed per household each year. At 15g a can, it is 5.1 kg consumed, and 5.1kg disposed (Recycle More)",
+    "From DEFRA via LG Inform (DEFRA, 2024)"
+  )
+)
+
+# Render the table in the vignette
+knitr::kable(
+  average_disposal,
+  caption = "Average Annual Household Disposal Estimates for the UK with Sources"
+)
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+average_disposal %>%
+    dplyr::select(-c(Notes, Source)) %>%
+    tidyr::pivot_wider(names_from = Category, values_from = Estimated_Average_Disposal_kg_per_year) %>%
+    mutate(emissions = household_emissions(glass_WD = Glass,
+                                           clothing = Clothing,
+                                           clothing_WD = `Disposed Clothing`,
+                                           gcb_waste_disposal = "Closed-loop",
+                                           food_WD = Food,
+                                           paper_WD = Paper,
+                                           average_WD = Plastic,
+                                           small_electrical_WD = `Small Electrical Items`,
+                                           alkaline_batteries = `Batteries Alkaline (bought)`,
+                                           alkaline_batteries_WD = `Batteries Alkaline (disposed)`,
+                                           aluminuim_cans = `Aluminium Cans (bought)`,
+                                           aluminuim_cans_WD = `Aluminium Cans (disposed)`,
+                                           household_residual_waste = `Residual waste`,
+                                           hh_waste_disposal = "Landfill",
+                                           units = "kg")) %>%
+  dplyr::pull(emissions)
+```
+
+### Building Emissions
+The `building_emissions()`calculates carbon-equivalent emissions based on energy consumption in a building. The function considers various energy sources, such as electricity, natural gas, and oil, and returns emissions in tonnes of CO₂-equivalent.
+
+```{r building_emissions_example, message = FALSE, warning = FALSE}
+result <- carbonr::building_emissions(electricity_kWh = 500, water_supply = 1000, water_unit = "cubic metres")
+knitr::kable(result)
+```
+
+## Shiny App
+
+An interactive calculator using Shiny can be accessed by the `shiny_emissions()` function. This calculator uses some of the functions in the `carbonr` package: 
+```{r, eval = FALSE}
+shiny_emissions()
+```
+
+## References
+
+1. UK Government Report: Department for Energy Security and Net Zero. (2024). [Greenhouse Gas Reporting: Conversion Factors 2024](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024).
+
+2. Radiative Forcing Factor: DEFRA, 2016. Government GHG conversion factors for company reporting.
+
+3. On the Household waste measurements:
+[Busy Bins](https://busybins.co.uk/blog/glass-recycling-guide.)
+WRAP, ‘Valuing our clothes: the evidence base’ (2012), p.2
+[Recycle More](https://www.recycle-more.co.uk/what-can-i-recycle/recycling-facts)
+[DEFRA, 2024](https://lginform.local.gov.uk/reports/lgastandard?mod-area=E92000001&mod-group=AllRegions_England&mod-metric=45&mod-type=namedComparisonGroup)

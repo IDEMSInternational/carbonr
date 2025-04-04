@@ -1,0 +1,168 @@
+---
+title: "Company Emissions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Company Emissions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Company Emissions with carbonr
+ This vignette demonstrates a step-by-step process for calculating and combining different types of company emissions, including office emissions, hotel emissions, and travel emissions, using various functions to track and calculate the carbon footprint associated with different company activities.
+
+
+### Introduction
+Understanding the overall carbon footprint of a company is important to meet company sustainability goals. This vignette details the process for calculating emissions from company office operations, employee travel (e.g., car, air, ferry, rail), and hotel accommodations, ultimately allowing the organisation to identify high-emission areas and take action to reduce them.
+
+To begin, install and load the necessary packages.
+```{r}
+library(carbonr)
+library(dplyr)
+library(purrr)
+```
+
+## Office Emissions:
+Start by calculating emissions from office-related activities such as energy consumption, waste production, and equipment usage.
+
+### Example Office Emission Calculation
+ For calculating office emissions, use `office_emissions()` function from the `carbonr` package. This function requires input values for energy use (e.g., electricity and heating).
+
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+ carbonr::office_emissions(specify = TRUE,
+   electricity_kWh = 200,
+   water_supply = 100,
+   water_unit = "cubic metres",
+   water_trt = FALSE
+ )
+```
+
+### Hotel Emissions:
+We calculate emissions related to hotel stays for business trips using `hotel_emissions()`. This function calculates the emissions based on the number of nights, room type, and occupancy rate.
+
+### Example Hotel Emission Calculation
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+carbonr::hotel_emissions(location = "Fiji", nights = 2, rooms = 1)
+```
+
+## Travel-related Emissions
+
+### Airplane Emissions
+Using the `carbonr` package, we can calculate emissions for a flight between Nairobi and Kisumu by first finding the airport codes.
+
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+ airport_finder(name = "Nairobi")
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+airport_finder(name = "Nairobi") %>%
+  knitr::kable()
+```
+
+```{r find_airport_kisumu, eval=FALSE, message=FALSE, warning=FALSE}
+ airport_finder(name = "Kisumu")
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+airport_finder(name = "Kisumu") %>%
+  knitr::kable()
+```
+
+With the IATA codes (`"NBO"` for Nairobi and `"KIS"` for Kisumu), we can calculate emissions
+
+```{r airplane_emissions_chunk, message=FALSE, warning=FALSE}
+airplane_emissions("NBO", "KIS")  
+```
+
+### Ferry Emissions
+To estimate emissions for ferry travel, for instance, from Shimoni to Giohar, we start by locating seaport codes:
+
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+ seaport_finder(city = "Shimoni")
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+seaport_finder(city = "Shimoni") %>%
+  knitr::kable()
+```
+
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+ seaport_finder(city = "Giohar")
+```
+
+```{r, message = FALSE, warning = FALSE, echo = FALSE}
+seaport_finder(city = "Giohar") %>%
+  knitr::kable()
+```
+
+With codes `"SMN"` for Shimoni and `"GHR"` for Giohar we can now calculate the ferry emissions:
+
+```{r ferry_example, message=FALSE, warning=FALSE}
+ferry_emissions("SMN", "GHR", round_trip = TRUE)
+```
+
+### Train Emissions
+For the UK we can calculate emissions for a train journey. Like with `airplane_emissions()` and `ferry_emissions()`, the distances are calculated using the Haversine formula - this is calculated as the crow flies. As before, we first find the stations. As always, for a more accurate estimation we can include via points:
+
+To calculate emissions for a train journey from Bristol Temple Meads to Edinburgh Waverley, via Birmingham New Street. We can use a data frame and `purrr::map()` to read through the data easier.
+
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+multiple_ind <- tibble::tribble(~ID, ~station,
+                        "From", "Bristol",
+                        "To", "Edinburgh",
+                        "Via", "Birmingham")
+purrr::map(.x = multiple_ind$station, .f = ~rail_finder(.x)) %>%
+  dplyr::bind_rows()
+```
+```{r, message = FALSE, warning = FALSE, echo=FALSE}
+multiple_ind <- tibble::tribble(~ID, ~station,
+                        "From", "Bristol",
+                        "To", "Edinburgh",
+                        "Via", "Birmingham")
+purrr::map(.x = multiple_ind$station, .f = ~rail_finder(.x)) %>%
+  dplyr::bind_rows() %>%
+  knitr::kable()
+```
+
+Then we can estimate the overall tCO2e emissions for the journey:
+```{r, message = FALSE, warning = FALSE}
+rail_emissions(from = "Bristol Temple Meads", to = "Edinburgh", via = "Birmingham New Street")
+```
+
+## Aggregating Emissions for Multiple Individuals
+Using data frames and mapping functions, we can calculate combined emissions for multiple travel types.
+
+```{r, message = FALSE, warning = FALSE, eval=FALSE, include=TRUE}
+multiple_ind <- tibble::tribble(
+ ~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
+"Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
+"Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL"
+ )
+
+multiple_ind %>%
+  rowwise() %>%
+  mutate(
+    plane_emissions = carbonr::airplane_emissions(air_from, air_to, air_via),
+    train_emissions = carbonr::rail_emissions(rail_from, rail_to)
+    ) %>%
+  mutate(total_emissions = plane_emissions + train_emissions)
+```
+
+```{r, message = FALSE, warning = FALSE, echo=FALSE}
+multiple_ind <- tibble::tribble(
+ ~ID, ~rail_from, ~rail_to, ~air_from, ~air_to, ~air_via,
+"Clint", "Bristol Temple Meads", "Paddington", "LHR", "KIS", "NBO",
+"Zara", "Bristol Temple Meads", "Paddington", "LHR", "LAX", "ORL"
+ )
+
+multiple_ind %>%
+  rowwise() %>%
+  mutate(
+    plane_emissions = carbonr::airplane_emissions(air_from, air_to, air_via),
+    train_emissions = carbonr::rail_emissions(rail_from, rail_to)
+    ) %>%
+  mutate(total_emissions = plane_emissions + train_emissions) %>%
+  knitr::kable()
+```
+
+## References:
+Emission factors are based on the UK Government’s 2024 greenhouse gas reporting conversion factors: [Greenhouse Gas Conversion Factors](https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024).
