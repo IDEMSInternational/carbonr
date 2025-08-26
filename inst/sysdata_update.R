@@ -1,10 +1,14 @@
+#############################
 
-#uk_gov_data_2024 <- uk_gov_data
+# This file adds in the 2025 Gov UK data into the 2024 file
+# It has checks, before merging it in
+# And renaming the 2024 (last year) column as value_2024
+# and then renaming this year column to value
+# so that it calls the most recent data.
 
-# rad in uk_gov_data
+############################
 
-#Filter SCOPE to Scope 1
-#Filter LEVEL1 to BIOENERGY - then we look just with the units as kg CO2e
+
 
 # adding a new year into our data:
 library(readxl)
@@ -117,7 +121,7 @@ usethis::use_data(
   uk_gov_data_2024,
   vehicles,
   internal  = TRUE,
-  overwrite = TRUE,
-  compress  = "xz"   # keeps file small for CRAN
+  overwrite = TRUE
+  #compress  = "xz"   # keeps file small for CRAN
 )
 
