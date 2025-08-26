@@ -1,6 +1,6 @@
 Package: carbonr
 Title: Calculate Carbon-Equivalent Emissions
-Version: 0.2.3
+Version: 0.2.5
 Authors@R: 
     person("Lily", "Clements", , "lily@idems.international", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-8864-0552"))
@@ -9,11 +9,13 @@ License: LGPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Suggests: 
+Suggests:
     knitr,
     purrr,
     rmarkdown,
-    testthat (>= 2.0.0)
+    sp,
+    testthat (>= 2.0.0),
+    tibble
 Config/testthat/edition: 2
 Imports: 
     airportr,
@@ -30,9 +32,7 @@ Imports:
     rlang,
     shiny,
     shinydashboard,
-    sp,
     stringr,
-    tibble,
     tidyr,
     tidyselect
 Depends: 
