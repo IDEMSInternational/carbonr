@@ -59,17 +59,17 @@ clinical_theatre_data(
 )
 }
 \arguments{
-\item{data}{Data frame containing all data to be used in the emissions calculation.}
+\item{data}{Data frame containing all variables required for emissions calculation.}
 
-\item{time}{Variable in \code{data} that corresponds to the time.}
+\item{time}{Column in \code{data} giving the time variable.}
 
-\item{date_format}{The date format for the time variable (optional, default: c("\%d/\%m/\%Y")).}
+\item{date_format}{Character string of date format for \code{time} (default: \code{"\%d/\%m/\%Y"}).}
 
-\item{name}{Variable in \code{data} that corresponds to the theatre name.}
+\item{name}{Column in \code{data} giving the theatre identifier/name.}
 
 \item{wet_clinical_waste}{Numeric. Amount of (wet) clinical waste.}
 
-\item{wet_clinical_waste_unit}{Unit for \code{wet_clinical_waste} ("tonnes" or "kg").}
+\item{wet_clinical_waste_unit}{Unit for \code{wet_clinical_waste} (\code{"tonnes"} or \code{"kg"}).}
 
 \item{desflurane}{Amount of desflurane used in KG (default: 0).}
 
@@ -101,35 +101,81 @@ clinical_theatre_data(
 
 \item{heat_WTT}{logical, include WTT for heat/steam (default TRUE).}
 
-\item{paper_material_production, metal_material_production, construction_material_production}{Either a single string (applied to all materials) or a named vector per material.
-Common values: \code{"Primary material production"}, \code{"Closed-loop source"}, \code{"Closed-loop"},
-\code{"Open-loop"}, \code{"Combustion"}, \code{"Landfill"} (availability depends on the table).}
+\item{paper_vars}{Named character vector mapping canonical paper keys
+(\code{"board"}, \code{"mixed"}, \code{"paper"}) to column names in \code{data}.
+Each row’s values are passed as a \code{paper_use} vector.}
 
-\item{units}{Giving units in kg or tonnes}
+\item{plastic_vars}{Named character vector mapping canonical plastic keys
+(e.g. \code{"average"}, \code{"pet"}, \code{"pp"}, \code{"pvc"}, …) to columns in \code{data}.}
 
-\item{value_col}{Which \code{uk_gov_data} column to use: \code{"value"} or \code{"value_2024"}. Default \code{"value"}.}
+\item{metal_vars}{Named character vector mapping canonical metal keys
+(e.g. \code{"aluminuim_cans"}, \code{"steel_cans"}, \code{"scrap"}) to columns in \code{data}.}
 
-\item{strict}{Logical. If \code{TRUE}, missing factors error inside delegated functions; if \code{FALSE}, treat as 0. Default \code{TRUE}.}
+\item{electrical_vars}{Named character vector mapping canonical electrical keys
+(e.g. \code{"fridges"}, \code{"freezers"}, \code{"it"}, \code{"alkaline_batteries"}) to columns in \code{data}.}
 
-\item{include_cpi}{Logical. Whether to calculate carbon price credit as well as emissions.}
+\item{construction_vars}{Named character vector mapping canonical construction keys
+(e.g. \code{"concrete"}, \code{"bricks"}, \code{"wood"}, \code{"metals"}) to columns in \code{data}.}
 
-\item{jurisdiction}{Jurisdiction for CPI.}
+\item{paper_waste, plastic_waste, metal_waste, electrical_waste, construction_waste}{Logical. Whether the same tonnage is assumed to go to waste treatment for
+that material type (default: \code{TRUE}).}
 
-\item{year}{Year for CPI.}
+\item{paper_material_production, metal_material_production, construction_material_production}{Column text string for material-use factor (default: \code{"Primary material production"}).}
 
-\item{period}{Period for CPI.}
+\item{paper_waste_disposal, plastic_waste_disposal, metal_waste_disposal, electrical_waste_disposal, construction_waste_disposal}{Disposal route(s) to use for each material category. See \code{\link[=material_emissions]{material_emissions()}}
+for valid options.}
 
-\item{manual_price}{Manually override CPI value.}
+\item{units}{Units of result, \code{"kg"} or \code{"tonnes"}. Default: \code{"kg"}.}
 
-\item{gti_by}{Grouping type for GTI ("default", "month", "year").}
+\item{value_col}{Which column of \code{uk_gov_data} to use (\code{"value"} or \code{"value_2024"}).}
 
-\item{overall_by}{Grouping type for overall plot ("default", "month", "year").}
+\item{strict}{Logical. If \code{TRUE}, error when a factor is missing; if \code{FALSE}, treat as zero.}
 
-\item{single_sheet}{Options are \code{NULL}, \code{TRUE} or \code{FALSE}. Whether to give summaries in one sheet, or a list.}
+\item{include_cpi}{Logical. Whether to add carbon price credit calculations.}
+
+\item{jurisdiction}{Jurisdiction string for CPI lookup (see \code{\link[=check_CPI]{check_CPI()}}).}
+
+\item{year, period}{CPI year and period to use.}
+
+\item{manual_price}{Optional numeric CPI value to override World Bank data.}
+
+\item{gti_by}{Grouping type for GTI calculation (\code{"default"}, \code{"month"}, \code{"year"}).}
+
+\item{overall_by}{Grouping type for overall output plot.}
+
+\item{single_sheet}{\code{NULL}, \code{TRUE}, or \code{FALSE}. If not \code{NULL}, returns a list
+with the emissions table and a single-sheet display/plot.}
 }
 \value{
-List with table of emissions (and CPI if requested), and plot object if \code{single_sheet} is not \code{NULL}.
+If \code{single_sheet = NULL}: a tibble with emissions (and \code{carbon_price_credit}
+if \code{include_cpi = TRUE}).
+
+If \code{single_sheet = TRUE}/\code{FALSE}: a list with the emissions table and
+a plot object generated by \code{\link[=output_display]{output_display()}}.
 }
 \description{
-Get the clinical theatre emissions after a data frame is inputted into the function.
+Calculate clinical theatre emissions row-by-row from a data frame.
+Each row is expanded into a call to \code{\link[=clinical_theatre_emissions]{clinical_theatre_emissions()}} using
+the columns you specify. Optionally, results can be combined with
+carbon price credit information and plotted.
+}
+\examples{
+df <- data.frame(
+  time = c("10/04/2000","11/04/2000"),
+  theatre = c("A","A"),
+  clinical_waste = c(80,90),
+  electricity_kwh = c(100,110),
+  general_waste = c(65,55)
+)
+
+clinical_theatre_data(
+  df,
+  time = time,
+  name = theatre,
+  wet_clinical_waste = clinical_waste,
+  wet_clinical_waste_unit = "kg",
+  electricity_kWh = electricity_kwh,
+  plastic_vars = c(average="general_waste"),
+  units = "kg"
+)
 }

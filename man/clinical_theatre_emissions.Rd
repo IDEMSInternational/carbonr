@@ -49,7 +49,7 @@ clinical_theatre_emissions(
 \arguments{
 \item{wet_clinical_waste}{Numeric. Amount of (wet) clinical waste.}
 
-\item{wet_clinical_waste_unit}{Unit for \code{wet_clinical_waste} ("tonnes" or "kg").}
+\item{wet_clinical_waste_unit}{Unit for \code{wet_clinical_waste} (\code{"tonnes"} or \code{"kg"}).}
 
 \item{desflurane}{Amount of desflurane used in KG (default: 0).}
 
@@ -81,20 +81,24 @@ clinical_theatre_emissions(
 
 \item{heat_WTT}{logical, include WTT for heat/steam (default TRUE).}
 
-\item{paper_use, plastic_use, metal_use, electrical_use, construction_use}{Named numeric vectors of quantities in tonnes (defaults empty).}
+\item{paper_use, plastic_use, metal_use, electrical_use, construction_use}{Named numeric vectors (tonnes) for each material family (see \strong{Material vectors} above).}
 
-\item{paper_material_production, metal_material_production, construction_material_production}{Either a single string (applied to all materials) or a named vector per material.
-Common values: \code{"Primary material production"}, \code{"Closed-loop source"}, \code{"Closed-loop"},
-\code{"Open-loop"}, \code{"Combustion"}, \code{"Landfill"} (availability depends on the table).}
+\item{paper_waste, plastic_waste, metal_waste, electrical_waste, construction_waste}{Logical. If \code{TRUE}, the same tonnage as the corresponding \verb{*_use} is routed to waste
+treatment using the family’s \verb{*_waste_disposal} choice. Default \code{TRUE}.}
+
+\item{paper_material_production, metal_material_production, construction_material_production}{Column Text choice for \strong{material-use} factors (typically \code{"Primary material production"}).}
+
+\item{paper_waste_disposal, plastic_waste_disposal, metal_waste_disposal, }{electrical_waste_disposal,construction_waste_disposal
+Disposal route to use for that family (see \code{\link[=material_emissions]{material_emissions()}} for allowed values).}
 
 \item{value_col}{Which \code{uk_gov_data} column to use: \code{"value"} or \code{"value_2024"}. Default \code{"value"}.}
 
-\item{units}{Giving units in kg or tonnes}
+\item{units}{Output units: \code{"kg"} (default) or \code{"tonnes"}.}
 
 \item{strict}{Logical. If \code{TRUE}, missing factors error inside delegated functions; if \code{FALSE}, treat as 0. Default \code{TRUE}.}
 }
 \value{
-CO2e in \strong{tonnes}.
+Total CO2e in the units specified by \code{units} (kg or tonnes).
 }
 \description{
 Calculate CO2e from an operating theatre session by summing:
@@ -102,19 +106,62 @@ Calculate CO2e from an operating theatre session by summing:
 (3) material purchases + end-of-life (paper, plastics, metal, electrical, construction);
 (4) anaesthetic agents.
 }
+\details{
+Wet clinical waste factor defaults to 0.879 tCO2e per tonne (NGA 2022).
+Building emissions are computed via \code{\link[=building_emissions]{building_emissions()}} with \code{units = "kg"}.
+Materials are computed via \code{\link[=material_emissions]{material_emissions()}} with \code{units = "kg"}.
+Anaesthetic emissions are computed via \code{\link[=anaesthetic_emissions]{anaesthetic_emissions()}} (tonnes) and converted to kg to sum.
+The function sums all components in kg and returns in the \code{units} requested.
+}
+\section{Inputs – Material vectors}{
+
+For each material family, pass a \strong{named numeric vector} of tonnages (in tonnes).
+Names must be canonical keys (case/space/punctuation is normalised internally, but
+using the canonical forms below is recommended):
+\itemize{
+\item \strong{Paper} \code{paper_use}: \code{board}, \code{mixed}, \code{paper}
+\item \strong{Plastics} \code{plastic_use}: \code{average}, \code{average_film}, \code{average_rigid},
+\code{hdpe}, \code{ldpe}, \code{lldpe}, \code{pet}, \code{pp}, \code{ps}, \code{pvc}
+\item \strong{Metal} \code{metal_use}: use your package’s canonical metal keys
+(e.g. \code{aluminium_cans}, \code{aluminium_foil}, \code{mixed_cans}, \code{scrap}, \code{steel_cans})
+\item \strong{Electrical} \code{electrical_use}: \code{fridges}, \code{freezers}, \code{large_electrical},
+\code{it}, \code{small_electrical}, \code{alkaline_batteries}, \code{liion_batteries}, \code{nimh_batteries}
+\item \strong{Construction} \code{construction_use}: e.g. \code{aggregates}, \code{average}, \code{asbestos},
+\code{asphalt}, \code{bricks}, \code{concrete}, \code{insulation}, \code{metals}, \code{soils}, \code{mineral_oil},
+\code{plasterboard}, \code{tyres}, \code{wood}
+}
+
+For each family you can also set a single \strong{waste toggle} (e.g. \code{plastic_waste = TRUE})
+to send the same tonnage to a single disposal route (e.g. \code{plastic_waste_disposal = "Landfill"}).
+}
+
 \examples{
 \donttest{
+# Minimal example using vector-first materials
 clinical_theatre_emissions(
   wet_clinical_waste = 100, wet_clinical_waste_unit = "kg",
-  # building
+
+  # Building (kWh)
   electricity_kWh = 250, heat_kWh = 120,
-  # materials (vector-first)
-  paper_use = c(paper = 20), paper_waste = TRUE, paper_waste_disposal = "Closed-loop",
-  plastic_use = c(pet = 10), plastic_waste = TRUE, plastic_waste_disposal = "Landfill",
-  metal_use = c(aluminium = 0.2), metal_waste = TRUE, metal_waste_disposal = "Open-loop",
-  electrical_use = c(alkaline_batteries = 0.05), electrical_waste = TRUE, electrical_waste_disposal = "Open-loop",
-  construction_use = c(concrete = 1), construction_waste = FALSE,
-  value_col = "value"
+
+  # Materials: paper/plastic/metal/electrical/construction
+  paper_use = c(paper = 20),
+  paper_waste = TRUE, paper_waste_disposal = "Closed-loop",
+
+  plastic_use = c(pet = 10),
+  plastic_waste = TRUE, plastic_waste_disposal = "Landfill",
+
+  metal_use = c(steel_cans = 0.2),
+  metal_waste = TRUE, metal_waste_disposal = "Open-loop",
+
+  electrical_use = c(alkaline_batteries = 0.05),
+  electrical_waste = TRUE, electrical_waste_disposal = "Open-loop",
+
+  construction_use = c(concrete = 1),
+  construction_waste = FALSE,
+
+  value_col = "value",
+  units = "kg"
 )
 }
 }

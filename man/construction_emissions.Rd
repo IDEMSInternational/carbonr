@@ -106,15 +106,7 @@ construction_emissions(
   value_col = "value_2024"
 )
 
-# 3) Invalid combos under strict mode (e.g., bricks cannot be "Re-used")
-\dontrun{
-construction_emissions(
-  use = c(bricks = 10),
-  material_production = "Re-used",
-  strict = TRUE
-)}
-
-# Tolerant mode treats missing factors as zero:
+# 3)  Tolerant mode treats missing factors as zero:
 construction_emissions(
   use = c(bricks = 10),
   material_production = "Re-used",

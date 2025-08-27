@@ -163,7 +163,7 @@ household_emissions <- function(
   if (length(miss_gcb_mu)) {
     warning("No material use factor for GCB material(s): ",
             paste(miss_gcb_mu, collapse = ", "),
-            " – treating material use as 0 so waste can still be applied.",
+            " - treating material use as 0 so waste can still be applied.",
             call. = FALSE)
   }
   ef_gcb_mu[is.na(ef_gcb_mu)] <- 0
@@ -217,9 +217,9 @@ household_emissions <- function(
   # Warn + zero-fill Organic MU if missing (food/drink often omitted in MU)
   miss_org_mu <- names(org_use_vec)[org_use_vec > 0 & is.na(ef_org_mu)]
   if (length(miss_org_mu)) {
-    warning("No MU factor for organic item(s): ",
+    warning("No material use factor for organic item(s): ",
             paste(miss_org_mu, collapse = ", "),
-            " – treating MU as 0 so waste can still be applied.",
+            " - treating MU as 0 so waste can still be applied.",
             call. = FALSE)
   }
   ef_org_mu[is.na(ef_org_mu)] <- 0

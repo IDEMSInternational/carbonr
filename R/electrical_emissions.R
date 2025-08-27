@@ -25,6 +25,7 @@
 #' @param strict If `TRUE` (default), error when any nonzero `use`/waste needs a
 #'   factor missing from the table. If `FALSE`, treat missing factors as `0`.
 #'
+#' @export
 #' @return Numeric total emissions in requested `units`.
 #'
 #' @examples
