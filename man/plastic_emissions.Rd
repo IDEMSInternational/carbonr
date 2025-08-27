@@ -2,96 +2,97 @@
 % Please edit documentation in R/plastic_emissions.R
 \name{plastic_emissions}
 \alias{plastic_emissions}
-\title{Calculate Plastic Emissions}
+\title{Calculate plastic emissions}
 \usage{
 plastic_emissions(
-  average = 0,
-  average_film = 0,
-  average_rigid = 0,
-  HDPE = 0,
-  LDPE = 0,
-  LLDPE = 0,
-  PET = 0,
-  PP = 0,
-  PS = 0,
-  PVC = 0,
-  average_WD = 0,
-  average_film_WD = 0,
-  average_rigid_WD = 0,
-  HDPE_WD = 0,
-  LDPE_WD = 0,
-  LLDPE_WD = 0,
-  PET_WD = 0,
-  PP_WD = 0,
-  PS_WD = 0,
-  PVC_WD = 0,
-  plastic_waste_disposal = c("Landfill", "Open-loop", "Closed-loop", "Combustion"),
-  units = c("kg", "tonnes")
+  use = setNames(numeric(), character()),
+  waste = TRUE,
+  waste_disposal = c("Landfill", "Open-loop", "Closed-loop", "Combustion"),
+  units = c("kg", "tonnes"),
+  value_col = c("value", "value_2024"),
+  strict = TRUE
 )
 }
 \arguments{
-\item{average}{Numeric value indicating the weight of an overall average plastic purchased. Default is \code{0}.}
+\item{use}{Named numeric vector of plastic quantities in tonnes.
+Names are matched (case/space/punctuation-insensitive) to \verb{Level 3}
+after normalisation that also:
+\enumerate{
+\item removes any prefix up to \code{": "} (e.g., \code{"Plastics: HDPE"} → \code{"HDPE"}), and
+\item strips any trailing parenthetical (e.g., \code{"HDPE (bottles)"} → \code{"HDPE"}).
+Accepted types: \code{average}, \code{average_film}, \code{average_rigid},
+\code{hdpe}, \code{ldpe}, \code{lldpe}, \code{pet}, \code{pp}, \code{ps}, \code{pvc}.
+Unknown names are ignored (treated as zero).
+}}
 
-\item{average_film}{Numeric value indicating the weight of average film plastic purchased. Default is \code{0}.}
+\item{waste}{Logical. If \code{TRUE}, the same tonnages as \code{use} are sent to the
+chosen waste route. If \code{FALSE}, no waste is applied.}
 
-\item{average_rigid}{Numeric value indicating the weight of average rigid plastic purchased. Default is \code{0}.}
+\item{waste_disposal}{One of \code{"Landfill"}, \code{"Open-loop"}, \code{"Closed-loop"},
+or \code{"Combustion"}. Applied to all waste. If a plastic lacks a factor for the
+chosen route, behaviour depends on \code{strict}.}
 
-\item{HDPE}{Numeric value indicating the weight of HDPE plastic purchased. Default is \code{0}.}
+\item{units}{Output units: \code{"kg"} (default) or \code{"tonnes"}.}
 
-\item{LDPE}{Numeric value indicating the weight of LDPE plastic purchased. Default is \code{0}.}
+\item{value_col}{Which numeric column to use in \code{uk_gov_data}: \code{"value"} or \code{"value_2024"}.}
 
-\item{LLDPE}{Numeric value indicating the weight of LLDPE plastic purchased. Default is \code{0}.}
-
-\item{PET}{Numeric value indicating the weight of PET plastic purchased. Default is \code{0}.}
-
-\item{PP}{Numeric value indicating the weight of PP plastic purchased. Default is \code{0}.}
-
-\item{PS}{Numeric value indicating the weight of PS plastic purchased. Default is \code{0}.}
-
-\item{PVC}{Numeric value indicating the weight of PVC plastic purchased. Default is \code{0}.}
-
-\item{average_WD}{Numeric value indicating the weight of average plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{average_film_WD}{Numeric value indicating the weight of average film plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{average_rigid_WD}{Numeric value indicating the weight of average rigid plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{HDPE_WD}{Numeric value indicating the weight of HDPE plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{LDPE_WD}{Numeric value indicating the weight of LDPE plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{LLDPE_WD}{Numeric value indicating the weight of LLDPE plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{PET_WD}{Numeric value indicating the weight of PET plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{PP_WD}{Numeric value indicating the weight of PP plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{PS_WD}{Numeric value indicating the weight of PS plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{PVC_WD}{Numeric value indicating the weight of PVC plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{plastic_waste_disposal}{Character vector specifying the waste disposal method to use for calculating emissions. Possible values: "Landfill", "Open-loop", "Closed-loop", "Combustion". Default is "Landfill". More information is given under details.}
-
-\item{units}{Character vector specifying the units of the emissions output. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
+\item{strict}{If \code{TRUE} (default), error when any nonzero \code{use} or implied
+\code{waste} requires a factor that is absent in the table. If \code{FALSE}, treat
+missing factors as zero.}
 }
 \value{
-The calculated plastic emissions as a numeric value in tonnes.
+Numeric total emissions in requested \code{units}.
 }
 \description{
-This function calculates the emissions produced from different plastic sources based on the specified inputs. It considers emissions from primary material production and waste disposal of plastic materials.
+Computes embodied GHG emissions for plastics using \code{uk_gov_data} rows with
+Level 2 = "Plastic". Material-use factors come from
+\verb{Level 1 = "Material use", Column Text = "Primary material production"}.
+Waste factors come from \verb{Level 1 = "Waste disposal", Column Text = waste_disposal}.
+Factors are assumed kg CO2e per tonne (\code{UOM = tonne}, \verb{GHG/Unit = kg CO2e}).
 }
 \details{
-The different \code{plastic_waste_disposal} methods are:
-\code{"Landfill"} the product goes to landfill after use.
-\code{"Open-loop"} is the process of recycling material into other products.
-\code{"Closed-loop"} is the process of recycling material back into the same product.
-\code{"Combustion"} energy is recovered from the waste through incineration and subsequent generation of electricity.
+Material use: Plastics generally use \code{"Primary material production"}
+as the \verb{Column Text}. This function always uses that for material-use factors.
+
+Waste disposal: Factors are taken from the specified \code{waste_disposal}
+route. Availability varies by plastic type and year; this is enforced by the
+presence/absence of rows in \code{uk_gov_data}. Missing pairs error under
+\code{strict = TRUE} or contribute zero under \code{strict = FALSE}.
+
+Units: Factors are kg CO2e per tonne; if \code{units = "tonnes"}, the total is
+divided by 1000.
 }
 \examples{
-# Calculate plastic emissions using default values
-plastic_emissions()
+# 1) Basic: primary material production + landfill; waste tonnage = use
+plastic_emissions(
+  use = c(average_plastics = 100, hdpe = 50, pet = 25),  # tonnes
+  waste_disposal = "Landfill",
+  waste = TRUE,
+  units = "kg"
+)
 
-# Calculate plastic emissions with specific quantities and waste disposal
-# method
-plastic_emissions(average = 100, HDPE = 50, PET = 25, units = "tonnes")
+# 2) Choose 2024 factors and report in tonnes; no waste applied
+plastic_emissions(
+  use = c(average_plastic_film = 10, average_plastic_rigid = 5, pp = 2),
+  waste_disposal = "Closed-loop",
+  waste = FALSE,
+  value_col = "value_2024",
+  units = "tonnes"
+)
+
+# 3) Strict behaviour: error if a required waste route is unavailable
+\dontrun{
+plastic_emissions(
+  use = c(ps = 1),
+  waste_disposal = "Combustion",
+  waste = TRUE,
+  strict = TRUE
+)}
+# Tolerant: treat missing waste factors as 0
+plastic_emissions(
+  use = c(ps = 1),
+  waste_disposal = "Combustion",
+  waste = TRUE,
+  strict = FALSE
+)
 }

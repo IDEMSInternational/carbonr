@@ -1,108 +1,248 @@
-#' Calculate Electrical Emissions
-#' 
-#' This function calculates the emissions produced from different electrical items and their waste disposal based on the specified inputs. It considers emissions from primary material production and waste disposal of electrical items.
+#' Electrical emissions
 #'
-#' @param fridges Numeric value indicating the weight of fridges purchased. Default is `0`.
-#' @param freezers Numeric value indicating the weight of freezers purchased. Default is `0`.
-#' @param large_electrical Numeric value indicating the weight of large electrical items purchased. Default is `0`.
-#' @param IT Numeric value indicating the weight of IT (Information Technology) equipment purchased. Default is `0`.
-#' @param small_electrical Numeric value indicating the weight of small electrical items purchased. Default is `0`.
-#' @param alkaline_batteries Numeric value indicating the weight of alkaline batteries purchased. Default is `0`. An alkaline AA battery typically weighs around 23 grams (0.023kg).
-#' These are non-rechargeable batteries, used in:
-#' * Day-to-day gadgets: Such as alarm clocks, electric shavers, remote controls, and radios 
-#' * Low-drain applications: Such as flashlights, portable radios, alarm clocks, remote controls, and toys 
-#' * Audiovisual equipment: Such as still digital cameras, strobe cameras, and portable liquid crystal TVs 
-#' * Game equipment: Such as game controllers and walkie talkies 
-#' * Other: Such as hearing aids and mosquito repellant devices
-#' @param NiMh_batteries Numeric value indicating the weight of Nickel Metal Hydride batteries purchased. Default is `0`. A Nickel Metal Hydride AA battery typically weighs around 31 grams (0.031kg). 
-#' These tend to be rechargeable and found in:
-#' * Portable devices: digital cameras, MP3 players, and GPS units.
-#' * Vehicles: Hybrid and electric vehicles
-#' * Power tools
-#' * Other: medical instruments, toothbrushes, electric razors, and mobile phones. 
-#' @param LiIon_batteries Numeric value indicating the weight of Lithium-ion batteries purchased. Default is `0`.
-#' Lithium-Ion batteries are often rechargeable and found in:
-#' * Electronics: Cell phones, tablets, laptops, digital cameras, watches, and personal digital assistants 
-#' * Vehicles: Electric vehicles, E-bikes, hoverboards, and scooters 
-#' * Tools: Electric toothbrushes and other tools 
-#' * Power backup: Solar power backup storage, uninterrupted power supply (UPS), and emergency power backup 
-#' * Other: Pacemakers, toys, and clocks 
-#' @param fridges_WD Numeric value indicating the weight of fridges disposed of using the waste disposal method given in `electric_waste_disposal`. Default is `0`.
-#' @param freezers_WD Numeric value indicating the weight of freezers disposed of using the waste disposal method given in `electric_waste_disposal`. Default is `0`.
-#' @param large_electrical_WD Numeric value indicating the weight of large electrical items disposed of using the waste disposal method given in `electric_waste_disposal`. Default is `0`.
-#' @param IT_WD Numeric value indicating the weight of IT equipment disposed of using the waste disposal method given in `electric_waste_disposal`. Default is `0`.
-#' @param small_electrical_WD Numeric value indicating the weight of small electrical items disposed of using the waste disposal method given in `electric_waste_disposal`. Default is `0`.
-#' @param alkaline_batteries_WD Numeric value indicating the weight of alkaline batteries disposed of using the waste disposal method given in `electric_waste_disposal`. Default is `0`.
-#' @param NiMh_batteries_WD Numeric value indicating the weight of Nickel Metal Hydride batteries disposed of using the waste disposal method given in `electric_waste_disposal`. Default is `0`.
-#' @param LiIon_batteries_WD Numeric value indicating the weight of Lithium-ion batteries disposed of using the waste disposal method given in `electric_waste_disposal`. Default is `0`.
-#' @param electric_waste_disposal Character vector specifying the waste disposal method to use for calculating emissions. Possible values: `"Landfill"`, `"Open-loop"`. Default is `"Landfill"`.
-#' `"Open-loop"` is the process of recycling material into other products.
-#' `"Landfill"` the product goes to landfill after use.
-#' @param units Character vector specifying the units of the emissions output. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
+#' Computes embodied GHG emissions for electrical items using `uk_gov_data` rows with
+#' Level 2 = "Electrical items". Material-use factors come from
+#' `Level 1 = "Material use", Column Text = material_production` (your table
+#' currently provides Primary material production only). Waste factors come
+#' from `Level 1 = "Waste disposal", Column Text = waste_disposal`.
+#' Factors are kg CO2e per tonne.
 #'
-#' @return The calculated electrical emissions as a numeric value in tonnes.
-#' 
-#' @details 
-#' Note on the Material Use and Waste Disposal from the Government UK Report 2024:
-#' "Material use conversion factors should be used only to report on procured products and materials based on their origin (that is, comprised of primary material or recycled materials). The factors are not suitable for quantifying the benefits of collecting products or materials for recycling."
-#' "The conversion factors presented for material consumption cover [...] emissions from the point of raw material extraction through to the point at which a finished good is manufactured and provided for sale. Therefore, commercial enterprises may use these factors to estimate the impact of goods they procure. Organisations involved in manufacturing goods using these materials should note that if they separately report emissions associated with their energy use in forming products with these materials, there is potential for double counting. As many of the data sources used in preparing the tables are confidential, we cannot publish a more detailed breakdown."
-#' 
-#' "Waste-disposal figures should be used for Greenhouse Gas Protocol reporting of Scope 3 emissions associated with end-of-life disposal of different materials. With the exception of landfill, these figures only cover emissions from the collection of materials and delivery to the point of treatment or disposal. They do not cover the environmental impact of different waste management options."
+#' @param use Named numeric vector of quantities in tonnes.
+#'   Canonical names supported:
+#'   `fridges`, `freezers`, `large_electrical`, `it`, `small_electrical`,
+#'   `alkaline_batteries`, `liion_batteries`, `nimh_batteries`.
+#'   Aliases accepted (case/punct-insensitive), e.g. `"fridge"`, `"freezer"`,
+#'   `"large"`, `"it equipment"`, `"small"`, `"alkaline"`, `"liion"`, `"ni mh"`,
+#'   Unknown names warn and are ignored.
+#' @param waste Logical. If `TRUE`, waste tonnages equal `use`. If `FALSE`, no waste.
+#' @param material_production Either a single string for all items
+#'   (e.g., `"Primary material production"`) or a named vector per item.
+#'   Synonyms accepted: `"primary"`, `"closed loop"`, etc. (If a chosen option is
+#'   absent in the table, behaviour depends on `strict`.)
+#' @param waste_disposal One of `"Landfill"` or `"Open-loop"`. Applied to all waste.
+#' @param units Output units: `"kg"` (default) or `"tonnes"`.
+#' @param value_col Which numeric column to use: `"value"` or `"value_2024"`.
+#' @param strict If `TRUE` (default), error when any nonzero `use`/waste needs a
+#'   factor missing from the table. If `FALSE`, treat missing factors as `0`.
 #'
-#' @export
+#' @return Numeric total emissions in requested `units`.
 #'
 #' @examples
-#' # Calculate electrical emissions using default values
-#' electrical_emissions()
+#' # Primary production + landfill; waste = use
+#' electrical_emissions(
+#'   use = c(fridges = 1, freezers = 0.5, large_electrical = 0.2),
+#'   waste_disposal = "Landfill",
+#'   waste = TRUE,
+#'   units = "kg"
+#' )
 #'
-#' # Calculate electrical emissions with specific quantities and waste disposal
-#' # method
-#' electrical_emissions(fridges = 10, IT = 5, alkaline_batteries = 100,
-#'                      electric_waste_disposal = "Open-loop", units = "tonnes")
-electrical_emissions <- function(fridges = 0, freezers = 0, large_electrical = 0, IT = 0, small_electrical = 0,
-                                alkaline_batteries = 0, LiIon_batteries = 0, NiMh_batteries = 0,
-                                fridges_WD = 0, freezers_WD = 0, large_electrical_WD = 0, IT_WD = 0,
-                                small_electrical_WD = 0, alkaline_batteries_WD = 0, LiIon_batteries_WD = 0,
-                                NiMh_batteries_WD = 0, electric_waste_disposal = c("Landfill", "Open-loop"),
-                                units = c("kg", "tonnes")){
-  electric_waste_disposal <- match.arg(electric_waste_disposal)
-  units <- match.arg(units)
-  checkmate::assert_numeric(fridges, lower = 0)
-  checkmate::assert_numeric(freezers, lower = 0)
-  checkmate::assert_numeric(large_electrical, lower = 0)
-  checkmate::assert_numeric(IT, lower = 0)
-  checkmate::assert_numeric(small_electrical, lower = 0)
-  checkmate::assert_numeric(alkaline_batteries, lower = 0)
-  checkmate::assert_numeric(LiIon_batteries, lower = 0)
-  checkmate::assert_numeric(NiMh_batteries, lower = 0)
-  checkmate::assert_numeric(fridges_WD, lower = 0)
-  checkmate::assert_numeric(freezers_WD, lower = 0)
-  checkmate::assert_numeric(large_electrical_WD, lower = 0)
-  checkmate::assert_numeric(IT_WD, lower = 0)
-  checkmate::assert_numeric(small_electrical_WD, lower = 0)
-  checkmate::assert_numeric(alkaline_batteries_WD, lower = 0)
-  checkmate::assert_numeric(LiIon_batteries_WD, lower = 0)
-  checkmate::assert_numeric(NiMh_batteries_WD, lower = 0)  
-  MU <- uk_gov_data %>%
-    dplyr::filter(`Level 2` == "Electrical items") %>%
-    dplyr::filter(`Column Text` == "Primary material production") %>%
-    dplyr::mutate(`Level 3` = ifelse(`Level 2` == "Electrical items",
-                                gsub(".*- ", "", `Level 3`),
-                                `Level 3`))
+#' # 2024 factors, no waste, report in tonnes
+#' electrical_emissions(
+#'   use = c(it = 0.01, liion_batteries = 0.002),
+#'   value_col = "value_2024",
+#'   waste = FALSE,
+#'   units = "tonnes"
+#' )
+electrical_emissions <- function(
+    use                 = setNames(numeric(), character()),
+    waste               = TRUE,
+    material_production = "Primary material production",
+    waste_disposal      = c("Landfill", "Open-loop"),
+    units               = c("kg", "tonnes"),
+    value_col           = c("value", "value_2024"),
+    strict              = TRUE
+) {
+  waste_disposal <- match.arg(waste_disposal)
+  units          <- match.arg(units)
+  value_col      <- match.arg(value_col)
   
-  WD <- uk_gov_data %>%
-    dplyr::filter(`Level 1` == "Waste disposal") %>%
-    dplyr::filter(`Level 2` == "Electrical items") %>%
-    dplyr::filter(`Column Text` == electric_waste_disposal)
-  emission_values <- MU$value
-  WD_values <- WD$value
-  electrical_emissions <- fridges*emission_values[1] + freezers*emission_values[1] + large_electrical*emission_values[2] +
-    IT*emission_values[3] + small_electrical*emission_values[4] + alkaline_batteries*emission_values[5] +
-    LiIon_batteries*emission_values[6] + NiMh_batteries*emission_values[7] +
-    fridges_WD*WD_values[1] + freezers_WD*WD_values[1] + large_electrical_WD*WD_values[2] +
-    IT_WD*WD_values[3] + small_electrical_WD*WD_values[4] + alkaline_batteries_WD*WD_values[5] +
-    LiIon_batteries_WD*WD_values[5] + NiMh_batteries_WD*WD_values[5]
-  if (units == "kg") electrical_emissions <- electrical_emissions * 0.001
-  return(electrical_emissions)
+  # Canonical keys we expose
+  el_names <- c("fridges","freezers","large_electrical","it","small_electrical",
+                "alkaline_batteries","liion_batteries","nimh_batteries")
+  
+  # Robust normaliser: drop prefixes like "Electrical items - " / "Batteries - ",
+  # drop trailing "(...)", unify punctuation
+  norm_el <- function(x){
+    x <- tolower(trimws(x))
+    x <- sub(".*?:\\s*", "", x)        # drop up to colon (rare)
+    x <- sub(".*?-\\s*",  "", x)       # drop up to dash
+    x <- sub("\\s*\\(.*\\)$", "", x)   # drop "(...)"
+    x <- gsub("[^a-z0-9]+", "_", x)
+    x <- gsub("^_+|_+$", "", x)
+    x <- gsub("_+", "_", x)
+    x
+  }
+  
+  # Map variants/aliases to canonical keys
+  canon_el_keys <- function(nm) switch(nm,
+                                       # Table's combined row → both fridges & freezers
+                                       "fridges_and_freezers" = c("fridges","freezers"),
+                                       "fridge_and_freezer"   = c("fridges","freezers"),
+                                       # singular/plural & common aliases
+                                       "fridge"               = "fridges",
+                                       "fridges"              = "fridges",
+                                       "freezer"              = "freezers",
+                                       "freezers"             = "freezers",
+                                       "large"                = "large_electrical",
+                                       "large_electrical"     = "large_electrical",
+                                       "it"                   = "it",
+                                       "it_equipment"         = "it",
+                                       "small"                = "small_electrical",
+                                       "small_electrical"     = "small_electrical",
+                                       "alkaline"             = "alkaline_batteries",
+                                       "alkaline_batteries"   = "alkaline_batteries",
+                                       "li-ion"               = "liion_batteries",
+                                       "li_ion"               = "liion_batteries",
+                                       "liion"                = "liion_batteries",
+                                       "liion_batteries"      = "liion_batteries",
+                                       "nimh"                 = "nimh_batteries",
+                                       "ni_mh"                = "nimh_batteries",
+                                       "nimh_batteries"       = "nimh_batteries",
+                                       nm
+  )
+  
+  # Map WD Level 3 to canonical keys (handles WEEE groupings + Batteries)
+  canon_el_wd_keys <- function(nm) switch(nm,
+                                          "fridges_and_freezers" = c("fridges","freezers"),
+                                          "large"                = "large_electrical",
+                                          "small"                = "small_electrical",
+                                          "mixed"                = "it",
+                                          "batteries"            = c("alkaline_batteries","liion_batteries","nimh_batteries"),
+                                          nm
+  )
+  
+  # Expand user input to canonical names, WARNING on unknowns
+  expand_vec <- function(x) {
+    if (length(x) == 0) return(stats::setNames(numeric(length(el_names)), el_names))
+    checkmate::assert_numeric(x, lower = 0, any.missing = FALSE, names = "named")
+    
+    raw_names  <- names(x)
+    norm_names <- norm_el(raw_names)
+    keys_list  <- lapply(norm_names, canon_el_keys)
+    
+    unknown_idx <- vapply(keys_list, function(k) all(!(k %in% el_names)), logical(1))
+    if (any(unknown_idx)) {
+      warning(
+        "Ignoring unknown electrical material name(s): ",
+        paste(unique(raw_names[unknown_idx]), collapse = ", "),
+        call. = FALSE
+      )
+    }
+    
+    out <- stats::setNames(numeric(length(el_names)), el_names)
+    for (i in seq_along(x)) {
+      ks <- keys_list[[i]]
+      for (k in ks) if (k %in% el_names) out[k] <- out[k] + x[[i]]
+    }
+    out
+  }
+  
+  use_vec   <- expand_vec(use)
+  waste_vec <- if (isTRUE(waste)) use_vec else stats::setNames(numeric(length(el_names)), el_names)
+  
+  # -------- material_production resolution (scalar or per-item) --------
+  choices_use <- uk_gov_data |>
+    dplyr::filter(.data[["Level 1"]] == "Material use",
+                  .data[["Level 2"]] == "Electrical items") |>
+    dplyr::distinct(`Column Text`) |>
+    dplyr::pull()
+  
+  norm_ct <- function(x) gsub("[^a-z]+","", tolower(x))
+  resolve_ct <- function(desired) {
+    if (length(choices_use) == 0) return(NA_character_)
+    if (is.na(desired) || desired == "") return(NA_character_)
+    d <- norm_ct(desired)
+    syn <- list(
+      primary          = "Primary material production",
+      closedloop       = "Closed-loop source",
+      closedloopsource = "Closed-loop source",
+      closed_loop      = "Closed-loop source",
+      openloop         = "Open-loop",
+      landfill         = "Landfill"
+    )
+    if (d %in% names(syn)) desired <- syn[[d]]
+    cn <- norm_ct(choices_use)
+    hit <- which(cn == norm_ct(desired))
+    if (length(hit) >= 1) return(choices_use[hit][1])
+    hit2 <- which(grepl(norm_ct(desired), cn, fixed = TRUE))
+    if (length(hit2) >= 1) return(choices_use[hit2][1])
+    NA_character_
+  }
+  
+  is_per_material <- (length(material_production) >= 1 &&
+                        !is.null(names(material_production)) &&
+                        any(nzchar(names(material_production))))
+  
+  if (!is_per_material) {
+    default_ct <- resolve_ct(material_production[[1]])
+    mp_vec <- stats::setNames(rep(default_ct, length(el_names)), el_names)
+  } else {
+    checkmate::assert_character(material_production, any.missing = FALSE, names = "named")
+    mp_vec <- stats::setNames(rep(resolve_ct("Primary material production"), length(el_names)), el_names)
+    nm <- names(material_production)
+    nm <- norm_el(nm)
+    # map each provided name to canonical and set its CT
+    for (i in seq_along(material_production)) {
+      ks <- canon_el_keys(nm[i])
+      for (k in ks) if (k %in% el_names) mp_vec[k] <- resolve_ct(material_production[[i]])
+    }
+  }
+  
+  # -------- factor builders --------
+  # Material use (respect per-item CT). Table's combined row should propagate to fridges & freezers.
+  ef_use <- {
+    out <- stats::setNames(rep(NA_real_, length(el_names)), el_names)
+    tbl <- uk_gov_data |>
+      dplyr::filter(.data[["Level 1"]] == "Material use",
+                    .data[["Level 2"]] == "Electrical items") |>
+      dplyr::transmute(keys = lapply(norm_el(.data[["Level 3"]]), canon_el_keys),
+                       ct   = .data[["Column Text"]],
+                       val  = .data[[value_col]])
+    for (i in seq_len(nrow(tbl))) {
+      ks <- tbl$keys[[i]]
+      for (k in ks) {
+        if (k %in% el_names && tbl$ct[i] == mp_vec[[k]] && is.na(out[k])) {
+          out[k] <- tbl$val[i]
+        }
+      }
+    }
+    out
+  }
+  
+  # Waste (single route for all). WEEE rows & generic "Batteries" are expanded to the right items.
+  ef_waste <- {
+    out <- stats::setNames(rep(NA_real_, length(el_names)), el_names)
+    tbl <- uk_gov_data |>
+      dplyr::filter(.data[["Level 1"]] == "Waste disposal",
+                    .data[["Level 2"]] == "Electrical items",
+                    .data[["Column Text"]] == waste_disposal) |>
+      dplyr::transmute(keys = lapply(norm_el(.data[["Level 3"]]), canon_el_wd_keys),
+                       val  = .data[[value_col]])
+    for (i in seq_len(nrow(tbl))) {
+      ks <- tbl$keys[[i]]
+      for (k in ks) if (k %in% el_names && is.na(out[k])) out[k] <- tbl$val[i]
+    }
+    out
+  }
+  
+  # -------- validate BEFORE zero-fill --------
+  miss_use   <- names(use_vec)[use_vec > 0 & is.na(ef_use)]
+  miss_waste <- names(waste_vec)[waste_vec > 0 & is.na(ef_waste[names(waste_vec)])]
+  if (strict && length(miss_use)) {
+    stop("No material-use factor for electrical items (", paste(miss_use, collapse = ", "),
+         "); set strict = FALSE to treat as 0.")
+  }
+  if (strict && length(miss_waste)) {
+    stop("No waste-disposal factor (", waste_disposal, ") for electrical items: ",
+         paste(miss_waste, collapse = ", "),
+         ". Set strict = FALSE to treat as 0.")
+  }
+  
+  # zero-fill for arithmetic
+  ef_use[is.na(ef_use)]     <- 0
+  ef_waste[is.na(ef_waste)] <- 0
+  
+  total_kg <- sum(use_vec * ef_use) + sum(waste_vec * ef_waste)
+  if (units == "tonnes") total_kg <- total_kg * 0.001
+  total_kg
 }
-

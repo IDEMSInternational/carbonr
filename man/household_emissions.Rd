@@ -2,289 +2,99 @@
 % Please edit documentation in R/household_emissions.R
 \name{household_emissions}
 \alias{household_emissions}
-\title{Calculate household material emissions}
+\title{Calculate household material emissions (vector-first)}
 \usage{
 household_emissions(
-  household_residual_waste = 0,
-  hh_waste_disposal = c("Landfill", "Combustion"),
-  glass = 0,
-  clothing = 0,
-  glass_WD = 0,
-  clothing_WD = 0,
-  books_WD = 0,
+  paper_use = setNames(numeric(), character()),
+  plastic_use = setNames(numeric(), character()),
+  metal_use = setNames(numeric(), character()),
+  electrical_use = setNames(numeric(), character()),
+  construction_use = setNames(numeric(), character()),
+  paper_waste = TRUE,
+  plastic_waste = TRUE,
+  metal_waste = TRUE,
+  electrical_waste = TRUE,
+  construction_waste = TRUE,
+  paper_material_production = "Primary material production",
+  metal_material_production = "Primary material production",
+  construction_material_production = "Primary material production",
+  paper_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),
+  plastic_waste_disposal = c("Landfill", "Open-loop", "Closed-loop", "Combustion"),
+  metal_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
+  electrical_waste_disposal = c("Landfill", "Open-loop"),
+  construction_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill",
+    "Open-loop"),
+  gcb_use = setNames(numeric(), character()),
+  gcb_waste = TRUE,
   gcb_waste_disposal = c("Closed-loop", "Combustion", "Landfill"),
-  food = 0,
-  drink = 0,
-  compost_from_garden = 0,
-  compost_from_food_and_garden = 0,
-  food_WD = 0,
-  drink_WD = 0,
-  compost_from_garden_WD = 0,
-  compost_from_food_and_garden_WD = 0,
+  organic_use = setNames(numeric(), character()),
+  organic_waste = TRUE,
   compost_waste_disposal = c("Anaerobic digestion", "Combustion", "Composting",
     "Landfill"),
-  board = 0,
-  mixed = 0,
-  paper = 0,
-  board_WD = 0,
-  mixed_WD = 0,
-  paper_WD = 0,
-  paper_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),
-  fridges = 0,
-  freezers = 0,
-  large_electrical = 0,
-  IT = 0,
-  small_electrical = 0,
-  alkaline_batteries = 0,
-  LiIon_batteries = 0,
-  NiMh_batteries = 0,
-  fridges_WD = 0,
-  freezers_WD = 0,
-  large_electrical_WD = 0,
-  IT_WD = 0,
-  small_electrical_WD = 0,
-  alkaline_batteries_WD = 0,
-  LiIon_batteries_WD = 0,
-  NiMh_batteries_WD = 0,
-  electric_waste_disposal = c("Landfill", "Open-loop"),
-  aluminuim_cans = 0,
-  aluminuim_foil = 0,
-  mixed_cans = 0,
-  scrap = 0,
-  steel_cans = 0,
-  aluminuim_cans_WD = 0,
-  aluminuim_foil_WD = 0,
-  mixed_cans_WD = 0,
-  scrap_WD = 0,
-  steel_cans_WD = 0,
-  metal_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
-  average = 0,
-  average_film = 0,
-  average_rigid = 0,
-  HDPE = 0,
-  LDPE = 0,
-  LLDPE = 0,
-  PET = 0,
-  PP = 0,
-  PS = 0,
-  PVC = 0,
-  average_WD = 0,
-  average_film_WD = 0,
-  average_rigid_WD = 0,
-  HDPE_WD = 0,
-  LDPE_WD = 0,
-  LLDPE_WD = 0,
-  PET_WD = 0,
-  PP_WD = 0,
-  PS_WD = 0,
-  PVC_WD = 0,
-  plastic_waste_disposal = c("Landfill", "Open-loop", "Closed-loop", "Combustion"),
-  units = c("kg", "tonnes")
+  household_residual_waste = 0,
+  hh_waste_disposal = c("Combustion", "Landfill"),
+  units = c("kg", "tonnes"),
+  value_col = c("value", "value_2024"),
+  strict = TRUE
 )
 }
 \arguments{
-\item{household_residual_waste}{Numeric value representing the amount of household residual waste. Household Residual Waste refers to waste that remains after all recyclable, compostable, and reusable materials have been removed through household recycling, composting, or other waste management activities. This type of waste is typically disposed of through methods such as landfill or incineration and often includes non-recyclable items. Default is \code{0}.}
+\item{paper_use, plastic_use, metal_use, electrical_use, construction_use}{Named numeric vectors (tonnes) passed to the corresponding calculators.}
 
-\item{hh_waste_disposal}{Character value specifying the waste disposal method for  waste (options: \code{"Combustion"}, \code{"Landfill"}). Default is \code{"Combustion"}. See \code{details} for more information.}
+\item{paper_waste, plastic_waste, metal_waste, electrical_waste, construction_waste}{Logical; if \code{TRUE}, apply waste factors to the same tonnages as \verb{*_use}.}
 
-\item{glass}{Numeric value representing the amount of glass material purchased. Default is \code{0}.}
+\item{paper_material_production, metal_material_production, construction_material_production}{Single string or per-material named vector for MU column text; forwarded.}
 
-\item{clothing}{Numeric value representing the amount of clothing material purchased. Default is \code{0}.}
+\item{paper_waste_disposal, plastic_waste_disposal, metal_waste_disposal, electrical_waste_disposal, construction_waste_disposal}{Waste route per family; forwarded.}
 
-\item{glass_WD}{Numeric value representing the amount of glass waste disposed. Default is \code{0}.}
+\item{gcb_use}{Named numeric vector for Glass/Clothing/Books (keys: \code{glass}, \code{clothing}, \code{books}).
+E.g., \code{gcb_use = c(glass = 3, books = 0.5)}}
 
-\item{clothing_WD}{Numeric value representing the amount of clothing waste disposed. Default is \code{0}.}
+\item{gcb_waste}{Logical; if \code{TRUE}, apply GCB waste factors to same tonnages.}
 
-\item{books_WD}{Numeric value representing the amount of books waste disposed. Default is \code{0}.}
+\item{gcb_waste_disposal}{One of \code{"Closed-loop"}, \code{"Combustion"}, \code{"Landfill"}.}
 
-\item{gcb_waste_disposal}{Character value specifying the waste disposal method for glass, clothing, and books waste (options: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Landfill"}). Default is \code{"Closed-loop"}. See \code{details} for more information.}
+\item{organic_use}{Named numeric vector for \code{food}, \code{drink},
+\code{compost_from_garden}, \code{compost_from_food_and_garden}.}
 
-\item{food}{Numeric value representing the amount of food purchased. Default is \code{0}.}
+\item{organic_waste}{Logical; if \code{TRUE}, apply organic waste factors to same tonnages.}
 
-\item{drink}{Numeric value representing the amount of drink purchased. Default is \code{0}.}
+\item{compost_waste_disposal}{One of \code{"Anaerobic digestion"}, \code{"Combustion"}, \code{"Composting"}, \code{"Landfill"}.}
 
-\item{compost_from_garden}{Numeric value representing the amount of compost from garden waste purchased. Default is \code{0}.}
+\item{household_residual_waste}{Numeric (tonnes).}
 
-\item{compost_from_food_and_garden}{Numeric value representing the amount of compost from food and garden waste purchased. Default is \code{0}.}
+\item{hh_waste_disposal}{\code{"Combustion"} or \code{"Landfill"}.}
 
-\item{food_WD}{Numeric value indicating the weight of organic food disposed of using waste disposal methods given in \code{compost_waste_disposal}. Default is \code{0}.}
+\item{units}{Output units: \code{"kg"} (default) or \code{"tonnes"}.}
 
-\item{drink_WD}{Numeric value indicating the weight of organic drink disposed of using the waste disposal method given in \code{compost_waste_disposal}. Default is \code{0}.}
+\item{value_col}{Which factor column in \code{uk_gov_data} to use: \code{"value"} or \code{"value_2024"}.}
 
-\item{compost_from_garden_WD}{Numeric value indicating the weight of compost from garden waste disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{compost_from_food_and_garden_WD}{Numeric value indicating the weight of compost from garden and food waste disposed of using waste disposal methods. Default is \code{0}.}
-
-\item{compost_waste_disposal}{Character value specifying the waste disposal method for compost waste (options: \code{"Anaerobic digestion"}, \code{"Combustion"}, \code{"Composting"}, \code{"Landfill"}). Default is \code{"Anaerobic digestion"}. See \code{details} for more information.}
-
-\item{board}{Numeric value indicating the weight of paperboard purchased. Default is \code{0}.}
-
-\item{mixed}{Numeric value indicating the weight of mixed paper purchased. Default is \code{0}.}
-
-\item{paper}{Numeric value indicating the weight of paper purchased. Default is \code{0}.}
-
-\item{board_WD}{Numeric value indicating the weight of paperboard disposed of using the waste disposal method given in \code{paper_waste_disposal}. Default is \code{0}.}
-
-\item{mixed_WD}{Numeric value indicating the weight of mixed paper disposed of using the waste disposal method given in \code{paper_waste_disposal}. Default is \code{0}.}
-
-\item{paper_WD}{Numeric value indicating the weight of paper disposed of using the waste disposal method given in \code{paper_waste_disposal}. Default is \code{0}.}
-
-\item{paper_waste_disposal}{Character vector specifying the waste disposal method to use for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Composting"}, \code{"Landfill"}. Default is \code{"Closed-loop"}. See details for more information on these different options.
-\code{"Closed-loop"} is the process of recycling material back into the same product.
-\code{"Combustion"} energy is recovered from the waste through incineration and subsequent generation of electricity.
-\code{"Compost"} CO2e emitted as a result of composting a waste stream.
-\code{"Landfill"} the product goes to landfill after use.}
-
-\item{fridges}{Numeric value indicating the weight of fridges purchased. Default is \code{0}.}
-
-\item{freezers}{Numeric value indicating the weight of freezers purchased. Default is \code{0}.}
-
-\item{large_electrical}{Numeric value indicating the weight of large electrical items purchased. Default is \code{0}.}
-
-\item{IT}{Numeric value indicating the weight of IT (Information Technology) equipment purchased. Default is \code{0}.}
-
-\item{small_electrical}{Numeric value indicating the weight of small electrical items purchased. Default is \code{0}.}
-
-\item{alkaline_batteries}{Numeric value indicating the weight of alkaline batteries purchased. Default is \code{0}. An alkaline AA battery typically weighs around 23 grams (0.023kg).
-These are non-rechargeable batteries, used in:
-\itemize{
-\item Day-to-day gadgets: Such as alarm clocks, electric shavers, remote controls, and radios
-\item Low-drain applications: Such as flashlights, portable radios, alarm clocks, remote controls, and toys
-\item Audiovisual equipment: Such as still digital cameras, strobe cameras, and portable liquid crystal TVs
-\item Game equipment: Such as game controllers and walkie talkies
-\item Other: Such as hearing aids and mosquito repellant devices
-}}
-
-\item{LiIon_batteries}{Numeric value indicating the weight of Lithium-ion batteries purchased. Default is \code{0}.
-Lithium-Ion batteries are often rechargeable and found in:
-\itemize{
-\item Electronics: Cell phones, tablets, laptops, digital cameras, watches, and personal digital assistants
-\item Vehicles: Electric vehicles, E-bikes, hoverboards, and scooters
-\item Tools: Electric toothbrushes and other tools
-\item Power backup: Solar power backup storage, uninterrupted power supply (UPS), and emergency power backup
-\item Other: Pacemakers, toys, and clocks
-}}
-
-\item{NiMh_batteries}{Numeric value indicating the weight of Nickel Metal Hydride batteries purchased. Default is \code{0}. A Nickel Metal Hydride AA battery typically weighs around 31 grams (0.031kg).
-These tend to be rechargeable and found in:
-\itemize{
-\item Portable devices: digital cameras, MP3 players, and GPS units.
-\item Vehicles: Hybrid and electric vehicles
-\item Power tools
-\item Other: medical instruments, toothbrushes, electric razors, and mobile phones.
-}}
-
-\item{fridges_WD}{Numeric value indicating the weight of fridges disposed of using the waste disposal method given in \code{electric_waste_disposal}. Default is \code{0}.}
-
-\item{freezers_WD}{Numeric value indicating the weight of freezers disposed of using the waste disposal method given in \code{electric_waste_disposal}. Default is \code{0}.}
-
-\item{large_electrical_WD}{Numeric value indicating the weight of large electrical items disposed of using the waste disposal method given in \code{electric_waste_disposal}. Default is \code{0}.}
-
-\item{IT_WD}{Numeric value indicating the weight of IT equipment disposed of using the waste disposal method given in \code{electric_waste_disposal}. Default is \code{0}.}
-
-\item{small_electrical_WD}{Numeric value indicating the weight of small electrical items disposed of using the waste disposal method given in \code{electric_waste_disposal}. Default is \code{0}.}
-
-\item{alkaline_batteries_WD}{Numeric value indicating the weight of alkaline batteries disposed of using the waste disposal method given in \code{electric_waste_disposal}. Default is \code{0}.}
-
-\item{LiIon_batteries_WD}{Numeric value indicating the weight of Lithium-ion batteries disposed of using the waste disposal method given in \code{electric_waste_disposal}. Default is \code{0}.}
-
-\item{NiMh_batteries_WD}{Numeric value indicating the weight of Nickel Metal Hydride batteries disposed of using the waste disposal method given in \code{electric_waste_disposal}. Default is \code{0}.}
-
-\item{electric_waste_disposal}{Character vector specifying the waste disposal method to use for calculating emissions. Possible values: \code{"Landfill"}, \code{"Open-loop"}. Default is \code{"Landfill"}.
-\code{"Open-loop"} is the process of recycling material into other products.
-\code{"Landfill"} the product goes to landfill after use.}
-
-\item{aluminuim_cans}{Numeric value indicating the weight of aluminum cans purchased. Default is \code{0}.}
-
-\item{aluminuim_foil}{Numeric value indicating the weight of aluminum foil purchased. Default is \code{0}.}
-
-\item{mixed_cans}{Numeric value indicating the weight of mixed metal cans purchased. Default is \code{0}.}
-
-\item{scrap}{Numeric value indicating the weight of metal scrap purchased. Default is \code{0}.}
-
-\item{steel_cans}{Numeric value indicating the weight of steel cans purchased. Default is \code{0}.}
-
-\item{aluminuim_cans_WD}{Numeric value indicating the weight of aluminum cans disposed of using the waste disposal method in \code{metal_waste_disposal}. Default is \code{0}.}
-
-\item{aluminuim_foil_WD}{Numeric value indicating the weight of aluminum foil disposed of using the waste disposal method in \code{metal_waste_disposal}. Default is \code{0}.}
-
-\item{mixed_cans_WD}{Numeric value indicating the weight of mixed metal cans disposed of using the waste disposal method in \code{metal_waste_disposal}. Default is \code{0}.}
-
-\item{scrap_WD}{Numeric value indicating the weight of metal scrap disposed of using the waste disposal method in \code{metal_waste_disposal}. Default is \code{0}.}
-
-\item{steel_cans_WD}{Numeric value indicating the weight of steel cans disposed of using the waste disposal method in \code{metal_waste_disposal}. Default is \code{0}.}
-
-\item{metal_waste_disposal}{Character vector specifying the waste disposal method to use for calculating emissions. Possible values: "Closed-loop", "Combustion", "Landfill", "Open-loop". Default is "Closed-loop". See details for more information on the different methods.
-\code{"Open-loop"} is the process of recycling material into other products.
-\code{"Closed-loop"} is the process of recycling material back into the same product.
-\code{"Combustion"} energy is recovered from the waste through incineration and subsequent generation of electricity.
-\code{"Landfill"} the product goes to landfill after use.}
-
-\item{average}{Numeric value indicating the weight of an overall average plastic purchased. Default is \code{0}.}
-
-\item{average_film}{Numeric value indicating the weight of average film plastic purchased. Default is \code{0}.}
-
-\item{average_rigid}{Numeric value indicating the weight of average rigid plastic purchased. Default is \code{0}.}
-
-\item{HDPE}{Numeric value indicating the weight of HDPE plastic purchased. Default is \code{0}.}
-
-\item{LDPE}{Numeric value indicating the weight of LDPE plastic purchased. Default is \code{0}.}
-
-\item{LLDPE}{Numeric value indicating the weight of LLDPE plastic purchased. Default is \code{0}.}
-
-\item{PET}{Numeric value indicating the weight of PET plastic purchased. Default is \code{0}.}
-
-\item{PP}{Numeric value indicating the weight of PP plastic purchased. Default is \code{0}.}
-
-\item{PS}{Numeric value indicating the weight of PS plastic purchased. Default is \code{0}.}
-
-\item{PVC}{Numeric value indicating the weight of PVC plastic purchased. Default is \code{0}.}
-
-\item{average_WD}{Numeric value indicating the weight of average plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{average_film_WD}{Numeric value indicating the weight of average film plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{average_rigid_WD}{Numeric value indicating the weight of average rigid plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{HDPE_WD}{Numeric value indicating the weight of HDPE plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{LDPE_WD}{Numeric value indicating the weight of LDPE plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{LLDPE_WD}{Numeric value indicating the weight of LLDPE plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{PET_WD}{Numeric value indicating the weight of PET plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{PP_WD}{Numeric value indicating the weight of PP plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{PS_WD}{Numeric value indicating the weight of PS plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{PVC_WD}{Numeric value indicating the weight of PVC plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{plastic_waste_disposal}{Character vector specifying the waste disposal method to use for calculating emissions. Possible values: "Landfill", "Open-loop", "Closed-loop", "Combustion". Default is "Landfill". More information is given under details.}
-
-\item{units}{Character vector specifying the units of the emissions. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
+\item{strict}{If \code{TRUE} (default) error when a required factor is missing; if \code{FALSE}, treat as 0.}
 }
 \value{
-The calculated household emissions as a numeric value in tonnes.
+Numeric total emissions in requested \code{units}.
 }
 \description{
-Calculate household material emissions
+Sums emissions from paper, plastics, metals, electrical, construction
+(delegated to their calculators) plus household-specific streams:
+Glass/Clothing/Books (GCB), Organic (food/drink/compost), and
+Household residual waste.
 }
-\details{
-\verb{*_waste_disposal} methods:
-\code{"Open-loop"} is the process of recycling material into other products.
-\code{"Closed-loop"} is the process of recycling material back into the same product.
-\code{"Combustion"} energy is recovered from the waste through incineration and subsequent generation of electricity.
-\code{"Compost"} CO2e emitted as a result of composting a waste stream.
-\code{"Landfill"} the product goes to landfill after use.
-\code{"Anaerobic digestion"} energy is recovered from the waste through anaerobic digestion.
+\section{Inputs}{
 
-Note on the Material Use and Waste Disposal from the Government UK Report 2024:
-"Material use conversion factors should be used only to report on procured products and materials based on their origin (that is, comprised of primary material or recycled materials). The factors are not suitable for quantifying the benefits of collecting products or materials for recycling."
-"The conversion factors presented for material consumption cover \link{...} emissions from the point of raw material extraction through to the point at which a finished good is manufactured and provided for sale. Therefore, commercial enterprises may use these factors to estimate the impact of goods they procure. Organisations involved in manufacturing goods using these materials should note that if they separately report emissions associated with their energy use in forming products with these materials, there is potential for double counting. As many of the data sources used in preparing the tables are confidential, we cannot publish a more detailed breakdown."
-
-"Waste-disposal figures should be used for Greenhouse Gas Protocol reporting of Scope 3 emissions associated with end-of-life disposal of different materials. With the exception of landfill, these figures only cover emissions from the collection of materials and delivery to the point of treatment or disposal. They do not cover the environmental impact of different waste management options."
+Provide named \verb{*_use} vectors in tonnes and \verb{*_waste = TRUE/FALSE} flags.
+Unknown names in \code{gcb_use} / \code{organic_use} are ignored with a warning.
 }
+
 \examples{
-household_emissions(glass = 100, clothing = 10, glass_WD = 10, units = "kg")
+household_emissions(
+  gcb_use = c(glass = 3, books = 0.5),
+  organic_use = c(food = 1, drink = 0.5),
+  household_residual_waste = 0.8,
+  gcb_waste = TRUE, organic_waste = TRUE,
+  gcb_waste_disposal = "Closed-loop",
+  compost_waste_disposal = "Anaerobic digestion",
+  hh_waste_disposal = "Combustion",
+  units = "kg"
+)
 }
