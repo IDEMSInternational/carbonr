@@ -23,7 +23,7 @@ clinical_theatre_emissions(
   heat_TD = TRUE,
   heat_WTT = TRUE,
   paper_use = setNames(numeric(), character()),
-  plastic_use = setNames(numeric(), character()),
+  setNamesplastic_use = setNames(numeric(), character()),
   metal_use = setNames(numeric(), character()),
   electrical_use = setNames(numeric(), character()),
   construction_use = setNames(numeric(), character()),

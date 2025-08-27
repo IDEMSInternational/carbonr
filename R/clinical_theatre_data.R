@@ -104,7 +104,7 @@ clinical_theatre_data <- function(
   # helper: build per-row named vectors from column-name mappings
   make_vecs <- function(df, mapping) {
     if (is.null(mapping) || length(mapping) == 0) {
-      return(rep(list(setNames(numeric(0), character(0))), nrow(df)))
+      return(rep(list(stats::setNames(numeric(0), character(0))), nrow(df)))
     }
     if (is.null(names(mapping)) || any(!nzchar(names(mapping)))) {
       stop("All entries in *_vars must be a named character vector: names = canonical keys, values = column names.")
@@ -117,7 +117,7 @@ clinical_theatre_data <- function(
     lapply(seq_len(nrow(df)), function(i) {
       vals <- vapply(mapping, function(col) as.numeric(df[[col]][i]), numeric(1))
       vals[is.na(vals)] <- 0
-      stats::setNames(as.numeric(vals), names(mapping))
+      stats::stats::setNames(as.numeric(vals), names(mapping))
     })
   }
   

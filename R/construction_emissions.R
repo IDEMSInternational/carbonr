@@ -96,7 +96,7 @@
 #'   strict = FALSE
 #' )
 construction_emissions <- function(
-    use   = setNames(numeric(), character()),
+    use   = stats::setNames(numeric(), character()),
     waste = TRUE,
     material_production = c("Primary material production", "Re-used", "Closed-loop source"),
     waste_disposal = c("Closed-loop","Combustion","Composting","Landfill","Open-loop"),
@@ -121,17 +121,17 @@ construction_emissions <- function(
   
   # expand user inputs to full material set
   expand_vec <- function(x) {
-    if (length(x) == 0) return(setNames(numeric(length(mat_names)), mat_names))
+    if (length(x) == 0) return(stats::setNames(numeric(length(mat_names)), mat_names))
     checkmate::assert_numeric(x, lower = 0, any.missing = FALSE, names = "named")
     names(x) <- norm_mat(names(x))
-    out <- setNames(numeric(length(mat_names)), mat_names)
+    out <- stats::setNames(numeric(length(mat_names)), mat_names)
     common <- intersect(names(x), mat_names)
     out[common] <- x[common]
     out
   }
   use   <- expand_vec(use)
   if (waste) waste <- use
-  else waste <- setNames(numeric(length(mat_names)), mat_names)
+  else waste <- stats::setNames(numeric(length(mat_names)), mat_names)
   
   # --- resolve Column Text choices available in the data (for Material use) ---
   choices_use <- uk_gov_data |>
@@ -168,11 +168,11 @@ construction_emissions <- function(
   # Build a per-material vector of chosen Column Text
   if (length(material_production) == 1) {
     mp_resolved_all <- resolve_ct(material_production)
-    mp_vec <- setNames(rep(mp_resolved_all, length(mat_names)), mat_names)
+    mp_vec <- stats::setNames(rep(mp_resolved_all, length(mat_names)), mat_names)
   } else {
     checkmate::assert_character(material_production, any.missing = FALSE, min.chars = 1, names = "named")
     names(material_production) <- norm_mat(names(material_production))
-    mp_vec <- setNames(rep(NA_character_, length(mat_names)), mat_names)
+    mp_vec <- stats::setNames(rep(NA_character_, length(mat_names)), mat_names)
     for (m in intersect(names(material_production), mat_names)) {
       mp_vec[m] <- resolve_ct(material_production[[m]])
     }
@@ -207,7 +207,7 @@ construction_emissions <- function(
                        value    = .data[[value_col]]) |>
       dplyr::distinct(material, .keep_all = TRUE)
     vec <- stats::setNames(tbl$value, tbl$material)
-    out <- setNames(rep(NA_real_, length(mat_names)), mat_names)
+    out <- stats::setNames(rep(NA_real_, length(mat_names)), mat_names)
     out[names(vec)] <- vec
     out
   }
@@ -219,7 +219,7 @@ construction_emissions <- function(
   missing_waste <- names(waste)[waste > 0 & is.na(ef_waste[names(waste)])]
   
   if (strict && length(missing_use)) {
-    bad <- paste0(missing_use, "→", ifelse(is.na(mp_vec[missing_use]), "unspecified", mp_vec[missing_use]))
+    bad <- paste0(missing_use, "is", ifelse(is.na(mp_vec[missing_use]), "unspecified", mp_vec[missing_use]))
     stop("No material-use factor for: ", paste(bad, collapse = ", "),
          ". Either choose a valid option for those materials or set strict = FALSE.")
   }

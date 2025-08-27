@@ -48,7 +48,7 @@
 #'   units = "tonnes"
 #' )
 metal_emissions <- function(
-    use                 = setNames(numeric(), character()),
+    use                 = stats::setNames(numeric(), character()),
     waste               = TRUE,
     material_production = "Primary material production",
     waste_disposal      = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),

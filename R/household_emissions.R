@@ -51,11 +51,11 @@
 #' )
 household_emissions <- function(
     # ---- families forwarded to their calculators ----
-    paper_use        = setNames(numeric(), character()),
-    plastic_use      = setNames(numeric(), character()),
-    metal_use        = setNames(numeric(), character()),
-    electrical_use   = setNames(numeric(), character()),
-    construction_use = setNames(numeric(), character()),
+    paper_use        = stats::setNames(numeric(), character()),
+    plastic_use      = stats::setNames(numeric(), character()),
+    metal_use        = stats::setNames(numeric(), character()),
+    electrical_use   = stats::setNames(numeric(), character()),
+    construction_use = stats::setNames(numeric(), character()),
     
     paper_waste = TRUE,
     plastic_waste = TRUE,
@@ -74,11 +74,11 @@ household_emissions <- function(
     construction_waste_disposal = c("Closed-loop","Combustion","Composting","Landfill","Open-loop"),
     
     # ---- household-specific streams ----
-    gcb_use = setNames(numeric(), character()),              # glass/clothing/books
+    gcb_use = stats::setNames(numeric(), character()),              # glass/clothing/books
     gcb_waste = TRUE,
     gcb_waste_disposal = c("Closed-loop","Combustion","Landfill"),
     
-    organic_use = setNames(numeric(), character()),          # food/drink/compost...
+    organic_use = stats::setNames(numeric(), character()),          # food/drink/compost...
     organic_waste = TRUE,
     compost_waste_disposal = c("Anaerobic digestion","Combustion","Composting","Landfill"),
     
@@ -186,8 +186,8 @@ household_emissions <- function(
   gcb_kg <- sum(gcb_use_vec * ef_gcb_mu) + sum(gcb_waste_vec * ef_gcb_wd)
   
   # ---------- Organic MU (from TWO places) ----------
-  # Food & drink MU lives under "Other" → "Food and drink"
-  # Compost MU lives under "Organic" → "Compost from ..."
+  # Food & drink MU lives under "Other" goes to "Food and drink"
+  # Compost MU lives under "Organic" goes to "Compost from ..."
   org_mu_tbl <- dplyr::bind_rows(
     uk_gov_data |>
       dplyr::filter(.data[["Level 1"]] == "Material use",

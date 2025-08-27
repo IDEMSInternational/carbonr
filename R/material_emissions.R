@@ -59,11 +59,11 @@
 #' )
 material_emissions <- function(
     # ---- vector-first inputs ----
-    paper_use        = setNames(numeric(), character()),
-    plastic_use      = setNames(numeric(), character()),
-    metal_use        = setNames(numeric(), character()),
-    electrical_use   = setNames(numeric(), character()),
-    construction_use = setNames(numeric(), character()),
+    paper_use        = stats::setNames(numeric(), character()),
+    plastic_use      = stats::setNames(numeric(), character()),
+    metal_use        = stats::setNames(numeric(), character()),
+    electrical_use   = stats::setNames(numeric(), character()),
+    construction_use = stats::setNames(numeric(), character()),
     
     paper_waste = TRUE,
     plastic_waste = TRUE,

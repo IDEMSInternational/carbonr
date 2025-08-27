@@ -18,8 +18,8 @@ plastic_emissions(
 Names are matched (case/space/punctuation-insensitive) to \verb{Level 3}
 after normalisation that also:
 \enumerate{
-\item removes any prefix up to \code{": "} (e.g., \code{"Plastics: HDPE"} → \code{"HDPE"}), and
-\item strips any trailing parenthetical (e.g., \code{"HDPE (bottles)"} → \code{"HDPE"}).
+\item removes any prefix up to \code{": "} (e.g., \code{"Plastics: HDPE"} is \code{"HDPE"}), and
+\item strips any trailing parenthetical (e.g., \code{"HDPE (bottles)"} is \code{"HDPE"}).
 Accepted types: \code{average}, \code{average_film}, \code{average_rigid},
 \code{hdpe}, \code{ldpe}, \code{lldpe}, \code{pet}, \code{pp}, \code{ps}, \code{pvc}.
 Unknown names are ignored (treated as zero).

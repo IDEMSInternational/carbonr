@@ -47,11 +47,11 @@ clinical_theatre_emissions <- function(
     heat_kWh = 0, heat_TD = TRUE, heat_WTT = TRUE,
     
     # ---------- NEW vector-first material API ----------
-    paper_use        = setNames(numeric(), character()),
-    plastic_use      = setNames(numeric(), character()),
-    metal_use        = setNames(numeric(), character()),
-    electrical_use   = setNames(numeric(), character()),
-    construction_use = setNames(numeric(), character()),
+    paper_use        = stats::setNames(numeric(), character()),
+    plastic_use      = stats::setNames(numeric(), character()),
+    metal_use        = stats::setNames(numeric(), character()),
+    electrical_use   = stats::setNames(numeric(), character()),
+    construction_use = stats::setNames(numeric(), character()),
     
     paper_waste = TRUE,
     plastic_waste = TRUE,

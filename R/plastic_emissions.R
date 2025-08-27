@@ -9,8 +9,8 @@
 #' @param use Named numeric vector of plastic quantities in tonnes.
 #'   Names are matched (case/space/punctuation-insensitive) to `Level 3`
 #'   after normalisation that also:
-#'   1) removes any prefix up to `": "` (e.g., `"Plastics: HDPE"` → `"HDPE"`), and
-#'   2) strips any trailing parenthetical (e.g., `"HDPE (bottles)"` → `"HDPE"`).
+#'   1) removes any prefix up to `": "` (e.g., `"Plastics: HDPE"` is `"HDPE"`), and
+#'   2) strips any trailing parenthetical (e.g., `"HDPE (bottles)"` is `"HDPE"`).
 #'   Accepted types: `average`, `average_film`, `average_rigid`,
 #'   `hdpe`, `ldpe`, `lldpe`, `pet`, `pp`, `ps`, `pvc`.
 #'   Unknown names are ignored (treated as zero).
@@ -73,7 +73,7 @@
 #'   strict = FALSE
 #' )
 plastic_emissions <- function(
-    use        = setNames(numeric(), character()),
+    use        = stats::setNames(numeric(), character()),
     waste      = TRUE,
     waste_disposal = c("Landfill","Open-loop","Closed-loop","Combustion"),
     units      = c("kg","tonnes"),
