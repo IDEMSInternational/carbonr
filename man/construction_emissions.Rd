@@ -96,10 +96,13 @@ construction_emissions(
   units = "kg"
 )
 
-# 2) Per-material production + synonyms ("closed loop" -> "Closed-loop source", "reused" -> "Re-used")
+# 2) Per-material production + synonyms ("closed loop" ->
+# "Closed-loop source", "reused" -> "Re-used")
 construction_emissions(
   use = c(aggregates = 100, concrete = 50, wood = 10),
-  material_production = c(aggregates = "closed loop", concrete = "Closed-loop source", wood = "reused"),
+  material_production = c(aggregates = "closed loop",
+                          concrete = "Closed-loop source",
+                          wood = "reused"),
   waste_disposal = "Landfill",
   waste = TRUE,
   units = "tonnes",

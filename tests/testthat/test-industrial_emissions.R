@@ -4,13 +4,15 @@ test_that("wrapper parity with solo calculators (vector-first, waste flags)", {
     use = c(paper = 100),
     waste = TRUE,
     waste_disposal = "Closed-loop",
-    units = "kg"
+    units = "kg",
+    strict = FALSE
   )
   wrap_paper <- material_emissions(
     paper_use = c(paper = 100),
     paper_waste = TRUE,
     paper_waste_disposal = "Closed-loop",
-    units = "kg"
+    units = "kg",
+    strict = FALSE
   )
   expect_equal(solo_paper, wrap_paper)
   
@@ -80,7 +82,6 @@ test_that("wrapper parity with solo calculators (vector-first, waste flags)", {
   )
   expect_equal(solo_cons, wrap_cons)
 })
-
 
 local_uk_gov_data <- function(df, pkg = "carbonr") {
   ns <- asNamespace(pkg)

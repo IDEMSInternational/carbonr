@@ -91,20 +91,29 @@ plastic_emissions <- function(
   # robust normaliser for both table Level 3 and user names
   norm_pl <- function(x) {
     x <- tolower(trimws(x))
-    # strip "plastic(s) - " or "plastic(s): " prefixes (incl. en/em dashes)
-    x <- gsub("^(plastics?|plastic)\\s*[:–—-]\\s*", "", x)
-    # drop trailing parentheses e.g. "pet (rigid)"
-    x <- gsub("\\s*\\(.*?\\)\\s*$", "", x)
-    # collapse non-alnum to underscore
-    x <- gsub("[^a-z0-9]+", "_", x)
-    x <- gsub("_+", "_", x)
-    # unify common aliases/buckets
-    x <- sub("^average_plastic$", "average", x)
-    x <- sub("^average_plastics$", "average", x)
-    x <- sub("^average_plastic_film$", "average_film", x)
-    x <- sub("^average_plastic_rigid$", "average_rigid", x)
-    # LDPE/LLDPE joint bucket as it appears in the table
-    x <- sub("^ldpe_?/?_?lldpe$", "ldpe_and_lldpe", x)
+    
+    # 1) Normalize any Unicode dash to ASCII hyphen (– — ‒ ― → -)
+    x <- gsub("[\u2012\u2013\u2014\u2015]", "-", x, perl = TRUE)
+    
+    # 2) Strip "plastic(s) :/- " prefix robustly (no character-class ranges)
+    #    Accepts: "plastic - ", "plastics:", "plastic — " etc.
+    x <- gsub("^(?:plastics?|plastic)\\s*(?:-|:)\\s*", "", x, perl = TRUE)
+    
+    # 3) Drop trailing parenthetical: "PET (rigid)" -> "PET"
+    x <- sub("\\s*\\(.*?\\)\\s*$", "", x, perl = TRUE)
+    
+    # 4) Canonicalize separators to underscores
+    x <- gsub("[^a-z0-9]+", "_", x, perl = TRUE)
+    x <- gsub("_+", "_", x, perl = TRUE)
+    x <- gsub("^_|_$", "", x, perl = TRUE)
+    
+    # 5) Known synonyms/unifications
+    x <- sub("^average_plastic$", "average", x, perl = TRUE)
+    x <- sub("^average_plastics$", "average", x, perl = TRUE)
+    x <- sub("^average_plastic_film$", "average_film", x, perl = TRUE)
+    x <- sub("^average_plastic_rigid$", "average_rigid", x, perl = TRUE)
+    x <- sub("^ldpe_?and_?lldpe$", "ldpe_and_lldpe", x, perl = TRUE)
+    
     x
   }
   

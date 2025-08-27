@@ -19,11 +19,9 @@
 #'     e.g. `c(concrete = "Closed-loop source", wood = "Re-used")`.
 #'   Synonyms are accepted for material production: `"reused"/"re-used"`,
 #'   `"closed loop"/"closed-loop"/"closed-loop source"`.
-#'
 #' @param waste_disposal One of `"Closed-loop"`, `"Combustion"`, `"Composting"`,
 #'   `"Landfill"`, or `"Open-loop"`. Applied to all waste. If the chosen
 #'   disposal route is not available for a material, behaviour depends on `strict`.
-#'
 #' @param units Output units: `"kg"` (default) or `"tonnes"`.
 #' @param value_col Which factor column to use from `uk_gov_data`: `"value"` or `"value_2024"`.
 #' @param strict Logical (default `TRUE`). If `TRUE`, error when a required factor
@@ -72,10 +70,13 @@
 #'   units = "kg"
 #' )
 #'
-#' # 2) Per-material production + synonyms ("closed loop" -> "Closed-loop source", "reused" -> "Re-used")
+#' # 2) Per-material production + synonyms ("closed loop" ->
+#' # "Closed-loop source", "reused" -> "Re-used")
 #' construction_emissions(
 #'   use = c(aggregates = 100, concrete = 50, wood = 10),
-#'   material_production = c(aggregates = "closed loop", concrete = "Closed-loop source", wood = "reused"),
+#'   material_production = c(aggregates = "closed loop",
+#'                           concrete = "Closed-loop source",
+#'                           wood = "reused"),
 #'   waste_disposal = "Landfill",
 #'   waste = TRUE,
 #'   units = "tonnes",
