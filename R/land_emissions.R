@@ -77,7 +77,6 @@ land_emissions <- function(distance, units = c("miles", "km"), num = 1,
       dplyr::mutate(`Level 2` = stringr::str_remove(`Level 2`, "WTT- ")) %>%
       dplyr::mutate(`Level 2` = stringr::str_to_title(`Level 2`, locale = "en"))
     
-    
     if (units == "km") {
       distance <- distance * 0.621371
     }

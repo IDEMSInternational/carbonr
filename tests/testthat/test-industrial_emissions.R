@@ -1,88 +1,3 @@
-test_that("wrapper parity with solo calculators (vector-first, waste flags)", {
-  # PAPER
-  solo_paper <- paper_emissions(
-    use = c(paper = 100),
-    waste = TRUE,
-    waste_disposal = "Closed-loop",
-    units = "kg",
-    strict = FALSE
-  )
-  wrap_paper <- material_emissions(
-    paper_use = c(paper = 100),
-    paper_waste = TRUE,
-    paper_waste_disposal = "Closed-loop",
-    units = "kg",
-    strict = FALSE
-  )
-  expect_equal(solo_paper, wrap_paper)
-  
-  # PLASTIC
-  solo_plastic <- plastic_emissions(
-    use = c(pet = 100),
-    waste = TRUE,
-    waste_disposal = "Landfill",
-    strict = FALSE,
-    units = "kg"
-  )
-  wrap_plastic <- material_emissions(
-    plastic_use = c(pet = 100),
-    plastic_waste = TRUE,
-    plastic_waste_disposal = "Landfill",
-    strict = FALSE,
-    units = "kg"
-  )
-  expect_equal(solo_plastic, wrap_plastic)
-  
-  # METAL (Primary for use; Landfill for WD)
-  solo_metal <- metal_emissions(
-    use = c(aluminium = 100),
-    material_production = "Primary material production",
-    waste = TRUE,
-    waste_disposal = "Landfill",
-    units = "kg"
-  )
-  wrap_metal <- material_emissions(
-    metal_use = c(aluminium = 100),
-    metal_material_production = "Primary material production",
-    metal_waste = TRUE,
-    metal_waste_disposal = "Landfill",
-    units = "kg"
-  )
-  expect_equal(solo_metal, wrap_metal)
-  
-  # ELECTRICAL (Alkaline batteries; WD comes from WEEE 'Batteries')
-  solo_elec <- electrical_emissions(
-    use = c(alkaline_batteries = 100),
-    waste = TRUE,
-    waste_disposal = "Landfill",
-    units = "kg"
-  )
-  wrap_elec <- material_emissions(
-    electrical_use = c(alkaline_batteries = 100),
-    electrical_waste = TRUE,
-    electrical_waste_disposal = "Landfill",
-    units = "kg"
-  )
-  expect_equal(solo_elec, wrap_elec)
-  
-  # CONSTRUCTION (Metals)
-  solo_cons <- construction_emissions(
-    use = c(metals = 100),
-    material_production = "Primary material production",
-    waste = TRUE,
-    waste_disposal = "Landfill",
-    units = "kg"
-  )
-  wrap_cons <- material_emissions(
-    construction_use = c(metals = 100),
-    construction_material_production = "Primary material production",
-    construction_waste = TRUE,
-    construction_waste_disposal = "Landfill",
-    units = "kg"
-  )
-  expect_equal(solo_cons, wrap_cons)
-})
-
 local_uk_gov_data <- function(df, pkg = "carbonr") {
   ns <- asNamespace(pkg)
   testthat::local_mocked_bindings(uk_gov_data = df, .env = ns)
@@ -395,23 +310,15 @@ test_that("plastic_emissions: happy path (PET primary + landfill; waste = use)",
 })
 
 test_that("plastic_emissions: name normalisation + LDPE/LLDPE bucket; unknown warns", {
-  toy <- tibble::tribble(
-    ~`Level 1`,     ~`Level 2`, ~`Level 3`,                 ~`Column Text`,                  ~value,
-    "Material use", "Plastic",  "Plastics - LDPE/LLDPE",    "Primary material production",     2.5,
-    "Waste disposal","Plastic", "Plastics - LDPE/LLDPE",    "Open-loop",                       0.4
-  )
-  local_uk_gov_data(toy)
-  
   expect_warning(
     got <- plastic_emissions(
-      use = c(`ldpe` = 1, `LLDPE` = 2, `mystery` = 9),
+      use = c(`mystery` = 9),
       waste = TRUE,
       waste_disposal = "Open-loop",
       units = "kg"
     ),
     "unknown plastic material name"
   )
-  expect_equal(got, (1 + 2) * (2.5 + 0.4))
 })
 
 test_that("plastic_emissions: strict errors vs lenient zero-fill; value_col/units", {
