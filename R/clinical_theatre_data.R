@@ -49,6 +49,7 @@
 #' @param single_sheet `NULL`, `TRUE`, or `FALSE`. If not `NULL`, returns a list
 #'   with the emissions table and a single-sheet display/plot.
 #'
+#' @export
 #' @return
 #' If `single_sheet = NULL`: a tibble with emissions (and `carbon_price_credit`
 #' if `include_cpi = TRUE`).
