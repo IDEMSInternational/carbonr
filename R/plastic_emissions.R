@@ -92,7 +92,7 @@ plastic_emissions <- function(
   norm_pl <- function(x) {
     x <- tolower(trimws(x))
     # strip "plastic(s) - " or "plastic(s): " prefixes (incl. en/em dashes)
-    x <- gsub("^(plastics?|plastic)\\s*[-:--]\\s*", "", x)
+    x <- gsub("^(plastics?|plastic)\\s*[:–—-]\\s*", "", x)
     # drop trailing parentheses e.g. "pet (rigid)"
     x <- gsub("\\s*\\(.*?\\)\\s*$", "", x)
     # collapse non-alnum to underscore
