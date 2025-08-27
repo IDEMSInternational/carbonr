@@ -90,7 +90,7 @@ Some examples demonstrating how to use the `carbonr` package functions can be fo
 
 ## Additional Features
 
-**Beyond the Emissions Available in the 2023 UK Report**
+**Beyond the Emissions Available in the 2025 UK Report**
 
 Additional functions are available for emissions not covered in the UK Government report, such as those related to operating theatre waste. Further details on using the operating theatre waste functions are provided in the vignette.
 

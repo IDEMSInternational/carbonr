@@ -22,49 +22,34 @@ clinical_theatre_emissions(
   heat_kWh = 0,
   heat_TD = TRUE,
   heat_WTT = TRUE,
-  glass = 0,
-  board = 0,
-  mixed = 0,
-  paper = 0,
-  average = 0,
-  average_film = 0,
-  average_rigid = 0,
-  HDPE = 0,
-  LDPE = 0,
-  LLDPE = 0,
-  PET = 0,
-  PP = 0,
-  PS = 0,
-  PVC = 0,
-  glass_WD = 0,
-  glass_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
-  board_WD = 0,
-  mixed_WD = 0,
-  paper_WD = 0,
-  fridges = 0,
-  freezers = 0,
-  electric_waste_disposal = c("Landfill", "Open-loop"),
-  electrical_units = c("kg", "tonnes"),
+  paper_use = setNames(numeric(), character()),
+  plastic_use = setNames(numeric(), character()),
+  metal_use = setNames(numeric(), character()),
+  electrical_use = setNames(numeric(), character()),
+  construction_use = setNames(numeric(), character()),
+  paper_waste = TRUE,
+  plastic_waste = TRUE,
+  metal_waste = TRUE,
+  electrical_waste = TRUE,
+  construction_waste = TRUE,
+  paper_material_production = "Primary material production",
+  metal_material_production = "Primary material production",
+  construction_material_production = "Primary material production",
   paper_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),
-  average_WD = 0,
-  average_film_WD = 0,
-  average_rigid_WD = 0,
-  HDPE_WD = 0,
-  LDPE_WD = 0,
-  LLDPE_WD = 0,
-  PET_WD = 0,
-  PP_WD = 0,
-  PS_WD = 0,
-  PVC_WD = 0,
-  glass_units = c("kg", "tonnes"),
-  paper_units = c("kg", "tonnes"),
-  plastic_units = c("kg", "tonnes")
+  plastic_waste_disposal = c("Landfill", "Open-loop", "Closed-loop", "Combustion"),
+  metal_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
+  electrical_waste_disposal = c("Landfill", "Open-loop"),
+  construction_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill",
+    "Open-loop"),
+  value_col = c("value", "value_2024"),
+  units = "kg",
+  strict = TRUE
 )
 }
 \arguments{
-\item{wet_clinical_waste}{Amount of (wet) clinical waste that is usually incinerated.}
+\item{wet_clinical_waste}{Numeric. Amount of (wet) clinical waste.}
 
-\item{wet_clinical_waste_unit}{Unit for \code{wet_clinical_waste} variable. Options are \code{"tonnes"} or \code{"kg"}.}
+\item{wet_clinical_waste_unit}{Unit for \code{wet_clinical_waste} ("tonnes" or "kg").}
 
 \item{desflurane}{Amount of desflurane used in KG (default: 0).}
 
@@ -96,17 +81,40 @@ clinical_theatre_emissions(
 
 \item{heat_WTT}{logical, include WTT for heat/steam (default TRUE).}
 
-\item{glass}{Numeric tonnage of glass (material use).}
+\item{paper_use, plastic_use, metal_use, electrical_use, construction_use}{Named numeric vectors of quantities in tonnes (defaults empty).}
+
+\item{paper_material_production, metal_material_production, construction_material_production}{Either a single string (applied to all materials) or a named vector per material.
+Common values: \code{"Primary material production"}, \code{"Closed-loop source"}, \code{"Closed-loop"},
+\code{"Open-loop"}, \code{"Combustion"}, \code{"Landfill"} (availability depends on the table).}
+
+\item{value_col}{Which \code{uk_gov_data} column to use: \code{"value"} or \code{"value_2024"}. Default \code{"value"}.}
+
+\item{units}{Giving units in kg or tonnes}
+
+\item{strict}{Logical. If \code{TRUE}, missing factors error inside delegated functions; if \code{FALSE}, treat as 0. Default \code{TRUE}.}
 }
 \value{
-Returns CO2e emissions in tonnes.
+CO2e in \strong{tonnes}.
 }
 \description{
-Calculate carbon-equivalent emissions following an operating theatre
+Calculate CO2e from an operating theatre session by summing:
+(1) wet clinical waste; (2) building use (water/electricity/heat);
+(3) material purchases + end-of-life (paper, plastics, metal, electrical, construction);
+(4) anaesthetic agents.
 }
 \examples{
 \donttest{
- # clinical theatre emissions for the default options, with 100kg of wet clinical waste
- clinical_theatre_emissions(wet_clinical_waste = 100, wet_clinical_waste_unit = "kg")
+clinical_theatre_emissions(
+  wet_clinical_waste = 100, wet_clinical_waste_unit = "kg",
+  # building
+  electricity_kWh = 250, heat_kWh = 120,
+  # materials (vector-first)
+  paper_use = c(paper = 20), paper_waste = TRUE, paper_waste_disposal = "Closed-loop",
+  plastic_use = c(pet = 10), plastic_waste = TRUE, plastic_waste_disposal = "Landfill",
+  metal_use = c(aluminium = 0.2), metal_waste = TRUE, metal_waste_disposal = "Open-loop",
+  electrical_use = c(alkaline_batteries = 0.05), electrical_waste = TRUE, electrical_waste_disposal = "Open-loop",
+  construction_use = c(concrete = 1), construction_waste = FALSE,
+  value_col = "value"
+)
 }
 }

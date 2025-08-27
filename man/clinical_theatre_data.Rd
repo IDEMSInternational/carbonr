@@ -7,9 +7,9 @@
 clinical_theatre_data(
   data,
   time,
-  date_format = c("\%d/\%m/\%Y"),
+  date_format = "\%d/\%m/\%Y",
   name,
-  wet_clinical_waste = 0,
+  wet_clinical_waste,
   wet_clinical_waste_unit = c("tonnes", "kg"),
   desflurane = 0,
   sevoflurane = 0,
@@ -17,52 +17,37 @@ clinical_theatre_data(
   methoxyflurane = 0,
   N2O = 0,
   propofol = 0,
-  water_supply = 0,
+  water_supply = NULL,
   water_trt = TRUE,
   water_unit = c("cubic metres", "million litres"),
-  electricity_kWh = 0,
+  electricity_kWh = NULL,
   electricity_TD = TRUE,
   electricity_WTT = TRUE,
-  heat_kWh = 0,
+  heat_kWh = NULL,
   heat_TD = TRUE,
   heat_WTT = TRUE,
-  glass = 0,
-  board = 0,
-  mixed = 0,
-  paper = 0,
-  average = 0,
-  average_film = 0,
-  average_rigid = 0,
-  HDPE = 0,
-  LDPE = 0,
-  LLDPE = 0,
-  PET = 0,
-  PP = 0,
-  PS = 0,
-  PVC = 0,
-  glass_WD = 0,
-  glass_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
-  board_WD = 0,
-  mixed_WD = 0,
-  paper_WD = 0,
+  paper_vars = NULL,
+  plastic_vars = NULL,
+  metal_vars = NULL,
+  electrical_vars = NULL,
+  construction_vars = NULL,
+  paper_waste = TRUE,
+  plastic_waste = TRUE,
+  metal_waste = TRUE,
+  electrical_waste = TRUE,
+  construction_waste = TRUE,
+  paper_material_production = "Primary material production",
+  metal_material_production = "Primary material production",
+  construction_material_production = "Primary material production",
   paper_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),
-  average_WD = 0,
-  average_film_WD = 0,
-  average_rigid_WD = 0,
-  HDPE_WD = 0,
-  LDPE_WD = 0,
-  LLDPE_WD = 0,
-  PET_WD = 0,
-  PP_WD = 0,
-  PS_WD = 0,
-  PVC_WD = 0,
-  fridges = 0,
-  freezers = 0,
-  electric_waste_disposal = c("Landfill", "Open-loop"),
-  glass_units = c("kg", "tonnes"),
-  paper_units = c("kg", "tonnes"),
-  plastic_units = c("kg", "tonnes"),
-  electrical_units = c("kg", "tonnes"),
+  plastic_waste_disposal = c("Landfill", "Open-loop", "Closed-loop", "Combustion"),
+  metal_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
+  electrical_waste_disposal = c("Landfill", "Open-loop"),
+  construction_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill",
+    "Open-loop"),
+  units = "kg",
+  value_col = c("value", "value_2024"),
+  strict = TRUE,
   include_cpi = FALSE,
   jurisdiction = NULL,
   year = NULL,
@@ -74,7 +59,7 @@ clinical_theatre_data(
 )
 }
 \arguments{
-\item{data}{Data frame containing all data to be used in the emissions calculation}
+\item{data}{Data frame containing all data to be used in the emissions calculation.}
 
 \item{time}{Variable in \code{data} that corresponds to the time.}
 
@@ -82,9 +67,9 @@ clinical_theatre_data(
 
 \item{name}{Variable in \code{data} that corresponds to the theatre name.}
 
-\item{wet_clinical_waste}{Amount of (wet) clinical waste that is usually incinerated.}
+\item{wet_clinical_waste}{Numeric. Amount of (wet) clinical waste.}
 
-\item{wet_clinical_waste_unit}{Unit for \code{wet_clinical_waste} variable. Options are \code{"tonnes"} or \code{"kg"}.}
+\item{wet_clinical_waste_unit}{Unit for \code{wet_clinical_waste} ("tonnes" or "kg").}
 
 \item{desflurane}{Amount of desflurane used in KG (default: 0).}
 
@@ -116,53 +101,35 @@ clinical_theatre_data(
 
 \item{heat_WTT}{logical, include WTT for heat/steam (default TRUE).}
 
-\item{glass}{Numeric tonnage of glass (material use).}
+\item{paper_material_production, metal_material_production, construction_material_production}{Either a single string (applied to all materials) or a named vector per material.
+Common values: \code{"Primary material production"}, \code{"Closed-loop source"}, \code{"Closed-loop"},
+\code{"Open-loop"}, \code{"Combustion"}, \code{"Landfill"} (availability depends on the table).}
 
-\item{include_cpi}{Logical variable specifying whether to calculate carbon price credit as well as emissions.}
+\item{units}{Giving units in kg or tonnes}
 
-\item{jurisdiction}{A character string specifying the jurisdiction for which the carbon price credit should be calculated. Available jurisdictions can be found by \code{check_CPI()}.}
+\item{value_col}{Which \code{uk_gov_data} column to use: \code{"value"} or \code{"value_2024"}. Default \code{"value"}.}
 
-\item{year}{An optional numeric value specifying the year for which the carbon price credit should be calculated.
-If \code{NULL}, the most recent year available in the CPI data will be used.}
+\item{strict}{Logical. If \code{TRUE}, missing factors error inside delegated functions; if \code{FALSE}, treat as 0. Default \code{TRUE}.}
 
-\item{period}{An optional numeric value specifying the period within the specified year for which the carbon price credit should be calculated.
-If \code{1}, the function will use the first period if it is available; if \code{2}, the function will use the second period if it is available. If \code{0}, the function will calculate the mean between the first and second period.}
+\item{include_cpi}{Logical. Whether to calculate carbon price credit as well as emissions.}
 
-\item{manual_price}{An option to manually input a carbon price index to override the value in the World Bank Data.}
+\item{jurisdiction}{Jurisdiction for CPI.}
 
-\item{gti_by}{The grouping type for calculating the GTI ("default", "month", "year").}
+\item{year}{Year for CPI.}
 
-\item{overall_by}{The grouping type for the total output plot ("default", "month", "year"). This is a plot of the emissions if \code{include_cpi = FALSE}, otherwise is the CPI value.}
+\item{period}{Period for CPI.}
 
-\item{single_sheet}{Options are \code{NULL}, \code{TRUE} or \code{FALSE}. This is whether to give the summaries in a single sheet display, or as a list containing the table and \code{ggplot2} objects.
-If \code{NULL} then no graphical output is given.}
+\item{manual_price}{Manually override CPI value.}
+
+\item{gti_by}{Grouping type for GTI ("default", "month", "year").}
+
+\item{overall_by}{Grouping type for overall plot ("default", "month", "year").}
+
+\item{single_sheet}{Options are \code{NULL}, \code{TRUE} or \code{FALSE}. Whether to give summaries in one sheet, or a list.}
 }
 \value{
-Returns list containing two objects. A table containing CO2e emissions for each row of data (and carbon price index in USD if \code{include_cpi} is \code{TRUE}), and a \code{ggplot2} object plotting the CO2e emissions. The second object is a single sheet containing summaries if \code{single_sheet = TRUE}.
+List with table of emissions (and CPI if requested), and plot object if \code{single_sheet} is not \code{NULL}.
 }
 \description{
 Get the clinical theatre emissions after a data frame is inputted into the function.
-}
-\examples{
-\donttest{
-# Example with dummy data
-df <- data.frame(time = c("10/04/2000", "10/04/2000", "11/04/2000",
-                          "11/04/2000", "12/04/2000", "12/04/2000"),
-                 theatre = rep(c("A", "B"), times = 3),
-                 clinical_waste = c(80, 90, 80, 100, 120, 110),
-                 electricity_kwh = c(100, 110, 90, 100, 100, 110),
-                 general_waste = c(65, 55, 70, 50, 60, 30))
-
-clinical_theatre_data(df, time = time, name = theatre,
-                 wet_clinical_waste = clinical_waste,
-                 wet_clinical_waste_unit = "kg",
-                 desflurane = 10,
-                 average = general_waste,
-                 plastic_units = "kg",
-                 electricity_kWh = electricity_kwh,
-                 include_cpi = TRUE,
-                 jurisdiction = "Australia",
-                 year = 2023,
-                 single_sheet = FALSE)
-}
 }
