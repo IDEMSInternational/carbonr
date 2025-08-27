@@ -5,7 +5,7 @@
 \title{Paper emissions}
 \usage{
 paper_emissions(
-  use = setNames(numeric(), character()),
+  use = stats::setNames(numeric(), character()),
   waste = TRUE,
   material_production = "Primary material production",
   waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),

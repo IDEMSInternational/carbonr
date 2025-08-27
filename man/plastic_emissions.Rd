@@ -5,7 +5,7 @@
 \title{Calculate plastic emissions}
 \usage{
 plastic_emissions(
-  use = setNames(numeric(), character()),
+  use = stats::setNames(numeric(), character()),
   waste = TRUE,
   waste_disposal = c("Landfill", "Open-loop", "Closed-loop", "Combustion"),
   units = c("kg", "tonnes"),

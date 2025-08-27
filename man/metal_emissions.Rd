@@ -5,7 +5,7 @@
 \title{Metal emissions (UK govt schema; table-driven, with material_production)}
 \usage{
 metal_emissions(
-  use = setNames(numeric(), character()),
+  use = stats::setNames(numeric(), character()),
   waste = TRUE,
   material_production = "Primary material production",
   waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),

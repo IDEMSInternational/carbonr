@@ -5,7 +5,7 @@
 \title{Calculate construction emissions (UK govt schema)}
 \usage{
 construction_emissions(
-  use = setNames(numeric(), character()),
+  use = stats::setNames(numeric(), character()),
   waste = TRUE,
   material_production = c("Primary material production", "Re-used", "Closed-loop source"),
   waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill", "Open-loop"),

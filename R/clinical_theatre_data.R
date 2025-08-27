@@ -117,7 +117,7 @@ clinical_theatre_data <- function(
     lapply(seq_len(nrow(df)), function(i) {
       vals <- vapply(mapping, function(col) as.numeric(df[[col]][i]), numeric(1))
       vals[is.na(vals)] <- 0
-      stats::stats::setNames(as.numeric(vals), names(mapping))
+      stats::setNames(as.numeric(vals), names(mapping))
     })
   }
   
