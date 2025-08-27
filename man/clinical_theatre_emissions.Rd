@@ -88,8 +88,7 @@ treatment using the family’s \verb{*_waste_disposal} choice. Default \code{TRU
 
 \item{paper_material_production, metal_material_production, construction_material_production}{Column Text choice for \strong{material-use} factors (typically \code{"Primary material production"}).}
 
-\item{paper_waste_disposal, plastic_waste_disposal, metal_waste_disposal, }{electrical_waste_disposal,construction_waste_disposal
-Disposal route to use for that family (see \code{\link[=material_emissions]{material_emissions()}} for allowed values).}
+\item{paper_waste_disposal, plastic_waste_disposal, metal_waste_disposal, electrical_waste_disposal, construction_waste_disposal}{Disposal route to use for that family (see \code{\link[=material_emissions]{material_emissions()}} for allowed values).}
 
 \item{value_col}{Which \code{uk_gov_data} column to use: \code{"value"} or \code{"value_2024"}. Default \code{"value"}.}
 

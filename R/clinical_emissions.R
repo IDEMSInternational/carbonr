@@ -41,8 +41,7 @@
 #' @param paper_material_production,metal_material_production,construction_material_production
 #' Column Text choice for **material-use** factors (typically `"Primary material production"`).
 #'
-#' @param paper_waste_disposal,plastic_waste_disposal,metal_waste_disposal,
-#' electrical_waste_disposal,construction_waste_disposal
+#' @param paper_waste_disposal,plastic_waste_disposal,metal_waste_disposal,electrical_waste_disposal,construction_waste_disposal
 #' Disposal route to use for that family (see [material_emissions()] for allowed values).
 #'
 #' @param value_col Which `uk_gov_data` column to use: `"value"` or `"value_2024"`. Default `"value"`.
