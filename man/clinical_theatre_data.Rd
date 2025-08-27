@@ -7,9 +7,9 @@
 clinical_theatre_data(
   data,
   time,
-  date_format = c("\%d/\%m/\%Y"),
+  date_format = "\%d/\%m/\%Y",
   name,
-  wet_clinical_waste = 0,
+  wet_clinical_waste,
   wet_clinical_waste_unit = c("tonnes", "kg"),
   desflurane = 0,
   sevoflurane = 0,
@@ -17,52 +17,37 @@ clinical_theatre_data(
   methoxyflurane = 0,
   N2O = 0,
   propofol = 0,
-  water_supply = 0,
+  water_supply = NULL,
   water_trt = TRUE,
   water_unit = c("cubic metres", "million litres"),
-  electricity_kWh = 0,
+  electricity_kWh = NULL,
   electricity_TD = TRUE,
   electricity_WTT = TRUE,
-  heat_kWh = 0,
+  heat_kWh = NULL,
   heat_TD = TRUE,
   heat_WTT = TRUE,
-  glass = 0,
-  board = 0,
-  mixed = 0,
-  paper = 0,
-  average = 0,
-  average_film = 0,
-  average_rigid = 0,
-  HDPE = 0,
-  LDPE = 0,
-  LLDPE = 0,
-  PET = 0,
-  PP = 0,
-  PS = 0,
-  PVC = 0,
-  glass_WD = 0,
-  glass_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
-  board_WD = 0,
-  mixed_WD = 0,
-  paper_WD = 0,
+  paper_vars = NULL,
+  plastic_vars = NULL,
+  metal_vars = NULL,
+  electrical_vars = NULL,
+  construction_vars = NULL,
+  paper_waste = TRUE,
+  plastic_waste = TRUE,
+  metal_waste = TRUE,
+  electrical_waste = TRUE,
+  construction_waste = TRUE,
+  paper_material_production = "Primary material production",
+  metal_material_production = "Primary material production",
+  construction_material_production = "Primary material production",
   paper_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),
-  average_WD = 0,
-  average_film_WD = 0,
-  average_rigid_WD = 0,
-  HDPE_WD = 0,
-  LDPE_WD = 0,
-  LLDPE_WD = 0,
-  PET_WD = 0,
-  PP_WD = 0,
-  PS_WD = 0,
-  PVC_WD = 0,
-  fridges = 0,
-  freezers = 0,
-  electric_waste_disposal = c("Landfill", "Open-loop"),
-  glass_units = c("kg", "tonnes"),
-  paper_units = c("kg", "tonnes"),
-  plastic_units = c("kg", "tonnes"),
-  electrical_units = c("kg", "tonnes"),
+  plastic_waste_disposal = c("Landfill", "Open-loop", "Closed-loop", "Combustion"),
+  metal_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
+  electrical_waste_disposal = c("Landfill", "Open-loop"),
+  construction_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill",
+    "Open-loop"),
+  units = "kg",
+  value_col = c("value", "value_2024"),
+  strict = TRUE,
   include_cpi = FALSE,
   jurisdiction = NULL,
   year = NULL,
@@ -74,17 +59,17 @@ clinical_theatre_data(
 )
 }
 \arguments{
-\item{data}{Data frame containing all data to be used in the emissions calculation}
+\item{data}{Data frame containing all variables required for emissions calculation.}
 
-\item{time}{Variable in \code{data} that corresponds to the time.}
+\item{time}{Column in \code{data} giving the time variable.}
 
-\item{date_format}{The date format for the time variable (optional, default: c("\%d/\%m/\%Y")).}
+\item{date_format}{Character string of date format for \code{time} (default: \code{"\%d/\%m/\%Y"}).}
 
-\item{name}{Variable in \code{data} that corresponds to the theatre name.}
+\item{name}{Column in \code{data} giving the theatre identifier/name.}
 
-\item{wet_clinical_waste}{Amount of (wet) clinical waste that is usually incinerated.}
+\item{wet_clinical_waste}{Numeric. Amount of (wet) clinical waste.}
 
-\item{wet_clinical_waste_unit}{Unit for \code{wet_clinical_waste} variable. Options are \code{"tonnes"} or \code{"kg"}.}
+\item{wet_clinical_waste_unit}{Unit for \code{wet_clinical_waste} (\code{"tonnes"} or \code{"kg"}).}
 
 \item{desflurane}{Amount of desflurane used in KG (default: 0).}
 
@@ -98,143 +83,99 @@ clinical_theatre_data(
 
 \item{propofol}{Amount of propofol used in KG (default: 0).}
 
-\item{water_supply}{Amount of water used in the building.}
+\item{water_supply}{numeric, amount of water in the given unit.}
 
-\item{water_trt}{logical. Default \code{TRUE}. Whether to include emissions associated with water treatment for used water.}
+\item{water_trt}{logical, include treatment emissions (default TRUE).}
 
-\item{water_unit}{Unit for \code{water_supply} variable. Options are \code{"cubic metres"} or \code{"million litres"}.}
+\item{water_unit}{"cubic metres" or "million litres".}
 
-\item{electricity_kWh}{Electricity used in kWh.}
+\item{electricity_kWh}{numeric kWh consumed.}
 
-\item{electricity_TD}{logical. Default \code{TRUE}. Whether to include emissions associated with grid losses.}
+\item{electricity_TD}{logical, include T&D losses (default TRUE).}
 
-\item{electricity_WTT}{logical. Default \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.}
+\item{electricity_WTT}{logical, include WTT for electricity (default TRUE).}
 
-\item{heat_kWh}{heat and steam used in kWh.}
+\item{heat_kWh}{numeric kWh of heat/steam (onsite; excludes district).}
 
-\item{heat_TD}{logical. Default \code{TRUE}. Whether to include emissions associated with grid losses.}
+\item{heat_TD}{logical, include district heat distribution losses (default TRUE).}
 
-\item{heat_WTT}{logical. Default \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.}
+\item{heat_WTT}{logical, include WTT for heat/steam (default TRUE).}
 
-\item{glass}{Numeric value representing the amount of glass. Default is \code{0}.}
+\item{paper_vars}{Named character vector mapping canonical paper keys
+(\code{"board"}, \code{"mixed"}, \code{"paper"}) to column names in \code{data}.
+Each row’s values are passed as a \code{paper_use} vector.}
 
-\item{board}{Numeric value indicating the weight of paperboard purchased. Default is \code{0}.}
+\item{plastic_vars}{Named character vector mapping canonical plastic keys
+(e.g. \code{"average"}, \code{"pet"}, \code{"pp"}, \code{"pvc"}, …) to columns in \code{data}.}
 
-\item{mixed}{Numeric value indicating the weight of mixed paper purchased. Default is \code{0}.}
+\item{metal_vars}{Named character vector mapping canonical metal keys
+(e.g. \code{"aluminuim_cans"}, \code{"steel_cans"}, \code{"scrap"}) to columns in \code{data}.}
 
-\item{paper}{Numeric value indicating the weight of paper purchased. Default is \code{0}.}
+\item{electrical_vars}{Named character vector mapping canonical electrical keys
+(e.g. \code{"fridges"}, \code{"freezers"}, \code{"it"}, \code{"alkaline_batteries"}) to columns in \code{data}.}
 
-\item{average}{Numeric value indicating the weight of an overall average plastic purchased. Default is \code{0}.}
+\item{construction_vars}{Named character vector mapping canonical construction keys
+(e.g. \code{"concrete"}, \code{"bricks"}, \code{"wood"}, \code{"metals"}) to columns in \code{data}.}
 
-\item{average_film}{Numeric value indicating the weight of average film plastic purchased. Default is \code{0}.}
+\item{paper_waste, plastic_waste, metal_waste, electrical_waste, construction_waste}{Logical. Whether the same tonnage is assumed to go to waste treatment for
+that material type (default: \code{TRUE}).}
 
-\item{average_rigid}{Numeric value indicating the weight of average rigid plastic purchased. Default is \code{0}.}
+\item{paper_material_production, metal_material_production, construction_material_production}{Column text string for material-use factor (default: \code{"Primary material production"}).}
 
-\item{HDPE}{Numeric value indicating the weight of HDPE plastic purchased. Default is \code{0}.}
+\item{paper_waste_disposal, plastic_waste_disposal, metal_waste_disposal, electrical_waste_disposal, construction_waste_disposal}{Disposal route(s) to use for each material category. See \code{\link[=material_emissions]{material_emissions()}}
+for valid options.}
 
-\item{LDPE}{Numeric value indicating the weight of LDPE plastic purchased. Default is \code{0}.}
+\item{units}{Units of result, \code{"kg"} or \code{"tonnes"}. Default: \code{"kg"}.}
 
-\item{LLDPE}{Numeric value indicating the weight of LLDPE plastic purchased. Default is \code{0}.}
+\item{value_col}{Which column of \code{uk_gov_data} to use (\code{"value"} or \code{"value_2024"}).}
 
-\item{PET}{Numeric value indicating the weight of PET plastic purchased. Default is \code{0}.}
+\item{strict}{Logical. If \code{TRUE}, error when a factor is missing; if \code{FALSE}, treat as zero.}
 
-\item{PP}{Numeric value indicating the weight of PP plastic purchased. Default is \code{0}.}
+\item{include_cpi}{Logical. Whether to add carbon price credit calculations.}
 
-\item{PS}{Numeric value indicating the weight of PS plastic purchased. Default is \code{0}.}
+\item{jurisdiction}{Jurisdiction string for CPI lookup (see \code{\link[=check_CPI]{check_CPI()}}).}
 
-\item{PVC}{Numeric value indicating the weight of PVC plastic purchased. Default is \code{0}.}
+\item{year, period}{CPI year and period to use.}
 
-\item{glass_WD}{Numeric value representing the amount of glass waste with disposal. Default is \code{0}.}
+\item{manual_price}{Optional numeric CPI value to override World Bank data.}
 
-\item{glass_waste_disposal}{Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Landfill"}, \code{"Open-loop"}. Default is "Closed-loop". See \code{details} for more information.}
+\item{gti_by}{Grouping type for GTI calculation (\code{"default"}, \code{"month"}, \code{"year"}).}
 
-\item{board_WD}{Numeric value indicating the weight of paperboard disposed of using the waste disposal method given in \code{paper_waste_disposal}. Default is \code{0}.}
+\item{overall_by}{Grouping type for overall output plot.}
 
-\item{mixed_WD}{Numeric value indicating the weight of mixed paper disposed of using the waste disposal method given in \code{paper_waste_disposal}. Default is \code{0}.}
-
-\item{paper_WD}{Numeric value indicating the weight of paper disposed of using the waste disposal method given in \code{paper_waste_disposal}. Default is \code{0}.}
-
-\item{paper_waste_disposal}{Character vector specifying the waste disposal method for paper to use for calculating emissions. Possible values: \code{"Closed-loop"}, \code{"Combustion"}, \code{"Composting"}, \code{"Landfill"}. Default is \code{"Closed-loop"}. See \code{details} for more information.}
-
-\item{average_WD}{Numeric value indicating the weight of average plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{average_film_WD}{Numeric value indicating the weight of average film plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{average_rigid_WD}{Numeric value indicating the weight of average rigid plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{HDPE_WD}{Numeric value indicating the weight of HDPE plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{LDPE_WD}{Numeric value indicating the weight of LDPE plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{LLDPE_WD}{Numeric value indicating the weight of LLDPE plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{PET_WD}{Numeric value indicating the weight of PET plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{PP_WD}{Numeric value indicating the weight of PP plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{PS_WD}{Numeric value indicating the weight of PS plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{PVC_WD}{Numeric value indicating the weight of PVC plastic disposed of using the waste disposal methods given in \code{plastic_waste_disposal}. Default is \code{0}.}
-
-\item{fridges}{Numeric value indicating the weight of fridges purchased. Default is \code{0}.}
-
-\item{freezers}{Numeric value indicating the weight of freezers purchased. Default is \code{0}.}
-
-\item{electric_waste_disposal}{Character vector specifying the waste disposal method for electrical items to use for calculating emissions. Possible values: \code{"Landfill"}, \code{"Open-loop"}. Default is \code{"Landfill"}. See \code{details} for more information.}
-
-\item{glass_units}{Character vector specifying the units of the emissions related to glass. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
-
-\item{paper_units}{Character vector specifying the units of the emissions related to paper. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
-
-\item{plastic_units}{Character vector specifying the units of the emissions related to plastic materials. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
-
-\item{electrical_units}{Character vector specifying the units of the emissions related to electrical materials. Possible values: \code{"kg"}, \code{"tonnes"}. Default is \code{"kg"}.}
-
-\item{include_cpi}{Logical variable specifying whether to calculate carbon price credit as well as emissions.}
-
-\item{jurisdiction}{A character string specifying the jurisdiction for which the carbon price credit should be calculated. Available jurisdictions can be found by \code{check_CPI()}.}
-
-\item{year}{An optional numeric value specifying the year for which the carbon price credit should be calculated.
-If \code{NULL}, the most recent year available in the CPI data will be used.}
-
-\item{period}{An optional numeric value specifying the period within the specified year for which the carbon price credit should be calculated.
-If \code{1}, the function will use the first period if it is available; if \code{2}, the function will use the second period if it is available. If \code{0}, the function will calculate the mean between the first and second period.}
-
-\item{manual_price}{An option to manually input a carbon price index to override the value in the World Bank Data.}
-
-\item{gti_by}{The grouping type for calculating the GTI ("default", "month", "year").}
-
-\item{overall_by}{The grouping type for the total output plot ("default", "month", "year"). This is a plot of the emissions if \code{include_cpi = FALSE}, otherwise is the CPI value.}
-
-\item{single_sheet}{Options are \code{NULL}, \code{TRUE} or \code{FALSE}. This is whether to give the summaries in a single sheet display, or as a list containing the table and \code{ggplot2} objects.
-If \code{NULL} then no graphical output is given.}
+\item{single_sheet}{\code{NULL}, \code{TRUE}, or \code{FALSE}. If not \code{NULL}, returns a list
+with the emissions table and a single-sheet display/plot.}
 }
 \value{
-Returns list containing two objects. A table containing CO2e emissions for each row of data (and carbon price index in USD if \code{include_cpi} is \code{TRUE}), and a \code{ggplot2} object plotting the CO2e emissions. The second object is a single sheet containing summaries if \code{single_sheet = TRUE}.
+If \code{single_sheet = NULL}: a tibble with emissions (and \code{carbon_price_credit}
+if \code{include_cpi = TRUE}).
+
+If \code{single_sheet = TRUE}/\code{FALSE}: a list with the emissions table and
+a plot object generated by \code{\link[=output_display]{output_display()}}.
 }
 \description{
-Get the clinical theatre emissions after a data frame is inputted into the function.
+Calculate clinical theatre emissions row-by-row from a data frame.
+Each row is expanded into a call to \code{\link[=clinical_theatre_emissions]{clinical_theatre_emissions()}} using
+the columns you specify. Optionally, results can be combined with
+carbon price credit information and plotted.
 }
 \examples{
-\donttest{
-# Example with dummy data
-df <- data.frame(time = c("10/04/2000", "10/04/2000", "11/04/2000",
-                          "11/04/2000", "12/04/2000", "12/04/2000"),
-                 theatre = rep(c("A", "B"), times = 3),
-                 clinical_waste = c(80, 90, 80, 100, 120, 110),
-                 electricity_kwh = c(100, 110, 90, 100, 100, 110),
-                 general_waste = c(65, 55, 70, 50, 60, 30))
+df <- data.frame(
+  time = c("10/04/2000","11/04/2000"),
+  theatre = c("A","A"),
+  clinical_waste = c(80,90),
+  electricity_kwh = c(100,110),
+  general_waste = c(65,55)
+)
 
-clinical_theatre_data(df, time = time, name = theatre,
-                 wet_clinical_waste = clinical_waste,
-                 wet_clinical_waste_unit = "kg",
-                 desflurane = 10,
-                 average = general_waste,
-                 plastic_units = "kg",
-                 electricity_kWh = electricity_kwh,
-                 include_cpi = TRUE,
-                 jurisdiction = "Australia",
-                 year = 2023,
-                 single_sheet = FALSE)
-}
+clinical_theatre_data(
+  df,
+  time = time,
+  name = theatre,
+  wet_clinical_waste = clinical_waste,
+  wet_clinical_waste_unit = "kg",
+  electricity_kWh = electricity_kwh,
+  plastic_vars = c(average="general_waste"),
+  units = "kg"
+)
 }

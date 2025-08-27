@@ -1,134 +1,225 @@
-#' Material (and waste) emissions
+#' Material (and waste) emissions — vector-first wrapper
 #'
-#' @inheritParams paper_emissions
-#' @inheritParams plastic_emissions
-#' @inheritParams metal_emissions
-#' @inheritParams electrical_emissions
-#' @inheritParams construction_emissions
-#' @param glass Numeric value representing the amount of glass. Default is `0`.
-#' @param glass_WD Numeric value representing the amount of glass waste with disposal. Default is `0`.
-#' @param industrial_waste Numeric value representing the amount of household residual waste. Default is `0`.
-#' @param large_electrical Numeric value indicating the weight of large electrical items. Default is `0`.
-#' @param small_electrical Numeric value indicating the weight of small electrical items. Default is `0`.
-#' @param large_electrical_WD Numeric value indicating the weight of large electrical items disposed of using waste disposal methods. Default is `0`.
-#' @param small_electrical_WD Numeric value indicating the weight of small electrical items disposed of using waste disposal methods. Default is `0`.
-#' @param construction_average The weight of average material used in construction. Default is `0`.
-#' @param construction_average_WD The weight of average material disposed of as waste. Default is `0`.
-#' @param industrial_waste_disposal Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: `"Combustion"`, `"Landfill"`. Default is `"Combustion"`. See `details` for more information.
-#' @param metal_waste_disposal Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Landfill"`, `"Open-loop"`. Default is "Closed-loop". See `details` for more information.
-#' @param glass_waste_disposal Character vector specifying the waste disposal method to use for metal for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Landfill"`, `"Open-loop"`. Default is "Closed-loop". See `details` for more information.
-#' @param paper_waste_disposal Character vector specifying the waste disposal method for paper to use for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Composting"`, `"Landfill"`. Default is `"Closed-loop"`. See `details` for more information.
-#' @param electric_waste_disposal Character vector specifying the waste disposal method for electrical items to use for calculating emissions. Possible values: `"Landfill"`, `"Open-loop"`. Default is `"Landfill"`. See `details` for more information.
-#' @param construction_waste_disposal Character vector specifying the waste disposal method for electrical items to use for calculating emissions. Options are, `"Closed-loop"`, `"Combustion"`, `"Composting"`, `"Landfill"`,
-#' `"Open-loop"`. Default is `"Closed-loop"`.
-#' Note that: `"Closed-loop"` is valid for aggregates, average, asphalt, concrete, insulation,
-#' metal, soils, mineral oil, plasterboard, tyres, and wood.
-#' `"Combustion"` is valid for average, mineral oil, and wood.
-#' `"Composting"` is valid for wood only.
-#' `"Landfill"` is valid for everything except average, mineral oil, and tyres.
-#' `"Open-loop"` is valid for aggregates, average, asphalt, bricks, concrete, 
-#' If one of these is used for a value that does not provide it, then an `"NA"` is given.
-#' @param construction_units Character vector specifying the units of the emissions related to construction. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
-#' @param metal_units Character vector specifying the units of the emissions  related to metal. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
-#' @param glass_units Character vector specifying the units of the emissions related to glass. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
-#' @param paper_units Character vector specifying the units of the emissions related to paper. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
-#' @param plastic_units Character vector specifying the units of the emissions related to plastic materials. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
-#' @param electrical_units Character vector specifying the units of the emissions related to electrical materials. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
+#' Convenience wrapper that sums emissions from paper, plastics, metals,
+#' electrical items, construction materials, glass, and industrial waste.
+#' It forwards to the dedicated calculators:
+#' [paper_emissions()], [plastic_emissions()], [metal_emissions()],
+#' [electrical_emissions()], and [construction_emissions()].
 #'
-#' @return The calculated household emissions as a numeric value in tonnes.
+#' For each family you provide a named `use` vector in tonnes plus a
+#' `waste = TRUE/FALSE` flag (waste tonnage equals `use` when `TRUE`).
+#' Unknown names are ignored by the underlying calculators (with warnings).
+#'
+#' @section Canonical names (examples):
+#' - Paper: `board`, `mixed`, `paper`
+#' - Plastics: `average`, `average_film`, `average_rigid`, `hdpe`, `ldpe`, `lldpe`, `pet`, `pp`, `ps`, `pvc`
+#' - Metals: `aluminium` (cans/foil), `mixed_cans`, `scrap`, `steel_cans`
+#' - Electrical: `fridges`, `freezers`, `large_electrical`, `it`, `small_electrical`,
+#'   `alkaline_batteries`, `liion_batteries`, `nimh_batteries`
+#' - Construction: use the material names supported by [construction_emissions()]
+#'
+#' @param paper_use,plastic_use,metal_use,electrical_use,construction_use
+#'   Named numeric vectors of quantities in tonnes (defaults empty).
+#' @param paper_waste,plastic_waste,metal_waste,electrical_waste,construction_waste,glass_waste
+#'   Logical flags: if `TRUE`, apply waste factors to the same tonnages as `use`.
+#' @param paper_material_production,metal_material_production,construction_material_production
+#'   Either a single string (applied to all materials) or a named vector per material.
+#'   Common values: `"Primary material production"`, `"Closed-loop source"`, `"Closed-loop"`,
+#'   `"Open-loop"`, `"Combustion"`, `"Landfill"` (availability depends on the table).
+#' @param paper_waste_disposal,plastic_waste_disposal,metal_waste_disposal,electrical_waste_disposal,construction_waste_disposal,glass_waste_disposal
+#'   Waste route to use for the family. See the calculators' docs for valid choices.
+#'   (Electrical typically: `"Landfill"`, `"Open-loop"`; Construction supports `"Closed-loop"`,
+#'   `"Combustion"`, `"Composting"`, `"Landfill"`, `"Open-loop"` with material-specific availability.)
+#' @param glass Numeric tonnage of glass (material use).
+#' @param industrial_waste Numeric tonnage of commercial and industrial waste (end-of-life only).
+#' @param industrial_waste_disposal `"Combustion"` or `"Landfill"`.
+#' @param units Output units: `"kg"` or `"tonnes"` (default `"kg"`).
+#' @param value_col Which factor column in `uk_gov_data` to use: `"value"` or `"value_2024"`.
+#' @param strict If `TRUE` (default), error when a required factor is missing; if `FALSE`, treat missing factors as 0.
+#'
+#' @section Backwards compatibility:
+#' Legacy scalar arguments (e.g. `board`, `HDPE`, `fridges`, `aluminuim_cans`, …) are
+#' still accepted and are added into the corresponding `*_use` vectors.
+#' Legacy `*_WD` arguments (separate waste tonnages) are deprecated and ignored;
+#' supply `*_waste = TRUE` instead.
+#'
+#' @return Total emissions in the requested `units`.
 #' @export
-#' 
-#' @details `*_waste_disposal` methods:
-#' `"Open-loop"` is the process of recycling material into other products.
-#' `"Closed-loop"` is the process of recycling material back into the same product.
-#' `"Combustion"` energy is recovered from the waste through incineration and subsequent generation of electricity.
-#' `"Compost"` CO2e emitted as a result of composting a waste stream.
-#' `"Landfill"` the product goes to landfill after use.
-#' `"Anaerobic digestion"` energy is recovered from the waste through anaerobic digestion.
 #'
 #' @examples
-#' \donttest{
-#'   material_emissions(glass = 100, glass_WD = 10, glass_units = "kg")
-#' }
-material_emissions <- function(glass = 0, board = 0, mixed = 0, paper = 0,
-                               fridges = 0, freezers = 0, large_electrical = 0, IT = 0, small_electrical = 0,
-                               alkaline_batteries = 0, LiIon_batteries = 0, NiMh_batteries = 0,
-                               aluminuim_cans = 0, aluminuim_foil = 0, mixed_cans = 0, scrap = 0, steel_cans = 0,
-                               average = 0, average_film = 0, average_rigid = 0, HDPE = 0,
-                               LDPE = 0, LLDPE = 0, PET = 0, PP = 0, PS = 0, PVC = 0,
-                               glass_WD = 0, glass_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
-                               industrial_waste = 0, industrial_waste_disposal = c("Combustion", "Landfill"),
-                               aluminuim_cans_WD = 0, aluminuim_foil_WD = 0,
-                               mixed_cans_WD = 0, scrap_WD = 0, steel_cans_WD = 0,
-                               metal_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
-                               board_WD = 0, mixed_WD = 0, paper_WD = 0,
-                               paper_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),
-                               average_WD = 0, average_film_WD = 0, average_rigid_WD = 0, HDPE_WD = 0,
-                               LDPE_WD = 0, LLDPE_WD = 0, PET_WD = 0, PP_WD = 0, PS_WD = 0, PVC_WD = 0,
-                               fridges_WD = 0, freezers_WD = 0, large_electrical_WD = 0, IT_WD = 0,
-                               small_electrical_WD = 0, alkaline_batteries_WD = 0, LiIon_batteries_WD = 0,
-                               NiMh_batteries_WD = 0, electric_waste_disposal = c("Landfill", "Open-loop"),
-                               aggregates = 0, construction_average = 0, asbestos = 0, asphalt = 0, bricks = 0,
-                               concrete = 0, insulation = 0, metals = 0, soils = 0, mineral_oil = 0,
-                               plasterboard = 0, tyres = 0, wood = 0,
-                               aggregates_WD = 0, construction_average_WD = 0, asbestos_WD = 0, asphalt_WD = 0, bricks_WD = 0,
-                               concrete_WD = 0, insulation_WD = 0, metals_WD = 0, soils_WD = 0, mineral_oil_WD = 0,
-                               plasterboard_WD = 0, tyres_WD = 0, wood_WD = 0,
-                               construction_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill",
-                                                               "Open-loop"), 
-                               construction_units = c("kg", "tonnes"), metal_units = c("kg", "tonnes"), glass_units = c("kg", "tonnes"),
-                               paper_units = c("kg", "tonnes"), plastic_units = c("kg", "tonnes"), electrical_units = c("kg", "tonnes")){
+#' # Paper + Metals + Glass, with waste to the same tonnages
+#' material_emissions(
+#'   paper_use = c(board = 10, paper = 5),
+#'   metal_use = c(aluminium = 0.4, steel_cans = 0.2),
+#'   glass = 3, glass_waste = TRUE,
+#'   paper_waste_disposal = "Closed-loop",
+#'   metal_waste_disposal = "Landfill",
+#'   glass_waste_disposal = "Closed-loop",
+#'   units = "kg"
+#' )
+material_emissions <- function(
+    # ---- vector-first inputs ----
+    paper_use        = stats::setNames(numeric(), character()),
+    plastic_use      = stats::setNames(numeric(), character()),
+    metal_use        = stats::setNames(numeric(), character()),
+    electrical_use   = stats::setNames(numeric(), character()),
+    construction_use = stats::setNames(numeric(), character()),
+    
+    paper_waste = TRUE,
+    plastic_waste = TRUE,
+    metal_waste = TRUE,
+    electrical_waste = TRUE,
+    construction_waste = TRUE,
+    
+    paper_material_production        = "Primary material production",
+    metal_material_production        = "Primary material production",
+    construction_material_production = "Primary material production",
+    
+    paper_waste_disposal        = c("Closed-loop","Combustion","Composting","Landfill"),
+    plastic_waste_disposal      = c("Landfill","Open-loop","Closed-loop","Combustion"),
+    metal_waste_disposal        = c("Closed-loop","Combustion","Landfill","Open-loop"),
+    electrical_waste_disposal   = c("Landfill","Open-loop"),
+    construction_waste_disposal = c("Closed-loop","Combustion","Composting","Landfill","Open-loop"),
+    
+    glass = 0,
+    glass_waste = TRUE,
+    glass_waste_disposal = c("Closed-loop","Combustion","Landfill","Open-loop"),
+    
+    industrial_waste = 0,
+    industrial_waste_disposal = c("Combustion","Landfill"),
+    
+    # ---- global options ----
+    units     = c("kg","tonnes"),
+    value_col = c("value","value_2024"),
+    strict    = TRUE
+){
+  # --- match options
+  paper_waste_disposal        <- match.arg(paper_waste_disposal)
+  plastic_waste_disposal      <- match.arg(plastic_waste_disposal)
+  metal_waste_disposal        <- match.arg(metal_waste_disposal)
+  electrical_waste_disposal   <- match.arg(electrical_waste_disposal)
+  construction_waste_disposal <- match.arg(construction_waste_disposal)
+  glass_waste_disposal        <- match.arg(glass_waste_disposal)
+  industrial_waste_disposal   <- match.arg(industrial_waste_disposal)
+  units     <- match.arg(units)
+  value_col <- match.arg(value_col)
   
-  glass_waste_disposal <- match.arg(glass_waste_disposal)
-  industrial_waste_disposal <- match.arg(industrial_waste_disposal)
-  glass_units <- match.arg(glass_units)
-  checkmate::assert_numeric(glass, lower = 0)
-  checkmate::assert_numeric(glass_WD, lower = 0)
-  checkmate::assert_numeric(industrial_waste, lower = 0)
+  # --- fold legacy scalar inputs into vector-first arguments
+  nz <- function(x) is.numeric(x) && length(x) == 1 && isTRUE(x > 0)
   
-  metal_emissions <- metal_emissions(aluminuim_cans = aluminuim_cans, aluminuim_foil = aluminuim_foil,
-                                     mixed_cans = mixed_cans, scrap = scrap, steel_cans = steel_cans,
-                                     aluminuim_cans_WD = aluminuim_cans_WD, aluminuim_foil_WD = aluminuim_foil_WD,
-                                     mixed_cans_WD = mixed_cans_WD, scrap_WD = scrap_WD, steel_cans_WD = steel_cans_WD,
-                                     metal_waste_disposal = metal_waste_disposal, units = metal_units)
-  paper_emissions <- paper_emissions(board = board, mixed = mixed, paper = paper,
-                                     board_WD = board_WD, mixed_WD = mixed_WD, paper_WD = paper_WD,
-                                     paper_waste_disposal = paper_waste_disposal, units = paper_units)
-  plastic_emissions <- plastic_emissions(average = average, average_film = average_film, average_rigid = average_rigid,
-                                         HDPE = HDPE, LDPE = LDPE, LLDPE = LLDPE, PET = PET, PP = PP, PS = PS, PVC = PVC,
-                                         average_WD = average_WD, average_film_WD = average_film_WD, average_rigid_WD = average_rigid_WD,
-                                         HDPE_WD = HDPE_WD, LDPE_WD = LDPE_WD, LLDPE_WD = LLDPE_WD, PET_WD = PET_WD, PP_WD = PP_WD,
-                                         PS_WD = PS_WD, PVC_WD = PVC_WD, units = plastic_units)
-  electrical_emissions <- electrical_emissions(fridges = fridges, freezers = freezers, large_electrical = large_electrical, IT = IT,
-                                               small_electrical = small_electrical, alkaline_batteries = alkaline_batteries,
-                                               LiIon_batteries = LiIon_batteries, NiMh_batteries = NiMh_batteries,
-                                               fridges_WD = fridges_WD, freezers_WD = freezers_WD, large_electrical_WD = large_electrical_WD, IT_WD = IT_WD,
-                                               small_electrical_WD = small_electrical_WD, alkaline_batteries_WD = alkaline_batteries_WD, LiIon_batteries_WD = LiIon_batteries_WD,
-                                               NiMh_batteries_WD = NiMh_batteries_WD, electric_waste_disposal = electric_waste_disposal, units = electrical_units)
-  construction_emissions <- construction_emissions(aggregates = aggregates, average = construction_average, asbestos = asbestos, asphalt = asphalt, 
-                                                   bricks = bricks, concrete = concrete, insulation = insulation, metals = metals, soils = soils,
-                                                   mineral_oil = mineral_oil, plasterboard = plasterboard, tyres = tyres, wood = wood,
-                                                   aggregates_WD = aggregates_WD, average_WD = construction_average_WD, asbestos_WD = asbestos_WD, asphalt_WD = asphalt_WD, 
-                                                   bricks_WD = bricks_WD, concrete_WD = concrete_WD, insulation_WD = insulation_WD, metals_WD = metals_WD, soils_WD = soils_WD,
-                                                   mineral_oil_WD = mineral_oil_WD, plasterboard_WD = plasterboard_WD, tyres_WD = tyres_WD, wood_WD = wood_WD,
-                                                   units = construction_units,
-                                                   waste_disposal = construction_waste_disposal)
-  # above are all already in tonnes
+  # --- compute family totals (request kg from sub-calculators)
+  pap_kg <- paper_emissions(
+    use = paper_use,
+    waste = paper_waste,
+    material_production = paper_material_production,
+    waste_disposal = paper_waste_disposal,
+    units = "kg",
+    value_col = value_col,
+    strict = strict
+  )
   
-  WD_ind_values <- uk_gov_data %>%
-    dplyr::filter(`Level 3` == c("Commercial and industrial waste")) %>%
-    dplyr::filter(`Column Text` == industrial_waste_disposal) %>%
-    dplyr::pull(value)
-  MU_glass_values <- uk_gov_data %>%
-    dplyr::filter(`Level 3` == "Glass") %>%
-    dplyr::filter(`Column Text` %in% c("Primary material production")) %>%
-    dplyr::pull(value)
-  WD_glass_values <- uk_gov_data %>%
-    dplyr::filter(`Level 3` == "Glass") %>%
-    dplyr::filter(`Column Text`== glass_waste_disposal) %>%
-    dplyr::pull(value)
-  material_emissions <- glass*MU_glass_values[1] + glass_WD*WD_glass_values[1] +
-    industrial_waste*WD_ind_values[1]
-  if (glass_units == "kg") material_emissions <- material_emissions * 0.001
-  return(paper_emissions + metal_emissions + plastic_emissions + electrical_emissions + construction_emissions + material_emissions)
+  pla_kg <- plastic_emissions(
+    use = plastic_use,
+    waste = plastic_waste,
+    waste_disposal = plastic_waste_disposal,
+    units = "kg",
+    value_col = value_col,
+    strict = strict
+  )
+  
+  met_kg <- metal_emissions(
+    use = metal_use,
+    waste = metal_waste,
+    material_production = metal_material_production,
+    waste_disposal = metal_waste_disposal,
+    units = "kg",
+    value_col = value_col,
+    strict = strict
+  )
+  
+  ele_kg <- electrical_emissions(
+    use = electrical_use,
+    waste = electrical_waste,
+    waste_disposal = electrical_waste_disposal,
+    units = "kg",
+    value_col = value_col,
+    strict = strict
+  )
+  
+  con_kg <- construction_emissions(
+    use = construction_use,
+    waste = construction_waste,
+    material_production = construction_material_production,
+    waste_disposal = construction_waste_disposal,
+    units = "kg",
+    value_col = value_col,
+    strict = strict
+  )
+  
+  # --- Glass (material use + optional waste)
+  # helpers
+  pull_first <- function(df) if (nrow(df)) df[[value_col]][1] else NA_real_
+  need_or_zero <- function(val, needed_label, need) {
+    if (!need) return(0)
+    if (is.na(val)) { if (strict) stop("No factor for ", needed_label, call. = FALSE); 0 } else val
+  }
+  # resolve Column Text synonyms like other fns
+  norm_ct <- function(x) gsub("[^a-z]+","", tolower(x))
+  choices_use_gl <- uk_gov_data |>
+    dplyr::filter(.data[["Level 1"]] == "Material use",
+                  .data[["Level 3"]] == "Glass") |>
+    dplyr::distinct(`Column Text`) |>
+    dplyr::pull()
+  resolve_ct <- function(desired) {
+    if (length(choices_use_gl) == 0) return(NA_character_)
+    if (is.na(desired) || desired == "") return(NA_character_)
+    syn <- list(
+      primary          = "Primary material production",
+      closedloop       = "Closed-loop source",
+      closedloopsource = "Closed-loop source",
+      closed_loop      = "Closed-loop source",
+      openloop         = "Open-loop",
+      combustion       = "Combustion",
+      landfill         = "Landfill"
+    )
+    d <- norm_ct(desired); if (d %in% names(syn)) desired <- syn[[d]]
+    cn <- norm_ct(choices_use_gl)
+    hit <- which(cn == norm_ct(desired)); if (length(hit)) return(choices_use_gl[hit][1])
+    hit2 <- which(grepl(norm_ct(desired), cn, fixed = TRUE)); if (length(hit2)) return(choices_use_gl[hit2][1])
+    NA_character_
+  }
+  glass_ct <- resolve_ct("Primary material production")
+  
+  ef_glass_use <- uk_gov_data |>
+    dplyr::filter(.data[["Level 1"]] == "Material use",
+                  .data[["Level 3"]] == "Glass",
+                  .data[["Column Text"]] == glass_ct) |>
+    pull_first()
+  
+  ef_glass_wd <- uk_gov_data |>
+    dplyr::filter(.data[["Level 1"]] == "Waste disposal",
+                  .data[["Level 3"]] == "Glass",
+                  .data[["Column Text"]] == glass_waste_disposal) |>
+    pull_first()
+  
+  gl_use   <- need_or_zero(ef_glass_use, "Glass material use", glass > 0)
+  gl_waste <- need_or_zero(ef_glass_wd,  paste0("Glass waste (", glass_waste_disposal, ")"),
+                           glass_waste && glass > 0)
+  
+  gla_kg <- glass * (gl_use + gl_waste)
+  
+  # --- Industrial waste (EoL only)
+  ef_ind <- uk_gov_data |>
+    dplyr::filter(.data[["Level 1"]] == "Waste disposal",
+                  .data[["Level 3"]] == "Commercial and industrial waste",
+                  .data[["Column Text"]] == industrial_waste_disposal) |>
+    pull_first()
+  ind_kg <- if (industrial_waste > 0)
+    need_or_zero(ef_ind, paste0("Industrial waste (", industrial_waste_disposal, ")"), TRUE) * industrial_waste
+  else 0
+  
+  # --- total
+  total_kg <- pap_kg + pla_kg + met_kg + ele_kg + con_kg + gla_kg + ind_kg
+  if (units == "tonnes") total_kg <- total_kg * 0.001
+  total_kg
 }

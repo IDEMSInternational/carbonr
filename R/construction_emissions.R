@@ -1,127 +1,233 @@
-#' Calculate emissions from construction
-#' 
-#' @description: This function calculates the construction emissions based on the input parameters.
-#' 
-#' @param aggregates The weight of aggregates used in construction. Default is `0`.
-#' @param average The weight of average material used in construction. Default is `0`.
-#' @param asbestos The weight of asbestos used in construction. Default is `0`.
-#' @param asphalt The weight of asphalt used in construction. Default is `0`.
-#' @param bricks The weight of bricks used in construction. Default is `0`.
-#' @param concrete The weight of concrete used in construction. Default is `0`.
-#' @param insulation The weight of insulation material used in construction. Default is `0`.
-#' @param metals The weight of metals used in construction. Default is `0`.
-#' @param soils The weight of soils used in construction. Default is `0`.
-#' @param mineral_oil The weight of mineral oil used in construction. Default is `0`.
-#' @param plasterboard The weight of plasterboard used in construction. Default is `0`.
-#' @param tyres The weight of tyres used in construction. Default is `0`.
-#' @param wood The weight of wood used in construction. Default is `0`.
-#' @param aggregates_WD The weight of aggregates disposed of as waste. Default is `0`.
-#' @param average_WD The weight of average material disposed of as waste. Default is `0`.
-#' @param asbestos_WD The weight of asbestos disposed of as waste. Default is `0`.
-#' @param asphalt_WD The weight of asphalt disposed of as waste. Default is `0`.
-#' @param bricks_WD The weight of bricks disposed of as waste. Default is `0`.
-#' @param concrete_WD The weight of concrete disposed of as waste. Default is `0`.
-#' @param insulation_WD The weight of insulation material disposed of as waste. Default is `0`.
-#' @param metals_WD The weight of metals disposed of as waste. Default is `0`.
-#' @param soils_WD The weight of soils disposed of as waste. Default is `0`.
-#' @param mineral_oil_WD The weight of mineral oil disposed of as waste. Default is `0`.
-#' @param plasterboard_WD The weight of plasterboard disposed of as waste. Default is `0`.
-#' @param tyres_WD The weight of tyres disposed of as waste. Default is `0`.
-#' @param wood_WD The weight of wood disposed of as waste. Default is `0`.
-#' @param units The units in which the emissions should be returned (`"kg"` or `"tonnes"`). Default is `0`.
-#' @param waste_disposal The method of waste disposal. Options are, `"Closed-loop"`, `"Combustion"`, `"Composting"`, `"Landfill"`,
-#' `"Open-loop"`. Default is `"Closed-loop"`. See `details` for more information on this. 
-
-#' @details The function calculates the construction emissions based on the input quantities of
-#' different materials used in construction and the quantities of those materials disposed of
-#' as waste.
-#' The emissions values are obtained from a data source and are multiplied by the
-#' corresponding quantities to calculate the total emissions. The units of emissions can
-#' be specified as either kilograms (kg) or tonnes.
-#' 
-#' All assume `Primary material production` for the material used in construction, except soils which assumes `Closed-loop`
-#' 
-#' The waste disposal method can be selected from the options: `"Closed-loop"`, `"Combustion"`,
-#' `"Composting"`, `"Landfill"`, or `"Open-loop"`.
-#' Note that: `"Closed-loop"` is valid for aggregates, average, asphalt, concrete, insulation,
-#' metal, soils, mineral oil, plasterboard, tyres, and wood.
-#' `"Combustion"` is valid for average, mineral oil, and wood.
-#' `"Composting"` is valid for wood only.
-#' `"Landfill"` is valid for everything except average, mineral oil, and tyres.
-#' `"Open-loop"` is valid for aggregates, average, asphalt, bricks, concrete, 
-#' If one of these is used for a value that does not provide it, then an `"NA"` is given.
-#' 
-#' @return The calculated construction emissions as a numeric value in tonnes.
+#' Calculate construction emissions (UK govt schema)
+#'
+#' Computes embodied GHG emissions for construction materials using the
+#' UK government conversion factors table (`uk_gov_data`), specifically rows
+#' with Level 2 = "Construction". Factors are taken from the selected
+#' column (`value` or `value_2024`) and are assumed to be kg CO2e per tonne.
+#'
+#' @param use Named numeric vector of material quantities in tonnes.
+#'   Names are matched case/space/punctuation-insensitively to `Level 3`
+#'   (e.g., `"Mineral oil"`, `"mineral_oil"`, `"MINERAL-OIL"` all match).
+#'   Missing/unknown materials are treated as zero.
+#' @param waste Logical. If `TRUE`, waste quantities are assumed equal to `use`
+#'   (i.e., the same tonnage is sent to the chosen disposal route).
+#'   If `FALSE`, no waste is applied (equivalent to zero for all materials).
+#' @param material_production Either:
+#'   - a single string applied to all materials, e.g.
+#'     `"Primary material production"`, `"Closed-loop source"`, or `"Re-used"`; or
+#'   - a named character vector giving a choice per material name,
+#'     e.g. `c(concrete = "Closed-loop source", wood = "Re-used")`.
+#'   Synonyms are accepted for material production: `"reused"/"re-used"`,
+#'   `"closed loop"/"closed-loop"/"closed-loop source"`.
+#' @param waste_disposal One of `"Closed-loop"`, `"Combustion"`, `"Composting"`,
+#'   `"Landfill"`, or `"Open-loop"`. Applied to all waste. If the chosen
+#'   disposal route is not available for a material, behaviour depends on `strict`.
+#' @param units Output units: `"kg"` (default) or `"tonnes"`.
+#' @param value_col Which factor column to use from `uk_gov_data`: `"value"` or `"value_2024"`.
+#' @param strict Logical (default `TRUE`). If `TRUE`, error when a required factor
+#'   is missing/invalid for any nonzero quantity (either material use or waste).
+#'   If `FALSE`, treat missing factors as zero contribution.
+#'
+#' @details
+#' Material-production options (Column Text under Material use):
+#'
+#' - Aggregates, Asphalt: `"Primary material production"`, `"Closed-loop source"`, `"Re-used"`.
+#' - Asbestos, Average Construction, Bricks: `"Primary material production"` only.
+#' - Concrete, Insulation, Metals, Mineral Oil, Plasterboard:
+#'   `"Primary material production"` or `"Closed-loop source"`.
+#' - Soils: `"Closed-loop source"` only.
+#' - Tyres, Wood: `"Primary material production"` or `"Re-used"`.
+#'
+#' Waste-disposal options (Column Text under Waste disposal):
+#'
+#' - `"Closed-loop"` is valid for aggregates, average, asphalt, concrete,
+#'   insulation, metal, soils, mineral oil, plasterboard, tyres, wood.
+#' - `"Combustion"` is valid for average, mineral oil, wood.
+#' - `"Composting"` is valid for wood only.
+#' - `"Landfill"` is valid for everything except average, mineral oil, tyres.
+#' - `"Open-loop"` is valid for aggregates, average, asphalt, bricks, concrete
+#'   (and any other materials where the table provides a factor).
+#'
+#' These rules are enforced by the presence/absence of rows in `uk_gov_data`. If a
+#' requested material-route pair has no factor in the table, the lookup yields `NA`:
+#' with `strict = TRUE` a descriptive error is thrown; with `strict = FALSE` it
+#' contributes zero to the total.
+#'
+#' Units: Factors are kg CO2e / tonne; if `units = "tonnes"`, the result
+#' is divided by 1000.
+#'
 #' @export
+#' @return Numeric total emissions in the requested `units`.
 #'
 #' @examples
-#' #Calculate construction emissions with default values
-#' construction_emissions()
-#' 
-#' #Calculate construction emissions with specified quantities
-#' construction_emissions(aggregates = 1000, concrete = 500, wood = 2000,
-#'                        units = "kg", waste_disposal = "Landfill")
-construction_emissions <- function(aggregates = 0, average = 0, asbestos = 0, asphalt = 0, bricks = 0,
-                                   concrete = 0, insulation = 0, metals = 0, soils = 0, mineral_oil = 0,
-                                   plasterboard = 0, tyres = 0, wood = 0,
-                                   aggregates_WD = 0, average_WD = 0, asbestos_WD = 0, asphalt_WD = 0, bricks_WD = 0,
-                                   concrete_WD = 0, insulation_WD = 0, metals_WD = 0, soils_WD = 0, mineral_oil_WD = 0,
-                                   plasterboard_WD = 0, tyres_WD = 0, wood_WD = 0,
-                                   units = c("kg", "tonnes"),
-                                   waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill",
-                                                      "Open-loop")){
+#' # 1) Basic: primary production for all materials, landfill waste = use
+#' construction_emissions(
+#'   use = c(Aggregates = 1000, Concrete = 500, Wood = 2000),
+#'   material_production = "Primary material production",
+#'   waste_disposal = "Landfill",
+#'   waste = TRUE,
+#'   strict = FALSE,
+#'   units = "kg"
+#' )
+#'
+#' # 2) Per-material production + synonyms ("closed loop" ->
+#' # "Closed-loop source", "reused" -> "Re-used")
+#' construction_emissions(
+#'   use = c(aggregates = 100, concrete = 50, wood = 10),
+#'   material_production = c(aggregates = "closed loop",
+#'                           concrete = "Closed-loop source",
+#'                           wood = "reused"),
+#'   waste_disposal = "Landfill",
+#'   waste = TRUE,
+#'   units = "tonnes",
+#'   value_col = "value_2024"
+#' )
+#'
+#' # 3)  Tolerant mode treats missing factors as zero:
+#' construction_emissions(
+#'   use = c(bricks = 10),
+#'   material_production = "Re-used",
+#'   strict = FALSE
+#' )
+construction_emissions <- function(
+    use   = stats::setNames(numeric(), character()),
+    waste = TRUE,
+    material_production = c("Primary material production", "Re-used", "Closed-loop source"),
+    waste_disposal = c("Closed-loop","Combustion","Composting","Landfill","Open-loop"),
+    units = c("kg","tonnes"),
+    value_col = c("value","value_2024"),
+    strict = TRUE
+) {
   waste_disposal <- match.arg(waste_disposal)
-  units <- match.arg(units)
-  checkmate::assert_numeric(aggregates, lower = 0)
-  checkmate::assert_numeric(average, lower = 0)
-  checkmate::assert_numeric(asbestos, lower = 0)
-  checkmate::assert_numeric(asphalt, lower = 0)
-  checkmate::assert_numeric(bricks, lower = 0)
-  checkmate::assert_numeric(concrete, lower = 0)
-  checkmate::assert_numeric(insulation, lower = 0)
-  checkmate::assert_numeric(metals, lower = 0)
-  checkmate::assert_numeric(soils, lower = 0)
-  checkmate::assert_numeric(mineral_oil, lower = 0)
-  checkmate::assert_numeric(plasterboard, lower = 0)
-  checkmate::assert_numeric(tyres, lower = 0)
-  checkmate::assert_numeric(wood, lower = 0)
-  checkmate::assert_numeric(aggregates_WD, lower = 0)
-  checkmate::assert_numeric(average_WD, lower = 0)
-  checkmate::assert_numeric(asbestos_WD, lower = 0)
-  checkmate::assert_numeric(asphalt_WD, lower = 0)
-  checkmate::assert_numeric(bricks_WD, lower = 0)
-  checkmate::assert_numeric(concrete_WD, lower = 0)
-  checkmate::assert_numeric(insulation_WD, lower = 0)
-  checkmate::assert_numeric(metals_WD, lower = 0)
-  checkmate::assert_numeric(soils_WD, lower = 0)
-  checkmate::assert_numeric(mineral_oil_WD, lower = 0)
-  checkmate::assert_numeric(plasterboard_WD, lower = 0)
-  checkmate::assert_numeric(tyres_WD, lower = 0)
-  checkmate::assert_numeric(wood_WD, lower = 0)
-
-  emission_values <- uk_gov_data %>%
-    dplyr::filter(`Level 2` == "Construction") %>%
-    dplyr::mutate(value = ifelse(`Level 3` == "Soils", 0.9847084, value)) %>%
-    dplyr::filter(`Column Text` == "Primary material production") %>%
-    dplyr::pull(value)
-  WD_values <- uk_gov_data %>%
-    dplyr::filter(`Level 1` == "Waste disposal") %>%
-    dplyr::filter(`Level 2` == "Construction") %>%
-    dplyr::filter(`Column Text` == waste_disposal) %>%
-    dplyr::pull(value) %>%
-    tidyr::replace_na(0)
+  units          <- match.arg(units)
+  value_col      <- match.arg(value_col)
   
-  construction_emissions <- aggregates*emission_values[1] + average*emission_values[2] + asbestos*emission_values[3] +
-    asphalt*emission_values[4] + bricks*emission_values[5] + concrete*emission_values[6] +
-    insulation*emission_values[7] + metals*emission_values[8] + soils*emission_values[9] +
-    mineral_oil*emission_values[10] + plasterboard*emission_values[11] + tyres*emission_values[12] +
-    wood*emission_values[13] +
-    aggregates_WD*WD_values[1] + average_WD*WD_values[2] + asbestos_WD*WD_values[3] +
-    asphalt_WD*WD_values[4] + bricks_WD*WD_values[5] + concrete_WD*WD_values[6] +
-    insulation_WD*WD_values[7] + metals_WD*WD_values[8] + soils_WD*WD_values[9] +
-    mineral_oil_WD*WD_values[10] + plasterboard_WD*WD_values[11] + tyres_WD*WD_values[12] +
-    wood_WD*WD_values[13]
+  # normalisers
+  norm_mat  <- function(x) gsub("[^a-z0-9]+","_", tolower(trimws(x)))
+  norm_ctxt <- function(x) gsub("[^a-z]+","", tolower(x))  # strip hyphens/spaces/punct
   
-  if (units == "kg") construction_emissions <- construction_emissions * 0.001
-  return(construction_emissions)
+  # materials present in the table (Level 3 under Construction)
+  mat_names <- uk_gov_data |>
+    dplyr::filter(.data[["Level 2"]] == "Construction") |>
+    dplyr::pull("Level 3") |>
+    unique() |>
+    norm_mat()
+  
+  # expand user inputs to full material set
+  expand_vec <- function(x) {
+    if (length(x) == 0) return(stats::setNames(numeric(length(mat_names)), mat_names))
+    checkmate::assert_numeric(x, lower = 0, any.missing = FALSE, names = "named")
+    names(x) <- norm_mat(names(x))
+    out <- stats::setNames(numeric(length(mat_names)), mat_names)
+    common <- intersect(names(x), mat_names)
+    out[common] <- x[common]
+    out
+  }
+  use   <- expand_vec(use)
+  if (waste) waste <- use
+  else waste <- stats::setNames(numeric(length(mat_names)), mat_names)
+  
+  # --- resolve Column Text choices available in the data (for Material use) ---
+  choices_use <- uk_gov_data |>
+    dplyr::filter(.data[["Level 1"]] == "Material use",
+                  .data[["Level 2"]] == "Construction") |>
+    dplyr::distinct(`Column Text`) |>
+    dplyr::pull()
+  
+  # map friendly/synonym inputs -> actual Column Text in the table
+  resolve_ct <- function(desired) {
+    if (length(choices_use) == 0) return(NA_character_)
+    if (is.na(desired) || desired == "") return(NA_character_)
+    d <- norm_ctxt(desired)
+    # common synonyms
+    syn <- list(
+      primary   = "Primary material production",
+      reused    = "Re-used",
+      reused2   = "Re-used",
+      closedloop= "Closed-loop"
+    )
+    if (d %in% names(syn)) desired <- syn[[d]]
+    
+    cand_norm <- norm_ctxt(choices_use)
+    # exact after norm
+    hit <- which(cand_norm == norm_ctxt(desired))
+    if (length(hit) == 1) return(choices_use[hit])
+    # fuzzy: substring match (e.g., "closedloop" inside "closedloopsource")
+    hit <- which(grepl(norm_ctxt(desired), cand_norm, fixed = TRUE))
+    if (length(hit) >= 1) return(choices_use[hit][1])
+    NA_character_
+  }
+  
+  # material_production may be scalar or named per-material vector
+  # Build a per-material vector of chosen Column Text
+  if (length(material_production) == 1) {
+    mp_resolved_all <- resolve_ct(material_production)
+    mp_vec <- stats::setNames(rep(mp_resolved_all, length(mat_names)), mat_names)
+  } else {
+    checkmate::assert_character(material_production, any.missing = FALSE, min.chars = 1, names = "named")
+    names(material_production) <- norm_mat(names(material_production))
+    mp_vec <- stats::setNames(rep(NA_character_, length(mat_names)), mat_names)
+    for (m in intersect(names(material_production), mat_names)) {
+      mp_vec[m] <- resolve_ct(material_production[[m]])
+    }
+    # fill unset materials with the scalar default if user also provided it in ... (optional)
+    if (!("default" %in% names(material_production)) && is.character(material_production) && length(material_production) > 0) {
+      # leave others as NA (treated per strict)
+    }
+  }
+  
+  # helper to get a single factor for one material + column text
+  lookup_use_factor <- function(material_norm, column_text) {
+    if (is.na(column_text)) return(NA_real_)
+    row <- uk_gov_data |>
+      dplyr::filter(.data[["Level 1"]] == "Material use",
+                    .data[["Level 2"]] == "Construction",
+                    norm_mat(.data[["Level 3"]]) == material_norm,
+                    .data[["Column Text"]] == column_text)
+    if (nrow(row) == 0) return(NA_real_)
+    row[[value_col]][1]
+  }
+  
+  # vector of use emission factors per material (honours per-material production choice)
+  ef_use <- vapply(mat_names, function(m) lookup_use_factor(m, mp_vec[[m]]), numeric(1))
+  
+  # waste (kept scalar disposal mode for simplicity)
+  ef_waste <- {
+    tbl <- uk_gov_data |>
+      dplyr::filter(.data[["Level 1"]] == "Waste disposal",
+                    .data[["Level 2"]] == "Construction",
+                    .data[["Column Text"]] == waste_disposal) |>
+      dplyr::transmute(material = norm_mat(.data[["Level 3"]]),
+                       value    = .data[[value_col]]) |>
+      dplyr::distinct(material, .keep_all = TRUE)
+    vec <- stats::setNames(tbl$value, tbl$material)
+    out <- stats::setNames(rep(NA_real_, length(mat_names)), mat_names)
+    out[names(vec)] <- vec
+    out
+  }
+  
+  # --- Validate allowed combinations ---
+  # If a requested combo isn't present in the data, it will already be NA via lookups.
+  # We surface nice messages listing the invalid pairs (material -> option).
+  missing_use   <- names(use)[use   > 0 & is.na(ef_use)]
+  missing_waste <- names(waste)[waste > 0 & is.na(ef_waste[names(waste)])]
+  
+  if (strict && length(missing_use)) {
+    bad <- paste0(missing_use, "is", ifelse(is.na(mp_vec[missing_use]), "unspecified", mp_vec[missing_use]))
+    stop("No material-use factor for: ", paste(bad, collapse = ", "),
+         ". Either choose a valid option for those materials or set strict = FALSE.")
+  }
+  if (strict && length(missing_waste)) {
+    stop("No waste-disposal factor for: ", paste(missing_waste, collapse = ", "),
+         " with disposal '", waste_disposal, "'. Set strict = FALSE to treat as 0.")
+  }
+  
+  # --- Always treat missing factors as 0 for the calculation ---
+  ef_use[is.na(ef_use)]     <- 0
+  ef_waste[is.na(ef_waste)] <- 0
+  
+  # Compute total
+  total_kg <- sum(use * ef_use) + sum(waste * ef_waste)
+  if (units == "tonnes") total_kg <- total_kg * 0.001
+  return(total_kg)
 }

@@ -1,68 +1,220 @@
-#' Paper Emissions
+#' Paper emissions
 #'
-#' @description This function calculates the emissions produced from different paper sources based on the specified inputs. It considers emissions from primary material production and waste disposal of paper materials.
-#' 
-#' @param board Numeric value indicating the weight of paperboard purchased. Default is `0`.
-#' @param mixed Numeric value indicating the weight of mixed paper purchased. Default is `0`.
-#' @param paper Numeric value indicating the weight of paper purchased. Default is `0`.
-#' @param board_WD Numeric value indicating the weight of paperboard disposed of using the waste disposal method given in `paper_waste_disposal`. Default is `0`.
-#' @param mixed_WD Numeric value indicating the weight of mixed paper disposed of using the waste disposal method given in `paper_waste_disposal`. Default is `0`.
-#' @param paper_WD Numeric value indicating the weight of paper disposed of using the waste disposal method given in `paper_waste_disposal`. Default is `0`.
-#' @param paper_waste_disposal Character vector specifying the waste disposal method to use for calculating emissions. Possible values: `"Closed-loop"`, `"Combustion"`, `"Composting"`, `"Landfill"`. Default is `"Closed-loop"`. See details for more information on these different options.
-#' `"Closed-loop"` is the process of recycling material back into the same product.
-#' `"Combustion"` energy is recovered from the waste through incineration and subsequent generation of electricity.
-#' `"Compost"` CO2e emitted as a result of composting a waste stream.
-#' `"Landfill"` the product goes to landfill after use.
-#' @param units Character vector specifying the units of the emissions output. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
+#' Computes embodied GHG emissions for paper using `uk_gov_data` rows with
+#' Level 2 = "Paper". Material-use factors come from
+#' `Level 1 = "Material use", Column Text = material_production`.
+#' Waste factors come from `Level 1 = "Waste disposal", Column Text = waste_disposal`.
+#' Factors are kg CO2e per tonne.
 #'
-#' @return The function returns the calculated paper emissions as a numeric value in tonnes.
+#' @param use Named numeric vector of paper quantities in tonnes.
+#'   Names matched case/space/punctuation-insensitively to `Level 3`
+#'   (drops a leading `"Paper: "` prefix and trailing parentheses).
+#'   Canonical names: `board`, `mixed`, `paper`. Unknown names warn and are ignored.
+#' @param waste Logical. If `TRUE`, waste tonnages are the same as `use`.
+#'   If `FALSE`, no waste is applied.
+#' @param material_production Either a single string applied to all paper types
+#'   (e.g., `"Primary material production"` or `"Closed-loop source"`),
+#'   or a named vector per paper type, e.g.
+#'   `c(board = "Closed-loop source", mixed = "Primary material production")`.
+#'   If you provide a per-material vector for a subset, unspecified types default to
+#'   `"Primary material production"`.
+#' @param waste_disposal One of `"Closed-loop"`, `"Combustion"`, `"Composting"`, `"Landfill"`.
+#' @param units Output units: `"kg"` (default) or `"tonnes"`.
+#' @param value_col Which numeric column in `uk_gov_data` to use: `"value"` or `"value_2024"`.
+#' @param strict If `TRUE` (default), error when any nonzero `use`/waste needs a
+#'   factor that is absent in the table. If `FALSE`, treat missing factors as 0.
+#'
 #' @export
-#' 
-#' @details `paper_waste_disposal` methods:
-#' `"Closed-loop"` is the process of recycling material back into the same product.
-#' `"Combustion"` energy is recovered from the waste through incineration and subsequent generation of electricity.
-#' `"Composting"` CO2e emitted as a result of composting a waste stream.
-#' `"Landfill"` the product goes to landfill after use.
-#' 
-#' Note on the Material Use and Waste Disposal from the Government UK Report 2024:
-#' "Material use conversion factors should be used only to report on procured products and materials based on their origin (that is, comprised of primary material or recycled materials). The factors are not suitable for quantifying the benefits of collecting products or materials for recycling."
-#' "The conversion factors presented for material consumption cover [...] emissions from the point of raw material extraction through to the point at which a finished good is manufactured and provided for sale. Therefore, commercial enterprises may use these factors to estimate the impact of goods they procure. Organisations involved in manufacturing goods using these materials should note that if they separately report emissions associated with their energy use in forming products with these materials, there is potential for double counting. As many of the data sources used in preparing the tables are confidential, we cannot publish a more detailed breakdown."
-#' 
-#' "Waste-disposal figures should be used for Greenhouse Gas Protocol reporting of Scope 3 emissions associated with end-of-life disposal of different materials. With the exception of landfill, these figures only cover emissions from the collection of materials and delivery to the point of treatment or disposal. They do not cover the environmental impact of different waste management options."
+#' @return Numeric total emissions in requested `units`.
 #'
 #' @examples
-#' paper_emissions(board = 10, board_WD = 10, paper = 100, paper_WD = 100, units = "kg")
-paper_emissions <- function(board = 0, mixed = 0, paper = 0,
-                            board_WD = 0, mixed_WD = 0, paper_WD = 0,
-                            paper_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),
-                            units = c("kg", "tonnes")){
+#' # Closed-loop source for all paper types; landfill; waste = use
+#' paper_emissions(
+#'   use = c(board = 10, paper = 100),
+#'   material_production = "Closed-loop source",
+#'   waste_disposal = "Landfill",
+#'   waste = TRUE
+#' )
+#'
+#' # Per-material: board closed-loop, mixed primary (default), no waste
+#' paper_emissions(
+#'   use = c(board = 5, mixed = 2),
+#'   material_production = c(board = "closed loop"),
+#'   waste = FALSE,
+#'   value_col = "value_2024",
+#'   units = "tonnes"
+#' )
+paper_emissions <- function(
+    use                 = stats::setNames(numeric(), character()),
+    waste               = TRUE,
+    material_production = "Primary material production",
+    waste_disposal      = c("Closed-loop", "Combustion", "Composting", "Landfill"),
+    units               = c("kg", "tonnes"),
+    value_col           = c("value", "value_2024"),
+    strict              = TRUE
+) {
+  waste_disposal <- match.arg(waste_disposal)
+  units          <- match.arg(units)
+  value_col      <- match.arg(value_col)
   
-  paper_waste_disposal <- match.arg(paper_waste_disposal)
-  units <- match.arg(units)
-  checkmate::assert_numeric(board, lower = 0)
-  checkmate::assert_numeric(mixed, lower = 0)
-  checkmate::assert_numeric(paper, lower = 0)
-  checkmate::assert_numeric(board_WD, lower = 0)
-  checkmate::assert_numeric(mixed_WD, lower = 0)
-  checkmate::assert_numeric(paper_WD, lower = 0)
+  # Canonical set we support
+  pa_names <- c("board","mixed","paper")
   
-  MU <- uk_gov_data %>%
-    dplyr::filter(`Level 2` == "Paper") %>%
-    dplyr::filter(`Column Text` == "Primary material production") %>%
-    dplyr::mutate(`Level 3` = ifelse(`Level 2` %in% c("Paper"),
-                              gsub(".*: ", "", `Level 3`),
-                              `Level 3`))
+  # Robust normaliser for names
+  norm_pa <- function(x){
+    x <- tolower(trimws(x))
+    x <- sub(".*?:\\s*", "", x)        # drop "Paper: "
+    x <- sub("\\s*\\(.*\\)$", "", x)   # drop "(...)"
+    x <- gsub("[^a-z0-9]+", "_", x)
+    x <- gsub("^_+|_+$", "", x)
+    x <- gsub("_+", "_", x)
+    x
+  }
   
-  WD <- uk_gov_data %>%
-    dplyr::filter(`Level 1` == "Waste disposal") %>%
-    dplyr::filter(`Level 2` == "Paper") %>%
-    dplyr::filter(`Column Text` == paper_waste_disposal)
-  emission_values <- MU$value
-  WD_values <- WD$value
+  # Map variants to canonical
+  canon_paper_keys <- function(nm) switch(nm,
+                                          "paper_board"   = "board",
+                                          "cardboard"     = "board",
+                                          "board"         = "board",
+                                          "paper_mixed"   = "mixed",
+                                          "mixed_paper"   = "mixed",
+                                          "mixed"         = "mixed",
+                                          "paper"         = "paper",
+                                          nm
+  )
   
-  emission_values <- MU$value
-  paper_emissions <- board*emission_values[1] + mixed*emission_values[2] + paper*emission_values[3] +
-    board_WD*WD_values[1] + mixed_WD*WD_values[2] + paper_WD*WD_values[3]
-  if (units == "kg") paper_emissions <- paper_emissions * 0.001
-  return(paper_emissions)
+  # Expand user input to canonical set, warn on unknowns
+  expand_vec <- function(x) {
+    if (length(x) == 0) return(stats::setNames(numeric(length(pa_names)), pa_names))
+    checkmate::assert_numeric(x, lower = 0, any.missing = FALSE, names = "named")
+    
+    raw_names  <- names(x)
+    norm_names <- norm_pa(raw_names)
+    keys_list  <- lapply(norm_names, canon_paper_keys)
+    
+    unknown_idx <- vapply(keys_list, function(k) all(!(k %in% pa_names)), logical(1))
+    if (any(unknown_idx)) {
+      warning(
+        "Ignoring unknown paper material name(s): ",
+        paste(unique(raw_names[unknown_idx]), collapse = ", "),
+        call. = FALSE
+      )
+    }
+    
+    out <- stats::setNames(numeric(length(pa_names)), pa_names)
+    for (i in seq_along(x)) {
+      k <- canon_paper_keys(norm_names[i])
+      if (k %in% pa_names) out[k] <- out[k] + x[[i]]
+    }
+    out
+  }
+  
+  use_vec   <- expand_vec(use)
+  waste_vec <- if (isTRUE(waste)) use_vec else stats::setNames(numeric(length(pa_names)), pa_names)
+  
+  # ----- material_production resolution (scalar or per-material) -----
+  # available Column Text choices in table for Material use / Paper
+  # ----- material_production resolution (scalar or per-material) -----
+  choices_use <- uk_gov_data |>
+    dplyr::filter(.data[["Level 1"]] == "Material use",
+                  .data[["Level 2"]] == "Paper") |>
+    dplyr::distinct(`Column Text`) |>
+    dplyr::pull()
+  
+  norm_ct <- function(x) gsub("[^a-z]+","", tolower(x))
+  resolve_ct <- function(desired) {
+    if (length(choices_use) == 0) return(NA_character_)
+    if (is.na(desired) || desired == "") return(NA_character_)
+    d <- norm_ct(desired)
+    syn <- list(
+      primary          = "Primary material production",
+      closedloop       = "Closed-loop source",
+      closedloopsource = "Closed-loop source",
+      closed_loop      = "Closed-loop source"
+    )
+    if (d %in% names(syn)) desired <- syn[[d]]
+    cn <- norm_ct(choices_use)
+    hit <- which(cn == norm_ct(desired))
+    if (length(hit) >= 1) return(choices_use[hit][1])
+    hit2 <- which(grepl(norm_ct(desired), cn, fixed = TRUE))
+    if (length(hit2) >= 1) return(choices_use[hit2][1])
+    NA_character_
+  }
+  
+  # Decide mode correctly even for length-1 named vectors
+  is_per_material <- (length(material_production) >= 1 &&
+                        !is.null(names(material_production)) &&
+                        any(nzchar(names(material_production))))
+  
+  if (!is_per_material) {
+    # scalar mode
+    default_ct <- resolve_ct(material_production[[1]])
+    mp_vec <- stats::setNames(rep(default_ct, length(pa_names)), pa_names)
+  } else {
+    # per-material mode (supports single named element too)
+    checkmate::assert_character(material_production, any.missing = FALSE, names = "named")
+    mp_vec <- stats::setNames(rep(resolve_ct("Primary material production"), length(pa_names)), pa_names)
+    nm <- names(material_production)
+    nm <- norm_pa(nm)
+    nm <- vapply(nm, canon_paper_keys, character(1))
+    for (i in seq_along(material_production)) {
+      k <- nm[i]
+      if (k %in% pa_names) mp_vec[k] <- resolve_ct(material_production[[i]])
+    }
+  }
+  
+  # Factor builders (use material + chosen Column Text; waste is simple route)
+  # Material use factors (respect per-material Column Text)
+  ef_use <- {
+    out <- stats::setNames(rep(NA_real_, length(pa_names)), pa_names)
+    tbl <- uk_gov_data |>
+      dplyr::filter(.data[["Level 1"]] == "Material use",
+                    .data[["Level 2"]] == "Paper") |>
+      dplyr::transmute(key = vapply(norm_pa(.data[["Level 3"]]), canon_paper_keys, character(1)),
+                       ct  = .data[["Column Text"]],
+                       val = .data[[value_col]])
+    # for each canonical key, pick value where ct == mp_vec[key]
+    for (k in pa_names) {
+      sel <- tbl$key == k & tbl$ct == mp_vec[[k]]
+      if (any(sel)) out[k] <- tbl$val[which(sel)[1]]
+    }
+    out
+  }
+  
+  # Waste factors (single route for all)
+  ef_waste <- {
+    out <- stats::setNames(rep(NA_real_, length(pa_names)), pa_names)
+    tbl <- uk_gov_data |>
+      dplyr::filter(.data[["Level 1"]] == "Waste disposal",
+                    .data[["Level 2"]] == "Paper",
+                    .data[["Column Text"]] == waste_disposal) |>
+      dplyr::transmute(key = vapply(norm_pa(.data[["Level 3"]]), canon_paper_keys, character(1)),
+                       val = .data[[value_col]])
+    for (k in pa_names) {
+      sel <- tbl$key == k
+      if (any(sel)) out[k] <- tbl$val[which(sel)[1]]
+    }
+    out
+  }
+  
+  # Validate BEFORE zero-fill
+  miss_use   <- names(use_vec)[use_vec > 0 & is.na(ef_use)]
+  miss_waste <- names(waste_vec)[waste_vec > 0 & is.na(ef_waste[names(waste_vec)])]
+  if (strict && length(miss_use)) {
+    stop("No material-use factor for paper (", paste(miss_use, collapse = ", "),
+         ") with material_production; set strict = FALSE to treat as 0.")
+  }
+  if (strict && length(miss_waste)) {
+    stop("No waste-disposal factor (", waste_disposal, ") for paper: ",
+         paste(miss_waste, collapse = ", "),
+         ". Set strict = FALSE to treat as 0.")
+  }
+  
+  # zero-fill
+  ef_use[is.na(ef_use)]     <- 0
+  ef_waste[is.na(ef_waste)] <- 0
+  
+  total_kg <- sum(use_vec * ef_use) + sum(waste_vec * ef_waste)
+  if (units == "tonnes") total_kg <- total_kg * 0.001
+  total_kg
 }

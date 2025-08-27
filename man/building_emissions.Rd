@@ -2,7 +2,7 @@
 % Please edit documentation in R/building_emissions.R
 \name{building_emissions}
 \alias{building_emissions}
-\title{Building emissions}
+\title{Building emissions (UK govt schema; table-driven)}
 \usage{
 building_emissions(
   water_supply = 0,
@@ -13,40 +13,70 @@ building_emissions(
   electricity_WTT = TRUE,
   heat_kWh = 0,
   heat_TD = TRUE,
-  heat_WTT = TRUE
+  heat_WTT = TRUE,
+  units = c("kg", "tonnes"),
+  value_col = c("value", "value_2024"),
+  strict = TRUE
 )
 }
 \arguments{
-\item{water_supply}{Amount of water used in the building.}
+\item{water_supply}{numeric, amount of water in the given unit.}
 
-\item{water_trt}{logical. Default \code{TRUE}. Whether to include emissions associated with water treatment for used water.}
+\item{water_trt}{logical, include treatment emissions (default TRUE).}
 
-\item{water_unit}{Unit for \code{water_supply} variable. Options are \code{"cubic metres"} or \code{"million litres"}.}
+\item{water_unit}{"cubic metres" or "million litres".}
 
-\item{electricity_kWh}{Electricity used in kWh.}
+\item{electricity_kWh}{numeric kWh consumed.}
 
-\item{electricity_TD}{logical. Default \code{TRUE}. Whether to include emissions associated with grid losses.}
+\item{electricity_TD}{logical, include T&D losses (default TRUE).}
 
-\item{electricity_WTT}{logical. Default \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.}
+\item{electricity_WTT}{logical, include WTT for electricity (default TRUE).}
 
-\item{heat_kWh}{heat and steam used in kWh.}
+\item{heat_kWh}{numeric kWh of heat/steam (onsite; excludes district).}
 
-\item{heat_TD}{logical. Default \code{TRUE}. Whether to include emissions associated with grid losses.}
+\item{heat_TD}{logical, include district heat distribution losses (default TRUE).}
 
-\item{heat_WTT}{logical. Default \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.}
+\item{heat_WTT}{logical, include WTT for heat/steam (default TRUE).}
+
+\item{units}{"kg" or "tonnes" for the result (default "kg").}
+
+\item{value_col}{which factor column to use: "value" or "value_2024" (default "value").}
+
+\item{strict}{logical, error if a required factor is missing (default TRUE).}
 }
 \value{
-Returns CO2e emissions in tonnes.
+numeric total CO2e in requested units.
 }
 \description{
-Further options are given in the \code{raw_fuels} function.
+Building emissions (UK govt schema; table-driven)
 }
 \examples{
 # specify emissions in an office
-building_emissions(electricity_kWh = 200,
-                 heat_kWh = 100, water_supply = 100, water_trt = FALSE)
+# Basic office: include water treatment, electricity TD+WTT, and heat TD+WTT
+building_emissions(
+  water_supply = 10, water_unit = "cubic metres", water_trt = TRUE,
+  electricity_kWh = 100, electricity_TD = TRUE, electricity_WTT = TRUE,
+  heat_kWh = 50, heat_TD = TRUE, heat_WTT = TRUE,
+  units = "kg"
+)
 
-}
-\references{
-Descriptions from 2022 UK Government Report: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2022
+# Water only, in million litres, reported in tonnes, using 2024 factors
+building_emissions(
+  water_supply = 0.002, water_unit = "million litres", water_trt = TRUE,
+  electricity_kWh = 0, heat_kWh = 0,
+  value_col = "value_2024", units = "tonnes"
+)
+
+# Electricity without TD (but with WTT generation)
+building_emissions(
+  electricity_kWh = 10, electricity_TD = FALSE, electricity_WTT = TRUE,
+  heat_kWh = 0, water_supply = 0
+)
+
+# Heat only, include WTT but exclude distribution
+building_emissions(
+  heat_kWh = 20, heat_TD = FALSE, heat_WTT = TRUE,
+  water_supply = 0, electricity_kWh = 0
+)
+
 }

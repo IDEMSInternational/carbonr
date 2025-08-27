@@ -2,7 +2,7 @@
 % Please edit documentation in R/office_emissions.R
 \name{office_emissions}
 \alias{office_emissions}
-\title{Office emissions}
+\title{Office emissions (uses building_emissions + homeworking factors)}
 \usage{
 office_emissions(
   specify = FALSE,
@@ -18,50 +18,69 @@ office_emissions(
   electricity_WTT = TRUE,
   heat_kWh = 0,
   heat_TD = TRUE,
-  heat_WTT = TRUE
+  heat_WTT = TRUE,
+  units = c("kg", "tonnes"),
+  value_col = c("value", "value_2024"),
+  strict = TRUE
 )
 }
 \arguments{
-\item{specify}{logical. Whether an average should be used, or if the amount of energy used will be specified.}
+\item{specify}{Logical. If \code{FALSE}, use an average per person; if \code{TRUE}, use
+the specified utility inputs (water/electricity/heat) via \code{\link[=building_emissions]{building_emissions()}}.}
 
-\item{office_num}{If \code{specify = FALSE}, the number of individuals in the office.}
+\item{office_num}{Number of individuals in the office (only used when \code{specify = FALSE}).
+Uses a constant of \strong{2600 kg CO2e per person-year}.}
 
 \item{WFH_num}{Number of people working from home.}
 
-\item{WFH_hours}{Number of hours working from home (per individual).}
+\item{WFH_hours}{Hours worked from home \strong{per person}.
+If one of \code{WFH_num}/\code{WFH_hours} is zero but the other is > 0, the zero one is treated as 1.}
 
-\item{WFH_type}{Whether to account for \code{"Office Equipment"} and/or \code{"Heating"}. Default is both.}
+\item{WFH_type}{Which homeworking components to include; any of
+\code{c("Office Equipment","Heating")}. Default is both.}
 
-\item{water_supply}{Amount of water used in the office.}
+\item{water_supply}{See \code{\link[=building_emissions]{building_emissions()}}.}
 
-\item{water_trt}{logical. Default \code{TRUE}. Whether to include emissions associated with water treatment for used water.}
+\item{water_trt}{See \code{\link[=building_emissions]{building_emissions()}}.}
 
-\item{water_unit}{Unit for \code{water_supply} variable. Options are \code{"cubic metres"} or \code{"million litres"}.}
+\item{water_unit}{See \code{\link[=building_emissions]{building_emissions()}}.}
 
-\item{electricity_kWh}{Electricity used in kWh.}
+\item{electricity_kWh, electricity_TD, electricity_WTT}{See \code{\link[=building_emissions]{building_emissions()}}.}
 
-\item{electricity_TD}{logical. Default \code{TRUE}. Whether to include emissions associated with grid losses.}
+\item{heat_kWh, heat_TD, heat_WTT}{See \code{\link[=building_emissions]{building_emissions()}}.}
 
-\item{electricity_WTT}{logical. Default \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.}
+\item{units}{Output units: \code{"kg"} (default) or \code{"tonnes"}.}
 
-\item{heat_kWh}{heat and steam used in kWh.}
+\item{value_col}{Which factor column to use in \code{uk_gov_data}: \code{"value"} or \code{"value_2024"}.}
 
-\item{heat_TD}{logical. Default \code{TRUE}. Whether to include emissions associated with grid losses.}
-
-\item{heat_WTT}{logical. Default \code{TRUE}. Whether to include emissions associated with extracting, refining, and transporting fuels.}
+\item{strict}{If \code{TRUE} (default), error when needed factors (e.g., homeworking)
+are missing. If \code{FALSE}, treat missing factors as 0.}
 }
 \value{
-Returns CO2e emissions in tonnes.
+Numeric total emissions in requested \code{units}.
 }
 \description{
-Office emissions
+Computes office emissions either from a per-person average (when \code{specify = FALSE})
+or from specified utilities via \code{\link[=building_emissions]{building_emissions()}} (when \code{specify = TRUE}),
+plus optional \strong{homeworking} emissions (Level 1 = "Homeworking").
+}
+\details{
+Factors are assumed \strong{kg CO2e per unit} (e.g., per person-hour for homeworking),
+and the result is returned in requested \code{units}.
 }
 \examples{
-# specify emissions in an office
-office_emissions(specify = TRUE, electricity_kWh = 200,
-                 heat_kWh = 100, water_supply = 100, water_trt = FALSE)
+# 1) Use specified utilities (building_emissions) + homeworking
+office_emissions(
+  specify = TRUE,
+  electricity_kWh = 200, heat_kWh = 100,
+  water_supply = 10, water_unit = "cubic metres",
+  WFH_num = 5, WFH_hours = 8, WFH_type = c("Office Equipment","Heating")
+)
 
-}
-\references{
-Descriptions from 2022 UK Government Report: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2022
+# 2) Use per-person average for 12 staff, with WFH equipment only
+office_emissions(
+  specify = FALSE, office_num = 12,
+  WFH_num = 6, WFH_hours = 4, WFH_type = "Office Equipment",
+  units = "tonnes"
+)
 }

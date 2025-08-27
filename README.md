@@ -94,7 +94,7 @@ can be found in the vignette.
 
 ## Additional Features
 
-**Beyond the Emissions Available in the 2023 UK Report**
+**Beyond the Emissions Available in the 2025 UK Report**
 
 Additional functions are available for emissions not covered in the UK
 Government report, such as those related to operating theatre waste.

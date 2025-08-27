@@ -2,128 +2,117 @@
 % Please edit documentation in R/construction_emissions.R
 \name{construction_emissions}
 \alias{construction_emissions}
-\title{Calculate emissions from construction}
+\title{Calculate construction emissions (UK govt schema)}
 \usage{
 construction_emissions(
-  aggregates = 0,
-  average = 0,
-  asbestos = 0,
-  asphalt = 0,
-  bricks = 0,
-  concrete = 0,
-  insulation = 0,
-  metals = 0,
-  soils = 0,
-  mineral_oil = 0,
-  plasterboard = 0,
-  tyres = 0,
-  wood = 0,
-  aggregates_WD = 0,
-  average_WD = 0,
-  asbestos_WD = 0,
-  asphalt_WD = 0,
-  bricks_WD = 0,
-  concrete_WD = 0,
-  insulation_WD = 0,
-  metals_WD = 0,
-  soils_WD = 0,
-  mineral_oil_WD = 0,
-  plasterboard_WD = 0,
-  tyres_WD = 0,
-  wood_WD = 0,
+  use = stats::setNames(numeric(), character()),
+  waste = TRUE,
+  material_production = c("Primary material production", "Re-used", "Closed-loop source"),
+  waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill", "Open-loop"),
   units = c("kg", "tonnes"),
-  waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill", "Open-loop")
+  value_col = c("value", "value_2024"),
+  strict = TRUE
 )
 }
 \arguments{
-\item{aggregates}{The weight of aggregates used in construction. Default is \code{0}.}
+\item{use}{Named numeric vector of material quantities in tonnes.
+Names are matched case/space/punctuation-insensitively to \verb{Level 3}
+(e.g., \code{"Mineral oil"}, \code{"mineral_oil"}, \code{"MINERAL-OIL"} all match).
+Missing/unknown materials are treated as zero.}
 
-\item{average}{The weight of average material used in construction. Default is \code{0}.}
+\item{waste}{Logical. If \code{TRUE}, waste quantities are assumed equal to \code{use}
+(i.e., the same tonnage is sent to the chosen disposal route).
+If \code{FALSE}, no waste is applied (equivalent to zero for all materials).}
 
-\item{asbestos}{The weight of asbestos used in construction. Default is \code{0}.}
+\item{material_production}{Either:
+\itemize{
+\item a single string applied to all materials, e.g.
+\code{"Primary material production"}, \code{"Closed-loop source"}, or \code{"Re-used"}; or
+\item a named character vector giving a choice per material name,
+e.g. \code{c(concrete = "Closed-loop source", wood = "Re-used")}.
+Synonyms are accepted for material production: \code{"reused"/"re-used"},
+\code{"closed loop"/"closed-loop"/"closed-loop source"}.
+}}
 
-\item{asphalt}{The weight of asphalt used in construction. Default is \code{0}.}
+\item{waste_disposal}{One of \code{"Closed-loop"}, \code{"Combustion"}, \code{"Composting"},
+\code{"Landfill"}, or \code{"Open-loop"}. Applied to all waste. If the chosen
+disposal route is not available for a material, behaviour depends on \code{strict}.}
 
-\item{bricks}{The weight of bricks used in construction. Default is \code{0}.}
+\item{units}{Output units: \code{"kg"} (default) or \code{"tonnes"}.}
 
-\item{concrete}{The weight of concrete used in construction. Default is \code{0}.}
+\item{value_col}{Which factor column to use from \code{uk_gov_data}: \code{"value"} or \code{"value_2024"}.}
 
-\item{insulation}{The weight of insulation material used in construction. Default is \code{0}.}
-
-\item{metals}{The weight of metals used in construction. Default is \code{0}.}
-
-\item{soils}{The weight of soils used in construction. Default is \code{0}.}
-
-\item{mineral_oil}{The weight of mineral oil used in construction. Default is \code{0}.}
-
-\item{plasterboard}{The weight of plasterboard used in construction. Default is \code{0}.}
-
-\item{tyres}{The weight of tyres used in construction. Default is \code{0}.}
-
-\item{wood}{The weight of wood used in construction. Default is \code{0}.}
-
-\item{aggregates_WD}{The weight of aggregates disposed of as waste. Default is \code{0}.}
-
-\item{average_WD}{The weight of average material disposed of as waste. Default is \code{0}.}
-
-\item{asbestos_WD}{The weight of asbestos disposed of as waste. Default is \code{0}.}
-
-\item{asphalt_WD}{The weight of asphalt disposed of as waste. Default is \code{0}.}
-
-\item{bricks_WD}{The weight of bricks disposed of as waste. Default is \code{0}.}
-
-\item{concrete_WD}{The weight of concrete disposed of as waste. Default is \code{0}.}
-
-\item{insulation_WD}{The weight of insulation material disposed of as waste. Default is \code{0}.}
-
-\item{metals_WD}{The weight of metals disposed of as waste. Default is \code{0}.}
-
-\item{soils_WD}{The weight of soils disposed of as waste. Default is \code{0}.}
-
-\item{mineral_oil_WD}{The weight of mineral oil disposed of as waste. Default is \code{0}.}
-
-\item{plasterboard_WD}{The weight of plasterboard disposed of as waste. Default is \code{0}.}
-
-\item{tyres_WD}{The weight of tyres disposed of as waste. Default is \code{0}.}
-
-\item{wood_WD}{The weight of wood disposed of as waste. Default is \code{0}.}
-
-\item{units}{The units in which the emissions should be returned (\code{"kg"} or \code{"tonnes"}). Default is \code{0}.}
-
-\item{waste_disposal}{The method of waste disposal. Options are, \code{"Closed-loop"}, \code{"Combustion"}, \code{"Composting"}, \code{"Landfill"},
-\code{"Open-loop"}. Default is \code{"Closed-loop"}. See \code{details} for more information on this.}
+\item{strict}{Logical (default \code{TRUE}). If \code{TRUE}, error when a required factor
+is missing/invalid for any nonzero quantity (either material use or waste).
+If \code{FALSE}, treat missing factors as zero contribution.}
 }
 \value{
-The calculated construction emissions as a numeric value in tonnes.
+Numeric total emissions in the requested \code{units}.
 }
 \description{
-: This function calculates the construction emissions based on the input parameters.
+Computes embodied GHG emissions for construction materials using the
+UK government conversion factors table (\code{uk_gov_data}), specifically rows
+with Level 2 = "Construction". Factors are taken from the selected
+column (\code{value} or \code{value_2024}) and are assumed to be kg CO2e per tonne.
 }
 \details{
-The function calculates the construction emissions based on the input quantities of
-different materials used in construction and the quantities of those materials disposed of
-as waste.
-The emissions values are obtained from a data source and are multiplied by the
-corresponding quantities to calculate the total emissions. The units of emissions can
-be specified as either kilograms (kg) or tonnes.
+Material-production options (Column Text under Material use):
+\itemize{
+\item Aggregates, Asphalt: \code{"Primary material production"}, \code{"Closed-loop source"}, \code{"Re-used"}.
+\item Asbestos, Average Construction, Bricks: \code{"Primary material production"} only.
+\item Concrete, Insulation, Metals, Mineral Oil, Plasterboard:
+\code{"Primary material production"} or \code{"Closed-loop source"}.
+\item Soils: \code{"Closed-loop source"} only.
+\item Tyres, Wood: \code{"Primary material production"} or \code{"Re-used"}.
+}
 
-All assume \verb{Primary material production} for the material used in construction, except soils which assumes \code{Closed-loop}
+Waste-disposal options (Column Text under Waste disposal):
+\itemize{
+\item \code{"Closed-loop"} is valid for aggregates, average, asphalt, concrete,
+insulation, metal, soils, mineral oil, plasterboard, tyres, wood.
+\item \code{"Combustion"} is valid for average, mineral oil, wood.
+\item \code{"Composting"} is valid for wood only.
+\item \code{"Landfill"} is valid for everything except average, mineral oil, tyres.
+\item \code{"Open-loop"} is valid for aggregates, average, asphalt, bricks, concrete
+(and any other materials where the table provides a factor).
+}
 
-The waste disposal method can be selected from the options: \code{"Closed-loop"}, \code{"Combustion"},
-\code{"Composting"}, \code{"Landfill"}, or \code{"Open-loop"}.
-Note that: \code{"Closed-loop"} is valid for aggregates, average, asphalt, concrete, insulation,
-metal, soils, mineral oil, plasterboard, tyres, and wood.
-\code{"Combustion"} is valid for average, mineral oil, and wood.
-\code{"Composting"} is valid for wood only.
-\code{"Landfill"} is valid for everything except average, mineral oil, and tyres.
-\code{"Open-loop"} is valid for aggregates, average, asphalt, bricks, concrete,
-If one of these is used for a value that does not provide it, then an \code{"NA"} is given.
+These rules are enforced by the presence/absence of rows in \code{uk_gov_data}. If a
+requested material-route pair has no factor in the table, the lookup yields \code{NA}:
+with \code{strict = TRUE} a descriptive error is thrown; with \code{strict = FALSE} it
+contributes zero to the total.
+
+Units: Factors are kg CO2e / tonne; if \code{units = "tonnes"}, the result
+is divided by 1000.
 }
 \examples{
-#Calculate construction emissions with default values
-construction_emissions()
+# 1) Basic: primary production for all materials, landfill waste = use
+construction_emissions(
+  use = c(Aggregates = 1000, Concrete = 500, Wood = 2000),
+  material_production = "Primary material production",
+  waste_disposal = "Landfill",
+  waste = TRUE,
+  strict = FALSE,
+  units = "kg"
+)
 
-#Calculate construction emissions with specified quantities
-construction_emissions(aggregates = 1000, concrete = 500, wood = 2000,
-                       units = "kg", waste_disposal = "Landfill")
+# 2) Per-material production + synonyms ("closed loop" ->
+# "Closed-loop source", "reused" -> "Re-used")
+construction_emissions(
+  use = c(aggregates = 100, concrete = 50, wood = 10),
+  material_production = c(aggregates = "closed loop",
+                          concrete = "Closed-loop source",
+                          wood = "reused"),
+  waste_disposal = "Landfill",
+  waste = TRUE,
+  units = "tonnes",
+  value_col = "value_2024"
+)
+
+# 3)  Tolerant mode treats missing factors as zero:
+construction_emissions(
+  use = c(bricks = 10),
+  material_production = "Re-used",
+  strict = FALSE
+)
 }

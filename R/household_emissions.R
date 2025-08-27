@@ -1,129 +1,271 @@
-#' Calculate household material emissions
-#' 
-#' @param household_residual_waste Numeric value representing the amount of household residual waste. Household Residual Waste refers to waste that remains after all recyclable, compostable, and reusable materials have been removed through household recycling, composting, or other waste management activities. This type of waste is typically disposed of through methods such as landfill or incineration and often includes non-recyclable items. Default is `0`.
-#' @param hh_waste_disposal Character value specifying the waste disposal method for  waste (options: `"Combustion"`, `"Landfill"`). Default is `"Combustion"`. See `details` for more information.
-#' @param glass Numeric value representing the amount of glass material purchased. Default is `0`.
-#' @param clothing Numeric value representing the amount of clothing material purchased. Default is `0`.
-#' @param glass_WD Numeric value representing the amount of glass waste disposed. Default is `0`.
-#' @param clothing_WD Numeric value representing the amount of clothing waste disposed. Default is `0`.
-#' @param books_WD Numeric value representing the amount of books waste disposed. Default is `0`.
-#' @param gcb_waste_disposal Character value specifying the waste disposal method for glass, clothing, and books waste (options: `"Closed-loop"`, `"Combustion"`, `"Landfill"`). Default is `"Closed-loop"`. See `details` for more information.
-#' @param food Numeric value representing the amount of food purchased. Default is `0`.
-#' @param drink Numeric value representing the amount of drink purchased. Default is `0`.
-#' @param compost_from_garden Numeric value representing the amount of compost from garden waste purchased. Default is `0`.
-#' @param compost_from_food_and_garden Numeric value representing the amount of compost from food and garden waste purchased. Default is `0`.
-#' @param food_WD Numeric value indicating the weight of organic food disposed of using waste disposal methods given in `compost_waste_disposal`. Default is `0`.
-#' @param drink_WD Numeric value indicating the weight of organic drink disposed of using the waste disposal method given in `compost_waste_disposal`. Default is `0`.
-#' @param compost_from_garden_WD Numeric value indicating the weight of compost from garden waste disposed of using waste disposal methods. Default is `0`.
-#' @param compost_from_food_and_garden_WD Numeric value indicating the weight of compost from garden and food waste disposed of using waste disposal methods. Default is `0`.
-#' @param compost_waste_disposal Character value specifying the waste disposal method for compost waste (options: `"Anaerobic digestion"`, `"Combustion"`, `"Composting"`, `"Landfill"`). Default is `"Anaerobic digestion"`. See `details` for more information.
-#' @inheritParams paper_emissions
-#' @inheritParams electrical_emissions
-#' @inheritParams metal_emissions
-#' @inheritParams plastic_emissions
-#' @param units Character vector specifying the units of the emissions. Possible values: `"kg"`, `"tonnes"`. Default is `"kg"`.
+#' Calculate household material emissions (vector-first)
 #'
-#' @return The calculated household emissions as a numeric value in tonnes.
+#' Sums emissions from paper, plastics, metals, electrical, construction
+#' (delegated to their calculators) plus household-specific streams:
+#' Glass/Clothing/Books (GCB), Organic (food/drink/compost), and
+#' Household residual waste.
+#'
+#' @section Inputs:
+#' Provide named `*_use` vectors in tonnes and `*_waste = TRUE/FALSE` flags.
+#' Unknown names in `gcb_use` / `organic_use` are ignored with a warning.
+#'
+#' @param paper_use,plastic_use,metal_use,electrical_use,construction_use
+#'   Named numeric vectors (tonnes) passed to the corresponding calculators.
+#' @param paper_waste,plastic_waste,metal_waste,electrical_waste,construction_waste
+#'   Logical; if `TRUE`, apply waste factors to the same tonnages as `*_use`.
+#' @param paper_material_production,metal_material_production,construction_material_production
+#'   Single string or per-material named vector for MU column text; forwarded.
+#' @param paper_waste_disposal,plastic_waste_disposal,metal_waste_disposal,electrical_waste_disposal,construction_waste_disposal
+#'   Waste route per family; forwarded.
+#'
+#' @param gcb_use Named numeric vector for Glass/Clothing/Books (keys: `glass`, `clothing`, `books`).
+#' E.g., `gcb_use = c(glass = 3, books = 0.5)`
+#' @param gcb_waste Logical; if `TRUE`, apply GCB waste factors to same tonnages.
+#' @param gcb_waste_disposal One of `"Closed-loop"`, `"Combustion"`, `"Landfill"`.
+#'
+#' @param organic_use Named numeric vector for `food`, `drink`,
+#'   `compost_from_garden`, `compost_from_food_and_garden`.
+#' @param organic_waste Logical; if `TRUE`, apply organic waste factors to same tonnages.
+#' @param compost_waste_disposal One of `"Anaerobic digestion"`, `"Combustion"`, `"Composting"`, `"Landfill"`.
+#'
+#' @param household_residual_waste Numeric (tonnes).
+#' @param hh_waste_disposal `"Combustion"` or `"Landfill"`.
+#'
+#' @param units Output units: `"kg"` (default) or `"tonnes"`.
+#' @param value_col Which factor column in `uk_gov_data` to use: `"value"` or `"value_2024"`.
+#' @param strict If `TRUE` (default) error when a required factor is missing; if `FALSE`, treat as 0.
+#'
+#' @return Numeric total emissions in requested `units`.
 #' @export
-#' 
-#' @details `*_waste_disposal` methods:
-#' `"Open-loop"` is the process of recycling material into other products.
-#' `"Closed-loop"` is the process of recycling material back into the same product.
-#' `"Combustion"` energy is recovered from the waste through incineration and subsequent generation of electricity.
-#' `"Compost"` CO2e emitted as a result of composting a waste stream.
-#' `"Landfill"` the product goes to landfill after use.
-#' `"Anaerobic digestion"` energy is recovered from the waste through anaerobic digestion.
-#' 
-#' Note on the Material Use and Waste Disposal from the Government UK Report 2024:
-#' "Material use conversion factors should be used only to report on procured products and materials based on their origin (that is, comprised of primary material or recycled materials). The factors are not suitable for quantifying the benefits of collecting products or materials for recycling."
-#' "The conversion factors presented for material consumption cover [...] emissions from the point of raw material extraction through to the point at which a finished good is manufactured and provided for sale. Therefore, commercial enterprises may use these factors to estimate the impact of goods they procure. Organisations involved in manufacturing goods using these materials should note that if they separately report emissions associated with their energy use in forming products with these materials, there is potential for double counting. As many of the data sources used in preparing the tables are confidential, we cannot publish a more detailed breakdown."
-#' 
-#' "Waste-disposal figures should be used for Greenhouse Gas Protocol reporting of Scope 3 emissions associated with end-of-life disposal of different materials. With the exception of landfill, these figures only cover emissions from the collection of materials and delivery to the point of treatment or disposal. They do not cover the environmental impact of different waste management options."
 #'
 #' @examples
-#' household_emissions(glass = 100, clothing = 10, glass_WD = 10, units = "kg")
-household_emissions <- function(household_residual_waste = 0, hh_waste_disposal = c("Landfill", "Combustion"),
-  glass = 0, clothing = 0, glass_WD = 0, clothing_WD = 0,books_WD = 0, gcb_waste_disposal = c("Closed-loop", "Combustion", "Landfill"),
-  food = 0, drink = 0, compost_from_garden = 0, compost_from_food_and_garden = 0, food_WD = 0, drink_WD = 0, compost_from_garden_WD = 0,
-  compost_from_food_and_garden_WD = 0, compost_waste_disposal = c("Anaerobic digestion", "Combustion", "Composting", "Landfill"),
-  board = 0, mixed = 0, paper = 0, board_WD = 0, mixed_WD = 0, paper_WD = 0, paper_waste_disposal = c("Closed-loop", "Combustion", "Composting", "Landfill"),
-  fridges = 0, freezers = 0, large_electrical = 0, IT = 0, small_electrical = 0, alkaline_batteries = 0, LiIon_batteries = 0, NiMh_batteries = 0,
-  fridges_WD = 0, freezers_WD = 0, large_electrical_WD = 0, IT_WD = 0, small_electrical_WD = 0, alkaline_batteries_WD = 0, LiIon_batteries_WD = 0,
-  NiMh_batteries_WD = 0, electric_waste_disposal = c("Landfill", "Open-loop"),
-  aluminuim_cans = 0, aluminuim_foil = 0, mixed_cans = 0, scrap = 0, steel_cans = 0,
-  aluminuim_cans_WD = 0, aluminuim_foil_WD = 0, mixed_cans_WD = 0, scrap_WD = 0, steel_cans_WD = 0,
-  metal_waste_disposal = c("Closed-loop", "Combustion", "Landfill", "Open-loop"),
-  average = 0, average_film = 0, average_rigid = 0, HDPE = 0, LDPE = 0, LLDPE = 0, PET = 0, PP = 0, PS = 0, PVC = 0,
-  average_WD = 0, average_film_WD = 0, average_rigid_WD = 0, HDPE_WD = 0, LDPE_WD = 0, LLDPE_WD = 0, PET_WD = 0, PP_WD = 0, PS_WD = 0, PVC_WD = 0,
-  plastic_waste_disposal = c("Landfill", "Open-loop", "Closed-loop", "Combustion"),
+#' household_emissions(
+#'   gcb_use = c(glass = 3, books = 0.5),
+#'   organic_use = c(food = 1, drink = 0.5),
+#'   household_residual_waste = 0.8,
+#'   gcb_waste = TRUE, organic_waste = TRUE,
+#'   gcb_waste_disposal = "Closed-loop",
+#'   compost_waste_disposal = "Anaerobic digestion",
+#'   hh_waste_disposal = "Combustion",
+#'   units = "kg"
+#' )
+household_emissions <- function(
+    # ---- families forwarded to their calculators ----
+    paper_use        = stats::setNames(numeric(), character()),
+    plastic_use      = stats::setNames(numeric(), character()),
+    metal_use        = stats::setNames(numeric(), character()),
+    electrical_use   = stats::setNames(numeric(), character()),
+    construction_use = stats::setNames(numeric(), character()),
+    
+    paper_waste = TRUE,
+    plastic_waste = TRUE,
+    metal_waste = TRUE,
+    electrical_waste = TRUE,
+    construction_waste = TRUE,
+    
+    paper_material_production        = "Primary material production",
+    metal_material_production        = "Primary material production",
+    construction_material_production = "Primary material production",
+    
+    paper_waste_disposal        = c("Closed-loop","Combustion","Composting","Landfill"),
+    plastic_waste_disposal      = c("Landfill","Open-loop","Closed-loop","Combustion"),
+    metal_waste_disposal        = c("Closed-loop","Combustion","Landfill","Open-loop"),
+    electrical_waste_disposal   = c("Landfill","Open-loop"),
+    construction_waste_disposal = c("Closed-loop","Combustion","Composting","Landfill","Open-loop"),
+    
+    # ---- household-specific streams ----
+    gcb_use = stats::setNames(numeric(), character()),              # glass/clothing/books
+    gcb_waste = TRUE,
+    gcb_waste_disposal = c("Closed-loop","Combustion","Landfill"),
+    
+    organic_use = stats::setNames(numeric(), character()),          # food/drink/compost...
+    organic_waste = TRUE,
+    compost_waste_disposal = c("Anaerobic digestion","Combustion","Composting","Landfill"),
+    
+    household_residual_waste = 0,
+    hh_waste_disposal = c("Combustion","Landfill"),
+    
+    # ---- globals ----
+    units     = c("kg","tonnes"),
+    value_col = c("value","value_2024"),
+    strict    = TRUE
+){
+  # match options
+  paper_waste_disposal        <- match.arg(paper_waste_disposal)
+  plastic_waste_disposal      <- match.arg(plastic_waste_disposal)
+  metal_waste_disposal        <- match.arg(metal_waste_disposal)
+  electrical_waste_disposal   <- match.arg(electrical_waste_disposal)
+  construction_waste_disposal <- match.arg(construction_waste_disposal)
+  gcb_waste_disposal          <- match.arg(gcb_waste_disposal)
+  compost_waste_disposal      <- match.arg(compost_waste_disposal)
+  hh_waste_disposal           <- match.arg(hh_waste_disposal)
+  units     <- match.arg(units)
+  value_col <- match.arg(value_col)
   
-  units = c("kg", "tonnes")){
+  # helpers
+  norm <- function(x) gsub("[^a-z0-9]+", "_", tolower(trimws(x)))
   
-  gcb_waste_disposal <- match.arg(gcb_waste_disposal)
-  hh_waste_disposal <- match.arg(hh_waste_disposal)
-  compost_waste_disposal <- match.arg(compost_waste_disposal)
-  plastic_waste_disposal <- match.arg(plastic_waste_disposal)
-  units <- match.arg(units)
-  checkmate::assert_numeric(glass, lower = 0)
-  checkmate::assert_numeric(clothing, lower = 0)
-  checkmate::assert_numeric(food, lower = 0)
-  checkmate::assert_numeric(drink, lower = 0)
-  checkmate::assert_numeric(compost_from_garden, lower = 0)
-  checkmate::assert_numeric(compost_from_food_and_garden, lower = 0)
-  checkmate::assert_numeric(glass_WD, lower = 0)
-  checkmate::assert_numeric(books_WD, lower = 0)
-  checkmate::assert_numeric(clothing_WD, lower = 0)
-  checkmate::assert_numeric(food_WD, lower = 0)
-  checkmate::assert_numeric(drink_WD, lower = 0)
-  checkmate::assert_numeric(compost_from_garden_WD, lower = 0)
-  checkmate::assert_numeric(compost_from_food_and_garden_WD, lower = 0)
-  checkmate::assert_numeric(household_residual_waste, lower = 0)
+  # expand & warn unknown names
+  expand_named <- function(x, allowed, label) {
+    if (length(x) == 0) return(stats::setNames(numeric(length(allowed)), allowed))
+    checkmate::assert_numeric(x, lower = 0, any.missing = FALSE, names = "named")
+    raw <- names(x)
+    nn  <- norm(names(x))
+    names(x) <- nn
+    out <- stats::setNames(numeric(length(allowed)), allowed)
+    hits <- intersect(nn, allowed)
+    out[hits] <- x[hits]
+    unknown <- raw[!(nn %in% allowed)]
+    if (length(unknown)) warning("Ignoring unknown ", label, " name(s): ",
+                                 paste(unique(unknown), collapse = ", "),
+                                 call. = FALSE)
+    out
+  }
   
-  metal_emissions <- metal_emissions(aluminuim_cans = aluminuim_cans, aluminuim_foil = aluminuim_foil,
-                                     mixed_cans = mixed_cans, scrap = scrap, steel_cans = steel_cans,
-                                     aluminuim_cans_WD = aluminuim_cans_WD, aluminuim_foil_WD = aluminuim_foil_WD,
-                                     mixed_cans_WD = mixed_cans_WD, scrap_WD = scrap_WD, steel_cans_WD = steel_cans_WD,
-                                     metal_waste_disposal = metal_waste_disposal, units = units)
-  paper_emissions <- paper_emissions(board = board, mixed = mixed, paper = paper,
-                                     board_WD = board_WD, mixed_WD = mixed_WD, paper_WD = paper_WD,
-                                     paper_waste_disposal = paper_waste_disposal, units = units)
-  plastic_emissions <- plastic_emissions(average = average, average_film = average_film, average_rigid = average_rigid,
-                                         HDPE = HDPE, LDPE = LDPE, LLDPE = LLDPE, PET = PET, PP = PP, PS = PS, PVC = PVC,
-                                         average_WD = average_WD, average_film_WD = average_film_WD, average_rigid_WD = average_rigid_WD,
-                                         HDPE_WD = HDPE_WD, LDPE_WD = LDPE_WD, LLDPE_WD = LLDPE_WD, PET_WD = PET_WD, PP_WD = PP_WD,
-                                         PS_WD = PS_WD, PVC_WD = PVC_WD, plastic_waste_disposal = plastic_waste_disposal, units = units)
-  electrical_emissions <- electrical_emissions(fridges = fridges, freezers = freezers, large_electrical = large_electrical, IT = IT,
-                                               small_electrical = small_electrical, alkaline_batteries = alkaline_batteries,
-                                               LiIon_batteries = LiIon_batteries, NiMh_batteries = NiMh_batteries,
-                                               fridges_WD = fridges_WD, freezers_WD = freezers_WD, large_electrical_WD = large_electrical_WD, IT_WD = IT_WD,
-                                               small_electrical_WD = small_electrical_WD, alkaline_batteries_WD = alkaline_batteries_WD, LiIon_batteries_WD = LiIon_batteries_WD,
-                                               NiMh_batteries_WD = NiMh_batteries_WD, electric_waste_disposal = electric_waste_disposal, units = units)
-  emission_values <- uk_gov_data %>%
-    dplyr::filter(`Level 2` %in% c("Organic", "Other")) %>%
-    dplyr::filter(`Column Text` == "Primary material production") %>%
-    dplyr::pull(value)
-  WD_compost_values <- uk_gov_data %>%
-    dplyr::filter(`Level 2` %in% c("Refuse")) %>%
-    dplyr::filter(`Column Text` == compost_waste_disposal) %>%
-    dplyr::pull(value)
-  WD_hh_values <- uk_gov_data %>%
-    dplyr::filter(`Level 3` == c("Household residual waste")) %>%
-    dplyr::filter(`Column Text` == hh_waste_disposal) %>%
-    dplyr::pull(value)
-  WD_gcb_values <- uk_gov_data %>%
-    dplyr::filter(`Level 1` == "Waste disposal") %>%
-    dplyr::filter(`Level 2` == c("Other")) %>%
-    dplyr::filter(`Column Text` == gcb_waste_disposal) %>%
-    dplyr::pull(value)
-    hh_emissions <- glass*emission_values[2] + clothing*emission_values[3] + food*emission_values[4] +
-    drink*emission_values[4] + compost_from_garden*emission_values[5] +
-    compost_from_food_and_garden*emission_values[6] +
-      books_WD*WD_gcb_values[1] + glass_WD*WD_gcb_values[2] +  clothing_WD*WD_gcb_values[3] +
-      food_WD*WD_compost_values[2] + 
-    drink_WD*WD_compost_values[2] + 
-    compost_from_garden_WD*WD_compost_values[3] +
-      compost_from_food_and_garden_WD*WD_compost_values[4] +
-      household_residual_waste*WD_hh_values[1]
-    if (units == "kg") hh_emissions <- hh_emissions/1000
-  return(paper_emissions + metal_emissions + plastic_emissions + electrical_emissions + hh_emissions)
+  gcb_names <- c("glass","clothing","books")
+  org_names <- c("food","drink","compost_from_garden","compost_from_food_and_garden")
+  
+  gcb_use_vec <- expand_named(gcb_use, gcb_names, "GCB")
+  org_use_vec <- expand_named(organic_use, org_names, "organic")
+  
+  gcb_waste_vec <- if (isTRUE(gcb_waste)) gcb_use_vec else stats::setNames(numeric(length(gcb_names)), gcb_names)
+  org_waste_vec <- if (isTRUE(organic_waste)) org_use_vec else stats::setNames(numeric(length(org_names)), org_names)
+  
+  # ---------- delegated families (kg) ----------
+  fam_kg <- material_emissions(
+    paper_use = paper_use, plastic_use = plastic_use, metal_use = metal_use,
+    electrical_use = electrical_use, construction_use = construction_use,
+    paper_waste = paper_waste, plastic_waste = plastic_waste, metal_waste = metal_waste,
+    electrical_waste = electrical_waste, construction_waste = construction_waste,
+    paper_material_production = paper_material_production,
+    metal_material_production = metal_material_production,
+    construction_material_production = construction_material_production,
+    paper_waste_disposal = paper_waste_disposal,
+    plastic_waste_disposal = plastic_waste_disposal,
+    metal_waste_disposal = metal_waste_disposal,
+    electrical_waste_disposal = electrical_waste_disposal,
+    construction_waste_disposal = construction_waste_disposal,
+    units = "kg", value_col = value_col, strict = strict
+  )
+  
+  # ---------- GCB MU factors (Material use / Level 2 = "Other") ----------
+  gcb_mu_tbl <- uk_gov_data |>
+    dplyr::filter(.data[["Level 1"]] == "Material use",
+                  .data[["Level 2"]] == "Other",
+                  .data[["Column Text"]] == "Primary material production") |>
+    dplyr::transmute(key = norm(.data[["Level 3"]]), val = .data[[value_col]]) |>
+    dplyr::distinct(key, .keep_all = TRUE)
+  ef_gcb_mu <- stats::setNames(rep(NA_real_, length(gcb_names)), gcb_names)
+  ef_gcb_mu[gcb_mu_tbl$key[gcb_mu_tbl$key %in% gcb_names]] <- gcb_mu_tbl$val[gcb_mu_tbl$key %in% gcb_names]
+  
+  # Warn + zero-fill GCB MU (books often missing)
+  miss_gcb_mu <- names(gcb_use_vec)[gcb_use_vec > 0 & is.na(ef_gcb_mu)]
+  if (length(miss_gcb_mu)) {
+    warning("No material use factor for GCB material(s): ",
+            paste(miss_gcb_mu, collapse = ", "),
+            " - treating material use as 0 so waste can still be applied.",
+            call. = FALSE)
+  }
+  ef_gcb_mu[is.na(ef_gcb_mu)] <- 0
+  
+  # ---------- GCB WD factors (Waste disposal / Level 2 = "Other") ----------
+  gcb_wd_tbl <- uk_gov_data |>
+    dplyr::filter(.data[["Level 1"]] == "Waste disposal",
+                  .data[["Level 2"]] == "Other",
+                  .data[["Column Text"]] == gcb_waste_disposal) |>
+    dplyr::transmute(key = norm(.data[["Level 3"]]), val = .data[[value_col]]) |>
+    dplyr::distinct(key, .keep_all = TRUE)
+  ef_gcb_wd <- stats::setNames(rep(NA_real_, length(gcb_names)), gcb_names)
+  ef_gcb_wd[gcb_wd_tbl$key[gcb_wd_tbl$key %in% gcb_names]] <- gcb_wd_tbl$val[gcb_wd_tbl$key %in% gcb_names]
+  miss_gcb_wd <- names(gcb_waste_vec)[gcb_waste_vec > 0 & is.na(ef_gcb_wd)]
+  if (strict && length(miss_gcb_wd)) {
+    stop("No WD factor (", gcb_waste_disposal, ") for GCB: ",
+         paste(miss_gcb_wd, collapse = ", "), call. = FALSE)
+  }
+  ef_gcb_wd[is.na(ef_gcb_wd)] <- 0
+  gcb_kg <- sum(gcb_use_vec * ef_gcb_mu) + sum(gcb_waste_vec * ef_gcb_wd)
+  
+  # ---------- Organic MU (from TWO places) ----------
+  # Food & drink MU lives under "Other" goes to "Food and drink"
+  # Compost MU lives under "Organic" goes to "Compost from ..."
+  org_mu_tbl <- dplyr::bind_rows(
+    uk_gov_data |>
+      dplyr::filter(.data[["Level 1"]] == "Material use",
+                    .data[["Level 2"]] == "Other",
+                    .data[["Column Text"]] == "Primary material production") |>
+      dplyr::transmute(key = norm(.data[["Level 3"]]), val = .data[[value_col]]),
+    uk_gov_data |>
+      dplyr::filter(.data[["Level 1"]] == "Material use",
+                    .data[["Level 2"]] == "Organic",
+                    .data[["Column Text"]] == "Primary material production") |>
+      dplyr::transmute(key = norm(.data[["Level 3"]]), val = .data[[value_col]])
+  ) |>
+    dplyr::distinct(key, .keep_all = TRUE)
+  
+  # map MU keys
+  mu_map <- c(food = "food_and_drink",
+              drink = "food_and_drink",
+              compost_from_garden = "compost_from_garden_waste",
+              compost_from_food_and_garden = "compost_from_food_and_garden_waste")
+  ef_org_mu <- stats::setNames(rep(NA_real_, length(org_names)), org_names)
+  for (nm in names(mu_map)) {
+    k <- mu_map[[nm]]
+    hit <- which(org_mu_tbl$key == k)[1]
+    if (length(hit) && !is.na(hit)) ef_org_mu[[nm]] <- org_mu_tbl$val[[hit]]
+  }
+  
+  # Warn + zero-fill Organic MU if missing (food/drink often omitted in MU)
+  miss_org_mu <- names(org_use_vec)[org_use_vec > 0 & is.na(ef_org_mu)]
+  if (length(miss_org_mu)) {
+    warning("No material use factor for organic item(s): ",
+            paste(miss_org_mu, collapse = ", "),
+            " - treating MU as 0 so waste can still be applied.",
+            call. = FALSE)
+  }
+  ef_org_mu[is.na(ef_org_mu)] <- 0
+  
+  # ---------- Organic WD (Waste disposal / Level 2 = "Refuse") ----------
+  org_wd_tbl <- uk_gov_data |>
+    dplyr::filter(.data[["Level 1"]] == "Waste disposal",
+                  .data[["Level 2"]] == "Refuse",
+                  .data[["Column Text"]] == compost_waste_disposal) |>
+    dplyr::transmute(key = norm(.data[["Level 3"]]), val = .data[[value_col]]) |>
+    dplyr::distinct(key, .keep_all = TRUE)
+  # strip leading 'organic_' in keys like 'organic_food_and_drink_waste'
+  org_wd_tbl$key <- sub("^organic_", "", org_wd_tbl$key)
+  
+  wd_map <- c(food = "food_and_drink_waste",
+              drink = "food_and_drink_waste",
+              compost_from_garden = "garden_waste",
+              compost_from_food_and_garden = "food_and_garden_waste")
+  ef_org_wd <- stats::setNames(rep(NA_real_, length(org_names)), org_names)
+  for (nm in names(wd_map)) {
+    k <- wd_map[[nm]]
+    hit <- which(org_wd_tbl$key == k)[1]
+    if (length(hit) && !is.na(hit)) ef_org_wd[[nm]] <- org_wd_tbl$val[[hit]]
+  }
+  miss_org_wd <- names(org_waste_vec)[org_waste_vec > 0 & is.na(ef_org_wd)]
+  if (strict && length(miss_org_wd)) {
+    stop("No WD factor (", compost_waste_disposal, ") for organic: ",
+         paste(miss_org_wd, collapse = ", "), call. = FALSE)
+  }
+  ef_org_wd[is.na(ef_org_wd)] <- 0
+  org_kg <- sum(org_use_vec * ef_org_mu) + sum(org_waste_vec * ef_org_wd)
+  
+  # ---------- Household residual waste ----------
+  hrw_tbl <- uk_gov_data |>
+    dplyr::filter(.data[["Level 1"]] == "Waste disposal",
+                  norm(.data[["Level 3"]]) == "household_residual_waste",
+                  .data[["Column Text"]] == hh_waste_disposal)
+  ef_hrw <- if (nrow(hrw_tbl)) hrw_tbl[[value_col]][1] else NA_real_
+  if (strict && household_residual_waste > 0 && is.na(ef_hrw)) {
+    stop("No WD factor for Household residual waste (", hh_waste_disposal, ").", call. = FALSE)
+  }
+  if (is.na(ef_hrw)) ef_hrw <- 0
+  hrw_kg <- household_residual_waste * ef_hrw
+  
+  # ---------- total ----------
+  total_kg <- fam_kg + gcb_kg + org_kg + hrw_kg
+  if (units == "tonnes") total_kg <- total_kg * 0.001
+  total_kg
 }

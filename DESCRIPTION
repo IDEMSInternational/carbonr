@@ -1,6 +1,6 @@
 Package: carbonr
 Title: Calculate Carbon-Equivalent Emissions
-Version: 0.2.5
+Version: 0.2.7
 Authors@R: 
     person("Lily", "Clements", , "lily@idems.international", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-8864-0552"))
@@ -36,6 +36,6 @@ Imports:
     tidyr,
     tidyselect
 Depends: 
-    R (>= 2.10)
+    R (>= 4.1.0) 
 LazyData: true
 VignetteBuilder: knitr

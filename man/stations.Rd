@@ -17,7 +17,7 @@ A data frame with 2608 rows and 4 variables:
 }
 }
 \source{
-\url{https://www.data.gov.uk/dataset/ff93ffc1-6656-47d8-9155-85ea0b8f2251/national-public-transport-access-nodes-naptan}
+\url{https://www.data.gov.uk/dataset/ff93ffc1-6656-47d8-9155-85ea0b8f2251/naptan}
 
 \url{https://www.theguardian.com/news/datablog/2011/may/19/train-stations-listed-rail#data}
 }
